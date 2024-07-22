@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sqlalchemy
+passlib
+jwt
+PyJWT
+bcrypt==3.2.2
+python-decouple
+starlette
+python-jose
+
