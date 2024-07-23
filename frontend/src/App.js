@@ -9,14 +9,14 @@ import {
 import axios from "axios";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Profile from "./components/Profile";
+import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminPage from "./pages/AdminPage";
 import RestaurantAdminPage from "./pages/RestaurantAdminPage";
 import CustomerPage from "./pages/CustomerPage";
 import DeliveryPersonnelPage from "./pages/DeliveryPersonnelPage";
-import './App.css';
+import "./css/App.css";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("access_token"));
@@ -104,7 +104,7 @@ function App() {
           path="/profile"
           element={
             <ProtectedRoute
-              element={<Profile token={token} onLogout={handleLogout} />}
+              element={<ProfilePage token={token} onLogout={handleLogout} />}
             />
           }
         />

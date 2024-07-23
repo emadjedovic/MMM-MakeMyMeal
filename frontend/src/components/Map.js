@@ -2,7 +2,7 @@ import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const MapComponent = ({ onLocationSelect }) => {
+const Map = ({ onLocationSelect }) => {
   const LocationMarker = () => {
     const map = useMapEvents({
       click(e) {
@@ -23,4 +23,4 @@ const MapComponent = ({ onLocationSelect }) => {
   );
 };
 
-export default MapComponent;
+export default Map;

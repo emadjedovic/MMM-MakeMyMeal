@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-function Profile({ token, onLogout }) {
+function ProfilePage({ token, onLogout }) {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
@@ -37,4 +37,4 @@ function Profile({ token, onLogout }) {
   );
 }
 
-export default Profile;
+export default ProfilePage;

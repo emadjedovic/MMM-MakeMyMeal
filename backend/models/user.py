@@ -1,15 +1,26 @@
 # models/user.py
 
-from sqlalchemy import Column, String, Integer, DateTime, Enum as sqlEnum, Boolean, Float
+from sqlalchemy import (
+    Column,
+    String,
+    Integer,
+    DateTime,
+    Enum as sqlEnum,
+    Boolean,
+    Float,
+)
 from datetime import datetime
 from database import Base
 import enum
+from sqlalchemy.orm import relationship
+
 
 class UserRole(enum.Enum):
-    ADMIN = "admin"
-    RESTAURANT_ADMIN = "restaurant_admin"
-    CUSTOMER = "customer"
-    DELIVERY_PERSONNEL = "delivery_personnel"
+    ADMIN = "ADMIN"
+    RESTAURANT_ADMIN = "RESTAURANT ADMIN"
+    CUSTOMER = "CUSTOMER"
+    DELIVERY_PERSONNEL = "DELIVERY PERSONNEL"
+
 
 class DBUser(Base):
     __tablename__ = "users"
@@ -25,6 +36,6 @@ class DBUser(Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
 
+    restaurants = relationship("DBRestaurant", back_populates="owner")
     # Relationships
     # Example: orders = relationship("Order", back_populates="user")
-

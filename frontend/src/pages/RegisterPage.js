@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import MapComponent from '../components/MapComponent';
+import Map from '../components/Map';
 
 const RegisterPage = ({ setToken }) => {
   const [firstName, setFirstName] = useState("");
@@ -15,7 +15,7 @@ const RegisterPage = ({ setToken }) => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/api/register", {
+      const response = await axios.post("http://localhost:8000/api/auth/register", {
         first_name: firstName,
         last_name: lastName,
         email: email,
@@ -86,7 +86,7 @@ const RegisterPage = ({ setToken }) => {
           value={longitude}
           onChange={(e) => setLongitude(e.target.value)}
         />
-        <MapComponent onLocationSelect={handleLocationSelect} />
+        <Map onLocationSelect={handleLocationSelect} />
         <button type="submit">Register</button>
       </form>
       <p>Already have an account?</p>

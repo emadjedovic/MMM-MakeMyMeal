@@ -1,6 +1,3 @@
-RESTORAN: naziv, adresa (latituda, longituda i naziv ulice), grad, broj zvjezdica, kategoriju (tip)
-
-
 1. ADMINISTRATOR
 
 - dodaje restorane, ažurira ih i arhivira
@@ -10,12 +7,13 @@ RESTORAN: naziv, adresa (latituda, longituda i naziv ulice), grad, broj zvjezdic
 
 2. ADMINISTRATOR RESTORANA
 
+- moze imati vise restorana
 - dodaje meni restorana
 - dodaje artikle u restoran (podaci o hrani, slika, cijena, akcije)
 - dodaje akcije/ponude (vrijeme akcije, cijena tokom akcije)
 - kreira dostavljače
 - prati narudžbe i rad dostavljača (mogućnost odobravanja narudžbi i dodjele narudžbi dostavljačima)
-- uređivanje podataka o restoranu (udaljenost dostave u km)
+- uređivanje podataka o restoranu
 
 3. KUPAC
 

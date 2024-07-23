@@ -1,0 +1,106 @@
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from typing import List
+from dependencies import (
+    get_db,
+    get_admin_user,
+    get_customer_user,
+    get_admin_or_restaurant_admin,
+    get_admin_or_customer,
+)
+from schemas.restaurant import (
+    RestaurantCreate,
+    RestaurantUpdate,
+    Restaurant,
+    RestaurantType,
+)
+from crud.restaurant import (
+    crud_create_restaurant,
+    crud_update_restaurant,
+    crud_archive_restaurant,
+    crud_get_restaurant_types,
+    crud_get_restaurants_by_type,
+    crud_get_all_restaurants,
+    crud_get_restaurants_within_radius,
+)
+from schemas.user import User
+from models.restaurant import DBRestaurant
+from pydantic import BaseModel
+
+router = APIRouter(prefix="/restaurants")
+
+
+# admin only
+@router.post("/new", response_model=Restaurant)
+def create_restaurant(
+    restaurant: RestaurantCreate,
+    db: Session = Depends(get_db),
+    admin: User = Depends(get_admin_user),
+):
+    return crud_create_restaurant(db=db, restaurant=restaurant)
+
+
+# admin and restaurant admins only
+@router.put("/update/{id}", response_model=Restaurant)
+def update_restaurant(
+    id: int,
+    restaurant: RestaurantUpdate,
+    db: Session = Depends(get_db),
+    admin_or_restaurant_admin: User = Depends(get_admin_or_restaurant_admin),
+):
+    return crud_update_restaurant(db=db, id=id, restaurant=restaurant)
+
+
+# admin only
+@router.put("/{id}/archive", response_model=Restaurant)
+def archive_restaurant(
+    id: int,
+    db: Session = Depends(get_db),
+    admin: User = Depends(get_admin_user),
+):
+    return crud_archive_restaurant(db=db, id=id)
+
+
+# admin, customers
+@router.get("/types", response_model=List[RestaurantType])
+def list_all_restaurant_types(
+    db: Session = Depends(get_db),
+    admin_or_customer: User = Depends(get_admin_or_customer),
+):
+    return crud_get_restaurant_types(db=db)
+
+
+# admin, customers
+@router.get("/types/{type}", response_model=List[Restaurant])
+def list_restaurants_by_type(
+    type: RestaurantType,
+    db: Session = Depends(get_db),
+    admin_or_customer: User = Depends(get_admin_or_customer),
+):
+    return crud_get_restaurants_by_type(db=db, type=type)
+
+
+class PaginatedRestaurantsResponse(BaseModel):
+    total: int
+    items: List[Restaurant]
+
+
+# admin, customers
+@router.get("/all", response_model=PaginatedRestaurantsResponse)
+def list_all_restaurants(
+    db: Session = Depends(get_db),
+    skip: int = 0,
+    limit: int = 10,
+    admin_or_customer: User = Depends(get_admin_or_customer),
+):
+    total = db.query(DBRestaurant).count()
+    items = crud_get_all_restaurants(db=db, skip=skip, limit=limit)
+    return {"total": total, "items": items}
+
+
+# customers only
+@router.get("/nearby", response_model=List[Restaurant])
+def list_nearby_restaurants(
+    customer_user: User = Depends(get_customer_user), db: Session = Depends(get_db)
+):
+    return crud_get_restaurants_within_radius(db=db, user=customer_user)

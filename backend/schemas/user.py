@@ -1,13 +1,16 @@
 # schemas/user.py
 
 from pydantic import BaseModel, EmailStr
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
 from models.user import UserRole
+from schemas.restaurant import Restaurant
+
 
 # common fields shared among the other schemas
 class UserBase(BaseModel):
     email: EmailStr
+
 
 # adds the password field for creating new users
 class UserCreate(UserBase):
@@ -19,10 +22,12 @@ class UserCreate(UserBase):
     latitude: Optional[float] = None
     longitude: Optional[float] = None
 
+
 class UserLogin(UserBase):
     email: EmailStr
     password: str
-    
+
+
 # similar to UserCreate but allows the password field to be optional for updates
 class UserUpdate(UserBase):
     first_name: str
@@ -31,6 +36,7 @@ class UserUpdate(UserBase):
     disabled: bool = False
     latitude: Optional[float] = None
     longitude: Optional[float] = None
+
 
 class UserInDBBase(UserBase):
     id: int
@@ -45,10 +51,17 @@ class UserInDBBase(UserBase):
     class Config:
         from_attributes = True
 
+
 # for responses
 class User(UserInDBBase):
     pass
 
+
 # for internal use
 class UserInDB(UserInDBBase):
     hashed_password: str
+
+
+# Extended response schema with related restaurants for RESTAURANT_ADMIN
+class UserWithRestaurants(UserInDBBase):
+    restaurants: List[Restaurant] = []
