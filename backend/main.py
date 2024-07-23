@@ -3,8 +3,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import auth, users
-from database import engine, Base, SessionLocal
-from create_users import *
+from database import engine, Base
+#from create_users import create_admin, create_customer, create_delivery_personnel, create_restaurant_admin
 # from routers import menu_items, menus, orders, other, restaurants, users
 
 # we need to configure CORS to allow our React app to send POST request
@@ -22,10 +22,10 @@ app = create_application()
 
 def startup_event():
     Base.metadata.create_all(bind=engine)  # create tables
-    create_admin()
-    create_customer()
-    create_restaurant_admin()
-    create_delivery_personnel()
+    #create_admin()
+    #create_customer()
+    #create_restaurant_admin()
+    #create_delivery_personnel()
 
 app.add_event_handler("startup", startup_event)
 

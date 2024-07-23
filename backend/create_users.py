@@ -11,7 +11,7 @@ def create_customer():
             first_name="Customer",
             last_name="User",
             role=UserRole.CUSTOMER,
-            password="customerpassword"
+            password="customerpass"
         )
         hashed_password = get_password_hash(customer_user.password)
         db_user = DBUser(
@@ -39,7 +39,7 @@ def create_admin():
             first_name="Admin",
             last_name="User",
             role=UserRole.ADMIN,
-            password="adminpassword"
+            password="adminpass"
         )
         hashed_password = get_password_hash(admin_user.password)
         db_user = DBUser(
@@ -67,7 +67,7 @@ def create_restaurant_admin():
             first_name="Restaurant Admin",
             last_name="User",
             role=UserRole.RESTAURANT_ADMIN,
-            password="restaurantadminpassword"
+            password="restaurantadminpass"
         )
         hashed_password = get_password_hash(restaurant_admin_user.password)
         db_user = DBUser(
@@ -95,7 +95,7 @@ def create_delivery_personnel():
             first_name="Delivery Personnel",
             last_name="User",
             role=UserRole.DELIVERY_PERSONNEL,
-            password="deliverypersonnelpassword"
+            password="deliverypersonnelpass"
         )
         hashed_password = get_password_hash(delivery_personnel_user.password)
         db_user = DBUser(

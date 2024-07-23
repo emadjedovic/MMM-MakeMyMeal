@@ -12,19 +12,19 @@ const LoginPage = ({ setToken }) => {
     try {
       const response = await axios.post("http://localhost:8000/api/login", {
         email: email,
-        password: password
+        password: password,
       });
       localStorage.setItem("access_token", response.data.access_token);
-      setToken(response.data.access_token);  // Update token state
+      setToken(response.data.access_token); // Update token state
       console.log("Successful login.");
-      navigate("/");  // Navigate to / after successful login
+      navigate("/"); // Navigate to / after successful login
     } catch (error) {
       console.error("Login error:", error);
     }
   };
 
   const handleRegisterRedirect = () => {
-    navigate("/register");  // Navigate to /register
+    navigate("/register"); // Navigate to /register
   };
 
   return (
@@ -50,7 +50,7 @@ const LoginPage = ({ setToken }) => {
       <p>Don't have an account?</p>
       <button onClick={handleRegisterRedirect}>Register</button>
     </div>
-  )
+  );
 };
 
 export default LoginPage;

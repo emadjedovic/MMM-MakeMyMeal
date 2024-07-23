@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import axios from "axios";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Profile from "./components/Profile";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminPage from "./pages/AdminPage";
 import RestaurantAdminPage from "./pages/RestaurantAdminPage";
 import CustomerPage from "./pages/CustomerPage";
 import DeliveryPersonnelPage from "./pages/DeliveryPersonnelPage";
+import './App.css';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("access_token"));
@@ -29,12 +37,15 @@ function App() {
     const fetchUser = async () => {
       if (token) {
         try {
-          const response = await axios.get("http://localhost:8000/api/users/me", {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`
-            },
-          });
+          const response = await axios.get(
+            "http://localhost:8000/api/users/me",
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
           setUser(response.data);
           setUserRole(response.data.role); // Ensure role is set correctly
@@ -58,13 +69,13 @@ function App() {
   const renderComponentByRole = () => {
     switch (userRole) {
       case "admin":
-        return <AdminPage onLogout={handleLogout} />;
+        return <AdminPage />;
       case "restaurant_admin":
-        return <RestaurantAdminPage onLogout={handleLogout} />;
+        return <RestaurantAdminPage />;
       case "customer":
-        return <CustomerPage onLogout={handleLogout} />;
+        return <CustomerPage />;
       case "delivery_personnel":
-        return <DeliveryPersonnelPage onLogout={handleLogout} />;
+        return <DeliveryPersonnelPage />;
       default:
         return <LoginPage setToken={setToken} />;
     }
@@ -80,19 +91,23 @@ function App() {
     return null;
   };
 
-
   return (
     <div>
-      {
-      location.pathname !== "/" &&
-      location.pathname !== "/login" &&
-      location.pathname !== "/register" &&
-      (
-        <Header />
-      )}
+      {user && <Header onLogout={handleLogout} />}
       <Routes>
         <Route path="/login" element={<LoginPage setToken={setToken} />} />
-        <Route path="/register" element={<RegisterPage setToken={setToken} />} />
+        <Route
+          path="/register"
+          element={<RegisterPage setToken={setToken} />}
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute
+              element={<Profile token={token} onLogout={handleLogout} />}
+            />
+          }
+        />
         <Route
           path="/"
           element={<ProtectedRoute element={renderComponentByRole()} />}

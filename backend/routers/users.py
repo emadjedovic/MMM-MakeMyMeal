@@ -1,11 +1,9 @@
 # routers/users.py
 
-from fastapi import APIRouter, Depends, status
-from sqlalchemy.orm import Session
-from dependencies import get_db, get_current_user
+from fastapi import APIRouter, Depends
+from dependencies import get_current_user
 
 from schemas.user import User
-from crud.user import *
 
 router = APIRouter()
 
