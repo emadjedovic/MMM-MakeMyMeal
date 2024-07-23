@@ -13,8 +13,10 @@ class UserCreate(UserBase):
     first_name: str
     last_name: str
     password: str
+    email: EmailStr
 
 class UserLogin(UserBase):
+    email: EmailStr
     password: str
     
 # similar to UserCreate but allows the password field to be optional for updates

@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
-from dependencies import get_db, get_current_active_user
+from dependencies import get_db, get_current_user
 
 from schemas.user import User
 from crud.user import *
@@ -11,7 +11,7 @@ router = APIRouter()
 
 # all users
 @router.get("/users/me/", response_model = User)
-async def read_users_me(current_user: User = Depends(get_current_active_user)):
+async def read_users_me(current_user: User = Depends(get_current_user)):
     return current_user
 
 """

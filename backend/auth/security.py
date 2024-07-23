@@ -1,12 +1,10 @@
-# auth/security.py
-
 from passlib.context import CryptContext
 from datetime import datetime, timezone, timedelta
 from auth.config import SECRET_KEY, ALGORITHM
-import jwt
+import jwt, time
 from models.user import DBUser
 from sqlalchemy.orm import Session
-from fastapi import HTTPException, status, Depends
+from fastapi import HTTPException, status, Depends, Request
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -35,4 +33,23 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-# print(get_password_hash("emapassword"))
+def extract_token(request: Request) -> str:
+    authorization: str = request.headers.get("Authorization")
+    if authorization is None or not authorization.startswith("Bearer "):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"})
+    token = authorization[len("Bearer "):]
+    return token
+
+def decode_jwt(token: str) -> dict:
+    try:
+        decoded_token: dict = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        if decoded_token.get("exp", 0) < time.time():
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired")
+        return decoded_token
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired")
+    except jwt.PyJWTError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")

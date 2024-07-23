@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const LoginPage = () => {
+const LoginPage = ({ setToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -10,17 +10,21 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/login",
-        new URLSearchParams({ username: email, password: password }), // Send form data
-        { headers: { "Content-Type": "application/x-www-form-urlencoded" } } // Set content type
-      );
+      const response = await axios.post("http://localhost:8000/api/login", {
+        email: email,
+        password: password
+      });
       localStorage.setItem("access_token", response.data.access_token);
+      setToken(response.data.access_token);  // Update token state
       console.log("Successful login.");
-      navigate("/");
+      navigate("/");  // Navigate to / after successful login
     } catch (error) {
       console.error("Login error:", error);
     }
+  };
+
+  const handleRegisterRedirect = () => {
+    navigate("/register");  // Navigate to /register
   };
 
   return (
@@ -43,6 +47,8 @@ const LoginPage = () => {
         />
         <button type="submit">Login</button>
       </form>
+      <p>Don't have an account?</p>
+      <button onClick={handleRegisterRedirect}>Register</button>
     </div>
   )
 };

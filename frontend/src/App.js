@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -15,8 +15,16 @@ function App() {
   const [userRole, setUserRole] = useState(null);
   const [user, setUser] = useState(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
-  
+  const handleLogout = () => {
+    setToken(null);
+    setUser(null);
+    setUserRole(null);
+    localStorage.removeItem("access_token");
+    navigate("/login");
+  };
+
   useEffect(() => {
     const fetchUser = async () => {
       if (token) {
@@ -27,89 +35,70 @@ function App() {
               Authorization: `Bearer ${token}`
             },
           });
-  
+
           setUser(response.data);
           setUserRole(response.data.role); // Ensure role is set correctly
+          if (location.pathname === "/login") {
+            navigate("/");
+          }
         } catch (error) {
           console.error("Failed to fetch user data", error);
-          setToken(null);
-          setUser(null);
-          setUserRole(null);
-          localStorage.removeItem("access_token");
+          handleLogout();
         }
       }
     };
-  
-    fetchUser();
-  }, [token]);
 
-  const handleLogout = () => {
-    setToken(null);
-    setUser(null);
-    setUserRole(null);
-    localStorage.removeItem("access_token");
-  };
-  
-  // If user is not authenticated, show the login page
-  if (!user && location.pathname !== "/login") {
-    return (
-      <>
-        <LoginPage />
-        <Footer />
-      </>
-    );
-  }
+    fetchUser();
+  }, [token, location.pathname, navigate]);
 
   const ProtectedRoute = ({ element }) => {
     return user ? element : <Navigate to="/login" />;
   };
 
-  const RedirectToRole = () => {
-    if (!user) {
-      return <Navigate to="/login" />;
-    }
+  const renderComponentByRole = () => {
     switch (userRole) {
       case "admin":
-        return <Navigate to="/admin" />;
+        return <AdminPage onLogout={handleLogout} />;
       case "restaurant_admin":
-        return <Navigate to="/restaurant-admin" />;
+        return <RestaurantAdminPage onLogout={handleLogout} />;
       case "customer":
-        return <Navigate to="/customer" />;
+        return <CustomerPage onLogout={handleLogout} />;
       case "delivery_personnel":
-        return <Navigate to="/delivery-personnel" />;
+        return <DeliveryPersonnelPage onLogout={handleLogout} />;
       default:
-        return <Navigate to="/login" />;
+        return <LoginPage setToken={setToken} />;
     }
   };
 
+  // Custom component to handle unknown routes by redirecting to the previous page
+  const RedirectToPreviousPage = () => {
+    const navigate = useNavigate();
+    useEffect(() => {
+      navigate(-1); // Go back to the previous page
+    }, [navigate]);
+
+    return null;
+  };
+
+
   return (
     <div>
-      {location.pathname !== "/login" && location.pathname !== "/" && (
+      {
+      location.pathname !== "/" &&
+      location.pathname !== "/login" &&
+      location.pathname !== "/register" &&
+      (
         <Header />
       )}
       <Routes>
-        <Route path="/" element={<RedirectToRole />} />
-        <Route path="*" element={<RedirectToRole />} />
-
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-
+        <Route path="/login" element={<LoginPage setToken={setToken} />} />
+        <Route path="/register" element={<RegisterPage setToken={setToken} />} />
         <Route
-          path="/admin"
-          element={<ProtectedRoute element={<AdminPage />} />}
+          path="/"
+          element={<ProtectedRoute element={renderComponentByRole()} />}
         />
-        <Route
-          path="/restaurant-admin"
-          element={<ProtectedRoute element={<RestaurantAdminPage />} />}
-        />
-        <Route
-          path="/customer"
-          element={<ProtectedRoute element={<CustomerPage onLogout={handleLogout} />} />}
-        />
-        <Route
-          path="/delivery-personnel"
-          element={<ProtectedRoute element={<DeliveryPersonnelPage />} />}
-        />
+        {/* Handle all unknown routes by redirecting to the previous page */}
+        <Route path="*" element={<RedirectToPreviousPage />} />
       </Routes>
       <Footer />
     </div>
