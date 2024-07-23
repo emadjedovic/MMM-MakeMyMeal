@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import auth, users
 from database import engine, Base, SessionLocal
+from create_users import *
 # from routers import menu_items, menus, orders, other, restaurants, users
 
 # we need to configure CORS to allow our React app to send POST request
@@ -19,41 +20,12 @@ def create_application():
 
 app = create_application()
 
-def create_admin():
-    from models.user import DBUser, UserRole
-
-    from auth.security import get_password_hash
-    from schemas.user import UserCreate
-    db = SessionLocal()
-    try:
-        admin_user = UserCreate(
-            email="admin@example.com",
-            first_name="Admin",
-            last_name="User",
-            role=UserRole.ADMIN,
-            password="adminpassword"
-        )
-        hashed_password = get_password_hash(admin_user.password)
-        db_user = DBUser(
-            email=admin_user.email,
-            first_name=admin_user.first_name,
-            last_name=admin_user.last_name,
-            hashed_password=hashed_password,
-            role=admin_user.role
-        )
-        db.add(db_user)
-        db.commit()
-        print("Admin user created successfully")
-        print(f"Enum value: {db_user.role}")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        print(f"Enum value: {db_user.role}")
-    finally:
-        db.close()
-
 def startup_event():
     Base.metadata.create_all(bind=engine)  # create tables
-    # create_admin()
+    create_admin()
+    create_customer()
+    create_restaurant_admin()
+    create_delivery_personnel()
 
 app.add_event_handler("startup", startup_event)
 

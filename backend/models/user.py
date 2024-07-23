@@ -1,6 +1,6 @@
 # models/user.py
 
-from sqlalchemy import Column, String, Integer, DateTime, Enum as sqlEnum, Boolean
+from sqlalchemy import Column, String, Integer, DateTime, Enum as sqlEnum, Boolean, Float
 from datetime import datetime
 from database import Base
 import enum
@@ -22,6 +22,8 @@ class DBUser(Base):
     hashed_password = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow())
     disabled = Column(Boolean, default=False)
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)
 
     # Relationships
     # Example: orders = relationship("Order", back_populates="user")

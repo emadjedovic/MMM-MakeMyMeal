@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import MapComponent from '../components/MapComponent';
 
 const RegisterPage = ({ setToken }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
@@ -17,6 +20,8 @@ const RegisterPage = ({ setToken }) => {
         last_name: lastName,
         email: email,
         password: password,
+        latitude: parseFloat(latitude),  // Convert to float
+        longitude: parseFloat(longitude)  // Convert to float
       });
       localStorage.setItem("access_token", response.data.access_token);
       setToken(response.data.access_token); // Update token state
@@ -29,6 +34,12 @@ const RegisterPage = ({ setToken }) => {
 
   const handleLoginRedirect = () => {
     navigate("/login");  // Navigate to /login
+  };
+
+  const handleLocationSelect = (latlng) => {
+    setLatitude(latlng.lat);
+    setLongitude(latlng.lng);
+    console.log('Selected Location:', latlng);
   };
 
   return (
@@ -63,6 +74,19 @@ const RegisterPage = ({ setToken }) => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        <input
+          type="text"
+          placeholder="Enter Latitude"
+          value={latitude}
+          onChange={(e) => setLatitude(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Enter Longitude"
+          value={longitude}
+          onChange={(e) => setLongitude(e.target.value)}
+        />
+        <MapComponent onLocationSelect={handleLocationSelect} />
         <button type="submit">Register</button>
       </form>
       <p>Already have an account?</p>

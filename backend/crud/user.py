@@ -17,7 +17,9 @@ def crud_create_customer(db: Session, user: UserCreate):
         email=user.email,
         first_name=user.first_name,
         last_name=user.last_name,
-        hashed_password=hashed_password
+        hashed_password=hashed_password,
+        latitude=user.latitude,
+        longitude=user.longitude
     )
     db_user.role = UserRole.CUSTOMER
     db.add(db_user)

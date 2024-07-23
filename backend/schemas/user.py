@@ -1,6 +1,7 @@
 # schemas/user.py
 
 from pydantic import BaseModel, EmailStr
+from typing import Optional
 from datetime import datetime
 from models.user import UserRole
 
@@ -14,6 +15,9 @@ class UserCreate(UserBase):
     last_name: str
     password: str
     email: EmailStr
+    role: UserRole = UserRole.CUSTOMER
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
 class UserLogin(UserBase):
     email: EmailStr
@@ -25,6 +29,8 @@ class UserUpdate(UserBase):
     last_name: str
     password: str | None = None
     disabled: bool = False
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
 class UserInDBBase(UserBase):
     id: int
@@ -33,6 +39,8 @@ class UserInDBBase(UserBase):
     disabled: bool = False
     first_name: str
     last_name: str
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
     class Config:
         from_attributes = True
