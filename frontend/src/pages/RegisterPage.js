@@ -26,7 +26,7 @@ const RegisterPage = ({ setToken }) => {
       localStorage.setItem("access_token", response.data.access_token);
       setToken(response.data.access_token); // Update token state
       console.log("Successful registration.");
-      navigate("/"); // Navigate to / after successful registration
+      navigate("/home"); // Navigate to / after successful registration
     } catch (error) {
       console.error("Registration error:", error);
     }

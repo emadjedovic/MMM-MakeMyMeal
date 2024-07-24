@@ -18,7 +18,6 @@ class UserCreate(UserBase):
     last_name: str
     password: str
     email: EmailStr
-    role: UserRole = UserRole.CUSTOMER
     latitude: Optional[float] = None
     longitude: Optional[float] = None
 

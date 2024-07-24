@@ -17,7 +17,7 @@ const LoginPage = ({ setToken }) => {
       localStorage.setItem("access_token", response.data.access_token);
       setToken(response.data.access_token); // Update token state
       console.log("Successful login.");
-      navigate("/"); // Navigate to / after successful login
+      navigate("/home"); // Navigate to / after successful login
     } catch (error) {
       console.error("Login error:", error);
     }

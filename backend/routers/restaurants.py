@@ -62,12 +62,12 @@ def archive_restaurant(
 
 
 # admin, customers
-@router.get("/types", response_model=List[RestaurantType])
+@router.get("/types", response_model=List[str])
 def list_all_restaurant_types(
     db: Session = Depends(get_db),
     admin_or_customer: User = Depends(get_admin_or_customer),
 ):
-    return crud_get_restaurant_types(db=db)
+    return crud_get_restaurant_types()
 
 
 # admin, customers
@@ -101,6 +101,6 @@ def list_all_restaurants(
 # customers only
 @router.get("/nearby", response_model=List[Restaurant])
 def list_nearby_restaurants(
-    customer_user: User = Depends(get_customer_user), db: Session = Depends(get_db)
+    customer: User = Depends(get_customer_user), db: Session = Depends(get_db)
 ):
-    return crud_get_restaurants_within_radius(db=db, user=customer_user)
+    return crud_get_restaurants_within_radius(db=db, user=customer)

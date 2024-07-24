@@ -5,14 +5,15 @@ from schemas.restaurant import RestaurantCreate, RestaurantUpdate
 from models.user import DBUser
 from typing import List
 from fastapi import HTTPException
+from models.user import UserRole
 
 
-def crud_create_restaurant(
-    db: Session, restaurant: RestaurantCreate, owner_id: int
-) -> DBRestaurant:
-    db_owner = db.query(DBUser).filter(DBUser.id == owner_id).first()
+def crud_create_restaurant(db: Session, restaurant: RestaurantCreate) -> DBRestaurant:
+    db_owner = db.query(DBUser).filter(DBUser.id == restaurant.owner_id).first()
     if not db_owner:
         raise HTTPException(status_code=404, detail="Owner not found")
+    if db_owner.role != UserRole.RESTAURANT_ADMIN:
+        raise HTTPException(status_code=404, detail="User is not a restaurant owner!")
     db_restaurant = DBRestaurant(
         name=restaurant.name,
         latitude=restaurant.latitude,
@@ -22,7 +23,7 @@ def crud_create_restaurant(
         star_rating=restaurant.star_rating,
         type=restaurant.type,
         radius_of_delivery_km=restaurant.radius_of_delivery_km,
-        owner_id=owner_id,
+        owner_id=restaurant.owner_id,
     )
     db.add(db_restaurant)
     db.commit()
@@ -36,26 +37,30 @@ def crud_update_restaurant(
     db_restaurant = db.query(DBRestaurant).filter(DBRestaurant.id == id).first()
     if not db_restaurant:
         raise HTTPException(status_code=404, detail="Restaurant not found")
-    if db_restaurant:
-        if restaurant.name is not None:
-            db_restaurant.name = restaurant.name
-        if restaurant.latitude is not None:
-            db_restaurant.latitude = restaurant.latitude
-        if restaurant.longitude is not None:
-            db_restaurant.longitude = restaurant.longitude
-        if restaurant.street_name is not None:
-            db_restaurant.street_name = restaurant.street_name
-        if restaurant.city is not None:
-            db_restaurant.city = restaurant.city
-        if restaurant.star_rating is not None:
-            db_restaurant.star_rating = restaurant.star_rating
-        if restaurant.type is not None:
-            db_restaurant.type = restaurant.type
-        if restaurant.radius_of_delivery_km is not None:
-            db_restaurant.radius_of_delivery_km = restaurant.radius_of_delivery_km
-        db.commit()
-        db.refresh(db_restaurant)
+
+    if restaurant.name is not None:
+        db_restaurant.name = restaurant.name
+    if restaurant.latitude is not None:
+        db_restaurant.latitude = restaurant.latitude
+    if restaurant.longitude is not None:
+        db_restaurant.longitude = restaurant.longitude
+    if restaurant.street_name is not None:
+        db_restaurant.street_name = restaurant.street_name
+    if restaurant.city is not None:
+        db_restaurant.city = restaurant.city
+    if restaurant.star_rating is not None:
+        db_restaurant.star_rating = restaurant.star_rating
+    if restaurant.type is not None:
+        db_restaurant.type = restaurant.type
+    if restaurant.radius_of_delivery_km is not None:
+        db_restaurant.radius_of_delivery_km = restaurant.radius_of_delivery_km
+    if restaurant.is_archived is not None:
+        db_restaurant.is_archived = restaurant.is_archived
+
+    db.commit()
+    db.refresh(db_restaurant)
     return db_restaurant
+
 
 
 def crud_archive_restaurant(db: Session, id: int) -> DBRestaurant:

@@ -40,11 +40,12 @@ class DBRestaurant(Base):
     longitude = Column(Float, nullable=False)
     street_name = Column(String, nullable=False)
     city = Column(String, nullable=False)
-    star_rating = Column(Float, nullable=True)
-    type = Column(sqlEnum(RestaurantType), nullable=False, default=RestaurantType.OTHER)
+    star_rating = Column(Float, nullable=True, default=None)
+    type = Column(sqlEnum(RestaurantType), nullable=True, default=RestaurantType.OTHER)
     radius_of_delivery_km = Column(Float, nullable=False, default=3)
-    is_archived = Column(Boolean, default=False)
+    is_archived = Column(Boolean, nullable=True, default=False)
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 
     owner = relationship("DBUser", back_populates="restaurants")
+
     # orders = relationship("DBOrder", back_populates="restaurant")

@@ -15,7 +15,7 @@ function Header({onLogout}) {
     <header>
       <h1>MMM - Make My Meal</h1>
       <nav>
-        <Link to="/">Home</Link>
+        <Link to="/home">Home</Link>
         <Link to="/profile">Profile</Link>
         {/* Other links */}
       </nav>

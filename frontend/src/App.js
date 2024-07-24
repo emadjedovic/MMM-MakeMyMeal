@@ -50,7 +50,7 @@ function App() {
           setUser(response.data);
           setUserRole(response.data.role); // Ensure role is set correctly
           if (location.pathname === "/login") {
-            navigate("/");
+            navigate("/home");
           }
         } catch (error) {
           console.error("Failed to fetch user data", error);
@@ -68,13 +68,13 @@ function App() {
 
   const renderComponentByRole = () => {
     switch (userRole) {
-      case "admin":
+      case "ADMIN":
         return <AdminPage />;
-      case "restaurant_admin":
+      case "RESTAURANT ADMIN":
         return <RestaurantAdminPage />;
-      case "customer":
+      case "CUSTOMER":
         return <CustomerPage />;
-      case "delivery_personnel":
+      case "DELIVERY PERSONNEL":
         return <DeliveryPersonnelPage />;
       default:
         return <LoginPage setToken={setToken} />;
@@ -109,7 +109,7 @@ function App() {
           }
         />
         <Route
-          path="/"
+          path="/home"
           element={<ProtectedRoute element={renderComponentByRole()} />}
         />
         {/* Handle all unknown routes by redirecting to the previous page */}

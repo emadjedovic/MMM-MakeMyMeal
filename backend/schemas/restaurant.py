@@ -10,9 +10,8 @@ class RestaurantBase(BaseModel):
     street_name: str
     city: str
     star_rating: Optional[float] = Field(None, ge=0, le=5)
-    type: RestaurantType
+    type: Optional[RestaurantType] = RestaurantType.OTHER
     radius_of_delivery_km: float
-    is_archived: bool = False
 
     @field_validator("radius_of_delivery_km", mode="before")
     def validate_radius(cls, value):
@@ -25,16 +24,16 @@ class RestaurantCreate(RestaurantBase):
     owner_id: int
 
 
-class RestaurantUpdate(RestaurantBase):
-    name: Optional[str]
-    latitude: Optional[float]
-    longitude: Optional[float]
-    street_name: Optional[str]
-    city: Optional[str]
-    radius_of_delivery_km: Optional[float]
-    type: Optional[RestaurantType]
+class RestaurantUpdate(BaseModel):
+    name: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    street_name: Optional[str] = None
+    city: Optional[str] = None
+    radius_of_delivery_km: Optional[float] = None
+    type: Optional[RestaurantType] = RestaurantType.OTHER
     star_rating: Optional[float] = Field(None, ge=0, le=5)
-    is_archived: Optional[bool]
+    is_archived: Optional[bool] = None
 
 
 class RestaurantInDBBase(RestaurantBase):
