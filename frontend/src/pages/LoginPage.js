@@ -5,6 +5,7 @@ import axios from "axios";
 const LoginPage = ({ setToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("")
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -20,6 +21,7 @@ const LoginPage = ({ setToken }) => {
       navigate("/home"); // Navigate to / after successful login
     } catch (error) {
       console.error("Login error:", error);
+      setErrorMessage("Incorrect email or password.");
     }
   };
 
@@ -47,6 +49,7 @@ const LoginPage = ({ setToken }) => {
         />
         <button type="submit">Login</button>
       </form>
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <p>Don't have an account?</p>
       <button onClick={handleRegisterRedirect}>Register</button>
     </div>

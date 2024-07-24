@@ -5,8 +5,8 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    background-color: #ffb181;
-    color: #000000;
+    background-color: #232323;
+    color: #ffffff;
   }
   
   header h1 {
@@ -18,7 +18,7 @@ header {
     padding: 0.5rem 1rem;
     font-size: 1rem;
     color: #ffffff;
-    background-color: #414141;
+    background-color: #e85e22;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -26,7 +26,8 @@ header {
   }
   
   header button:hover {
-    background-color: #4fa3c4;
+    background-color: rgb(255, 125, 82);
+    color: rgb(44, 44, 44);
   }
   
   header button:focus {

@@ -1,7 +1,6 @@
 # main.py
 
 from fastapi import FastAPI
-from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from routers import auth, users, restaurants
 from database import engine, Base
@@ -38,7 +37,7 @@ app.add_event_handler("startup", startup_event)
 
 @app.get("/", tags=["Default"])
 def read_root():
-    return RedirectResponse(url="/docs")
+    return {"hello": "world"}
 
 
 app.include_router(auth.router, prefix="/api", tags=["Auth"])

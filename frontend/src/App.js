@@ -92,9 +92,14 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="App">
       {user && <Header onLogout={handleLogout} />}
+      <div className="App-content">
       <Routes>
+        <Route
+          path="/"
+          element={<Navigate to={token ? "/home" : "/login"} />}
+        />
         <Route path="/login" element={<LoginPage setToken={setToken} />} />
         <Route
           path="/register"
@@ -115,6 +120,7 @@ function App() {
         {/* Handle all unknown routes by redirecting to the previous page */}
         <Route path="*" element={<RedirectToPreviousPage />} />
       </Routes>
+      </div>
       <Footer />
     </div>
   );
