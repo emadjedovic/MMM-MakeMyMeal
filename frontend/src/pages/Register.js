@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Map from '../components/Map';
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import '../css/Register.css'; // Import custom CSS for styling
 
 const RegisterPage = ({ setToken }) => {
   const [firstName, setFirstName] = useState("");
@@ -10,6 +12,7 @@ const RegisterPage = ({ setToken }) => {
   const [password, setPassword] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
@@ -20,20 +23,21 @@ const RegisterPage = ({ setToken }) => {
         last_name: lastName,
         email: email,
         password: password,
-        latitude: parseFloat(latitude),  // Convert to float
-        longitude: parseFloat(longitude)  // Convert to float
+        latitude: parseFloat(latitude),
+        longitude: parseFloat(longitude)
       });
       localStorage.setItem("access_token", response.data.access_token);
-      setToken(response.data.access_token); // Update token state
+      setToken(response.data.access_token);
       console.log("Successful registration.");
-      navigate("/home"); // Navigate to / after successful registration
+      navigate("/home");
     } catch (error) {
       console.error("Registration error:", error);
+      setErrorMessage("Registration failed. Please try again.");
     }
   };
 
   const handleLoginRedirect = () => {
-    navigate("/login");  // Navigate to /login
+    navigate("/login");
   };
 
   const handleLocationSelect = (latlng) => {
@@ -43,54 +47,90 @@ const RegisterPage = ({ setToken }) => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleRegister}>
-        <input
-          type="text"
-          placeholder="Enter First Name"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Enter Last Name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Enter Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Enter Latitude"
-          value={latitude}
-          onChange={(e) => setLatitude(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Enter Longitude"
-          value={longitude}
-          onChange={(e) => setLongitude(e.target.value)}
-        />
-        <Map onLocationSelect={handleLocationSelect} />
-        <button type="submit">Register</button>
-      </form>
-      <p>Already have an account?</p>
-      <button onClick={handleLoginRedirect}>Login</button>
+    <div className="background-wrapper">
+      <Container fluid className="p-0 h-100">
+        <Row className="h-100 m-0">
+          <Col xs={8} className="d-flex flex-column justify-content-center align-items-center text-white overlay-left-side">
+          <div className="map-container">
+            <Map onLocationSelect={handleLocationSelect} />
+          </div>
+          <div className="footer-links mt-5">
+                <div>
+                  <a href="https://github.com/emadjedovic" target="_blank" rel="noopener noreferrer" className="footer-link">GitHub</a>
+                  <a href="https://www.linkedin.com/in/ema-djedovic/" target="_blank" rel="noopener noreferrer" className="footer-link">LinkedIn</a>
+                  <a href="https://medium.com/@emadjedovic" target="_blank" rel="noopener noreferrer" className="footer-link">Medium</a>
+                  &copy; 2024 MMM. All rights reserved. by Ema Djedović
+                </div>
+            </div>
+          </Col>
+          <Col xs={4} className="d-flex flex-column justify-content-center align-items-center text-white overlay-right-side">
+            <h1 className="mb-5">REGISTER</h1>
+            <Form onSubmit={handleRegister} className="w-75">
+              <Form.Group controlId="formFirstName" className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter First Name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                />
+              </Form.Group>
+              <Form.Group controlId="formLastName" className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Last Name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                />
+              </Form.Group>
+              <Form.Group controlId="formEmail" className="mb-3">
+                <Form.Control
+                  type="email"
+                  placeholder="Enter Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </Form.Group>
+              <Form.Group controlId="formPassword" className="mb-3">
+                <Form.Control
+                  type="password"
+                  placeholder="Enter Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </Form.Group>
+              <Form.Group controlId="formLatitude" className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Latitude"
+                  value={latitude}
+                  onChange={(e) => setLatitude(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="formLongitude" className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Longitude"
+                  value={longitude}
+                  onChange={(e) => setLongitude(e.target.value)}
+                />
+              </Form.Group>
+              {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+              <Button variant="danger" type="submit" className="w-50 mb-3">
+                Submit
+              </Button>
+              <p>Already have an account?</p>
+              <Button variant="link" onClick={handleLoginRedirect} className="text-white">
+                Login
+              </Button>
+              
+            </Form>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
