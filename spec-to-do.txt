@@ -18,12 +18,11 @@
 3. KUPAC
 
 - kreiranje narudžbi (unosi se količina, način plaćanja, šalje se e-mail kupcu da je narudžba uspješno spašena, kupac može odrediti vrijeme u kojem želi dostavu narudžbe - ukoliko vrijeme nije navedeno, uzima se vrijeme kreiranja narudžbe kao minimalno vrijeme dostave) (na stranici određenog restorana)
-
 - vide se samo restorani iz raspona u kojem je moguće raditi dostavu (dashboard)
 - mogućnost pretrage po nazivu i tipu artikala
 - spisak akcija
 - preporuke, spisak najpopularnijih restorana, artikala i sl.
-- pregled svih dosadašnjih narudžbi (na profilu)
+- pregled svih dosadašnjih narudžbi
 
 4. DOSTAVLJAČ
 

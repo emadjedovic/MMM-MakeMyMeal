@@ -9,13 +9,13 @@ import {
 import axios from "axios";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import ProfilePage from "./pages/ProfilePage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import AdminPage from "./pages/AdminPage";
-import RestaurantAdminPage from "./pages/RestaurantAdminPage";
-import CustomerPage from "./pages/CustomerPage";
-import DeliveryPersonnelPage from "./pages/DeliveryPersonnelPage";
+import Profile from "./pages/Profile";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import AdminHome from "./pages/AdminHome";
+import RestaurantAdminHome from "./pages/RestaurantAdminHome";
+import CustomerHome from "./pages/CustomerHome";
+import DeliveryPersonnelHome from "./pages/DeliveryPersonnelHome";
 import "./css/App.css";
 
 function App() {
@@ -69,23 +69,23 @@ function App() {
   const renderComponentByRole = () => {
     switch (userRole) {
       case "ADMIN":
-        return <AdminPage />;
+        return <AdminHome />;
       case "RESTAURANT ADMIN":
-        return <RestaurantAdminPage />;
+        return <RestaurantAdminHome />;
       case "CUSTOMER":
-        return <CustomerPage />;
+        return <CustomerHome />;
       case "DELIVERY PERSONNEL":
-        return <DeliveryPersonnelPage />;
+        return <DeliveryPersonnelHome />;
       default:
-        return <LoginPage setToken={setToken} />;
+        return <Login setToken={setToken} />;
     }
   };
 
-  // Custom component to handle unknown routes by redirecting to the previous page
-  const RedirectToPreviousPage = () => {
+  // Custom component to handle unknown routes by redirecting to the previous Home
+  const RedirectToPreviousHome = () => {
     const navigate = useNavigate();
     useEffect(() => {
-      navigate(-1); // Go back to the previous page
+      navigate(-1); // Go back to the previous Home
     }, [navigate]);
 
     return null;
@@ -100,16 +100,16 @@ function App() {
           path="/"
           element={<Navigate to={token ? "/home" : "/login"} />}
         />
-        <Route path="/login" element={<LoginPage setToken={setToken} />} />
+        <Route path="/login" element={<Login setToken={setToken} />} />
         <Route
           path="/register"
-          element={<RegisterPage setToken={setToken} />}
+          element={<Register setToken={setToken} />}
         />
         <Route
           path="/profile"
           element={
             <ProtectedRoute
-              element={<ProfilePage token={token} onLogout={handleLogout} />}
+              element={<Profile token={token} onLogout={handleLogout} />}
             />
           }
         />
@@ -117,11 +117,11 @@ function App() {
           path="/home"
           element={<ProtectedRoute element={renderComponentByRole()} />}
         />
-        {/* Handle all unknown routes by redirecting to the previous page */}
-        <Route path="*" element={<RedirectToPreviousPage />} />
+        {/* Handle all unknown routes by redirecting to the previous Home */}
+        <Route path="*" element={<RedirectToPreviousHome />} />
       </Routes>
       </div>
-      <Footer />
+      {user && <Footer />}
     </div>
   );
 }

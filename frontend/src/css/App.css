@@ -11,7 +11,7 @@
 /* Main Content Area */
 .App-content {
   flex: 1; /* Allows content area to expand and push footer down */
-  padding: 1rem; /* Add padding around content */
+  padding: 0rem; /* Add padding around content */
 }
 
 /* Header Styling */

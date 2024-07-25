@@ -1,0 +1,57 @@
+.background-wrapper {
+    position: relative;
+    height: 100vh;
+    background-image: url('../images/background-image.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .overlay-left-side {
+    background: rgba(0, 0, 0, 0.5); /* Black see-through background */
+    text-align: center;
+  }
+  
+  .overlay-right-side {
+    background: rgba(0, 0, 0, 0.8); /* Black see-through background */
+    text-align: center;
+  }
+  
+  .left-side h1 {
+    font-family: 'Righteous', sans-serif; /* Use Righteous font */
+    color: #ffffff;
+    font-size: 3rem; /* Larger font size for prominence */
+    margin: 0.5rem 0; /* Margin to space out the headings */
+    text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5); /* Text shadow for depth */
+  }
+  
+  .left-side h1:nth-child(2) {
+    font-size: 5rem; /* Slightly smaller size for the second heading */
+    font-weight: normal; /* Adjust weight if needed */
+  }
+  
+
+  .footer-links a {
+    color: lightgray; /* Ensure links within footer-links are also light gray */
+    text-decoration: none; /* Remove underline from links if desired */
+  }
+  
+  .footer-links a:hover {
+    color: #d3d3d3; /* Slightly lighter gray on hover for better visibility */
+  }
+  .footer-links {
+    text-align: center;
+    color: lightgray;
+    margin-top: 2rem; /* Margin to space from above content */
+    font-size: 0.875rem; /* Smaller font size for footer text */
+  }
+  
+  .footer-link {
+    margin: 0 10px;
+    text-decoration: none;
+  }
+  
+  .footer-link:hover {
+    text-decoration: underline;
+  }
+  
