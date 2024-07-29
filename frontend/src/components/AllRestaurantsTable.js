@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
-import { Table, Button, Container } from "react-bootstrap";
+import { Table, Button, Container, Pagination } from "react-bootstrap";
 import { UserContext } from '../UserContext';
 
 const AllRestaurantsTable = ({ restaurants, onToggleArchive }) => {
   const { token } = useContext(UserContext);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const handleToggleArchive = async (id) => {
     try {
@@ -27,8 +29,31 @@ const AllRestaurantsTable = ({ restaurants, onToggleArchive }) => {
     }
   };
 
-  // Sort the restaurants by ID
-  const sortedRestaurants = restaurants.slice().sort((a, b) => a.id - b.id);
+  // Calculate the index range for the current page
+  const indexOfLastRestaurant = currentPage * itemsPerPage;
+  const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
+  const currentRestaurants = restaurants.slice(indexOfFirstRestaurant, indexOfLastRestaurant);
+
+  // Handle page change
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Pagination Controls
+  const totalPages = Math.ceil(restaurants.length / itemsPerPage);
+  const paginationItems = [];
+  for (let number = 1; number <= totalPages; number++) {
+    paginationItems.push(
+      <Pagination.Item 
+        key={number} 
+        active={number === currentPage} 
+        onClick={() => handlePageChange(number)}
+      >
+        {number}
+      </Pagination.Item>
+    );
+  }
+
 
   return (
     <Container className="my-4">
@@ -47,7 +72,7 @@ const AllRestaurantsTable = ({ restaurants, onToggleArchive }) => {
           </tr>
         </thead>
         <tbody>
-        {sortedRestaurants.map((restaurant) => (
+        {currentRestaurants.map((restaurant) => (
             <tr
               key={restaurant.id}
             >
@@ -71,6 +96,9 @@ const AllRestaurantsTable = ({ restaurants, onToggleArchive }) => {
           ))}
         </tbody>
       </Table>
+      <Pagination>
+        {paginationItems}
+      </Pagination>
     </Container>
   );
 };
