@@ -62,13 +62,13 @@ def crud_update_restaurant(
     return db_restaurant
 
 
-
-def crud_archive_restaurant(db: Session, id: int) -> DBRestaurant:
+def crud_toggle_archive_restaurant(db: Session, id: int) -> DBRestaurant:
     db_restaurant = db.query(DBRestaurant).filter(DBRestaurant.id == id).first()
-    if db_restaurant:
-        db_restaurant.is_archived = True
-        db.commit()
-        db.refresh(db_restaurant)
+    if not db_restaurant:
+        raise HTTPException(status_code=404, detail="Restaurant not found")
+    db_restaurant.is_archived = not db_restaurant.is_archived
+    db.commit()
+    db.refresh(db_restaurant)
     return db_restaurant
 
 
@@ -83,16 +83,8 @@ def crud_get_restaurants_by_type(
     return restaurants_of_type
 
 
-def crud_get_all_restaurants(
-    db: Session, skip: int = 0, limit: int = 10
-) -> List[DBRestaurant]:
-    return (
-        db.query(DBRestaurant)
-        .order_by(asc(DBRestaurant.name))
-        .offset(skip)
-        .limit(limit)
-        .all()
-    )
+def crud_get_all_restaurants(db: Session) -> List[DBRestaurant]:
+    return db.query(DBRestaurant).all()
 
 
 def crud_get_restaurants_within_radius(db: Session, user: DBUser) -> List[DBRestaurant]:

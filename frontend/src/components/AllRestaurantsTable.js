@@ -1,57 +1,77 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
+import { Table, Button, Container } from "react-bootstrap";
+import { UserContext } from '../UserContext';
 
-const AllRestaurantsTable = ({ restaurants, onArchive }) => {
-  const handleArchive = async (id) => {
+const AllRestaurantsTable = ({ restaurants, onToggleArchive }) => {
+  const { token } = useContext(UserContext);
+
+  const handleToggleArchive = async (id) => {
     try {
-      await axios.put(`http://localhost:8000/api/restaurants/${id}/archive`);
-      onArchive(id);
+      // Log the request for debugging purposes
+      console.log(`Toggle-archiving restaurant with ID: ${id}`);
+      const response = await axios.put(
+        `http://localhost:8000/api/restaurants/${id}/toggle_archive`,
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          }
+        }
+      );
+      console.log('Response:', response);
+      onToggleArchive(id);
     } catch (error) {
       console.error("There was an error archiving the restaurant!", error);
     }
   };
 
+  // Sort the restaurants by ID
+  const sortedRestaurants = restaurants.slice().sort((a, b) => a.id - b.id);
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Latitude</th>
-          <th>Longitude</th>
-          <th>Street Name</th>
-          <th>City</th>
-          <th>Star Rating</th>
-          <th>Type</th>
-          <th>Radius of Delivery (km)</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {restaurants.map((restaurant) => (
-          <tr
-            key={restaurant.id}
-            style={{
-              backgroundColor: restaurant.isArchived ? "#d3d3d3" : "transparent",
-            }}
-          >
-            <td>{restaurant.name}</td>
-            <td>{restaurant.latitude}</td>
-            <td>{restaurant.longitude}</td>
-            <td>{restaurant.street_name}</td>
-            <td>{restaurant.city}</td>
-            <td>{restaurant.star_rating}</td>
-            <td>{restaurant.type}</td>
-            <td>{restaurant.radius_of_delivery_km}</td>
-            <td>
-              {!restaurant.isArchived && (
-                <button onClick={() => handleArchive(restaurant.id)}>Archive</button>
-              )}
-            </td>
+    <Container className="my-4">
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Street Name</th>
+            <th>City</th>
+            <th>Star Rating</th>
+            <th>Type</th>
+            <th>Actions</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+        {sortedRestaurants.map((restaurant) => (
+            <tr
+              key={restaurant.id}
+            >
+              <td>{restaurant.id}</td>
+              <td>{restaurant.name}</td>
+              <td>{restaurant.latitude.toFixed(3)}</td>
+              <td>{restaurant.longitude.toFixed(3)}</td>
+              <td>{restaurant.street_name}</td>
+              <td>{restaurant.city}</td>
+              <td>{restaurant.star_rating}</td>
+              <td>{restaurant.type}</td>
+              <td>
+                <Button
+                  variant={restaurant.is_archived ? "secondary" : "warning"}
+                  onClick={() => handleToggleArchive(restaurant.id)}
+                >
+                  {restaurant.is_archived ? "Unarchive" : "Archive"}
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </Container>
   );
 };
 

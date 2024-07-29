@@ -1,9 +1,10 @@
 // src/components/Profile.js
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from '../UserContext'; // Import UserContext
-import { Alert } from "react-bootstrap";
+import { UserContext } from '../UserContext';
+import { Alert, Button, Container, Card } from "react-bootstrap";
 import axios from "axios";
+import "../css/App.css"
 
 function Profile() {
   const { token, handleLogout } = useContext(UserContext);
@@ -29,7 +30,7 @@ function Profile() {
     };
 
     fetchUserProfile();
-  }, [token, handleLogout]);
+  }, [token, handleLogout, navigate]);
 
   if (!userData) return <p>Loading...</p>;
 
@@ -40,7 +41,7 @@ function Profile() {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
-        },
+        }
       });
       handleLogout();
       navigate('/login');
@@ -52,13 +53,31 @@ function Profile() {
 
   return (
     <div>
-      <h1>Profile</h1>
-      <p><strong>Role:</strong> {userData.role}</p>
-      <p><strong>First Name:</strong> {userData.first_name}</p>
-      <p><strong>Last Name:</strong> {userData.last_name}</p>
-      <p><strong>Email:</strong> {userData.email}</p>
-      <button onClick={handleDeleteButton}>Delete Account</button>
-      {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+      <h1>PROFILE</h1>
+      <Card>
+        <Card.Body>
+          <Card.Text>
+            <strong>ROLE:</strong> {userData.role}
+          </Card.Text>
+          <Card.Text>
+            <strong>FIRST NAME:</strong> {userData.first_name}
+          </Card.Text>
+          <Card.Text>
+            <strong>LAST NAME:</strong> {userData.last_name}
+          </Card.Text>
+          <Card.Text>
+            <strong>EMAIL:</strong> {userData.email}
+          </Card.Text>
+          <Button 
+            variant="danger" 
+            onClick={handleDeleteButton}
+            className="mt-3"
+          >
+            Delete Account
+          </Button>
+          {errorMessage && <Alert variant="danger" className="mt-3">{errorMessage}</Alert>}
+        </Card.Body>
+      </Card>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faMedium, faGithub, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
-import "../App.css";
+import "../css/App.css";
 import icon from "../assets/icon.png"; // Ensure the path is correct
 import { UserContext } from '../UserContext'; // Import UserContext
 

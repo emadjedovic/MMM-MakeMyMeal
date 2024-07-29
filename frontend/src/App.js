@@ -17,7 +17,7 @@ import RestaurantAdminHome from './pages/RestaurantAdminHome';
 import CustomerHome from './pages/CustomerHome';
 import DeliveryPersonnelHome from './pages/DeliveryPersonnelHome';
 
-import './App.css'; // Import the consolidated CSS file
+import './css/App.css'; // Import the consolidated CSS file
 
 function App() {
   const { token, user, userRole } = useContext(UserContext);

@@ -4,6 +4,7 @@ import { UserContext } from '../UserContext';
 import AddRestaurantForm from "../components/AddRestaurantForm";
 import UpdateRestaurantForm from "../components/UpdateRestaurantForm";
 import AllRestaurantsTable from "../components/AllRestaurantsTable";
+import "../css/App.css"
 
 const AdminHome = () => {
   const { token } = useContext(UserContext);
@@ -16,7 +17,8 @@ const AdminHome = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setRestaurants(response.data.items);
+      console.log("restaurants: ", response.data)
+      setRestaurants(response.data);
     } catch (error) {
       console.error('There was an error fetching the restaurants!', error);
     }
@@ -39,11 +41,12 @@ const AdminHome = () => {
     );
   };
 
-  const handleArchive = (id) => {
+  const handleToggleArchive = (id) => {
+    console.log("entered adminhome")
     setRestaurants(
       restaurants.map((restaurant) =>
         restaurant.id === id
-          ? { ...restaurant, isArchived: true }
+          ? { ...restaurant, is_archived: !restaurant.is_archived }
           : restaurant
       )
     );
@@ -51,11 +54,10 @@ const AdminHome = () => {
 
   return (
     <div>
-      <h2>Admin Dashboard</h2>
+      <h1>ADMIN DASHBOARD</h1>
+      <AllRestaurantsTable restaurants={restaurants} onToggleArchive={handleToggleArchive} />
       <AddRestaurantForm onAdd={handleAdd} />
       <UpdateRestaurantForm onUpdate={handleUpdate} />
-      <h1>All Restaurants</h1>
-      <AllRestaurantsTable restaurants={restaurants} onArchive={handleArchive} />
     </div>
   );
 };

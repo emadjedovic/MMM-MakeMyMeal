@@ -27,14 +27,14 @@ body {
 
 .App-content {
   flex: 1;
-  margin: 5rem; /* Adjust margin to create spacing around content */
-  margin-left: 13rem; /* Adjust to the width of the sidebar */
+  padding: 4rem; /* Adjust margin to create spacing around content */
+  padding-left: 13rem; /* Adjust to the width of the sidebar */
 }
 
 /* Additional styles for headings and other elements */
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
-  margin-bottom: 0.75rem; /* Increase margin below headings for better spacing */
+  margin-bottom: 2rem; /* Increase margin below headings for better spacing */
 }
 
 p {
@@ -45,7 +45,7 @@ p {
 /* Sidebar styles */
 .sidebar {
   height: 100vh;
-  width: 10rem; /* Increase width for better content fit */
+  width: 9rem; /* Increase width for better content fit */
   position: fixed;
   top: 0;
   left: 0;

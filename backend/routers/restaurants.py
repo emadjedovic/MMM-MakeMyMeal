@@ -17,7 +17,7 @@ from schemas.restaurant import (
 from crud.restaurant import (
     crud_create_restaurant,
     crud_update_restaurant,
-    crud_archive_restaurant,
+    crud_toggle_archive_restaurant,
     crud_get_restaurant_types,
     crud_get_restaurants_by_type,
     crud_get_all_restaurants,
@@ -52,13 +52,13 @@ def update_restaurant(
 
 
 # admin only
-@router.put("/{id}/archive", response_model=Restaurant)
-def archive_restaurant(
+@router.put("/{id}/toggle_archive", response_model=Restaurant)
+def toggle_archive_restaurant(
     id: int,
     db: Session = Depends(get_db),
-    admin: User = Depends(get_admin_user),
+    admin: User = Depends(get_admin_user)
 ):
-    return crud_archive_restaurant(db=db, id=id)
+    return crud_toggle_archive_restaurant(db=db, id=id)
 
 
 # admin, customers
@@ -80,22 +80,13 @@ def list_restaurants_by_type(
     return crud_get_restaurants_by_type(db=db, type=type)
 
 
-class PaginatedRestaurantsResponse(BaseModel):
-    total: int
-    items: List[Restaurant]
-
-
 # admin, customers
-@router.get("/all", response_model=PaginatedRestaurantsResponse)
+@router.get("/all", response_model=List[Restaurant])
 def list_all_restaurants(
     db: Session = Depends(get_db),
-    skip: int = 0,
-    limit: int = 10,
     admin_or_customer: User = Depends(get_admin_or_customer),
 ):
-    total = db.query(DBRestaurant).count()
-    items = crud_get_all_restaurants(db=db, skip=skip, limit=limit)
-    return {"total": total, "items": items}
+    return crud_get_all_restaurants(db=db)
 
 
 # customers only
