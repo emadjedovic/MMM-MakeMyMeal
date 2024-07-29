@@ -19,31 +19,53 @@ def get_db():
 
 
 async def get_current_user(request: Request, db: Session = Depends(get_db)):
-    print("Request received")
+    import logging
+    logger = logging.getLogger(__name__)
+    
+    logger.info("Request received")
+    
     token = extract_token(request)
-    print("Token received:", token)
+    logger.info(f"Token received: {token}")
+
+    if not token:
+        logger.error("No token found")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
     try:
         payload = decode_jwt(token)
         email = payload.get("sub")
         if email is None:
+            logger.error("No email found in token payload")
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Could not validate credentials",
                 headers={"WWW-Authenticate": "Bearer"},
             )
-    except HTTPException:
-        raise
+    except Exception as e:
+        logger.error(f"Error decoding token: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
     user = crud_get_user_by_email(db=db, email=email)
     if user is None:
+        logger.error(f"User with email {email} not found")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
     if user.disabled:
+        logger.error(f"User with email {email} is inactive")
         raise HTTPException(status_code=400, detail="Inactive user")
+    
+    logger.info(f"User with email {email} successfully validated")
     return user
 
 

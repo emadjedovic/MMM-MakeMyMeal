@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+// src/pages/Register.js
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Map from '../components/Map';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import '../css/Register.css'; // Import custom CSS for styling
+import { UserContext } from '../UserContext'; // Import UserContext
 
-const RegisterPage = ({ setToken }) => {
+const RegisterPage = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -13,9 +15,10 @@ const RegisterPage = ({ setToken }) => {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const { handleLogin } = useContext(UserContext); // Use UserContext to get setToken
   const navigate = useNavigate();
 
-  const handleRegister = async (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:8000/api/auth/register", {
@@ -26,10 +29,8 @@ const RegisterPage = ({ setToken }) => {
         latitude: parseFloat(latitude),
         longitude: parseFloat(longitude)
       });
-      localStorage.setItem("access_token", response.data.access_token);
-      setToken(response.data.access_token);
+      handleLogin(response.data.access_token);
       console.log("Successful registration.");
-      navigate("/home");
     } catch (error) {
       console.error("Registration error:", error);
       setErrorMessage("Registration failed. Please try again.");
@@ -65,7 +66,7 @@ const RegisterPage = ({ setToken }) => {
           </Col>
           <Col xs={4} className="d-flex flex-column justify-content-center align-items-center text-white overlay-right-side">
             <h1 className="mb-5">REGISTER</h1>
-            <Form onSubmit={handleRegister} className="w-75">
+            <Form onSubmit={handleRegisterSubmit} className="w-75">
               <Form.Group controlId="formFirstName" className="mb-3">
                 <Form.Control
                   type="text"
@@ -118,15 +119,14 @@ const RegisterPage = ({ setToken }) => {
                   onChange={(e) => setLongitude(e.target.value)}
                 />
               </Form.Group>
-              {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
               <Button variant="danger" type="submit" className="w-50 mb-3">
-                Submit
+                Register
               </Button>
+              {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
               <p>Already have an account?</p>
               <Button variant="link" onClick={handleLoginRedirect} className="text-white">
                 Login
               </Button>
-              
             </Form>
           </Col>
         </Row>

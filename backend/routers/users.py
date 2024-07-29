@@ -10,15 +10,20 @@ from dependencies import (
 )
 from schemas.user import User
 from schemas.user import UserCreate
-from crud.user import crud_create_restaurant_admin, crud_create_delivery_personnel
+from crud.user import crud_create_restaurant_admin, crud_create_delivery_personnel, crud_delete_user
 
 router = APIRouter(prefix="/users")
 
 
 # all users
 @router.get("/me", response_model=User)
-async def read_users_me(current_user: User = Depends(get_current_user)):
+async def read_current_user(current_user: User = Depends(get_current_user)):
     return current_user
+
+# all users
+@router.delete("/me/delete")
+def delete_current_user(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    return crud_delete_user(db=db, id=current_user.id)
 
 
 # admin only

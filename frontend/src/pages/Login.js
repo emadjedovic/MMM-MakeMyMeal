@@ -1,27 +1,28 @@
-import React, { useState } from "react";
+// src/pages/Login.js
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/Login.css'; // Import custom CSS for background styling
+import { UserContext } from '../UserContext'; // Import UserContext
 
-const Login = ({ setToken }) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const { handleLogin } = useContext(UserContext); // Use UserContext to get handleLogin
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:8000/api/auth/login", {
         email: email,
-        password: password,
+        password: password
       });
-      localStorage.setItem("access_token", response.data.access_token);
-      setToken(response.data.access_token);
+      handleLogin(response.data.access_token);
       console.log("Successful login.");
-      navigate("/home");
     } catch (error) {
       console.error("Login error:", error);
       setErrorMessage("Incorrect email or password.");
@@ -43,7 +44,7 @@ const Login = ({ setToken }) => {
           </Col>
           <Col xs={4} className="d-flex flex-column justify-content-center align-items-center text-white overlay-right-side">
             <h1 className="mb-5">WELCOME</h1>
-            <Form onSubmit={handleLogin} className="w-75">
+            <Form onSubmit={handleLoginSubmit} className="w-75">
               <Form.Group controlId="formEmail" className="mb-3">
                 <Form.Control
                   type="email"
@@ -77,7 +78,8 @@ const Login = ({ setToken }) => {
                   <a href="https://medium.com/@emadjedovic" target="_blank" rel="noopener noreferrer" className="footer-link">Medium</a>
                 </div>
                 <div className="mt-4">
-                &copy; 2024 MMM. All rights reserved. <br></br>Ema Djedović
+                &copy; 2024 MMM. All rights reserved. <br></br>
+                by Ema Djedović
                 </div>
               </div>
             </Form>

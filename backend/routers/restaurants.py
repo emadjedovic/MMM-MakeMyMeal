@@ -65,7 +65,7 @@ def archive_restaurant(
 @router.get("/types", response_model=List[str])
 def list_all_restaurant_types(
     db: Session = Depends(get_db),
-    admin_or_customer: User = Depends(get_admin_or_customer),
+    admin_or_customer: User = Depends(get_admin_or_customer)
 ):
     return crud_get_restaurant_types()
 

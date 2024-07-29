@@ -49,7 +49,7 @@ p {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: whitesmoke;
+  background: linear-gradient(to right, lightgray, whitesmoke);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -95,7 +95,7 @@ p {
 }
 
 .social-links a {
-  color: #d3633b;
+  color: black;
   margin: 0.5rem 0; /* Adjust margin to space icons vertically */
   text-decoration: none;
   font-size: 1.5rem; /* Adjust font size for icons */

@@ -9,7 +9,7 @@ from schemas.restaurant import Restaurant
 
 # common fields shared among the other schemas
 class UserBase(BaseModel):
-    email: EmailStr
+    email: EmailStr # used in place of ID
 
 
 # adds the password field for creating new users

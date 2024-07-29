@@ -6,7 +6,7 @@ from routers import auth, users, restaurants
 from database import engine, Base
 # from routers import menu_items, menus, orders
 
-# from create_users import create_admin, create_customer, create_delivery_personnel, create_restaurant_admin
+from create_users import create_admin, create_customer, create_delivery_personnel, create_restaurant_admin
 
 
 def create_application():
@@ -26,10 +26,12 @@ app = create_application()
 
 def startup_event():
     Base.metadata.create_all(bind=engine)  # create tables
-    # create_admin()
-    # create_customer()
-    # create_restaurant_admin()
-    # create_delivery_personnel()
+    """
+    create_admin()
+    create_customer()
+    create_restaurant_admin()
+    create_delivery_personnel()
+    """
 
 
 app.add_event_handler("startup", startup_event)
