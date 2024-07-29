@@ -24,8 +24,6 @@ from crud.restaurant import (
     crud_get_restaurants_within_radius,
 )
 from schemas.user import User
-from models.restaurant import DBRestaurant
-from pydantic import BaseModel
 
 router = APIRouter(prefix="/restaurants")
 
@@ -54,9 +52,7 @@ def update_restaurant(
 # admin only
 @router.put("/{id}/toggle_archive", response_model=Restaurant)
 def toggle_archive_restaurant(
-    id: int,
-    db: Session = Depends(get_db),
-    admin: User = Depends(get_admin_user)
+    id: int, db: Session = Depends(get_db), admin: User = Depends(get_admin_user)
 ):
     return crud_toggle_archive_restaurant(db=db, id=id)
 
@@ -65,7 +61,7 @@ def toggle_archive_restaurant(
 @router.get("/types", response_model=List[str])
 def list_all_restaurant_types(
     db: Session = Depends(get_db),
-    admin_or_customer: User = Depends(get_admin_or_customer)
+    admin_or_customer: User = Depends(get_admin_or_customer),
 ):
     return crud_get_restaurant_types()
 

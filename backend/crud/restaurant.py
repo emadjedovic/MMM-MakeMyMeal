@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import asc
 from models.restaurant import DBRestaurant, RestaurantType
 from schemas.restaurant import RestaurantCreate, RestaurantUpdate
 from models.user import DBUser
