@@ -1,7 +1,7 @@
 .background-wrapper {
     position: relative;
     height: 100vh;
-    background-image: url('../images/background-image.jpg');
+    background-image: url('../assets/background-image.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

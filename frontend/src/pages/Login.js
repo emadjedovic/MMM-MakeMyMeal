@@ -37,7 +37,7 @@ const Login = ({ setToken }) => {
       <Container fluid className="p-0 h-100">
         <Row className="h-100 m-0">
           <Col xs={8} className="d-flex flex-column justify-content-center align-items-center text-white overlay-left-side left-side">
-            <img src="/icon.png" alt="App Logo" width="150" className="mb-3"/>
+            <img src="icon.ico" alt="App Logo" width="150" className="mb-3"/>
             <h1>MMM</h1>
             <h1>Make My Meal</h1>
           </Col>
