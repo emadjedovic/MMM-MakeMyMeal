@@ -6,6 +6,7 @@ import AddRestaurantForm from "../components/AddRestaurantForm";
 import UpdateRestaurantForm from "../components/UpdateRestaurantForm";
 import AllRestaurantsTable from "../components/AllRestaurantsTable";
 import DeleteRestaurant from "../components/DeleteRestaurant";
+import CreateRestaurantAdminForm from "../components/CreateRestaurantAdminForm";
 import "../css/App.css";
 
 const AdminHome = () => {
@@ -59,14 +60,20 @@ const AdminHome = () => {
     fetchRestaurants();
   };
 
+  const handleAdminCreated = (rest_admin) => {
+    console.log("New restaurant admin created:", rest_admin);
+  };
+
   return (
     <Container>
       <h1>ADMIN DASHBOARD</h1>
+
       <AllRestaurantsTable
         restaurants={restaurants}
         onToggleArchive={handleToggleArchive}
       />
       <DeleteRestaurant onDelete={handleDelete} />
+
       <Row>
         <Col>
           <AddRestaurantForm onAdd={handleAdd} />
@@ -75,6 +82,12 @@ const AdminHome = () => {
           <UpdateRestaurantForm onUpdate={handleUpdate} />
         </Col>
       </Row>
+      <Row className="mt-4">
+        <Col>
+          <CreateRestaurantAdminForm onAdminCreated={handleAdminCreated} />
+        </Col>
+      </Row>
+
     </Container>
   );
 };

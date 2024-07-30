@@ -1,7 +1,5 @@
 1. ADMINISTRATOR
 
-- dodaje restorane, ažurira ih i arhivira
-- kreira administratore restorana
 - CRUD za sve lookup tabele (tipovi hrane, tipovi restorana i drugo)
 - pregled podataka o svim restoranima, ponudama i narudžbama.
 
