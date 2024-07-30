@@ -20,7 +20,7 @@ const DeleteRestaurant = ({ onDelete }) => {
         `http://localhost:8000/api/restaurants/${restaurantId}`,
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
@@ -52,10 +52,15 @@ const DeleteRestaurant = ({ onDelete }) => {
           onChange={(e) => setRestaurantId(e.target.value)}
         />
       </Form.Group>
-      <Button variant="danger" onClick={handleDeleteButton}>
+      <Button variant="danger" onClick={handleDeleteButton} 
+            style={{ margin: "1rem" }}>
         Delete Restaurant
       </Button>
-      {error && <Alert variant="danger" className="ml-3">{error}</Alert>}
+      {error && (
+        <Alert variant="danger" className="ml-3">
+          {error}
+        </Alert>
+      )}
 
       <Modal show={showConfirm} onHide={handleCloseConfirm}>
         <Modal.Header closeButton>
@@ -68,7 +73,10 @@ const DeleteRestaurant = ({ onDelete }) => {
           <Button variant="secondary" onClick={handleCloseConfirm}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleDelete}>
+          <Button
+            variant="danger"
+            onClick={handleDelete}
+          >
             Delete
           </Button>
         </Modal.Footer>

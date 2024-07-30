@@ -56,10 +56,6 @@ const AdminHome = () => {
     );
   };
 
-  const handleDelete = () => {
-    fetchRestaurants();
-  };
-
   const handleAdminCreated = (rest_admin) => {
     console.log("New restaurant admin created:", rest_admin);
   };
@@ -72,8 +68,6 @@ const AdminHome = () => {
         restaurants={restaurants}
         onToggleArchive={handleToggleArchive}
       />
-      <DeleteRestaurant onDelete={handleDelete} />
-
       <Row>
         <Col>
           <AddRestaurantForm onAdd={handleAdd} />

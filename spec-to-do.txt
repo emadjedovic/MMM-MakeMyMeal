@@ -1,6 +1,7 @@
 1. ADMINISTRATOR
 
-- CRUD za sve lookup tabele (tipovi hrane, tipovi restorana i drugo)
+- CRUD za tipove restorana
+- CRUD za tipove hrane
 - pregled podataka o svim restoranima, ponudama i narudžbama.
 
 2. ADMINISTRATOR RESTORANA
