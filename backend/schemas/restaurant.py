@@ -9,7 +9,7 @@ class RestaurantBase(BaseModel):
     longitude: float
     street_name: str
     city: str
-    star_rating: Optional[float] = Field(None, ge=0, le=5)
+    star_rating: Optional[int] = Field(None, ge=0, le=5)
     type: Optional[RestaurantType] = RestaurantType.OTHER
     radius_of_delivery_km: float
 
@@ -30,9 +30,9 @@ class RestaurantUpdate(BaseModel):
     longitude: Optional[float] = None
     street_name: Optional[str] = None
     city: Optional[str] = None
-    radius_of_delivery_km: Optional[float] = None
+    star_rating: Optional[int] = Field(None, ge=0, le=5)
     type: Optional[RestaurantType] = RestaurantType.OTHER
-    star_rating: Optional[float] = Field(None, ge=0, le=5)
+    radius_of_delivery_km: Optional[float] = None
     is_archived: Optional[bool] = None
 
 

@@ -10,8 +10,6 @@ const AllRestaurantsTable = ({ restaurants, onToggleArchive }) => {
 
   const handleToggleArchive = async (id) => {
     try {
-      // Log the request for debugging purposes
-      console.log(`Toggle-archiving restaurant with ID: ${id}`);
       const response = await axios.put(
         `http://localhost:8000/api/restaurants/${id}/toggle_archive`,
         {},

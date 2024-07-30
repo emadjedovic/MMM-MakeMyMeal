@@ -6,7 +6,6 @@ from typing import List
 from fastapi import HTTPException
 from models.user import UserRole
 
-
 def crud_create_restaurant(db: Session, restaurant: RestaurantCreate) -> DBRestaurant:
     db_owner = db.query(DBUser).filter(DBUser.id == restaurant.owner_id).first()
     if not db_owner:
@@ -22,7 +21,7 @@ def crud_create_restaurant(db: Session, restaurant: RestaurantCreate) -> DBResta
         star_rating=restaurant.star_rating,
         type=restaurant.type,
         radius_of_delivery_km=restaurant.radius_of_delivery_km,
-        owner_id=restaurant.owner_id,
+        owner_id=restaurant.owner_id
     )
     db.add(db_restaurant)
     db.commit()

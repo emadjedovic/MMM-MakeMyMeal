@@ -21,7 +21,7 @@ from crud.restaurant import (
     crud_get_restaurant_types,
     crud_get_restaurants_by_type,
     crud_get_all_restaurants,
-    crud_get_restaurants_within_radius,
+    crud_get_restaurants_within_radius
 )
 from schemas.user import User
 
@@ -33,7 +33,7 @@ router = APIRouter(prefix="/restaurants")
 def create_restaurant(
     restaurant: RestaurantCreate,
     db: Session = Depends(get_db),
-    admin: User = Depends(get_admin_user),
+    admin: User = Depends(get_admin_user)
 ):
     return crud_create_restaurant(db=db, restaurant=restaurant)
 
