@@ -6,42 +6,49 @@ import { UserContext } from '../UserContext';
 
 const AddRestaurantForm = ({ onAdd }) => {
   const { token } = useContext(UserContext);
-  const [formData, setFormData] = useState({
-    name: null,
-    latitude: null,
-    longitude: null,
-    street_name: null,
-    city: null,
-    star_rating: null,
-    type: null,
-    radius_of_delivery_km: null,
-    owner_id: null
-  });
+  const [name, setName] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const [streetName, setStreetName] = useState("");
+  const [city, setCity] = useState("");
+  const [starRating, setStarRating] = useState(0); // Use 0 for optional
+  const [type, setType] = useState("OTHER"); // Default value handled on server
+  const [radiusOfDeliveryKm, setRadiusOfDeliveryKm] = useState(0); // Default value handled on server
+  const [ownerId, setOwnerId] = useState("");
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "owner_id" && value < 0) return;
-    setFormData({ ...formData, [name]: value });
+  const requestData = {
+    name: name,
+    latitude: latitude,
+    longitude: longitude,
+    street_name: streetName,
+    city: city,
+    star_rating: starRating || 0,
+    type: type,
+    radius_of_delivery_km: radiusOfDeliveryKm || 0,
+    owner_id: ownerId
   };
 
   const handleAddRestaurant = async () => {
-    console.log("Token:", token);  // Debug token value
-    console.log("FormData: ", formData)
     try {
       const response = await axios.post(
         "http://localhost:8000/api/restaurants/new",
-        formData,
+        requestData, // RestaurantCreate
         {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        });
+        }
+      );
       console.log("Restaurant added successfully: ", response);
       onAdd(response.data);
     } catch (error) {
       console.error("There was an error adding the restaurant!", error);
     }
+  };
+
+  const handleClearStarRating = () => {
+    setStarRating(0); // Clear the selected star rating
   };
 
   return (
@@ -54,9 +61,8 @@ const AddRestaurantForm = ({ onAdd }) => {
               <Form.Label>Restaurant Name</Form.Label>
               <Form.Control
                 type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 placeholder="Enter restaurant name"
               />
             </Form.Group>
@@ -66,9 +72,8 @@ const AddRestaurantForm = ({ onAdd }) => {
                   <Form.Label>Latitude</Form.Label>
                   <Form.Control
                     type="number"
-                    name="latitude"
-                    value={formData.latitude}
-                    onChange={handleInputChange}
+                    value={latitude}
+                    onChange={(e) => setLatitude(Number(e.target.value))}
                     placeholder="Enter latitude"
                   />
                 </Form.Group>
@@ -78,9 +83,8 @@ const AddRestaurantForm = ({ onAdd }) => {
                   <Form.Label>Longitude</Form.Label>
                   <Form.Control
                     type="number"
-                    name="longitude"
-                    value={formData.longitude}
-                    onChange={handleInputChange}
+                    value={longitude}
+                    onChange={(e) => setLongitude(Number(e.target.value))}
                     placeholder="Enter longitude"
                   />
                 </Form.Group>
@@ -90,9 +94,8 @@ const AddRestaurantForm = ({ onAdd }) => {
               <Form.Label>Street Name</Form.Label>
               <Form.Control
                 type="text"
-                name="street_name"
-                value={formData.street_name}
-                onChange={handleInputChange}
+                value={streetName}
+                onChange={(e) => setStreetName(e.target.value)}
                 placeholder="Enter street name"
               />
             </Form.Group>
@@ -100,14 +103,13 @@ const AddRestaurantForm = ({ onAdd }) => {
               <Form.Label>City</Form.Label>
               <Form.Control
                 type="text"
-                name="city"
-                value={formData.city}
-                onChange={handleInputChange}
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
                 placeholder="Enter city"
               />
             </Form.Group>
             <Form.Group controlId="formStarRating">
-              <Form.Label>Star Rating</Form.Label>
+              <Form.Label>Star Rating (optional)</Form.Label>
               <div className="d-flex">
                 {[1, 2, 3, 4, 5].map((rating) => (
                   <Form.Check
@@ -115,24 +117,29 @@ const AddRestaurantForm = ({ onAdd }) => {
                     key={rating}
                     type="radio"
                     id={`star_rating_${rating}`}
-                    name="star_rating"
                     value={rating}
-                    checked={formData.star_rating === rating.toString()}
-                    onChange={handleInputChange}
+                    checked={starRating === rating}
+                    onChange={(e) => setStarRating(Number(e.target.value))}
                     label={rating}
                   />
                 ))}
               </div>
             </Form.Group>
+            <Button
+                variant="secondary"
+                onClick={handleClearStarRating}
+                style={{ margin: '1rem' }}
+              >
+                Clear Selection
+              </Button>
             <Form.Group controlId="formType">
               <Form.Label>Restaurant Type</Form.Label>
               <Form.Control
                 as="select"
-                name="type"
-                value={formData.type}
-                onChange={handleInputChange}
+                value={type}
+                onChange={(e) => setType(e.target.value)}
               >
-                <option value="">Select a type</option>
+                <option value="OTHER">Other</option>
                 <option value="TRADITIONAL">Traditional</option>
                 <option value="FAST FOOD">Fast Food</option>
                 <option value="PIZZERIA">Pizzeria</option>
@@ -141,30 +148,27 @@ const AddRestaurantForm = ({ onAdd }) => {
                 <option value="BAKERY">Bakery</option>
                 <option value="CAFE">Cafe</option>
                 <option value="PUB">Pub</option>
-                <option value="OTHER">Other</option>
               </Form.Control>
             </Form.Group>
             <Form.Group controlId="formRadiusOfDelivery">
-              <Form.Label>Radius of Delivery (km)</Form.Label>
+              <Form.Label>Radius of Delivery in km</Form.Label>
               <Form.Control
                 type="range"
-                name="radius_of_delivery_km"
                 min="0"
                 max="15"
-                value={formData.radius_of_delivery_km}
-                onChange={handleInputChange}
+                value={radiusOfDeliveryKm}
+                onChange={(e) => setRadiusOfDeliveryKm(Number(e.target.value))}
               />
               <Form.Text className="text-muted">
-                {formData.radius_of_delivery_km} km
+                {radiusOfDeliveryKm} km
               </Form.Text>
             </Form.Group>
             <Form.Group controlId="formOwnerId">
               <Form.Label>Owner ID</Form.Label>
               <Form.Control
                 type="number"
-                name="owner_id"
-                value={formData.owner_id}
-                onChange={handleInputChange}
+                value={ownerId}
+                onChange={(e) => setOwnerId(Number(e.target.value))}
                 placeholder="Enter owner ID"
                 min="0"
               />

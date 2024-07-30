@@ -59,6 +59,16 @@ def crud_update_restaurant(
     db.refresh(db_restaurant)
     return db_restaurant
 
+def crud_delete_restaurant(db: Session, id: int) -> DBRestaurant:
+    db_restaurant = db.query(DBRestaurant).filter(DBRestaurant.id == id).first()
+    if not db_restaurant:
+        raise HTTPException(status_code=404, detail="Restaurant not found")
+    
+    db.delete(db_restaurant)
+    db.commit()
+    
+    return db_restaurant
+
 
 def crud_toggle_archive_restaurant(db: Session, id: int) -> DBRestaurant:
     db_restaurant = db.query(DBRestaurant).filter(DBRestaurant.id == id).first()

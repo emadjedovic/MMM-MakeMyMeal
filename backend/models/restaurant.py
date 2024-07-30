@@ -42,7 +42,7 @@ class DBRestaurant(Base):
     city = Column(String, nullable=False)
     star_rating = Column(Integer, nullable=True, default=None)
     type = Column(sqlEnum(RestaurantType), nullable=True, default=RestaurantType.OTHER)
-    radius_of_delivery_km = Column(Float, nullable=False, default=3)
+    radius_of_delivery_km = Column(Float, nullable=True, default=0)
     is_archived = Column(Boolean, nullable=True, default=False)
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 

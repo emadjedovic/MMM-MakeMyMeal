@@ -15,7 +15,7 @@ class RestaurantBase(BaseModel):
 
     @field_validator("radius_of_delivery_km", mode="before")
     def validate_radius(cls, value):
-        if value <= 0:
+        if value < 0:
             raise ValueError("Radius must be positive.")
         return value
 

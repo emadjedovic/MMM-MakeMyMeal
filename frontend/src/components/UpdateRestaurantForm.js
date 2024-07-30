@@ -2,24 +2,23 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
-import { UserContext } from '../UserContext';
+import { UserContext } from "../UserContext";
 
 const UpdateRestaurantForm = ({ onUpdate }) => {
   const { token } = useContext(UserContext);
   const [updateId, setUpdateId] = useState(0);
-  const [name, setName] = useState(""); // Changed to empty string
+  const [name, setName] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [streetName, setStreetName] = useState("");
   const [city, setCity] = useState("");
-  const [starRating, setStarRating] = useState(""); // Changed to empty string
+  const [starRating, setStarRating] = useState("");
   const [type, setType] = useState("");
   const [radiusOfDeliveryKm, setRadiusOfDeliveryKm] = useState("");
   const [isArchived, setIsArchived] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
 
   const requestData = {
-    name: name || undefined, // Ensure not to send if empty
+    name: name || undefined,
     latitude: latitude || undefined,
     longitude: longitude || undefined,
     street_name: streetName || undefined,
@@ -27,7 +26,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
     star_rating: starRating || undefined,
     type: type || undefined,
     radius_of_delivery_km: radiusOfDeliveryKm || undefined,
-    is_archived: isArchived // bool
+    is_archived: isArchived,
   };
 
   const handleUpdateRestaurant = async () => {
@@ -49,12 +48,19 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
       console.log("Restaurant updated successfully: ", response);
       onUpdate(response.data);
     } catch (error) {
-      console.error("There was an error updating the restaurant (handleUpdateRestaurant)!", error);
+      console.error(
+        "There was an error updating the restaurant (handleUpdateRestaurant)!",
+        error
+      );
     }
   };
 
+  const handleClearStarRating = () => {
+    setStarRating(""); // Clear the selected star rating
+  };
+
   return (
-    <Container className="my-4" style={{ maxWidth: '400px' }}>
+    <Container className="my-4" style={{ maxWidth: "400px" }}>
       <Card>
         <Card.Body>
           <h3>UPDATE A RESTAURANT</h3>
@@ -70,7 +76,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
               />
             </Form.Group>
             <Form.Group controlId="formName">
-              <Form.Label>Restaurant Name</Form.Label>
+              <Form.Label>Restaurant Name (optional)</Form.Label>
               <Form.Control
                 type="text"
                 name="name"
@@ -82,7 +88,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
             <Row>
               <Col>
                 <Form.Group controlId="formLatitude">
-                  <Form.Label>Latitude</Form.Label>
+                  <Form.Label>Latitude (optional)</Form.Label>
                   <Form.Control
                     type="number"
                     name="latitude"
@@ -94,7 +100,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
               </Col>
               <Col>
                 <Form.Group controlId="formLongitude">
-                  <Form.Label>Longitude</Form.Label>
+                  <Form.Label>Longitude (optional)</Form.Label>
                   <Form.Control
                     type="number"
                     name="longitude"
@@ -106,7 +112,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
               </Col>
             </Row>
             <Form.Group controlId="formStreetName">
-              <Form.Label>Street Name</Form.Label>
+              <Form.Label>Street Name (optional)</Form.Label>
               <Form.Control
                 type="text"
                 name="street_name"
@@ -116,7 +122,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
               />
             </Form.Group>
             <Form.Group controlId="formCity">
-              <Form.Label>City</Form.Label>
+              <Form.Label>City (optional)</Form.Label>
               <Form.Control
                 type="text"
                 name="city"
@@ -126,7 +132,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
               />
             </Form.Group>
             <Form.Group controlId="formStarRating">
-              <Form.Label>Star Rating</Form.Label>
+              <Form.Label>Star Rating (optional)</Form.Label>
               <div className="d-flex">
                 {[1, 2, 3, 4, 5].map((rating) => (
                   <Form.Check
@@ -135,7 +141,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
                     type="radio"
                     id={`star_rating_${rating}`}
                     name="star_rating"
-                    value={starRating}
+                    value={rating}
                     checked={starRating === rating}
                     onChange={(e) => setStarRating(Number(e.target.value))}
                     label={rating}
@@ -143,8 +149,15 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
                 ))}
               </div>
             </Form.Group>
+            <Button
+              variant="secondary"
+              onClick={handleClearStarRating}
+              style={{ margin: "1rem" }}
+            >
+              Clear Selection
+            </Button>
             <Form.Group controlId="formType">
-              <Form.Label>Restaurant Type</Form.Label>
+              <Form.Label>Restaurant Type (optional)</Form.Label>
               <Form.Control
                 as="select"
                 name="type"
@@ -164,7 +177,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
               </Form.Control>
             </Form.Group>
             <Form.Group controlId="formRadiusOfDelivery">
-              <Form.Label>Radius of Delivery (km)</Form.Label>
+              <Form.Label>Radius of Delivery in km (optional)</Form.Label>
               <Form.Control
                 type="range"
                 name="radius_of_delivery_km"
@@ -189,7 +202,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
             <Button
               variant="primary"
               onClick={handleUpdateRestaurant}
-              style={{ margin: '1rem' }}
+              style={{ margin: "1rem" }}
             >
               Update Restaurant
             </Button>

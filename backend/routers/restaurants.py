@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 from dependencies import (
@@ -21,12 +21,24 @@ from crud.restaurant import (
     crud_get_restaurant_types,
     crud_get_restaurants_by_type,
     crud_get_all_restaurants,
-    crud_get_restaurants_within_radius
+    crud_get_restaurants_within_radius,
+    crud_delete_restaurant
 )
 from schemas.user import User
 
 router = APIRouter(prefix="/restaurants")
 
+# admin only
+@router.delete("/{id}", response_model=Restaurant)
+def delete_restaurant(
+    id: int,
+    db: Session = Depends(get_db),
+    admin: User = Depends(get_admin_user)
+):
+    try:
+        return crud_delete_restaurant(db=db, id=id)
+    except HTTPException as e:
+        raise e
 
 # admin only
 @router.post("/new", response_model=Restaurant)

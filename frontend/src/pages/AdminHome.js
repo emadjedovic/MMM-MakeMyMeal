@@ -5,6 +5,7 @@ import { UserContext } from "../UserContext";
 import AddRestaurantForm from "../components/AddRestaurantForm";
 import UpdateRestaurantForm from "../components/UpdateRestaurantForm";
 import AllRestaurantsTable from "../components/AllRestaurantsTable";
+import DeleteRestaurant from "../components/DeleteRestaurant";
 import "../css/App.css";
 
 const AdminHome = () => {
@@ -17,6 +18,7 @@ const AdminHome = () => {
         "http://localhost:8000/api/restaurants/all",
         {
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         }
@@ -53,6 +55,10 @@ const AdminHome = () => {
     );
   };
 
+  const handleDelete = () => {
+    fetchRestaurants();
+  };
+
   return (
     <Container>
       <h1>ADMIN DASHBOARD</h1>
@@ -60,6 +66,7 @@ const AdminHome = () => {
         restaurants={restaurants}
         onToggleArchive={handleToggleArchive}
       />
+      <DeleteRestaurant onDelete={handleDelete} />
       <Row>
         <Col>
           <AddRestaurantForm onAdd={handleAdd} />
