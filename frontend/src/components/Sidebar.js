@@ -24,7 +24,7 @@ function Sidebar() {
         placement="right"
         overlay={<Tooltip id="tooltip-home">Home</Tooltip>}
       >
-        <Link to="/home" className="sidebar-item">
+        <Link to="/" className="sidebar-item">
           <img src={icon} alt="MMM" />
         </Link>
       </OverlayTrigger>

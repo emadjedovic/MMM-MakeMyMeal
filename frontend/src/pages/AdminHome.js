@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
 import axios from "axios";
 import { UserContext } from "../UserContext";
 import AddRestaurantForm from "../components/AddRestaurantForm";
@@ -61,26 +61,44 @@ const AdminHome = () => {
 
   return (
     <Container>
-      <h1>Admin Dashboard</h1>
-
-      <AdminRestaurantsTable
-        restaurants={restaurants}
-        onToggleArchive={handleToggleArchive}
-      />
-      <Row>
-        <Col>
-          <AddRestaurantForm onAdd={handleAdd} />
-        </Col>
-        <Col>
-          <UpdateRestaurantForm onUpdate={handleUpdate} />
-        </Col>
-      </Row>
-      <Row className="mt-4">
-        <Col>
-          <CreateRestaurantAdminForm onAdminCreated={handleAdminCreated} />
-        </Col>
-      </Row>
-
+      <Tab.Container defaultActiveKey="home">
+        <Nav variant="underline" className="mb-3">
+          <Nav.Item>
+            <Nav.Link eventKey="home">Home</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="manage-restaurants">Manage Restaurants</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="manage-users">Manage Users</Nav.Link>
+          </Nav.Item>
+        </Nav>
+        <Tab.Content>
+          <Tab.Pane eventKey="home">
+            <AdminRestaurantsTable
+              restaurants={restaurants}
+              onToggleArchive={handleToggleArchive}
+            />
+          </Tab.Pane>
+          <Tab.Pane eventKey="manage-restaurants">
+            <Row>
+              <Col>
+                <AddRestaurantForm onAdd={handleAdd} />
+              </Col>
+              <Col>
+                <UpdateRestaurantForm onUpdate={handleUpdate} />
+              </Col>
+            </Row>
+          </Tab.Pane>
+          <Tab.Pane eventKey="manage-users">
+            <Row className="mt-4">
+              <Col>
+                <CreateRestaurantAdminForm onAdminCreated={handleAdminCreated} />
+              </Col>
+            </Row>
+          </Tab.Pane>
+        </Tab.Content>
+      </Tab.Container>
     </Container>
   );
 };

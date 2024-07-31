@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../UserContext";
+import { Container, Tab, Nav } from "react-bootstrap";
 import "../css/App.css";
 import CreatePersonnelForm from "../components/CreatePersonnelForm";
 import RAdminRestaurantsTable from "../components/RAdminRestaurantsTable";
@@ -14,11 +15,28 @@ const RestaurantAdminHome = () => {
   };
 
   return (
-    <div>
-      <h2>Restaurant Admin Dashboard</h2>
+    <Container>
+      <Tab.Container defaultActiveKey="home">
+        <Nav variant="underline" className="mb-3">
+          <Nav.Item>
+            <Nav.Link eventKey="home">Home</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="manage-personnel">Manage Personnel</Nav.Link>
+          </Nav.Item>
+        </Nav>
+        <Tab.Content>
+          <Tab.Pane eventKey="home">
+            
       <RAdminRestaurantsTable/>
+          </Tab.Pane>
+          <Tab.Pane eventKey="manage-personnel">
+            
       <CreatePersonnelForm onPersonnelCreated={handlePersonnelCreated} />
-    </div>
+          </Tab.Pane>
+        </Tab.Content>
+      </Tab.Container>
+    </Container>
   );
 };
 

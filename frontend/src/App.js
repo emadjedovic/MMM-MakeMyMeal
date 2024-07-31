@@ -27,7 +27,7 @@ function App() {
   // Redirect to home if user is logged in and trying to access /login
   useEffect(() => {
     if (user && location.pathname === '/login') {
-      navigate('/home');
+      navigate('/');
     }
   }, [user, location.pathname, navigate]);
 
@@ -51,10 +51,10 @@ function App() {
   };
 
   // Custom component to handle unknown routes by redirecting to the previous Home
-  const RedirectToPreviousHome = () => {
+  const RedirectToPrevious = () => {
     const navigate = useNavigate();
     useEffect(() => {
-      navigate(-1); // Go back to the previous Home
+      navigate(-1);
     }, [navigate]);
 
     return null;
@@ -65,13 +65,12 @@ function App() {
       {user && <Sidebar />}
       <div className="App-content">
         <Routes>
-          <Route path="/" element={<Navigate to={token ? '/home' : '/login'} />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
-          <Route path="/home" element={<ProtectedRoute element={renderComponentByRole()} />} />
+          <Route path="/" element={<ProtectedRoute element={renderComponentByRole()} />} />
           {/* Handle all unknown routes by redirecting to the previous Home */}
-          <Route path="*" element={<RedirectToPreviousHome />} />
+          <Route path="*" element={<RedirectToPrevious />} />
         </Routes>
       </div>
     </div>
