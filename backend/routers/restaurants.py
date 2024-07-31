@@ -22,30 +22,31 @@ from crud.restaurant import (
     crud_get_restaurants_by_type,
     crud_get_all_restaurants,
     crud_get_restaurants_within_radius,
-    crud_delete_restaurant
+    crud_delete_restaurant,
+    crud_get_restaurants_by_owner,
 )
 from schemas.user import User
 
 router = APIRouter(prefix="/restaurants")
 
+
 # admin only
 @router.delete("/{id}", response_model=Restaurant)
 def delete_restaurant(
-    id: int,
-    db: Session = Depends(get_db),
-    admin: User = Depends(get_admin_user)
+    id: int, db: Session = Depends(get_db), admin: User = Depends(get_admin_user)
 ):
     try:
         return crud_delete_restaurant(db=db, id=id)
     except HTTPException as e:
         raise e
 
+
 # admin only
 @router.post("/new", response_model=Restaurant)
 def create_restaurant(
     restaurant: RestaurantCreate,
     db: Session = Depends(get_db),
-    admin: User = Depends(get_admin_user)
+    admin: User = Depends(get_admin_user),
 ):
     return crud_create_restaurant(db=db, restaurant=restaurant)
 
@@ -103,3 +104,13 @@ def list_nearby_restaurants(
     customer: User = Depends(get_customer_user), db: Session = Depends(get_db)
 ):
     return crud_get_restaurants_within_radius(db=db, user=customer)
+
+
+# admin, restaurant admin
+@router.get("/owner/{owner_id}", response_model=List[Restaurant])
+def list_restaurants_by_owner(
+    owner_id: int,
+    db: Session = Depends(get_db),
+    admin_or_restaurant_admin: User = Depends(get_admin_or_restaurant_admin),
+):
+    return crud_get_restaurants_by_owner(db=db, owner_id=owner_id)

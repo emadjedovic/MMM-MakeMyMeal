@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { UserContext } from "../UserContext";
+import "../css/App.css";
 
 const CustomerHome = () => {
+  
+  const { token } = useContext(UserContext);
+
   return (
     <div>
       <h2>Customer Dashboard</h2>

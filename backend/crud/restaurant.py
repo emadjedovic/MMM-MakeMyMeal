@@ -106,3 +106,6 @@ def crud_get_restaurants_within_radius(db: Session, user: DBUser) -> List[DBRest
         .all()
     )
     return nearby_restaurants
+
+def crud_get_restaurants_by_owner(db: Session, owner_id: int) -> List[DBRestaurant]:
+    return db.query(DBRestaurant).filter(DBRestaurant.owner_id == owner_id).all()

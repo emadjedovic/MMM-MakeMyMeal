@@ -15,7 +15,7 @@ import RestaurantTypesList from "./RestaurantTypesList";
 const AdminRestaurantsTable = ({ restaurants, onToggleArchive }) => {
   const { token } = useContext(UserContext);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 8;
   const [filteredRestaurants, setFilteredRestaurants] = useState(restaurants);
   const [restaurantTypes, setRestaurantTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("All Types");

@@ -61,7 +61,7 @@ const AdminHome = () => {
 
   return (
     <Container>
-      <h1>ADMIN DASHBOARD</h1>
+      <h1>Admin Dashboard</h1>
 
       <AdminRestaurantsTable
         restaurants={restaurants}
