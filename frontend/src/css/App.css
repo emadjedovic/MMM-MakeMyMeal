@@ -28,7 +28,7 @@ body {
 .App-content {
   flex: 1;
   padding: 4rem; /* Adjust margin to create spacing around content */
-  padding-left: 13rem; /* Adjust to the width of the sidebar */
+  padding-left: 10rem; /* Adjust to the width of the sidebar */
 }
 
 /* Additional styles for headings and other elements */
@@ -45,7 +45,7 @@ p {
 /* Sidebar styles */
 .sidebar {
   height: 100vh;
-  width: 9rem; /* Increase width for better content fit */
+  width: 8rem; /* Increase width for better content fit */
   position: fixed;
   top: 0;
   left: 0;

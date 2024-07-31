@@ -4,8 +4,7 @@ import axios from "axios";
 import { UserContext } from "../UserContext";
 import AddRestaurantForm from "../components/AddRestaurantForm";
 import UpdateRestaurantForm from "../components/UpdateRestaurantForm";
-import AllRestaurantsTable from "../components/AllRestaurantsTable";
-import DeleteRestaurant from "../components/DeleteRestaurant";
+import AdminRestaurantsTable from "../components/AdminRestaurantsTable";
 import CreateRestaurantAdminForm from "../components/CreateRestaurantAdminForm";
 import "../css/App.css";
 
@@ -64,7 +63,7 @@ const AdminHome = () => {
     <Container>
       <h1>ADMIN DASHBOARD</h1>
 
-      <AllRestaurantsTable
+      <AdminRestaurantsTable
         restaurants={restaurants}
         onToggleArchive={handleToggleArchive}
       />

@@ -1,22 +1,31 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Button, Container, Pagination, ListGroup } from "react-bootstrap";
-import { UserContext } from '../UserContext';
+import {
+  Table,
+  Button,
+  Container,
+  Pagination,
+  Row,
+  Col,
+} from "react-bootstrap";
+import { UserContext } from "../UserContext";
 import DeleteRestaurant from "./DeleteRestaurant";
+import RestaurantTypesList from "./RestaurantTypesList";
 
-const AllRestaurantsTable = ({ restaurants, onToggleArchive }) => {
+const AdminRestaurantsTable = ({ restaurants, onToggleArchive }) => {
   const { token } = useContext(UserContext);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [filteredRestaurants, setFilteredRestaurants] = useState(restaurants);
   const [restaurantTypes, setRestaurantTypes] = useState([]);
-  const [selectedType, setSelectedType] = useState('All Types');
+  const [selectedType, setSelectedType] = useState("All Types");
 
   useEffect(() => {
     const fetchRestaurantTypes = async () => {
       try {
         // Adjust the endpoint as needed to fetch restaurant types
-        const response = await axios.get('http://localhost:8000/api/restaurants/types',
+        const response = await axios.get(
+          "http://localhost:8000/api/restaurants/types",
           {
             headers: {
               "Content-Type": "application/json",
@@ -26,7 +35,7 @@ const AllRestaurantsTable = ({ restaurants, onToggleArchive }) => {
         );
         setRestaurantTypes(response.data);
       } catch (error) {
-        console.error('Error fetching restaurant types:', error);
+        console.error("Error fetching restaurant types:", error);
       }
     };
 
@@ -35,18 +44,19 @@ const AllRestaurantsTable = ({ restaurants, onToggleArchive }) => {
 
   const fetchRestaurants = async () => {
     try {
-      const url = selectedType === 'All Types'
-        ? 'http://localhost:8000/api/restaurants/all'
-        : `http://localhost:8000/api/restaurants/types/${selectedType}`;
+      const url =
+        selectedType === "All Types"
+          ? "http://localhost:8000/api/restaurants/all"
+          : `http://localhost:8000/api/restaurants/types/${selectedType}`;
       const response = await axios.get(url, {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-        }
+        },
       });
       setFilteredRestaurants(response.data);
     } catch (error) {
-      console.error('Error fetching restaurants:', error);
+      console.error("Error fetching restaurants:", error);
     }
   };
 
@@ -61,12 +71,12 @@ const AllRestaurantsTable = ({ restaurants, onToggleArchive }) => {
         {},
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
-          }
+          },
         }
       );
-      console.log('Response:', response);
+      console.log("Response:", response);
       onToggleArchive(id);
     } catch (error) {
       console.error("There was an error archiving the restaurant!", error);
@@ -80,7 +90,10 @@ const AllRestaurantsTable = ({ restaurants, onToggleArchive }) => {
   // Pagination Controls
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
-  const currentRestaurants = filteredRestaurants.slice(indexOfFirstRestaurant, indexOfLastRestaurant);
+  const currentRestaurants = filteredRestaurants.slice(
+    indexOfFirstRestaurant,
+    indexOfLastRestaurant
+  );
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -90,9 +103,9 @@ const AllRestaurantsTable = ({ restaurants, onToggleArchive }) => {
   const paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {
     paginationItems.push(
-      <Pagination.Item 
-        key={number} 
-        active={number === currentPage} 
+      <Pagination.Item
+        key={number}
+        active={number === currentPage}
         onClick={() => handlePageChange(number)}
       >
         {number}
@@ -106,27 +119,15 @@ const AllRestaurantsTable = ({ restaurants, onToggleArchive }) => {
 
   return (
     <Container className="my-4">
-      <div className="d-flex">
-        <ListGroup className="me-3">
-          <ListGroup.Item 
-            action 
-            onClick={() => handleTypeSelect('All Types')} 
-            active={selectedType === 'All Types'}
-          >
-            All Types
-          </ListGroup.Item>
-          {restaurantTypes.map((type) => (
-            <ListGroup.Item 
-              key={type} 
-              action 
-              onClick={() => handleTypeSelect(type)} 
-              active={selectedType === type}
-            >
-              {type}
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-        <div className="flex-grow-1">
+      <Row>
+        <Col md={2}>
+          <RestaurantTypesList
+            restaurantTypes={restaurantTypes}
+            selectedType={selectedType}
+            handleTypeSelect={handleTypeSelect}
+          />
+        </Col>
+        <Col md={10}>
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -164,16 +165,16 @@ const AllRestaurantsTable = ({ restaurants, onToggleArchive }) => {
               ))}
             </tbody>
           </Table>
-          <Pagination>
-            {paginationItems}
-          </Pagination>
-        </div>
-      </div>
-      <div className="mt-4">
-      <DeleteRestaurant onDelete={handleDelete} />
-      </div>
+          <Pagination>{paginationItems}</Pagination>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <DeleteRestaurant onDelete={handleDelete} />
+        </Col>
+      </Row>
     </Container>
   );
 };
 
-export default AllRestaurantsTable;
+export default AdminRestaurantsTable;
