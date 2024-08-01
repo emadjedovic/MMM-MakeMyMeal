@@ -1,8 +1,8 @@
 // src/components/CreateRestaurantAdminForm.js
 import React, { useState, useContext } from "react";
 import { Form, Button } from "react-bootstrap";
-import axios from "axios";
 import { UserContext } from "../UserContext";
+import { createAdmin } from "../services/api";
 
 const CreateRestaurantAdminForm = ({ onAdminCreated }) => {
   const { token } = useContext(UserContext);
@@ -21,24 +21,15 @@ const CreateRestaurantAdminForm = ({ onAdminCreated }) => {
   const handleCreateAdmin = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/users/create/restaurant-admin",
-        requestData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("Restaurant admin created:", response.data);
+      const data = await createAdmin(requestData, token);
+      console.log("Restaurant added successfully: ", data);
       setEmail("");
       setFirstName("");
       setLastName("");
       setPassword("");
-      onAdminCreated(response.data);
+      onAdminCreated(data);
     } catch (error) {
-      console.error("There was an error creating the restaurant admin!", error);
+      console.error("Error adding the restaurant!", error);
     }
   };
 

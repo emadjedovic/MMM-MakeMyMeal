@@ -11,14 +11,18 @@ def create_customer():
             first_name="Customer",
             last_name="User",
             role=UserRole.CUSTOMER,
-            password="password"
+            password="password",
+            latitude=0,
+            longitude=0
         )
         hashed_password = get_password_hash(customer_user.password)
         db_user = DBUser(
             email=customer_user.email,
             first_name=customer_user.first_name,
             last_name=customer_user.last_name,
-            hashed_password=hashed_password
+            hashed_password=hashed_password,
+            latitude=customer_user.latitude,
+            longitude=customer_user.longitude
         )
         db_user.role = UserRole.CUSTOMER
         db.add(db_user)

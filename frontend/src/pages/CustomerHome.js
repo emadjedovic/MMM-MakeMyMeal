@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { UserContext } from "../UserContext";
-
 import { Container, Tab, Nav } from "react-bootstrap";
 import "../css/App.css";
 
@@ -11,14 +9,14 @@ const CustomerHome = () => {
 
   return (
     <Container>
-      <Tab.Container defaultActiveKey="home">
+      <Tab.Container defaultActiveKey="restaurants">
         <Nav variant="underline" className="mb-3">
           <Nav.Item>
-            <Nav.Link eventKey="home">Home</Nav.Link>
+            <Nav.Link eventKey="restaurants">Restaurants</Nav.Link>
           </Nav.Item>
         </Nav>
         <Tab.Content>
-          <Tab.Pane eventKey="home">
+          <Tab.Pane eventKey="restaurants">
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>

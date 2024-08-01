@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { UserContext } from "../UserContext";
-
 import { Container, Tab, Nav } from "react-bootstrap";
 import "../css/App.css";
 

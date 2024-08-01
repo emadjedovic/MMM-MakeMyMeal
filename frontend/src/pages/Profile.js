@@ -1,10 +1,10 @@
 // src/components/Profile.js
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from '../UserContext';
+import { UserContext } from "../UserContext";
 import { Alert, Button, Container, Card } from "react-bootstrap";
 import axios from "axios";
-import "../css/App.css"
+import "../css/App.css";
 
 function Profile() {
   const { token, handleLogout } = useContext(UserContext);
@@ -25,7 +25,7 @@ function Profile() {
       } catch (error) {
         console.error("Failed to fetch user profile", error);
         handleLogout();
-        navigate('/login');
+        navigate("/login");
       }
     };
 
@@ -37,16 +37,16 @@ function Profile() {
   const handleDeleteButton = async (e) => {
     e.preventDefault();
     try {
-      await axios.delete('http://localhost:8000/api/users/me/delete', {
+      await axios.delete("http://localhost:8000/api/users/me/delete", {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-        }
+        },
       });
       handleLogout();
-      navigate('/login');
+      navigate("/login");
     } catch (error) {
-      console.error('Failed to delete account', error);
+      console.error("Failed to delete account", error);
       setErrorMessage("Failed to delete account.");
     }
   };
@@ -68,14 +68,25 @@ function Profile() {
           <Card.Text>
             <strong>EMAIL:</strong> {userData.email}
           </Card.Text>
-          <Button 
-            variant="danger" 
+          {userData.latitude !== null && (
+            <Card.Text>
+              <strong>ADDRESS:</strong> ({userData.latitude.toFixed(3)},{" "}
+              {userData.longitude.toFixed(3)})
+            </Card.Text>
+          )}
+
+          <Button
+            variant="danger"
             onClick={handleDeleteButton}
             className="mt-3"
           >
             Delete Account
           </Button>
-          {errorMessage && <Alert variant="danger" className="mt-3">{errorMessage}</Alert>}
+          {errorMessage && (
+            <Alert variant="danger" className="mt-3">
+              {errorMessage}
+            </Alert>
+          )}
         </Card.Body>
       </Card>
     </div>

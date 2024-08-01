@@ -1,8 +1,8 @@
 // src/components/UpdateRestaurantForm.js
 import React, { useContext, useState } from "react";
-import axios from "axios";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { UserContext } from "../UserContext";
+import { updateRestaurant } from "../services/api";
 
 const UpdateRestaurantForm = ({ onUpdate }) => {
   const { token } = useContext(UserContext);
@@ -35,23 +35,11 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
       return;
     }
     try {
-      const response = await axios.put(
-        `http://localhost:8000/api/restaurants/update/${updateId}`,
-        requestData, // Data to be sent (RestaurantUpdate)
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("Restaurant updated successfully: ", response);
-      onUpdate(response.data);
+      const data = await updateRestaurant(updateId, requestData, token)
+      console.log("Restaurant updated successfully: ", data);
+      onUpdate(data);
     } catch (error) {
-      console.error(
-        "There was an error updating the restaurant (handleUpdateRestaurant)!",
-        error
-      );
+      console.error("There was an error updating the restaurant!", error);
     }
   };
 

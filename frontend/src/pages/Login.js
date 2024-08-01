@@ -1,11 +1,11 @@
 // src/pages/Login.js
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/Login.css'; // Import custom CSS for background styling
 import { UserContext } from '../UserContext'; // Import UserContext
+import { loginUser } from "../services/api";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,14 +14,16 @@ const Login = () => {
   const { handleLogin } = useContext(UserContext); // Use UserContext to get handleLogin
   const navigate = useNavigate();
 
+  const requestData = {
+    email: email,
+    password: password
+  }
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/api/auth/login", {
-        email: email,
-        password: password
-      });
-      handleLogin(response.data.access_token);
+      const response = await loginUser(requestData);
+      handleLogin(response.access_token);
       console.log("Successful login.");
     } catch (error) {
       console.error("Login error:", error);

@@ -1,5 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import {
   Table,
   Button,
@@ -8,89 +7,24 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import { UserContext } from "../UserContext";
-import DeleteRestaurant from "./DeleteRestaurant";
 import RestaurantTypesList from "./RestaurantTypesList";
+import DeleteRestaurant from "./DeleteRestaurant";
 
-const AdminRestaurantsTable = ({ restaurants, onToggleArchive }) => {
-  const { token } = useContext(UserContext);
-  const [currentPage, setCurrentPage] = useState(1);
+const AdminRestaurantsTable = ({
+  restaurants,
+  onToggleArchive,
+  restaurantTypes,
+  onTypeSelect,
+  selectedType,
+  onDelete,
+}) => {
   const itemsPerPage = 8;
-  const [filteredRestaurants, setFilteredRestaurants] = useState(restaurants);
-  const [restaurantTypes, setRestaurantTypes] = useState([]);
-  const [selectedType, setSelectedType] = useState("All Types");
-
-  useEffect(() => {
-    const fetchRestaurantTypes = async () => {
-      try {
-        // Adjust the endpoint as needed to fetch restaurant types
-        const response = await axios.get(
-          "http://localhost:8000/api/restaurants/types",
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setRestaurantTypes(response.data);
-      } catch (error) {
-        console.error("Error fetching restaurant types:", error);
-      }
-    };
-
-    fetchRestaurantTypes();
-  }, []);
-
-  const fetchRestaurants = async () => {
-    try {
-      const url =
-        selectedType === "All Types"
-          ? "http://localhost:8000/api/restaurants/all"
-          : `http://localhost:8000/api/restaurants/types/${selectedType}`;
-      const response = await axios.get(url, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setFilteredRestaurants(response.data);
-    } catch (error) {
-      console.error("Error fetching restaurants:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchRestaurants();
-  }, [selectedType, token]);
-
-  const handleToggleArchive = async (id) => {
-    try {
-      const response = await axios.put(
-        `http://localhost:8000/api/restaurants/${id}/toggle_archive`,
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("Response:", response);
-      onToggleArchive(id);
-    } catch (error) {
-      console.error("There was an error archiving the restaurant!", error);
-    }
-  };
-
-  const handleTypeSelect = (type) => {
-    setSelectedType(type);
-  };
+  const [currentPage, setCurrentPage] = React.useState(1);
 
   // Pagination Controls
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
-  const currentRestaurants = filteredRestaurants.slice(
+  const currentRestaurants = restaurants.slice(
     indexOfFirstRestaurant,
     indexOfLastRestaurant
   );
@@ -99,7 +33,7 @@ const AdminRestaurantsTable = ({ restaurants, onToggleArchive }) => {
     setCurrentPage(pageNumber);
   };
 
-  const totalPages = Math.ceil(filteredRestaurants.length / itemsPerPage);
+  const totalPages = Math.ceil(restaurants.length / itemsPerPage);
   const paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {
     paginationItems.push(
@@ -113,10 +47,6 @@ const AdminRestaurantsTable = ({ restaurants, onToggleArchive }) => {
     );
   }
 
-  const handleDelete = () => {
-    fetchRestaurants();
-  };
-
   return (
     <Container className="my-4">
       <Row>
@@ -124,7 +54,7 @@ const AdminRestaurantsTable = ({ restaurants, onToggleArchive }) => {
           <RestaurantTypesList
             restaurantTypes={restaurantTypes}
             selectedType={selectedType}
-            handleTypeSelect={handleTypeSelect}
+            handleTypeSelect={onTypeSelect}
           />
         </Col>
         <Col md={10}>
@@ -137,7 +67,7 @@ const AdminRestaurantsTable = ({ restaurants, onToggleArchive }) => {
                 <th>Longitude</th>
                 <th>Street Name</th>
                 <th>City</th>
-                <th>Star Rating</th>
+                <th>Rating</th>
                 <th>Type</th>
                 <th>Actions</th>
               </tr>
@@ -156,21 +86,21 @@ const AdminRestaurantsTable = ({ restaurants, onToggleArchive }) => {
                   <td>
                     <Button
                       variant={restaurant.is_archived ? "secondary" : "warning"}
-                      onClick={() => handleToggleArchive(restaurant.id)}
+                      onClick={() => onToggleArchive(restaurant.id)}
+                      style={{ margin: '0.3rem' }}
                     >
                       {restaurant.is_archived ? "Unarchive" : "Archive"}
                     </Button>
+                    <DeleteRestaurant
+                      restaurantId={restaurant.id}
+                      onDelete={onDelete}
+                    />
                   </td>
                 </tr>
               ))}
             </tbody>
           </Table>
           <Pagination>{paginationItems}</Pagination>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <DeleteRestaurant onDelete={handleDelete} />
         </Col>
       </Row>
     </Container>

@@ -1,11 +1,11 @@
 // src/pages/Register.js
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import Map from '../components/Map';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import '../css/Register.css'; // Import custom CSS for styling
 import { UserContext } from '../UserContext'; // Import UserContext
+import { registerUser } from '../services/api'; // Import the API function
 
 const RegisterPage = () => {
   const [firstName, setFirstName] = useState("");
@@ -18,18 +18,20 @@ const RegisterPage = () => {
   const { handleLogin } = useContext(UserContext); // Use UserContext to get setToken
   const navigate = useNavigate();
 
-  const handleRegisterSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:8000/api/auth/register", {
+  const requestData = {
         first_name: firstName,
         last_name: lastName,
         email: email,
         password: password,
         latitude: parseFloat(latitude),
         longitude: parseFloat(longitude)
-      });
-      handleLogin(response.data.access_token);
+      }
+
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await registerUser(requestData);
+      handleLogin(response.access_token);
       console.log("Successful registration.");
     } catch (error) {
       console.error("Registration error:", error);
@@ -52,16 +54,16 @@ const RegisterPage = () => {
       <Container fluid className="p-0 h-100">
         <Row className="h-100 m-0">
           <Col xs={8} className="d-flex flex-column justify-content-center align-items-center text-white overlay-left-side">
-          <div className="map-container">
-            <Map onLocationSelect={handleLocationSelect} />
-          </div>
-          <div className="footer-links mt-5">
-                <div>
-                  <a href="https://github.com/emadjedovic" target="_blank" rel="noopener noreferrer" className="footer-link">GitHub</a>
-                  <a href="https://www.linkedin.com/in/ema-djedovic/" target="_blank" rel="noopener noreferrer" className="footer-link">LinkedIn</a>
-                  <a href="https://medium.com/@emadjedovic" target="_blank" rel="noopener noreferrer" className="footer-link">Medium</a>
-                  &copy; 2024 MMM. All rights reserved. by Ema Djedović
-                </div>
+            <div className="map-container">
+              <Map onLocationSelect={handleLocationSelect} />
+            </div>
+            <div className="footer-links mt-5">
+              <div>
+                <a href="https://github.com/emadjedovic" target="_blank" rel="noopener noreferrer" className="footer-link">GitHub</a>
+                <a href="https://www.linkedin.com/in/ema-djedovic/" target="_blank" rel="noopener noreferrer" className="footer-link">LinkedIn</a>
+                <a href="https://medium.com/@emadjedovic" target="_blank" rel="noopener noreferrer" className="footer-link">Medium</a>
+                &copy; 2024 MMM. All rights reserved. by Ema Djedović
+              </div>
             </div>
           </Col>
           <Col xs={4} className="d-flex flex-column justify-content-center align-items-center text-white overlay-right-side">

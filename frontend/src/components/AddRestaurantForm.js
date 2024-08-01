@@ -1,6 +1,6 @@
 // src/components/AddRestaurantForm.js
 import React, { useContext, useState } from "react";
-import axios from "axios";
+import { createRestaurant } from "../services/api";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { UserContext } from '../UserContext';
 
@@ -30,20 +30,11 @@ const AddRestaurantForm = ({ onAdd }) => {
 
   const handleAddRestaurant = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/restaurants/new",
-        requestData, // RestaurantCreate
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("Restaurant added successfully: ", response);
-      onAdd(response.data);
+      const data = await createRestaurant(requestData, token);
+      console.log("Restaurant added successfully: ", data);
+      onAdd(data);
     } catch (error) {
-      console.error("There was an error adding the restaurant!", error);
+      console.error("Error adding the restaurant!", error);
     }
   };
 

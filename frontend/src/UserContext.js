@@ -15,7 +15,7 @@ const UserProvider = ({ children }) => {
   const handleLogin = (newToken) => {
     setToken(newToken);
     localStorage.setItem('access_token', newToken);
-    navigate("/home");
+    navigate("/");
   };
 
   const handleLogout = () => {
