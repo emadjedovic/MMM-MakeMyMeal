@@ -17,7 +17,7 @@ const AdminHome = () => {
   const { token } = useContext(UserContext);
   const [restaurants, setRestaurants] = useState([]);
   const [restaurantTypes, setRestaurantTypes] = useState([]);
-  const [selectedType, setSelectedType] = useState("All Types");
+  const [selectedType, setSelectedType] = useState("All");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -38,6 +38,7 @@ const AdminHome = () => {
       try {
         const types = await fetchRestaurantTypes(token);
         setRestaurantTypes(types);
+        console.log("rest types: ", restaurantTypes)
       } catch (error) {
         console.error("Error fetching restaurant types:", error);
       }
@@ -109,7 +110,9 @@ const AdminHome = () => {
             <Nav.Link eventKey="manage-users">Manage Users</Nav.Link>
           </Nav.Item>
         </Nav>
+
         <Tab.Content>
+          
           <Tab.Pane eventKey="restaurants">
             <AdminRestaurantsTable
               restaurants={restaurants}

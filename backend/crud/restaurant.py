@@ -5,6 +5,8 @@ from models.user import DBUser
 from typing import List
 from fastapi import HTTPException
 from models.user import UserRole
+from distance import calculate_distance
+
 
 def crud_create_restaurant(db: Session, restaurant: RestaurantCreate) -> DBRestaurant:
     db_owner = db.query(DBUser).filter(DBUser.id == restaurant.owner_id).first()
@@ -21,7 +23,7 @@ def crud_create_restaurant(db: Session, restaurant: RestaurantCreate) -> DBResta
         star_rating=restaurant.star_rating,
         type=restaurant.type,
         radius_of_delivery_km=restaurant.radius_of_delivery_km,
-        owner_id=restaurant.owner_id
+        owner_id=restaurant.owner_id,
     )
     db.add(db_restaurant)
     db.commit()
@@ -59,14 +61,15 @@ def crud_update_restaurant(
     db.refresh(db_restaurant)
     return db_restaurant
 
+
 def crud_delete_restaurant(db: Session, id: int) -> DBRestaurant:
     db_restaurant = db.query(DBRestaurant).filter(DBRestaurant.id == id).first()
     if not db_restaurant:
         raise HTTPException(status_code=404, detail="Restaurant not found")
-    
+
     db.delete(db_restaurant)
     db.commit()
-    
+
     return db_restaurant
 
 
@@ -96,16 +99,46 @@ def crud_get_all_restaurants(db: Session) -> List[DBRestaurant]:
 
 
 def crud_get_restaurants_within_radius(db: Session, user: DBUser) -> List[DBRestaurant]:
-    nearby_restaurants = (
-        db.query(DBRestaurant)
-        .filter(
-            (DBRestaurant.latitude - user.latitude) ** 2
-            + (DBRestaurant.longitude - user.longitude) ** 2
-            <= (DBRestaurant.radius_of_delivery_km**2)
+    user_latitude = user.latitude
+    user_longitude = user.longitude
+
+    # Query all restaurants
+    all_restaurants = db.query(DBRestaurant).all()
+
+    nearby_restaurants = []
+
+    # Iterate over the restaurants to find those within the delivery radius
+    for restaurant in all_restaurants:
+        distance = calculate_distance(
+            restaurant.latitude, restaurant.longitude, user_latitude, user_longitude
         )
-        .all()
-    )
+        if distance <= restaurant.radius_of_delivery_km:
+            nearby_restaurants.append(restaurant)
+
     return nearby_restaurants
+
+
+def crud_get_restaurants_by_type_within_radius(
+    db: Session, user: DBUser, type: RestaurantType
+) -> List[DBRestaurant]:
+    user_lat = user.latitude
+    user_long = user.longitude
+
+    all_restaurants_of_type = (
+        db.query(DBRestaurant).filter(DBRestaurant.type == type).all()
+    )
+
+    nearby_restaurants_of_type = []
+
+    for restaurant in all_restaurants_of_type:
+        distance = calculate_distance(
+            restaurant.latitude, restaurant.longitude, user_lat, user_long
+        )
+        if distance <= restaurant.radius_of_delivery_km:
+            nearby_restaurants_of_type.append(restaurant)
+
+    return nearby_restaurants_of_type
+
 
 def crud_get_restaurants_by_owner(db: Session, owner_id: int) -> List[DBRestaurant]:
     return db.query(DBRestaurant).filter(DBRestaurant.owner_id == owner_id).all()

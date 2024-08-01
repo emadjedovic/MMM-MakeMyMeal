@@ -6,10 +6,10 @@ const RestaurantTypesList = ({ restaurantTypes, selectedType, handleTypeSelect }
     <ListGroup className="me-3">
       <ListGroup.Item
         action
-        onClick={() => handleTypeSelect('All Types')}
-        active={selectedType === 'All Types'}
+        onClick={() => handleTypeSelect('All')}
+        active={selectedType === 'All'}
       >
-        All Types
+        ALL
       </ListGroup.Item>
       {restaurantTypes.map((type) => (
         <ListGroup.Item

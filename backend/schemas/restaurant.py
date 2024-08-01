@@ -36,7 +36,7 @@ class RestaurantUpdate(BaseModel):
     is_archived: Optional[bool] = None
 
 
-class RestaurantInDBBase(RestaurantBase):
+class Restaurant(RestaurantBase):
     id: int
     owner_id: int
     is_archived: bool
@@ -45,9 +45,5 @@ class RestaurantInDBBase(RestaurantBase):
         from_attributes = True
 
 
-class Restaurant(RestaurantInDBBase):
-    pass
-
-
-class RestaurantInDB(RestaurantInDBBase):
+class RestaurantInDB(Restaurant):
     pass
