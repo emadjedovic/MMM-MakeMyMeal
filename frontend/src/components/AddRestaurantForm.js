@@ -1,7 +1,7 @@
 // src/components/AddRestaurantForm.js
 import React, { useContext, useState } from "react";
 import { createRestaurant } from "../services/api";
-import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, Card, Alert } from "react-bootstrap";
 import { UserContext } from '../UserContext';
 
 const AddRestaurantForm = ({ onAdd }) => {
@@ -15,6 +15,7 @@ const AddRestaurantForm = ({ onAdd }) => {
   const [type, setType] = useState("OTHER"); // Default value handled on server
   const [radiusOfDeliveryKm, setRadiusOfDeliveryKm] = useState(0); // Default value handled on server
   const [ownerId, setOwnerId] = useState("");
+  const [message, setMessage] = useState(""); // Message state
 
   const requestData = {
     name: name,
@@ -28,13 +29,30 @@ const AddRestaurantForm = ({ onAdd }) => {
     owner_id: ownerId
   };
 
+  const clear = () => {
+    setName("");
+    setLatitude("");
+    setLongitude("");
+    setStreetName("");
+    setCity("");
+    setStarRating(0);
+    setType("OTHER");
+    setRadiusOfDeliveryKm(0);
+    setOwnerId("");
+  };
+
+
   const handleAddRestaurant = async () => {
     try {
       const data = await createRestaurant(requestData, token);
       console.log("Restaurant added successfully: ", data);
+      setMessage("Restaurant added successfully!");
       onAdd(data);
+      clear(); // Clear the form after successful addition
     } catch (error) {
       console.error("Error adding the restaurant!", error);
+      setMessage("Error adding the restaurant.");
+      clear()
     }
   };
 
@@ -174,6 +192,11 @@ const AddRestaurantForm = ({ onAdd }) => {
           </Form>
         </Card.Body>
       </Card>
+      {message && (
+            <Alert variant={message.includes("Error") ? "danger" : "success"} className="mt-3">
+              {message}
+            </Alert>
+          )}
     </Container>
   );
 };

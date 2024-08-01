@@ -27,6 +27,16 @@ const RegisterPage = () => {
         longitude: parseFloat(longitude)
       }
 
+  const clear = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setFirstName("");
+    setPassword("");
+    setLatitude("");
+    setLongitude("");
+  }
+
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -36,6 +46,7 @@ const RegisterPage = () => {
     } catch (error) {
       console.error("Registration error:", error);
       setErrorMessage("Registration failed. Please try again.");
+      clear();
     }
   };
 

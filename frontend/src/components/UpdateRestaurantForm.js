@@ -1,6 +1,6 @@
 // src/components/UpdateRestaurantForm.js
 import React, { useContext, useState } from "react";
-import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, Card, Alert } from "react-bootstrap";
 import { UserContext } from "../UserContext";
 import { updateRestaurant } from "../services/api";
 
@@ -16,6 +16,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
   const [type, setType] = useState("");
   const [radiusOfDeliveryKm, setRadiusOfDeliveryKm] = useState("");
   const [isArchived, setIsArchived] = useState(false);
+  const [message, setMessage] = useState(""); // New state for message
 
   const requestData = {
     name: name || undefined,
@@ -29,6 +30,19 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
     is_archived: isArchived,
   };
 
+  const clear = () => {
+    setUpdateId(0);
+    setName("");
+    setLatitude("");
+    setLongitude("");
+    setStreetName("");
+    setCity("");
+    setStarRating("");
+    setType("");
+    setRadiusOfDeliveryKm("");
+    setIsArchived(false);
+  };
+
   const handleUpdateRestaurant = async () => {
     if (updateId < 0) {
       alert("Restaurant ID cannot be less than 0.");
@@ -37,9 +51,13 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
     try {
       const data = await updateRestaurant(updateId, requestData, token)
       console.log("Restaurant updated successfully: ", data);
+      setMessage("Restaurant updated successfully!");
+      clear();
       onUpdate(data);
     } catch (error) {
       console.error("There was an error updating the restaurant!", error);
+      setMessage("There was an error updating the restaurant.");
+      clear();
     }
   };
 
@@ -195,8 +213,10 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
               Update Restaurant
             </Button>
           </Form>
-        </Card.Body>
+          </Card.Body>
       </Card>
+      
+      {message && <Alert variant={message.includes("error") ? "danger" : "success"} className="mt-3">{message}</Alert>}
     </Container>
   );
 };
