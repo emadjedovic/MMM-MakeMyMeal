@@ -74,7 +74,7 @@ const CustomerRestaurantsTable = ({
                 >
                   <Card.Img
                     variant="top"
-                    src={`http://localhost:8000/${restaurant.imageUrl}`}
+                    src={`http://localhost:8000/images/${restaurant.imageUrl}`}
                     alt={restaurant.name}
                     style={{ height: "150px", objectFit: "cover" }}
                   />

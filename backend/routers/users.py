@@ -33,7 +33,7 @@ def delete_current_user(
     return crud_delete_user(db=db, id=current_user.id)
 
 
-# admin only
+# admin
 @router.post("/create/restaurant-admin", response_model=User)
 async def create_restaurant_admin_user(
     user: UserCreate,
@@ -43,7 +43,7 @@ async def create_restaurant_admin_user(
     return crud_create_restaurant_admin(db=db, user=user)
 
 
-# admin, restaurant admins
+# admin, restaurant admin
 @router.post("/create/delivery-personnel", response_model=User)
 async def create_delivery_personnel_user(
     user: UserCreate,

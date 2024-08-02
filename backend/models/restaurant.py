@@ -11,6 +11,7 @@ from sqlalchemy import (
 from sqlalchemy.orm import relationship
 from database import Base
 
+
 class DBRestaurant(Base):
     __tablename__ = "restaurants"
 
@@ -25,7 +26,9 @@ class DBRestaurant(Base):
     radius_of_delivery_km = Column(Float, nullable=True, default=0)
     is_archived = Column(Boolean, nullable=True, default=False)
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    imageUrl = Column(String, nullable=False, default="assets/restaurant-images/restDefault.png")
+    imageUrl = Column(String, nullable=False, default="restDefault.png")
 
-    type = relationship("RestaurantType", primaryjoin="RestaurantType.name == DBRestaurant.type_name")
+    type = relationship(
+        "RestaurantType", primaryjoin="RestaurantType.name == DBRestaurant.type_name"
+    )
     owner = relationship("DBUser", back_populates="restaurants")

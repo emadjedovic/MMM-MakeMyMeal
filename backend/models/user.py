@@ -37,5 +37,3 @@ class DBUser(Base):
     longitude = Column(Float, nullable=True)
 
     restaurants = relationship("DBRestaurant", back_populates="owner")
-    # Relationships
-    # Example: orders = relationship("Order", back_populates="user")

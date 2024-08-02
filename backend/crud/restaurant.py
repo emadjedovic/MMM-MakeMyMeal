@@ -7,8 +7,10 @@ from fastapi import HTTPException
 from models.user import UserRole
 from distance import calculate_distance
 
+
 def crud_get_restaurant_by_id(db: Session, id: int) -> DBRestaurant:
     return db.query(DBRestaurant).filter(DBRestaurant.id == id).first()
+
 
 def crud_create_restaurant(db: Session, restaurant: RestaurantCreate) -> DBRestaurant:
     db_owner = db.query(DBUser).filter(DBUser.id == restaurant.owner_id).first()
@@ -84,15 +86,11 @@ def crud_toggle_archive_restaurant(db: Session, id: int) -> DBRestaurant:
     db.refresh(db_restaurant)
     return db_restaurant
 
-'''
-def crud_get_restaurant_types() -> List[str]:
-    return [key.value for key in RestaurantType]'''
 
-
-def crud_get_restaurants_by_type(
-    db: Session, type: str
-) -> List[DBRestaurant]:
-    restaurants_of_type = db.query(DBRestaurant).filter(DBRestaurant.type_name == type).all()
+def crud_get_restaurants_by_type(db: Session, type: str) -> List[DBRestaurant]:
+    restaurants_of_type = (
+        db.query(DBRestaurant).filter(DBRestaurant.type_name == type).all()
+    )
     return restaurants_of_type
 
 
@@ -104,12 +102,10 @@ def crud_get_restaurants_within_radius(db: Session, user: DBUser) -> List[DBRest
     user_latitude = user.latitude
     user_longitude = user.longitude
 
-    # Query all restaurants
     all_restaurants = db.query(DBRestaurant).all()
 
     nearby_restaurants = []
 
-    # Iterate over the restaurants to find those within the delivery radius
     for restaurant in all_restaurants:
         distance = calculate_distance(
             restaurant.latitude, restaurant.longitude, user_latitude, user_longitude

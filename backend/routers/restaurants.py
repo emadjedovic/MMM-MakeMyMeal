@@ -12,7 +12,7 @@ from schemas.restaurant import (
     RestaurantCreate,
     RestaurantUpdate,
     Restaurant,
-    #RestaurantType,
+    # RestaurantType,
 )
 from crud.restaurant import (
     crud_create_restaurant,
@@ -24,11 +24,12 @@ from crud.restaurant import (
     crud_delete_restaurant,
     crud_get_restaurants_by_owner,
     crud_get_restaurants_by_type_within_radius,
-    crud_get_restaurant_by_id
+    crud_get_restaurant_by_id,
 )
 from schemas.user import User
 
 router = APIRouter(prefix="/restaurants")
+
 
 # admin
 @router.delete("/{id}", response_model=Restaurant)
@@ -40,20 +41,19 @@ def delete_restaurant(
     except HTTPException as e:
         raise e
 
+
 # all users
 @router.get("/crazy_route/{id}", response_model=Restaurant)
-def get_restaurant_by_id(
-    id: int,
-    db: Session = Depends(get_db)
-):
+def get_restaurant_by_id(id: int, db: Session = Depends(get_db)):
     return crud_get_restaurant_by_id(id=id, db=db)
+
 
 # admin
 @router.post("/new", response_model=Restaurant)
 def create_restaurant(
     restaurant: RestaurantCreate,
     db: Session = Depends(get_db),
-    #admin: User = Depends(get_admin_user),
+    # admin: User = Depends(get_admin_user),
 ):
     return crud_create_restaurant(db=db, restaurant=restaurant)
 
@@ -65,42 +65,47 @@ def toggle_archive_restaurant(
 ):
     return crud_toggle_archive_restaurant(db=db, id=id)
 
+
 # admin
 @router.get("/all", response_model=List[Restaurant])
 def list_all_restaurants(
     db: Session = Depends(get_db),
-    #admin: User = Depends(get_admin_user),
+    # admin: User = Depends(get_admin_user),
 ):
     return crud_get_all_restaurants(db=db)
 
+
+# admin
 @router.get("/all/{type}", response_model=List[Restaurant])
 def list_restaurants_by_type(
     type: str,
     db: Session = Depends(get_db),
-    #admin: User = Depends(get_admin_or_restaurant_admin),
+    admin: User = Depends(get_admin_user),
 ):
     return crud_get_restaurants_by_type(db=db, type=type)
 
-# admin and restaurant admins
+
+# admin and restaurant admin
 @router.put("/update/{id}", response_model=Restaurant)
 def update_restaurant(
     id: int,
     restaurant: RestaurantUpdate,
     db: Session = Depends(get_db),
-    #admin_or_restaurant_admin: User = Depends(get_admin_or_restaurant_admin),
+    # admin_or_restaurant_admin: User = Depends(get_admin_or_restaurant_admin),
 ):
     return crud_update_restaurant(db=db, id=id, restaurant=restaurant)
 
 
-# customers
+# customer
 @router.get("/nearby", response_model=List[Restaurant])
 def nearby_restaurants(
-    db: Session = Depends(get_db), 
-    customer: User = Depends(get_customer_user), 
+    db: Session = Depends(get_db),
+    customer: User = Depends(get_customer_user),
 ):
     return crud_get_restaurants_within_radius(db=db, user=customer)
 
-# customers
+
+# customer
 @router.get("/nearby/{type}", response_model=List[Restaurant])
 def nearby_restaurants_by_type(
     type: str,
@@ -108,6 +113,7 @@ def nearby_restaurants_by_type(
     customer: User = Depends(get_customer_user),
 ):
     return crud_get_restaurants_by_type_within_radius(db=db, user=customer, type=type)
+
 
 # admin, restaurant admin
 @router.get("/owner/{owner_id}", response_model=List[Restaurant])

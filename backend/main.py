@@ -36,7 +36,8 @@ def startup_event():
 
 
 app.add_event_handler("startup", startup_event)
-app.mount("/assets", StaticFiles(directory="assets"), name="assets")
+
+app.mount("/images", StaticFiles(directory="assets/restaurant-images"), name="images")
 
 
 @app.get("/", tags=["Default"])
