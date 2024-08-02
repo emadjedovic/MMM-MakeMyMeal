@@ -1,13 +1,17 @@
-import React from 'react';
-import { ListGroup } from 'react-bootstrap';
+import React from "react";
+import { ListGroup } from "react-bootstrap";
 
-const RestaurantTypesList = ({ restaurantTypes, selectedType, handleTypeSelect }) => {
+const RestaurantTypesList = ({
+  restaurantTypes,
+  selectedType,
+  handleTypeSelect,
+}) => {
   return (
     <ListGroup className="me-3">
       <ListGroup.Item
         action
-        onClick={() => handleTypeSelect('All')}
-        active={selectedType === 'All'}
+        onClick={() => handleTypeSelect("All")}
+        active={selectedType === "All"}
       >
         ALL
       </ListGroup.Item>

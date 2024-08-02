@@ -1,11 +1,11 @@
 // src/pages/Register.js
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import Map from '../components/Map';
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
-import '../css/RegisterPage.css'; // Import custom CSS for styling
-import { UserContext } from '../UserContext'; // Import UserContext
-import { registerUser } from '../services/api'; // Import the API function
+import Map from "../components/Map";
+import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import "../css/RegisterPage.css";
+import { UserContext } from "../UserContext";
+import { registerUser } from "../services/api";
 
 const RegisterPage = () => {
   const [firstName, setFirstName] = useState("");
@@ -15,17 +15,17 @@ const RegisterPage = () => {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const { handleLogin } = useContext(UserContext); // Use UserContext to get setToken
+  const { handleLogin } = useContext(UserContext);
   const navigate = useNavigate();
 
   const requestData = {
-        first_name: firstName,
-        last_name: lastName,
-        email: email,
-        password: password,
-        latitude: parseFloat(latitude),
-        longitude: parseFloat(longitude)
-      }
+    first_name: firstName,
+    last_name: lastName,
+    email: email,
+    password: password,
+    latitude: parseFloat(latitude),
+    longitude: parseFloat(longitude),
+  };
 
   const clear = () => {
     setFirstName("");
@@ -35,7 +35,7 @@ const RegisterPage = () => {
     setPassword("");
     setLatitude("");
     setLongitude("");
-  }
+  };
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
@@ -57,27 +57,54 @@ const RegisterPage = () => {
   const handleLocationSelect = (latlng) => {
     setLatitude(latlng.lat);
     setLongitude(latlng.lng);
-    console.log('Selected Location:', latlng);
+    console.log("Selected Location:", latlng);
   };
 
   return (
     <div className="background-wrapper">
       <Container fluid className="p-0 h-100">
         <Row className="h-100 m-0">
-          <Col xs={8} className="d-flex flex-column justify-content-center align-items-center text-white overlay-left-side">
+          <Col
+            xs={8}
+            className="d-flex flex-column justify-content-center align-items-center text-white overlay-left-side"
+          >
             <div className="map-container">
               <Map onLocationSelect={handleLocationSelect} />
             </div>
             <div className="footer-links mt-5">
               <div>
-                <a href="https://github.com/emadjedovic" target="_blank" rel="noopener noreferrer" className="footer-link">GitHub</a>
-                <a href="https://www.linkedin.com/in/ema-djedovic/" target="_blank" rel="noopener noreferrer" className="footer-link">LinkedIn</a>
-                <a href="https://medium.com/@emadjedovic" target="_blank" rel="noopener noreferrer" className="footer-link">Medium</a>
+                <a
+                  href="https://github.com/emadjedovic"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-link"
+                >
+                  GitHub
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/ema-djedovic/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-link"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href="https://medium.com/@emadjedovic"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-link"
+                >
+                  Medium
+                </a>
                 &copy; 2024 MMM. All rights reserved. by Ema Djedović
               </div>
             </div>
           </Col>
-          <Col xs={4} className="d-flex flex-column justify-content-center align-items-center text-white overlay-right-side">
+          <Col
+            xs={4}
+            className="d-flex flex-column justify-content-center align-items-center text-white overlay-right-side"
+          >
             <h1 className="mb-5">REGISTER</h1>
             <Form onSubmit={handleRegisterSubmit} className="w-75">
               <Form.Group controlId="formFirstName" className="mb-3">
@@ -137,7 +164,11 @@ const RegisterPage = () => {
               </Button>
               {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
               <p>Already have an account?</p>
-              <Button variant="link" onClick={handleLoginRedirect} className="text-white">
+              <Button
+                variant="link"
+                onClick={handleLoginRedirect}
+                className="text-white"
+              >
                 Login
               </Button>
             </Form>

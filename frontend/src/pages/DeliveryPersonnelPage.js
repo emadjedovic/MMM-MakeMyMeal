@@ -4,7 +4,6 @@ import { Container, Tab, Nav } from "react-bootstrap";
 import "../css/App.css";
 
 const DeliveryPersonnelPage = () => {
-  
   const { token } = useContext(UserContext);
 
   return (
@@ -16,8 +15,7 @@ const DeliveryPersonnelPage = () => {
           </Nav.Item>
         </Nav>
         <Tab.Content>
-          <Tab.Pane eventKey="home">
-          </Tab.Pane>
+          <Tab.Pane eventKey="home"></Tab.Pane>
         </Tab.Content>
       </Tab.Container>
     </Container>

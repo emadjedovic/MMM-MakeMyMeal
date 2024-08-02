@@ -6,24 +6,10 @@ from sqlalchemy import (
     Integer,
     Float,
     ForeignKey,
-    Enum as sqlEnum,
     Boolean,
 )
 from sqlalchemy.orm import relationship
 from database import Base
-import enum
-
-'''
-class RestaurantType(enum.Enum):
-    TRADITIONAL = "TRADITIONAL"
-    FAST_FOOD = "FAST FOOD"
-    PIZZERIA = "PIZZERIA"
-    CASUAL_DINING = "CASUAL"
-    FINE_DINING = "FINE DINING"
-    BAKERY = "BAKERY"
-    CAFE = "CAFE"
-    PUB = "PUB"
-    OTHER = "OTHER"'''
 
 class DBRestaurant(Base):
     __tablename__ = "restaurants"
@@ -39,7 +25,7 @@ class DBRestaurant(Base):
     radius_of_delivery_km = Column(Float, nullable=True, default=0)
     is_archived = Column(Boolean, nullable=True, default=False)
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    # imageUrl
+    imageUrl = Column(String, nullable=False, default="assets/restaurant-images/restDefault.png")
 
-    type = relationship("RestaurantType", primaryjoin="RestaurantType.name == DBRestaurant.type_name")  # Define relationship to RestaurantType
+    type = relationship("RestaurantType", primaryjoin="RestaurantType.name == DBRestaurant.type_name")
     owner = relationship("DBUser", back_populates="restaurants")

@@ -1,12 +1,13 @@
 # main.py
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from routers import auth, users, restaurants, restaurant_type
 from database import engine, Base
 # from routers import menu_items, menus, orders
 
-from create_users import create_admin, create_customer, create_delivery_personnel, create_restaurant_admin
+# from create_users import create_admin, create_customer, create_delivery_personnel, create_restaurant_admin
 
 
 def create_application():
@@ -25,7 +26,7 @@ app = create_application()
 
 
 def startup_event():
-    Base.metadata.create_all(bind=engine)  # create tables
+    Base.metadata.create_all(bind=engine)
     """
     create_admin()
     create_customer()
@@ -35,6 +36,7 @@ def startup_event():
 
 
 app.add_event_handler("startup", startup_event)
+app.mount("/assets", StaticFiles(directory="assets"), name="assets")
 
 
 @app.get("/", tags=["Default"])
@@ -51,4 +53,3 @@ app.include_router(menu_items.router, prefix="/api", tags=["menu items"])
 app.include_router(menus.router, prefix="/api", tags=["menus"])
 app.include_router(orders.router, prefix="/api", tags=["orders"])
 """
-

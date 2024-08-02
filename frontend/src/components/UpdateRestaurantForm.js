@@ -1,6 +1,14 @@
 // src/components/UpdateRestaurantForm.js
 import React, { useContext, useState, useEffect } from "react";
-import { Form, Button, Container, Row, Col, Card, Alert } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Container,
+  Row,
+  Col,
+  Card,
+  Alert,
+} from "react-bootstrap";
 import { UserContext } from "../UserContext";
 import { updateRestaurant, fetchRestaurantTypes } from "../services/api";
 
@@ -16,8 +24,8 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
   const [type, setType] = useState("");
   const [radiusOfDeliveryKm, setRadiusOfDeliveryKm] = useState("");
   const [isArchived, setIsArchived] = useState(false);
-  const [message, setMessage] = useState(""); // New state for message
-  const [restaurantTypes, setRestaurantTypes] = useState([]); // State to store restaurant types
+  const [message, setMessage] = useState("");
+  const [restaurantTypes, setRestaurantTypes] = useState([]);
 
   useEffect(() => {
     const fetchTypes = async () => {
@@ -76,7 +84,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
   };
 
   const handleClearStarRating = () => {
-    setStarRating(""); // Clear the selected star rating
+    setStarRating("");
   };
 
   return (
@@ -186,7 +194,9 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
               >
                 <option value="">Select a type</option>
                 {restaurantTypes.map((rt) => (
-                  <option key={rt.id} value={rt.name}>{rt.name}</option>
+                  <option key={rt.id} value={rt.name}>
+                    {rt.name}
+                  </option>
                 ))}
               </Form.Control>
             </Form.Group>
@@ -224,7 +234,10 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
         </Card.Body>
       </Card>
       {message && (
-        <Alert variant={message.includes("error") ? "danger" : "success"} className="mt-3">
+        <Alert
+          variant={message.includes("error") ? "danger" : "success"}
+          className="mt-3"
+        >
           {message}
         </Alert>
       )}

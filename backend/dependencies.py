@@ -20,10 +20,11 @@ def get_db():
 
 async def get_current_user(request: Request, db: Session = Depends(get_db)):
     import logging
+
     logger = logging.getLogger(__name__)
-    
+
     logger.info("Request received")
-    
+
     token = extract_token(request)
     logger.info(f"Token received: {token}")
 
@@ -64,7 +65,7 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)):
     if user.disabled:
         logger.error(f"User with email {email} is inactive")
         raise HTTPException(status_code=400, detail="Inactive user")
-    
+
     logger.info(f"User with email {email} successfully validated")
     return user
 
@@ -105,11 +106,16 @@ def get_delivery_personnel_user(current_user: User = Depends(get_current_user)):
 
 def get_admin_or_restaurant_admin(current_user: User = Depends(get_current_user)):
     if current_user.role not in [UserRole.ADMIN, UserRole.RESTAURANT_ADMIN]:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Neither admin nor restaurant admin.")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Neither admin nor restaurant admin.",
+        )
     return current_user
 
 
 def get_admin_or_customer(current_user: User = Depends(get_current_user)):
     if current_user.role not in [UserRole.ADMIN, UserRole.CUSTOMER]:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Neither admin nor customer")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Neither admin nor customer"
+        )
     return current_user

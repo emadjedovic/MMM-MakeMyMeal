@@ -2,10 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
 import { Container, Tab, Nav } from "react-bootstrap";
 import "../css/App.css";
-import {
-  fetchNearbyRestaurants,
-  fetchRestaurantTypes
-} from "../services/api";
+import { fetchNearbyRestaurants, fetchRestaurantTypes } from "../services/api";
 import CustomerRestaurantsTable from "../components/CustomerRestaurantsTable";
 
 const CustomerPage = () => {
@@ -17,7 +14,10 @@ const CustomerPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedNearbyRestaurants = await fetchNearbyRestaurants(selectedType, token);
+        const fetchedNearbyRestaurants = await fetchNearbyRestaurants(
+          selectedType,
+          token
+        );
         setNearbyRestaurants(fetchedNearbyRestaurants);
       } catch (error) {
         console.error("Error fetching nearby restaurants:", error);
@@ -43,33 +43,26 @@ const CustomerPage = () => {
   const handleTypeSelect = (type) => {
     setSelectedType(type);
   };
-  
 
   return (
     <Container>
       <Tab.Container defaultActiveKey="nearby-restaurants">
-
         <Nav variant="underline" className="mb-3">
-
           <Nav.Item>
             <Nav.Link eventKey="nearby-restaurants">Restaurants</Nav.Link>
           </Nav.Item>
-
         </Nav>
 
         <Tab.Content>
-
           <Tab.Pane eventKey="nearby-restaurants">
-          <CustomerRestaurantsTable
+            <CustomerRestaurantsTable
               nearbyRestaurants={nearbyRestaurants}
               restaurantTypes={restaurantTypes}
               onTypeSelect={handleTypeSelect}
               selectedType={selectedType}
             />
           </Tab.Pane>
-
         </Tab.Content>
-
       </Tab.Container>
     </Container>
   );

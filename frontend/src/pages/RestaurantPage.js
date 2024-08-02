@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Button, Container, Col, Row } from 'react-bootstrap';
-import RestaurantCard from '../components/RestaurantCard';
-import { fetchRestaurantById } from '../services/api'; 
+import React, { useEffect, useState, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Button, Container, Col, Row } from "react-bootstrap";
+import RestaurantCard from "../components/RestaurantCard";
+import { fetchRestaurantById } from "../services/api";
 
 const RestaurantPage = () => {
   const { id } = useParams();
@@ -11,9 +11,9 @@ const RestaurantPage = () => {
 
   useEffect(() => {
     const getRestaurant = async () => {
-      console.log("sending id: ", id)
+      console.log("sending id: ", id);
       const data = await fetchRestaurantById(id);
-      console.log("fetched data: ", data)
+      console.log("fetched data: ", data);
       setRestaurant(data);
     };
     getRestaurant();
@@ -29,13 +29,15 @@ const RestaurantPage = () => {
 
   return (
     <Container>
-      <Button onClick={handleBackClick} variant="outline-dark" className="mb-3">Go Back</Button>
+      <Button onClick={handleBackClick} variant="outline-dark" className="mb-3">
+        Go Back
+      </Button>
       <Row>
         <Col md={8} lg={9}>
-        <p>Foodtypes, menu, etc.</p>
+          <p>Foodtypes, menu, etc.</p>
         </Col>
         <Col>
-      <RestaurantCard restaurant={restaurant} />
+          <RestaurantCard restaurant={restaurant} />
         </Col>
       </Row>
     </Container>

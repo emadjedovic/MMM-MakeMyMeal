@@ -4,7 +4,11 @@ import { Container, Tab, Nav, Pagination } from "react-bootstrap";
 import "../css/App.css";
 import CreatePersonnelForm from "../components/CreatePersonnelForm";
 import RAdminRestaurantsTable from "../components/RAdminRestaurantsTable";
-import { fetchRestaurantsByOwner, updateRestaurant, fetchRestaurantTypes } from "../services/api";
+import {
+  fetchRestaurantsByOwner,
+  updateRestaurant,
+  fetchRestaurantTypes,
+} from "../services/api";
 
 const RestaurantAdminPage = () => {
   const { token, user } = useContext(UserContext);

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import RestaurantTypesList from "./RestaurantTypesList";
 import { UserContext } from "../UserContext";
 import { calculateDistance } from "../services/distance.js";
-import DEFAULT_IMAGE_URL from "../assets/restaurant-default.png";
 import "../css/App.css";
 
 const CustomerRestaurantsTable = ({
@@ -72,11 +71,10 @@ const CustomerRestaurantsTable = ({
                 <Card
                   onClick={() => handleRestaurantSelect(restaurant.id)}
                   className="hover-card"
-                  
                 >
                   <Card.Img
                     variant="top"
-                    src={restaurant.imageUrl || DEFAULT_IMAGE_URL}
+                    src={`http://localhost:8000/${restaurant.imageUrl}`}
                     alt={restaurant.name}
                     style={{ height: "150px", objectFit: "cover" }}
                   />
@@ -92,7 +90,7 @@ const CustomerRestaurantsTable = ({
                       {restaurant.star_rating}/5
                     </div>
                     <Card.Text></Card.Text>
-                    <Card.Text style={{ margin: '5px 0' }}>
+                    <Card.Text style={{ margin: "5px 0" }}>
                       <i>
                         {restaurant.street_name} ({restaurant.city})
                       </i>

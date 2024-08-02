@@ -7,14 +7,12 @@ from models.user import UserRole
 from schemas.restaurant import Restaurant
 
 
-# common fields shared among the other schemas
 class UserBase(BaseModel):
     email: EmailStr
     first_name: str
     last_name: str
 
 
-# adds the password field for creating new users
 class UserCreate(UserBase):
     password: str
     latitude: Optional[float] = None
@@ -24,6 +22,7 @@ class UserCreate(UserBase):
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
+
 
 class User(UserBase):
     id: int
@@ -36,11 +35,10 @@ class User(UserBase):
     class Config:
         from_attributes = True
 
-# for internal use
+
 class UserInDB(User):
     hashed_password: str
 
 
-# Extended response schema with related restaurants for RESTAURANT_ADMIN
 class UserWithRestaurants(UserInDB):
     restaurants: List[Restaurant] = []

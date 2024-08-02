@@ -24,14 +24,14 @@ const CreateRestaurantAdminForm = ({ onAdminCreated }) => {
     setFirstName("");
     setLastName("");
     setPassword("");
-  }
+  };
 
   const handleCreateAdmin = async (event) => {
     event.preventDefault();
     try {
       const data = await createAdmin(requestData, token);
       console.log("Restaurant added successfully: ", data);
-      
+
       setMessage("User successfully created!");
       clear();
       onAdminCreated(data);

@@ -21,7 +21,6 @@ const AdminRestaurantsTable = ({
   const itemsPerPage = 8;
   const [currentPage, setCurrentPage] = React.useState(1);
 
-  // Pagination Controls
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
   const currentRestaurants = restaurants.slice(
@@ -87,7 +86,7 @@ const AdminRestaurantsTable = ({
                     <Button
                       variant={restaurant.is_archived ? "secondary" : "warning"}
                       onClick={() => onToggleArchive(restaurant.id)}
-                      style={{ margin: '0.3rem' }}
+                      style={{ margin: "0.3rem" }}
                     >
                       {restaurant.is_archived ? "Unarchive" : "Archive"}
                     </Button>

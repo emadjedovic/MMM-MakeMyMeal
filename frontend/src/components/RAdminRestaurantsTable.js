@@ -10,7 +10,7 @@ const RAdminRestaurantsTable = ({
   handleSave,
   paginationItems,
   handlePageChange,
-  restaurantTypes
+  restaurantTypes,
 }) => {
   return (
     <Container className="my-4">
@@ -133,7 +133,9 @@ const RAdminRestaurantsTable = ({
               </td>
               <td>
                 {editId === restaurant.id ? (
-                  <Button onClick={() => handleSave(restaurant.id)}>Save</Button>
+                  <Button onClick={() => handleSave(restaurant.id)}>
+                    Save
+                  </Button>
                 ) : (
                   <Button
                     variant="primary"

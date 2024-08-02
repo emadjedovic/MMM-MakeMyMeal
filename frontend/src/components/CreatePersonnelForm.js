@@ -123,9 +123,8 @@ const CreatePersonnelForm = ({ onPersonnelCreated }) => {
           </Card.Body>
         </Card>
       </Col>
-      
+
       <Col></Col>
-      
     </Row>
   );
 };

@@ -14,7 +14,7 @@ const DeleteRestaurant = ({ restaurantId, onDelete }) => {
       <Button
         variant="danger"
         onClick={() => setShowConfirm(true)}
-        style={{ margin: '0.3rem' }}
+        style={{ margin: "0.3rem" }}
       >
         Delete
       </Button>
@@ -30,10 +30,7 @@ const DeleteRestaurant = ({ restaurantId, onDelete }) => {
           <Button variant="secondary" onClick={() => setShowConfirm(false)}>
             Cancel
           </Button>
-          <Button
-            variant="danger"
-            onClick={handleConfirmDelete}
-          >
+          <Button variant="danger" onClick={handleConfirmDelete}>
             Confirm
           </Button>
         </Modal.Footer>

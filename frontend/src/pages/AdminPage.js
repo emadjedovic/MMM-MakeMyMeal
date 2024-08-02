@@ -38,7 +38,7 @@ const AdminPage = () => {
       try {
         const types = await fetchRestaurantTypes(token);
         setRestaurantTypes(types);
-        console.log("rest types: ", restaurantTypes)
+        console.log("rest types: ", restaurantTypes);
       } catch (error) {
         console.error("Error fetching restaurant types:", error);
       }
@@ -83,7 +83,7 @@ const AdminPage = () => {
   };
 
   const handleDelete = async (id) => {
-    setError(""); // Clear previous error
+    setError("");
 
     try {
       await deleteRestaurant(id, token);
@@ -112,7 +112,6 @@ const AdminPage = () => {
         </Nav>
 
         <Tab.Content>
-          
           <Tab.Pane eventKey="restaurants">
             <AdminRestaurantsTable
               restaurants={restaurants}
@@ -145,7 +144,11 @@ const AdminPage = () => {
         </Tab.Content>
       </Tab.Container>
 
-      {error && <Alert variant="danger" className="mt-3">{error}</Alert>}
+      {error && (
+        <Alert variant="danger" className="mt-3">
+          {error}
+        </Alert>
+      )}
     </Container>
   );
 };

@@ -1,34 +1,33 @@
 // src/App.js
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from "react";
 import {
   Routes,
   Route,
   Navigate,
   useLocation,
   useNavigate,
-} from 'react-router-dom';
-import { UserContext } from './UserContext';
-import Sidebar from './components/Sidebar';
-import ProfilePage from './pages/ProfilePage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import AdminPage from './pages/AdminPage';
-import RestaurantAdminPage from './pages/RestaurantAdminPage';
-import CustomerPage from './pages/CustomerPage';
-import DeliveryPersonnelPage from './pages/DeliveryPersonnelPage';
+} from "react-router-dom";
+import { UserContext } from "./UserContext";
+import Sidebar from "./components/Sidebar";
+import ProfilePage from "./pages/ProfilePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import AdminPage from "./pages/AdminPage";
+import RestaurantAdminPage from "./pages/RestaurantAdminPage";
+import CustomerPage from "./pages/CustomerPage";
+import DeliveryPersonnelPage from "./pages/DeliveryPersonnelPage";
 
-import './css/App.css'; // Import the consolidated CSS file
-import RestaurantPage from './pages/RestaurantPage';
+import "./css/App.css";
+import RestaurantPage from "./pages/RestaurantPage";
 
 function App() {
   const { token, user, userRole } = useContext(UserContext);
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Redirect to home if user is logged in and trying to access /login
   useEffect(() => {
-    if (user && location.pathname === '/login') {
-      navigate('/');
+    if (user && location.pathname === "/login") {
+      navigate("/");
     }
   }, [user, location.pathname, navigate]);
 
@@ -38,20 +37,19 @@ function App() {
 
   const renderComponentByRole = () => {
     switch (userRole) {
-      case 'ADMIN':
+      case "ADMIN":
         return <AdminPage />;
-      case 'RESTAURANT ADMIN':
+      case "RESTAURANT ADMIN":
         return <RestaurantAdminPage />;
-      case 'CUSTOMER':
+      case "CUSTOMER":
         return <CustomerPage />;
-      case 'DELIVERY PERSONNEL':
+      case "DELIVERY PERSONNEL":
         return <DeliveryPersonnelPage />;
       default:
         return <LoginPage />;
     }
   };
 
-  // Custom component to handle unknown routes by redirecting to the previous Home
   const RedirectToPrevious = () => {
     const navigate = useNavigate();
     useEffect(() => {
@@ -68,9 +66,14 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} />
-          <Route path="/" element={<ProtectedRoute element={renderComponentByRole()} />} />
-          {/* Handle all unknown routes by redirecting to the previous Home */}
+          <Route
+            path="/profile"
+            element={<ProtectedRoute element={<ProfilePage />} />}
+          />
+          <Route
+            path="/"
+            element={<ProtectedRoute element={renderComponentByRole()} />}
+          />
           <Route path="*" element={<RedirectToPrevious />} />
           <Route path="/restaurant/:id" element={<RestaurantPage />} />
         </Routes>

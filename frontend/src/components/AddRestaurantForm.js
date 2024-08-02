@@ -1,8 +1,16 @@
 // src/components/AddRestaurantForm.js
 import React, { useContext, useState, useEffect } from "react";
 import { createRestaurant, fetchRestaurantTypes } from "../services/api";
-import { Form, Button, Container, Row, Col, Card, Alert } from "react-bootstrap";
-import { UserContext } from '../UserContext';
+import {
+  Form,
+  Button,
+  Container,
+  Row,
+  Col,
+  Card,
+  Alert,
+} from "react-bootstrap";
+import { UserContext } from "../UserContext";
 
 const AddRestaurantForm = ({ onAdd }) => {
   const { token } = useContext(UserContext);
@@ -11,12 +19,12 @@ const AddRestaurantForm = ({ onAdd }) => {
   const [longitude, setLongitude] = useState("");
   const [streetName, setStreetName] = useState("");
   const [city, setCity] = useState("");
-  const [starRating, setStarRating] = useState(0); // Use 0 for optional
-  const [type, setType] = useState(""); // Default value handled on server
-  const [radiusOfDeliveryKm, setRadiusOfDeliveryKm] = useState(0); // Default value handled on server
+  const [starRating, setStarRating] = useState(0);
+  const [type, setType] = useState("");
+  const [radiusOfDeliveryKm, setRadiusOfDeliveryKm] = useState(0);
   const [ownerId, setOwnerId] = useState("");
-  const [message, setMessage] = useState(""); // Message state
-  const [types, setTypes] = useState([]); // Restaurant types
+  const [message, setMessage] = useState("");
+  const [types, setTypes] = useState([]);
 
   useEffect(() => {
     const fetchTypes = async () => {
@@ -24,7 +32,7 @@ const AddRestaurantForm = ({ onAdd }) => {
         const data = await fetchRestaurantTypes();
         setTypes(data);
         if (data.length > 0) {
-          setType(data[0].name); // Set default type if available
+          setType(data[0].name);
         }
       } catch (error) {
         console.error("Error fetching restaurant types", error);
@@ -43,7 +51,7 @@ const AddRestaurantForm = ({ onAdd }) => {
     star_rating: starRating || 0,
     type_name: type,
     radius_of_delivery_km: radiusOfDeliveryKm || 0,
-    owner_id: ownerId
+    owner_id: ownerId,
   };
 
   const clear = () => {
@@ -53,7 +61,7 @@ const AddRestaurantForm = ({ onAdd }) => {
     setStreetName("");
     setCity("");
     setStarRating(0);
-    setType(types.length > 0 ? types[0].name : ""); // Reset to default type if available
+    setType(types.length > 0 ? types[0].name : "");
     setRadiusOfDeliveryKm(0);
     setOwnerId("");
   };
@@ -64,7 +72,7 @@ const AddRestaurantForm = ({ onAdd }) => {
       console.log("Restaurant added successfully: ", data);
       setMessage("Restaurant added successfully!");
       onAdd(data);
-      clear(); // Clear the form after successful addition
+      clear();
     } catch (error) {
       console.error("Error adding the restaurant!", error);
       setMessage("Error adding the restaurant.");
@@ -73,11 +81,11 @@ const AddRestaurantForm = ({ onAdd }) => {
   };
 
   const handleClearStarRating = () => {
-    setStarRating(0); // Clear the selected star rating
+    setStarRating(0);
   };
 
   return (
-    <Container className="my-4" style={{ maxWidth: '400px' }}>
+    <Container className="my-4" style={{ maxWidth: "400px" }}>
       <Card>
         <Card.Body>
           <h3>ADD A RESTAURANT</h3>
@@ -153,7 +161,7 @@ const AddRestaurantForm = ({ onAdd }) => {
             <Button
               variant="secondary"
               onClick={handleClearStarRating}
-              style={{ margin: '1rem' }}
+              style={{ margin: "1rem" }}
             >
               Clear Selection
             </Button>
@@ -197,7 +205,7 @@ const AddRestaurantForm = ({ onAdd }) => {
             <Button
               variant="primary"
               onClick={handleAddRestaurant}
-              style={{ margin: '1rem' }}
+              style={{ margin: "1rem" }}
             >
               Add Restaurant
             </Button>
@@ -205,7 +213,10 @@ const AddRestaurantForm = ({ onAdd }) => {
         </Card.Body>
       </Card>
       {message && (
-        <Alert variant={message.includes("Error") ? "danger" : "success"} className="mt-3">
+        <Alert
+          variant={message.includes("Error") ? "danger" : "success"}
+          className="mt-3"
+        >
           {message}
         </Alert>
       )}

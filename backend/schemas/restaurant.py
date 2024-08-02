@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field, field_validator
 from typing import Optional
 
+
 class RestaurantBase(BaseModel):
     name: str
     latitude: float
@@ -38,10 +39,7 @@ class Restaurant(RestaurantBase):
     id: int
     owner_id: int
     is_archived: bool
+    imageUrl: str
 
     class Config:
         from_attributes = True
-
-
-class RestaurantInDB(Restaurant):
-    pass
