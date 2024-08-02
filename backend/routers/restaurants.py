@@ -32,6 +32,25 @@ router = APIRouter(prefix="/restaurants")
 
 
 # admin
+@router.post("/new", response_model=Restaurant)
+def create_restaurant(
+    restaurant: RestaurantCreate,
+    db: Session = Depends(get_db),
+    # admin: User = Depends(get_admin_user),
+):
+    return crud_create_restaurant(db=db, restaurant=restaurant)
+
+# admin and restaurant admin
+@router.put("/update/{id}", response_model=Restaurant)
+def update_restaurant(
+    id: int,
+    restaurant: RestaurantUpdate,
+    db: Session = Depends(get_db),
+    # admin_or_restaurant_admin: User = Depends(get_admin_or_restaurant_admin),
+):
+    return crud_update_restaurant(db=db, id=id, restaurant=restaurant)
+
+# admin
 @router.delete("/{id}", response_model=Restaurant)
 def delete_restaurant(
     id: int, db: Session = Depends(get_db), admin: User = Depends(get_admin_user)
@@ -48,14 +67,6 @@ def get_restaurant_by_id(id: int, db: Session = Depends(get_db)):
     return crud_get_restaurant_by_id(id=id, db=db)
 
 
-# admin
-@router.post("/new", response_model=Restaurant)
-def create_restaurant(
-    restaurant: RestaurantCreate,
-    db: Session = Depends(get_db),
-    # admin: User = Depends(get_admin_user),
-):
-    return crud_create_restaurant(db=db, restaurant=restaurant)
 
 
 # admin
@@ -84,16 +95,6 @@ def list_restaurants_by_type(
 ):
     return crud_get_restaurants_by_type(db=db, type=type)
 
-
-# admin and restaurant admin
-@router.put("/update/{id}", response_model=Restaurant)
-def update_restaurant(
-    id: int,
-    restaurant: RestaurantUpdate,
-    db: Session = Depends(get_db),
-    # admin_or_restaurant_admin: User = Depends(get_admin_or_restaurant_admin),
-):
-    return crud_update_restaurant(db=db, id=id, restaurant=restaurant)
 
 
 # customer

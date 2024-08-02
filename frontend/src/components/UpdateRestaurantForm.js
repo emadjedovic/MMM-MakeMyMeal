@@ -24,6 +24,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
   const [type, setType] = useState("");
   const [radiusOfDeliveryKm, setRadiusOfDeliveryKm] = useState("");
   const [isArchived, setIsArchived] = useState(false);
+  const [imageUrl, setImageUrl] = useState("")
   const [message, setMessage] = useState("");
   const [restaurantTypes, setRestaurantTypes] = useState([]);
 
@@ -50,6 +51,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
     type_name: type || undefined,
     radius_of_delivery_km: radiusOfDeliveryKm || undefined,
     is_archived: isArchived,
+    imageUrl: imageUrl || undefined
   };
 
   const clear = () => {
@@ -63,6 +65,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
     setType("");
     setRadiusOfDeliveryKm("");
     setIsArchived(false);
+    setImageUrl("")
   };
 
   const handleUpdateRestaurant = async () => {
@@ -221,6 +224,16 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
                 checked={isArchived}
                 onChange={(e) => setIsArchived(e.target.checked)}
                 label="Archived"
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Image URL</Form.Label>
+              <Form.Control
+              type="text"
+              value={imageUrl}
+              name="imageUrl"
+              onChange={(e) => setImageUrl(e.target.value)}
+              placeholder="for example 'my_image.jpg'"
               />
             </Form.Group>
             <Button

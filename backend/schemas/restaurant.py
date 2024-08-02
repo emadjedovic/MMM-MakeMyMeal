@@ -21,6 +21,7 @@ class RestaurantBase(BaseModel):
 
 class RestaurantCreate(RestaurantBase):
     owner_id: int
+    imageUrl: Optional[str] = None
 
 
 class RestaurantUpdate(BaseModel):
@@ -33,13 +34,13 @@ class RestaurantUpdate(BaseModel):
     type_name: Optional[str] = None
     radius_of_delivery_km: Optional[float] = None
     is_archived: Optional[bool] = None
-
+    imageUrl: Optional[str] = None
 
 class Restaurant(RestaurantBase):
     id: int
     owner_id: int
     is_archived: bool
-    imageUrl: str
+    imageUrl: Optional[str] = None
 
     class Config:
         from_attributes = True

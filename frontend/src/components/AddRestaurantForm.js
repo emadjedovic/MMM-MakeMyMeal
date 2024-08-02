@@ -23,6 +23,7 @@ const AddRestaurantForm = ({ onAdd }) => {
   const [type, setType] = useState("");
   const [radiusOfDeliveryKm, setRadiusOfDeliveryKm] = useState(0);
   const [ownerId, setOwnerId] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [message, setMessage] = useState("");
   const [types, setTypes] = useState([]);
 
@@ -52,6 +53,7 @@ const AddRestaurantForm = ({ onAdd }) => {
     type_name: type,
     radius_of_delivery_km: radiusOfDeliveryKm || 0,
     owner_id: ownerId,
+    imageUrl: imageUrl || "restDefault.png"
   };
 
   const clear = () => {
@@ -64,6 +66,7 @@ const AddRestaurantForm = ({ onAdd }) => {
     setType(types.length > 0 ? types[0].name : "");
     setRadiusOfDeliveryKm(0);
     setOwnerId("");
+    setImageUrl("");
   };
 
   const handleAddRestaurant = async () => {
@@ -107,7 +110,7 @@ const AddRestaurantForm = ({ onAdd }) => {
                     type="number"
                     value={latitude}
                     onChange={(e) => setLatitude(Number(e.target.value))}
-                    placeholder="Enter latitude"
+                    placeholder="43.856430"
                   />
                 </Form.Group>
               </Col>
@@ -118,7 +121,7 @@ const AddRestaurantForm = ({ onAdd }) => {
                     type="number"
                     value={longitude}
                     onChange={(e) => setLongitude(Number(e.target.value))}
-                    placeholder="Enter longitude"
+                    placeholder="18.413029"
                   />
                 </Form.Group>
               </Col>
@@ -138,7 +141,7 @@ const AddRestaurantForm = ({ onAdd }) => {
                 type="text"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                placeholder="Enter city"
+                placeholder="Sarajevo"
               />
             </Form.Group>
             <Form.Group controlId="formStarRating">
@@ -200,6 +203,16 @@ const AddRestaurantForm = ({ onAdd }) => {
                 onChange={(e) => setOwnerId(Number(e.target.value))}
                 placeholder="Enter owner ID"
                 min="0"
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Image URL</Form.Label>
+              <Form.Control
+              type="text"
+              value={imageUrl}
+              name="imageUrl"
+              onChange={(e) => setImageUrl(e.target.value)}
+              placeholder="for example 'my_image.jpg'"
               />
             </Form.Group>
             <Button

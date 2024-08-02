@@ -28,6 +28,7 @@ def crud_create_restaurant(db: Session, restaurant: RestaurantCreate) -> DBResta
         type_name=restaurant.type_name,
         radius_of_delivery_km=restaurant.radius_of_delivery_km,
         owner_id=restaurant.owner_id,
+        imageUrl=restaurant.imageUrl
     )
     db.add(db_restaurant)
     db.commit()
@@ -60,6 +61,8 @@ def crud_update_restaurant(
         db_restaurant.radius_of_delivery_km = restaurant.radius_of_delivery_km
     if restaurant.is_archived is not None:
         db_restaurant.is_archived = restaurant.is_archived
+    if restaurant.imageUrl is not None:
+        db_restaurant.imageUrl = restaurant.imageUrl
 
     db.commit()
     db.refresh(db_restaurant)

@@ -7,6 +7,7 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import RestaurantTypesList from "./RestaurantTypesList";
 import DeleteRestaurant from "./DeleteRestaurant";
 
@@ -20,6 +21,7 @@ const AdminRestaurantsTable = ({
 }) => {
   const itemsPerPage = 8;
   const [currentPage, setCurrentPage] = React.useState(1);
+  const navigate = useNavigate();
 
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
@@ -30,6 +32,11 @@ const AdminRestaurantsTable = ({
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const handleRestaurantSelect = (restaurantId) => {
+    console.log("handleRestaurantSelect");
+    navigate(`/restaurant/${restaurantId}`);
   };
 
   const totalPages = Math.ceil(restaurants.length / itemsPerPage);
@@ -49,14 +56,14 @@ const AdminRestaurantsTable = ({
   return (
     <Container className="my-4">
       <Row>
-        <Col md={3} lg={2}>
+        <Col md={3} lg={3} xl={2}>
           <RestaurantTypesList
             restaurantTypes={restaurantTypes}
             selectedType={selectedType}
             handleTypeSelect={onTypeSelect}
           />
         </Col>
-        <Col md={9} lg={10}>
+        <Col md={9} lg={9} xl={10}>
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -64,7 +71,7 @@ const AdminRestaurantsTable = ({
                 <th>Name</th>
                 <th>Latitude</th>
                 <th>Longitude</th>
-                <th>Street Name</th>
+                <th>Street</th>
                 <th>City</th>
                 <th>Rating</th>
                 <th>Type</th>
@@ -75,7 +82,15 @@ const AdminRestaurantsTable = ({
               {currentRestaurants.map((restaurant) => (
                 <tr key={restaurant.id}>
                   <td>{restaurant.id}</td>
-                  <td>{restaurant.name}</td>
+                  <td>
+                    <Button
+                      variant="link"
+                      onClick={() => handleRestaurantSelect(restaurant.id)}
+                      
+                    >
+                      {restaurant.name}
+                    </Button>
+                  </td>
                   <td>{restaurant.latitude.toFixed(3)}</td>
                   <td>{restaurant.longitude.toFixed(3)}</td>
                   <td>{restaurant.street_name}</td>
