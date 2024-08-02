@@ -45,6 +45,7 @@ class DBRestaurant(Base):
     radius_of_delivery_km = Column(Float, nullable=True, default=0)
     is_archived = Column(Boolean, nullable=True, default=False)
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    # imageUrl
 
     owner = relationship("DBUser", back_populates="restaurants")
 

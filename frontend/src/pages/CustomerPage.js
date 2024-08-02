@@ -8,7 +8,7 @@ import {
 } from "../services/api";
 import CustomerRestaurantsTable from "../components/CustomerRestaurantsTable";
 
-const CustomerHome = () => {
+const CustomerPage = () => {
   const { token } = useContext(UserContext);
   const [nearbyRestaurants, setNearbyRestaurants] = useState([]);
   const [restaurantTypes, setRestaurantTypes] = useState([]);
@@ -17,10 +17,7 @@ const CustomerHome = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("Sending selectedType: ", selectedType)
-        console.log("Sending token: ", token)
         const fetchedNearbyRestaurants = await fetchNearbyRestaurants(selectedType, token);
-        console.log("Continue to setting")
         setNearbyRestaurants(fetchedNearbyRestaurants);
       } catch (error) {
         console.error("Error fetching nearby restaurants:", error);
@@ -78,4 +75,4 @@ const CustomerHome = () => {
   );
 };
 
-export default CustomerHome;
+export default CustomerPage;

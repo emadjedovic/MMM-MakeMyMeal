@@ -24,7 +24,8 @@ from crud.restaurant import (
     crud_get_restaurants_within_radius,
     crud_delete_restaurant,
     crud_get_restaurants_by_owner,
-    crud_get_restaurants_by_type_within_radius
+    crud_get_restaurants_by_type_within_radius,
+    crud_get_restaurant_by_id
 )
 from schemas.user import User
 
@@ -40,6 +41,13 @@ def delete_restaurant(
     except HTTPException as e:
         raise e
 
+# all users
+@router.get("/crazy_route/{id}", response_model=Restaurant)
+def get_restaurant_by_id(
+    id: int,
+    db: Session = Depends(get_db)
+):
+    return crud_get_restaurant_by_id(id=id, db=db)
 
 # admin
 @router.post("/new", response_model=Restaurant)

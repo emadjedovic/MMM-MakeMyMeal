@@ -50,14 +50,14 @@ const AdminRestaurantsTable = ({
   return (
     <Container className="my-4">
       <Row>
-        <Col md={2}>
+        <Col md={3} lg={2}>
           <RestaurantTypesList
             restaurantTypes={restaurantTypes}
             selectedType={selectedType}
             handleTypeSelect={onTypeSelect}
           />
         </Col>
-        <Col md={10}>
+        <Col md={9} lg={10}>
           <Table striped bordered hover>
             <thead>
               <tr>

@@ -6,7 +6,7 @@ import { Alert, Button, Container, Card } from "react-bootstrap";
 import axios from "axios";
 import "../css/App.css";
 
-function Profile() {
+function ProfilePage() {
   const { token, handleLogout } = useContext(UserContext);
   const [userData, setUserData] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -93,4 +93,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default ProfilePage;

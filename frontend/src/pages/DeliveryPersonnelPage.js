@@ -3,7 +3,7 @@ import { UserContext } from "../UserContext";
 import { Container, Tab, Nav } from "react-bootstrap";
 import "../css/App.css";
 
-const DeliveryPersonnelHome = () => {
+const DeliveryPersonnelPage = () => {
   
   const { token } = useContext(UserContext);
 
@@ -24,4 +24,4 @@ const DeliveryPersonnelHome = () => {
   );
 };
 
-export default DeliveryPersonnelHome;
+export default DeliveryPersonnelPage;

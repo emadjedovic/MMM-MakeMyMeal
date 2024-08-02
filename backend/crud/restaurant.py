@@ -7,6 +7,8 @@ from fastapi import HTTPException
 from models.user import UserRole
 from distance import calculate_distance
 
+def crud_get_restaurant_by_id(db: Session, id: int) -> DBRestaurant:
+    return db.query(DBRestaurant).filter(DBRestaurant.id == id).first()
 
 def crud_create_restaurant(db: Session, restaurant: RestaurantCreate) -> DBRestaurant:
     db_owner = db.query(DBUser).filter(DBUser.id == restaurant.owner_id).first()

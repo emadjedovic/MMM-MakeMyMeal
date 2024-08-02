@@ -56,7 +56,6 @@ export const deleteRestaurant = async (id, token) => {
   }
 };
 
-
 export const updateRestaurant = async (id, data, token) => {
   try {
     const response = await axios.put(
@@ -156,7 +155,6 @@ export const fetchRestaurants = async (selectedType, token) => {
 
 export const fetchNearbyRestaurants = async (selectedType, token) => {
   try {
-    
     const url =
       selectedType === "All"
         ? `${API_URL}/restaurants/nearby`
@@ -199,8 +197,8 @@ export const fetchRestaurantTypes = async (token) => {
     const response = await axios.get(`${API_URL}/restaurants/types`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
     return response.data;
   } catch (error) {
@@ -209,4 +207,12 @@ export const fetchRestaurantTypes = async (token) => {
   }
 };
 
-
+export const fetchRestaurantById = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/restaurants/crazy_route/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("There was an error fetching the restaurant by id!", error);
+    throw error;
+  }
+};

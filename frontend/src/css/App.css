@@ -109,3 +109,16 @@ p {
   color: #666;
   font-size: 0.75rem; /* Adjust font size */
 }
+
+/* CARDS */
+
+.hover-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+

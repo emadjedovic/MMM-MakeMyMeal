@@ -6,7 +6,7 @@ import CreatePersonnelForm from "../components/CreatePersonnelForm";
 import RAdminRestaurantsTable from "../components/RAdminRestaurantsTable";
 import { fetchRestaurantsByOwner, updateRestaurant } from "../services/api";
 
-const RestaurantAdminHome = () => {
+const RestaurantAdminPage = () => {
   const { token, user } = useContext(UserContext);
   const [restaurants, setRestaurants] = useState([]);
   const [editableData, setEditableData] = useState({});
@@ -114,4 +114,4 @@ const RestaurantAdminHome = () => {
   );
 };
 
-export default RestaurantAdminHome;
+export default RestaurantAdminPage;

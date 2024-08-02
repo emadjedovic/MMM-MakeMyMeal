@@ -3,7 +3,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Map from '../components/Map';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
-import '../css/Register.css'; // Import custom CSS for styling
+import '../css/RegisterPage.css'; // Import custom CSS for styling
 import { UserContext } from '../UserContext'; // Import UserContext
 import { registerUser } from '../services/api'; // Import the API function
 

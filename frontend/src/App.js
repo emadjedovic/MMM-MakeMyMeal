@@ -9,15 +9,16 @@ import {
 } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import Sidebar from './components/Sidebar';
-import Profile from './pages/Profile';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import AdminHome from './pages/AdminHome';
-import RestaurantAdminHome from './pages/RestaurantAdminHome';
-import CustomerHome from './pages/CustomerHome';
-import DeliveryPersonnelHome from './pages/DeliveryPersonnelHome';
+import ProfilePage from './pages/ProfilePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import AdminPage from './pages/AdminPage';
+import RestaurantAdminPage from './pages/RestaurantAdminPage';
+import CustomerPage from './pages/CustomerPage';
+import DeliveryPersonnelPage from './pages/DeliveryPersonnelPage';
 
 import './css/App.css'; // Import the consolidated CSS file
+import RestaurantPage from './pages/RestaurantPage';
 
 function App() {
   const { token, user, userRole } = useContext(UserContext);
@@ -38,15 +39,15 @@ function App() {
   const renderComponentByRole = () => {
     switch (userRole) {
       case 'ADMIN':
-        return <AdminHome />;
+        return <AdminPage />;
       case 'RESTAURANT ADMIN':
-        return <RestaurantAdminHome />;
+        return <RestaurantAdminPage />;
       case 'CUSTOMER':
-        return <CustomerHome />;
+        return <CustomerPage />;
       case 'DELIVERY PERSONNEL':
-        return <DeliveryPersonnelHome />;
+        return <DeliveryPersonnelPage />;
       default:
-        return <Login />;
+        return <LoginPage />;
     }
   };
 
@@ -65,12 +66,13 @@ function App() {
       {user && <Sidebar />}
       <div className="App-content">
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} />
           <Route path="/" element={<ProtectedRoute element={renderComponentByRole()} />} />
           {/* Handle all unknown routes by redirecting to the previous Home */}
           <Route path="*" element={<RedirectToPrevious />} />
+          <Route path="/restaurant/:id" element={<RestaurantPage />} />
         </Routes>
       </div>
     </div>

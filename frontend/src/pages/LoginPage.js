@@ -3,11 +3,11 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../css/Login.css'; // Import custom CSS for background styling
+import '../css/LoginPage.css'; // Import custom CSS for background styling
 import { UserContext } from '../UserContext'; // Import UserContext
 import { loginUser } from "../services/api";
 
-const Login = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -92,4 +92,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

@@ -13,7 +13,7 @@ import {
   deleteRestaurant,
 } from "../services/api";
 
-const AdminHome = () => {
+const AdminPage = () => {
   const { token } = useContext(UserContext);
   const [restaurants, setRestaurants] = useState([]);
   const [restaurantTypes, setRestaurantTypes] = useState([]);
@@ -150,4 +150,4 @@ const AdminHome = () => {
   );
 };
 
-export default AdminHome;
+export default AdminPage;
