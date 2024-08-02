@@ -4,13 +4,14 @@ import { Container, Tab, Nav, Pagination } from "react-bootstrap";
 import "../css/App.css";
 import CreatePersonnelForm from "../components/CreatePersonnelForm";
 import RAdminRestaurantsTable from "../components/RAdminRestaurantsTable";
-import { fetchRestaurantsByOwner, updateRestaurant } from "../services/api";
+import { fetchRestaurantsByOwner, updateRestaurant, fetchRestaurantTypes } from "../services/api";
 
 const RestaurantAdminPage = () => {
   const { token, user } = useContext(UserContext);
   const [restaurants, setRestaurants] = useState([]);
   const [editableData, setEditableData] = useState({});
   const [editId, setEditId] = useState(null);
+  const [restaurantTypes, setRestaurantTypes] = useState([]);
   const userId = user.id;
   const itemsPerPage = 8;
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,7 +26,17 @@ const RestaurantAdminPage = () => {
       }
     };
 
+    const getRestaurantTypes = async () => {
+      try {
+        const types = await fetchRestaurantTypes(token);
+        setRestaurantTypes(types);
+      } catch (error) {
+        console.error("Error fetching restaurant types:", error);
+      }
+    };
+
     getRestaurants();
+    getRestaurantTypes();
   }, [userId, token]);
 
   const handleEditClick = (id, data) => {
@@ -103,6 +114,7 @@ const RestaurantAdminPage = () => {
               handleSave={handleSave}
               paginationItems={paginationItems}
               handlePageChange={handlePageChange}
+              restaurantTypes={restaurantTypes}
             />
           </Tab.Pane>
           <Tab.Pane eventKey="manage-personnel">

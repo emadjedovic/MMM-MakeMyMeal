@@ -9,7 +9,8 @@ const RAdminRestaurantsTable = ({
   handleChange,
   handleSave,
   paginationItems,
-  handlePageChange
+  handlePageChange,
+  restaurantTypes
 }) => {
   return (
     <Container className="my-4">
@@ -113,15 +114,21 @@ const RAdminRestaurantsTable = ({
               </td>
               <td>
                 {editId === restaurant.id ? (
-                  <input
-                    type="text"
-                    name="type"
+                  <select
+                    name="type_name"
                     className="form-control"
-                    value={editableData.type || ""}
+                    value={editableData.type_name || ""}
                     onChange={handleChange}
-                  />
+                  >
+                    <option value="">Select Type</option>
+                    {restaurantTypes.map((type) => (
+                      <option key={type.name} value={type.name}>
+                        {type.name}
+                      </option>
+                    ))}
+                  </select>
                 ) : (
-                  restaurant.type
+                  restaurant.type_name
                 )}
               </td>
               <td>

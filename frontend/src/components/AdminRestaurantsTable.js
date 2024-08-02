@@ -82,7 +82,7 @@ const AdminRestaurantsTable = ({
                   <td>{restaurant.street_name}</td>
                   <td>{restaurant.city}</td>
                   <td>{restaurant.star_rating}</td>
-                  <td>{restaurant.type}</td>
+                  <td>{restaurant.type_name}</td>
                   <td>
                     <Button
                       variant={restaurant.is_archived ? "secondary" : "warning"}

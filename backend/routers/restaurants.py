@@ -12,13 +12,12 @@ from schemas.restaurant import (
     RestaurantCreate,
     RestaurantUpdate,
     Restaurant,
-    RestaurantType,
+    #RestaurantType,
 )
 from crud.restaurant import (
     crud_create_restaurant,
     crud_update_restaurant,
     crud_toggle_archive_restaurant,
-    crud_get_restaurant_types,
     crud_get_restaurants_by_type,
     crud_get_all_restaurants,
     crud_get_restaurants_within_radius,
@@ -54,7 +53,7 @@ def get_restaurant_by_id(
 def create_restaurant(
     restaurant: RestaurantCreate,
     db: Session = Depends(get_db),
-    admin: User = Depends(get_admin_user),
+    #admin: User = Depends(get_admin_user),
 ):
     return crud_create_restaurant(db=db, restaurant=restaurant)
 
@@ -70,15 +69,15 @@ def toggle_archive_restaurant(
 @router.get("/all", response_model=List[Restaurant])
 def list_all_restaurants(
     db: Session = Depends(get_db),
-    admin: User = Depends(get_admin_user),
+    #admin: User = Depends(get_admin_user),
 ):
     return crud_get_all_restaurants(db=db)
 
 @router.get("/all/{type}", response_model=List[Restaurant])
 def list_restaurants_by_type(
-    type: RestaurantType,
+    type: str,
     db: Session = Depends(get_db),
-    admin: User = Depends(get_admin_or_restaurant_admin),
+    #admin: User = Depends(get_admin_or_restaurant_admin),
 ):
     return crud_get_restaurants_by_type(db=db, type=type)
 
@@ -88,17 +87,10 @@ def update_restaurant(
     id: int,
     restaurant: RestaurantUpdate,
     db: Session = Depends(get_db),
-    admin_or_restaurant_admin: User = Depends(get_admin_or_restaurant_admin),
+    #admin_or_restaurant_admin: User = Depends(get_admin_or_restaurant_admin),
 ):
     return crud_update_restaurant(db=db, id=id, restaurant=restaurant)
 
-# admin, customers
-@router.get("/types", response_model=List[str])
-def list_all_restaurant_types(
-    db: Session = Depends(get_db),
-    admin_or_customer: User = Depends(get_admin_or_customer)
-):
-    return crud_get_restaurant_types()
 
 # customers
 @router.get("/nearby", response_model=List[Restaurant])
@@ -111,7 +103,7 @@ def nearby_restaurants(
 # customers
 @router.get("/nearby/{type}", response_model=List[Restaurant])
 def nearby_restaurants_by_type(
-    type: RestaurantType,
+    type: str,
     db: Session = Depends(get_db),
     customer: User = Depends(get_customer_user),
 ):

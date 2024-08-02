@@ -2,7 +2,7 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import auth, users, restaurants
+from routers import auth, users, restaurants, restaurant_type
 from database import engine, Base
 # from routers import menu_items, menus, orders
 
@@ -45,8 +45,10 @@ def read_root():
 app.include_router(auth.router, prefix="/api", tags=["Auth"])
 app.include_router(users.router, prefix="/api", tags=["Users"])
 app.include_router(restaurants.router, prefix="/api", tags=["Restaurants"])
+app.include_router(restaurant_type.router, prefix="/api", tags=["Restaurant Types"])
 """
 app.include_router(menu_items.router, prefix="/api", tags=["menu items"])
 app.include_router(menus.router, prefix="/api", tags=["menus"])
 app.include_router(orders.router, prefix="/api", tags=["orders"])
 """
+

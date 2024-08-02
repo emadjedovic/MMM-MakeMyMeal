@@ -13,12 +13,12 @@ const RestaurantTypesList = ({ restaurantTypes, selectedType, handleTypeSelect }
       </ListGroup.Item>
       {restaurantTypes.map((type) => (
         <ListGroup.Item
-          key={type}
+          key={type.id}
           action
-          onClick={() => handleTypeSelect(type)}
-          active={selectedType === type}
+          onClick={() => handleTypeSelect(type.name)}
+          active={selectedType === type.name}
         >
-          {type}
+          {type.name}
         </ListGroup.Item>
       ))}
     </ListGroup>

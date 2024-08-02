@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { Container, Row, Col, Card, Pagination } from "react-bootstrap";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import RestaurantTypesList from "./RestaurantTypesList";
 import { UserContext } from "../UserContext";
-import { calculateDistance } from '../services/distance.js';
+import { calculateDistance } from "../services/distance.js";
 import DEFAULT_IMAGE_URL from "../assets/restaurant-default.png";
 import "../css/App.css";
 
@@ -30,7 +30,7 @@ const CustomerRestaurantsTable = ({
   };
 
   const handleRestaurantSelect = (restaurantId) => {
-    console.log("handleRestaurantSelect")
+    console.log("handleRestaurantSelect");
     navigate(`/restaurant/${restaurantId}`);
   };
 
@@ -51,37 +51,60 @@ const CustomerRestaurantsTable = ({
   return (
     <Container className="my-4">
       <Row>
-        <Col md={4} lg={3} xl={3} xxl={3}>
+        <Col md={4} lg={3} xl={2} xxl={2}>
           <RestaurantTypesList
             restaurantTypes={restaurantTypes}
             selectedType={selectedType}
             handleTypeSelect={onTypeSelect}
           />
         </Col>
-        <Col md={8} lg={9} xl={9} xxl={9}>
+        <Col md={8} lg={9} xl={10} xxl={10}>
           <Row>
             {currentRestaurants.map((restaurant) => (
-              <Col md={12} lg={6} xl={4} xxl={3} key={restaurant.id} className="mb-3">
-                <Card onClick={() => handleRestaurantSelect(restaurant.id)} className="hover-card">
+              <Col
+                md={12}
+                lg={6}
+                xl={4}
+                xxl={3}
+                key={restaurant.id}
+                className="mb-3"
+              >
+                <Card
+                  onClick={() => handleRestaurantSelect(restaurant.id)}
+                  className="hover-card"
+                  
+                >
                   <Card.Img
                     variant="top"
                     src={restaurant.imageUrl || DEFAULT_IMAGE_URL}
                     alt={restaurant.name}
-                    style={{ height: '150px', objectFit: 'cover' }}
+                    style={{ height: "150px", objectFit: "cover" }}
                   />
                   <Card.Body>
-                    <Card.Title><strong>{restaurant.name}</strong></Card.Title>
-                    <div className="mb-2 text-muted">{restaurant.type}</div>
-                    {restaurant.star_rating}/5 {'\u2B50'} <br />
-                    <Card.Text>
-                      Street: {restaurant.street_name}<br />
-                      City: {restaurant.city}<br />
+                    <Card.Title>
+                      <strong>{restaurant.name}</strong>
+                    </Card.Title>
+                    <div className="mb-1 text-muted">
+                      {restaurantTypes.find(
+                        (type) => type.name === restaurant.type_name
+                      )?.name || "Other"}
+                      &nbsp;{"\u2B50 "}
+                      {restaurant.star_rating}/5
+                    </div>
+                    <Card.Text></Card.Text>
+                    <Card.Text style={{ margin: '5px 0' }}>
+                      <i>
+                        {restaurant.street_name} ({restaurant.city})
+                      </i>
+                    </Card.Text>
+                    <Card.Text style={{ fontSize: "0.875em" }}>
                       {calculateDistance(
                         restaurant.latitude,
                         restaurant.longitude,
                         user.latitude,
                         user.longitude
-                      )} km from you<br />
+                      )}{" "}
+                      km from you
                     </Card.Text>
                   </Card.Body>
                 </Card>

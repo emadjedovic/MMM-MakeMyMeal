@@ -1,8 +1,8 @@
 // src/components/UpdateRestaurantForm.js
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col, Card, Alert } from "react-bootstrap";
 import { UserContext } from "../UserContext";
-import { updateRestaurant } from "../services/api";
+import { updateRestaurant, fetchRestaurantTypes } from "../services/api";
 
 const UpdateRestaurantForm = ({ onUpdate }) => {
   const { token } = useContext(UserContext);
@@ -17,6 +17,20 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
   const [radiusOfDeliveryKm, setRadiusOfDeliveryKm] = useState("");
   const [isArchived, setIsArchived] = useState(false);
   const [message, setMessage] = useState(""); // New state for message
+  const [restaurantTypes, setRestaurantTypes] = useState([]); // State to store restaurant types
+
+  useEffect(() => {
+    const fetchTypes = async () => {
+      try {
+        const types = await fetchRestaurantTypes();
+        setRestaurantTypes(types);
+      } catch (error) {
+        console.error("Error fetching restaurant types:", error);
+      }
+    };
+
+    fetchTypes();
+  }, [token]);
 
   const requestData = {
     name: name || undefined,
@@ -25,7 +39,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
     street_name: streetName || undefined,
     city: city || undefined,
     star_rating: starRating || undefined,
-    type: type || undefined,
+    type_name: type || undefined,
     radius_of_delivery_km: radiusOfDeliveryKm || undefined,
     is_archived: isArchived,
   };
@@ -49,7 +63,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
       return;
     }
     try {
-      const data = await updateRestaurant(updateId, requestData, token)
+      const data = await updateRestaurant(updateId, requestData, token);
       console.log("Restaurant updated successfully: ", data);
       setMessage("Restaurant updated successfully!");
       clear();
@@ -171,15 +185,9 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
                 onChange={(e) => setType(e.target.value)}
               >
                 <option value="">Select a type</option>
-                <option value="TRADITIONAL">Traditional</option>
-                <option value="FAST FOOD">Fast Food</option>
-                <option value="PIZZERIA">Pizzeria</option>
-                <option value="CASUAL">Casual Dining</option>
-                <option value="FINE DINING">Fine Dining</option>
-                <option value="BAKERY">Bakery</option>
-                <option value="CAFE">Cafe</option>
-                <option value="PUB">Pub</option>
-                <option value="OTHER">Other</option>
+                {restaurantTypes.map((rt) => (
+                  <option key={rt.id} value={rt.name}>{rt.name}</option>
+                ))}
               </Form.Control>
             </Form.Group>
             <Form.Group controlId="formRadiusOfDelivery">
@@ -213,10 +221,13 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
               Update Restaurant
             </Button>
           </Form>
-          </Card.Body>
+        </Card.Body>
       </Card>
-      
-      {message && <Alert variant={message.includes("error") ? "danger" : "success"} className="mt-3">{message}</Alert>}
+      {message && (
+        <Alert variant={message.includes("error") ? "danger" : "success"} className="mt-3">
+          {message}
+        </Alert>
+      )}
     </Container>
   );
 };

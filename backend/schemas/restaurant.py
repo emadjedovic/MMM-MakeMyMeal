@@ -1,7 +1,5 @@
 from pydantic import BaseModel, Field, field_validator
 from typing import Optional
-from models.restaurant import RestaurantType
-
 
 class RestaurantBase(BaseModel):
     name: str
@@ -10,7 +8,7 @@ class RestaurantBase(BaseModel):
     street_name: str
     city: str
     star_rating: Optional[int] = Field(None, ge=0, le=5)
-    type: Optional[RestaurantType] = RestaurantType.OTHER
+    type_name: Optional[str] = None
     radius_of_delivery_km: float
 
     @field_validator("radius_of_delivery_km", mode="before")
@@ -31,7 +29,7 @@ class RestaurantUpdate(BaseModel):
     street_name: Optional[str] = None
     city: Optional[str] = None
     star_rating: Optional[int] = Field(None, ge=0, le=5)
-    type: Optional[RestaurantType] = RestaurantType.OTHER
+    type_name: Optional[str] = None
     radius_of_delivery_km: Optional[float] = None
     is_archived: Optional[bool] = None
 

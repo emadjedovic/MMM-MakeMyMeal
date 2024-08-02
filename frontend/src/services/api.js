@@ -194,12 +194,7 @@ export const fetchRestaurantsByOwner = async (userId, token) => {
 
 export const fetchRestaurantTypes = async (token) => {
   try {
-    const response = await axios.get(`${API_URL}/restaurants/types`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(`${API_URL}/restaurant_types/`);
     return response.data;
   } catch (error) {
     console.error("Error fetching restaurant types:", error);
@@ -209,7 +204,9 @@ export const fetchRestaurantTypes = async (token) => {
 
 export const fetchRestaurantById = async (id) => {
   try {
-    const response = await axios.get(`${API_URL}/restaurants/crazy_route/${id}`);
+    const response = await axios.get(
+      `${API_URL}/restaurants/crazy_route/${id}`
+    );
     return response.data;
   } catch (error) {
     console.error("There was an error fetching the restaurant by id!", error);

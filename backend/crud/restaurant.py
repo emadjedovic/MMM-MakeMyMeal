@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models.restaurant import DBRestaurant, RestaurantType
+from models.restaurant import DBRestaurant
 from schemas.restaurant import RestaurantCreate, RestaurantUpdate
 from models.user import DBUser
 from typing import List
@@ -23,7 +23,7 @@ def crud_create_restaurant(db: Session, restaurant: RestaurantCreate) -> DBResta
         street_name=restaurant.street_name,
         city=restaurant.city,
         star_rating=restaurant.star_rating,
-        type=restaurant.type,
+        type_name=restaurant.type_name,
         radius_of_delivery_km=restaurant.radius_of_delivery_km,
         owner_id=restaurant.owner_id,
     )
@@ -52,8 +52,8 @@ def crud_update_restaurant(
         db_restaurant.city = restaurant.city
     if restaurant.star_rating is not None:
         db_restaurant.star_rating = restaurant.star_rating
-    if restaurant.type is not None:
-        db_restaurant.type = restaurant.type
+    if restaurant.type_name is not None:
+        db_restaurant.type_name = restaurant.type_name
     if restaurant.radius_of_delivery_km is not None:
         db_restaurant.radius_of_delivery_km = restaurant.radius_of_delivery_km
     if restaurant.is_archived is not None:
@@ -84,15 +84,15 @@ def crud_toggle_archive_restaurant(db: Session, id: int) -> DBRestaurant:
     db.refresh(db_restaurant)
     return db_restaurant
 
-
+'''
 def crud_get_restaurant_types() -> List[str]:
-    return [key.value for key in RestaurantType]
+    return [key.value for key in RestaurantType]'''
 
 
 def crud_get_restaurants_by_type(
-    db: Session, type: RestaurantType
+    db: Session, type: str
 ) -> List[DBRestaurant]:
-    restaurants_of_type = db.query(DBRestaurant).filter(DBRestaurant.type == type).all()
+    restaurants_of_type = db.query(DBRestaurant).filter(DBRestaurant.type_name == type).all()
     return restaurants_of_type
 
 
@@ -121,13 +121,13 @@ def crud_get_restaurants_within_radius(db: Session, user: DBUser) -> List[DBRest
 
 
 def crud_get_restaurants_by_type_within_radius(
-    db: Session, user: DBUser, type: RestaurantType
+    db: Session, user: DBUser, type: str
 ) -> List[DBRestaurant]:
     user_lat = user.latitude
     user_long = user.longitude
 
     all_restaurants_of_type = (
-        db.query(DBRestaurant).filter(DBRestaurant.type == type).all()
+        db.query(DBRestaurant).filter(DBRestaurant.type_name == type).all()
     )
 
     nearby_restaurants_of_type = []

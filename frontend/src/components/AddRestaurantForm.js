@@ -1,6 +1,6 @@
 // src/components/AddRestaurantForm.js
-import React, { useContext, useState } from "react";
-import { createRestaurant } from "../services/api";
+import React, { useContext, useState, useEffect } from "react";
+import { createRestaurant, fetchRestaurantTypes } from "../services/api";
 import { Form, Button, Container, Row, Col, Card, Alert } from "react-bootstrap";
 import { UserContext } from '../UserContext';
 
@@ -12,10 +12,27 @@ const AddRestaurantForm = ({ onAdd }) => {
   const [streetName, setStreetName] = useState("");
   const [city, setCity] = useState("");
   const [starRating, setStarRating] = useState(0); // Use 0 for optional
-  const [type, setType] = useState("OTHER"); // Default value handled on server
+  const [type, setType] = useState(""); // Default value handled on server
   const [radiusOfDeliveryKm, setRadiusOfDeliveryKm] = useState(0); // Default value handled on server
   const [ownerId, setOwnerId] = useState("");
   const [message, setMessage] = useState(""); // Message state
+  const [types, setTypes] = useState([]); // Restaurant types
+
+  useEffect(() => {
+    const fetchTypes = async () => {
+      try {
+        const data = await fetchRestaurantTypes();
+        setTypes(data);
+        if (data.length > 0) {
+          setType(data[0].name); // Set default type if available
+        }
+      } catch (error) {
+        console.error("Error fetching restaurant types", error);
+      }
+    };
+
+    fetchTypes();
+  }, [token]);
 
   const requestData = {
     name: name,
@@ -24,7 +41,7 @@ const AddRestaurantForm = ({ onAdd }) => {
     street_name: streetName,
     city: city,
     star_rating: starRating || 0,
-    type: type,
+    type_name: type,
     radius_of_delivery_km: radiusOfDeliveryKm || 0,
     owner_id: ownerId
   };
@@ -36,11 +53,10 @@ const AddRestaurantForm = ({ onAdd }) => {
     setStreetName("");
     setCity("");
     setStarRating(0);
-    setType("OTHER");
+    setType(types.length > 0 ? types[0].name : ""); // Reset to default type if available
     setRadiusOfDeliveryKm(0);
     setOwnerId("");
   };
-
 
   const handleAddRestaurant = async () => {
     try {
@@ -52,7 +68,7 @@ const AddRestaurantForm = ({ onAdd }) => {
     } catch (error) {
       console.error("Error adding the restaurant!", error);
       setMessage("Error adding the restaurant.");
-      clear()
+      clear();
     }
   };
 
@@ -135,12 +151,12 @@ const AddRestaurantForm = ({ onAdd }) => {
               </div>
             </Form.Group>
             <Button
-                variant="secondary"
-                onClick={handleClearStarRating}
-                style={{ margin: '1rem' }}
-              >
-                Clear Selection
-              </Button>
+              variant="secondary"
+              onClick={handleClearStarRating}
+              style={{ margin: '1rem' }}
+            >
+              Clear Selection
+            </Button>
             <Form.Group controlId="formType">
               <Form.Label>Restaurant Type</Form.Label>
               <Form.Control
@@ -148,15 +164,11 @@ const AddRestaurantForm = ({ onAdd }) => {
                 value={type}
                 onChange={(e) => setType(e.target.value)}
               >
-                <option value="OTHER">Other</option>
-                <option value="TRADITIONAL">Traditional</option>
-                <option value="FAST FOOD">Fast Food</option>
-                <option value="PIZZERIA">Pizzeria</option>
-                <option value="CASUAL">Casual Dining</option>
-                <option value="FINE DINING">Fine Dining</option>
-                <option value="BAKERY">Bakery</option>
-                <option value="CAFE">Cafe</option>
-                <option value="PUB">Pub</option>
+                {types.map((typeOption) => (
+                  <option key={typeOption.name} value={typeOption.name}>
+                    {typeOption.name}
+                  </option>
+                ))}
               </Form.Control>
             </Form.Group>
             <Form.Group controlId="formRadiusOfDelivery">
@@ -193,10 +205,10 @@ const AddRestaurantForm = ({ onAdd }) => {
         </Card.Body>
       </Card>
       {message && (
-            <Alert variant={message.includes("Error") ? "danger" : "success"} className="mt-3">
-              {message}
-            </Alert>
-          )}
+        <Alert variant={message.includes("Error") ? "danger" : "success"} className="mt-3">
+          {message}
+        </Alert>
+      )}
     </Container>
   );
 };
