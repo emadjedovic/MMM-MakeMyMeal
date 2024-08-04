@@ -3,7 +3,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from routers import auth, users, restaurants, restaurant_types
+from routers import auth, users, restaurants, restaurant_types, food_types
 from database import engine, Base
 # from routers import menu_items, menus, orders
 
@@ -49,6 +49,7 @@ app.include_router(auth.router, prefix="/api", tags=["Auth"])
 app.include_router(users.router, prefix="/api", tags=["Users"])
 app.include_router(restaurants.router, prefix="/api", tags=["Restaurants"])
 app.include_router(restaurant_types.router, prefix="/api", tags=["Restaurant Types"])
+app.include_router(food_types.router, prefix="/api", tags=["Food Types"])
 """
 app.include_router(menu_items.router, prefix="/api", tags=["menu items"])
 app.include_router(menus.router, prefix="/api", tags=["menus"])

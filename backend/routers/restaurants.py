@@ -11,8 +11,7 @@ from dependencies import (
 from schemas.restaurant import (
     RestaurantCreate,
     RestaurantUpdate,
-    Restaurant,
-    # RestaurantType,
+    Restaurant
 )
 from crud.restaurant import (
     crud_create_restaurant,

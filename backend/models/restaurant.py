@@ -29,6 +29,6 @@ class DBRestaurant(Base):
     imageUrl = Column(String, nullable=False, default="restDefault.png")
 
     type = relationship(
-        "RestaurantType", primaryjoin="RestaurantType.name == DBRestaurant.type_name"
+        "DBRestaurantType", primaryjoin="DBRestaurantType.name == DBRestaurant.type_name"
     )
     owner = relationship("DBUser", back_populates="restaurants")

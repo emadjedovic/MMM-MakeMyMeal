@@ -1,13 +1,20 @@
 // src/components/LookupTables.js
 import React from "react";
 import RestaurantTypeForm from "./RestaurantTypeForm";
+import FoodTypeForm from "./FoodTypeForm";
 import { Container, Col, Row } from "react-bootstrap";
 
 const LookupTables = ({
+  
   restaurantTypes,
   onAddRestaurantType,
   onRenameRestaurantType,
   onDeleteRestaurantType,
+
+  foodTypes,
+  onAddFoodType,
+  onRenameFoodType,
+  onDeleteFoodType
 }) => {
   return (
     <Container>
@@ -42,9 +49,37 @@ const LookupTables = ({
             </Col>
           </Row>
         </Col>
+
+
         <Col lg={5}>
           <h2>FOOD TYPES</h2>
-          {/* Add content for FOOD TYPES here */}
+          <Row>
+            <Col>
+              <FoodTypeForm
+                action="add"
+                onSubmit={onAddFoodType}
+                foodTypes={foodTypes}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <FoodTypeForm
+                action="rename"
+                onSubmit={onRenameFoodType}
+                foodTypes={foodTypes}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <FoodTypeForm
+                action="delete"
+                onSubmit={onDeleteFoodType}
+                foodTypes={foodTypes}
+              />
+            </Col>
+          </Row>
         </Col>
       </Row>
     </Container>

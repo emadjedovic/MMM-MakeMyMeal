@@ -1,11 +1,17 @@
 import {
     fetchRestaurants,
     fetchRestaurantTypes,
+    fetchFoodTypes,
     toggleArchiveRestaurant,
     deleteRestaurant,
+
     addRestaurantType,
     renameRestaurantType,
-    deleteRestaurantType
+    deleteRestaurantType,
+
+    addFoodType,
+    renameFoodType,
+    deleteFoodType
   } from "../services/api";
   
   export const fetchData = async (selectedType, token, setRestaurants) => {
@@ -17,12 +23,14 @@ import {
     }
   };
   
-  export const fetchTypes = async (token, setRestaurantTypes) => {
+  export const fetchTypes = async (token, setRestaurantTypes, setFoodTypes) => {
     try {
-      const types = await fetchRestaurantTypes(token);
-      setRestaurantTypes(types);
+      const restaurantTypes = await fetchRestaurantTypes(token);
+      const foodTypes = await fetchFoodTypes(token);
+      setRestaurantTypes(restaurantTypes);
+      setFoodTypes(foodTypes);
     } catch (error) {
-      console.error("Error fetching restaurant types:", error);
+      console.error("Error fetching types.");
     }
   };
   
@@ -71,6 +79,8 @@ import {
       console.error("Error deleting the restaurant:", err);
     }
   };
+
+  // RESTAURANT TYPES
   
   export const handleAddRestaurantType = async (newTypeName, token, restaurantTypes, setRestaurantTypes) => {
     try {
@@ -105,6 +115,44 @@ import {
       );
     } catch (error) {
       console.error("Error deleting restaurant type:", error);
+    }
+  };
+
+  // FOOD TYPES
+
+  export const handleAddFoodType = async (newTypeName, token, foodTypes, setFoodTypes) => {
+    try {
+      const addedType = await addFoodType(newTypeName, token);
+      console.log("addedType: ", newTypeName);
+      setFoodTypes([...foodTypes, addedType]);
+    } catch (error) {
+      console.error("Error adding food type:", error);
+    }
+  };
+  
+  export const handleRenameFoodType = async (oldName, newName, token, foodTypes, setFoodTypes) => {
+    try {
+      const renamedType = await renameFoodType(oldName, newName, token);
+      console.log(`Renamed ${oldName} to ${newName}.`);
+      setFoodTypes(
+        foodTypes.map((type) =>
+          type.name === oldName ? renamedType : type
+        )
+      );
+    } catch (error) {
+      console.error("Error renaming food type:", error);
+    }
+  };
+  
+  export const handleDeleteFoodType = async (typeName, token, foodTypes, setFoodTypes) => {
+    try {
+      await deleteFoodType(typeName, token);
+      console.log("deletedType: ", typeName);
+      setFoodTypes(
+        foodTypes.filter((type) => type.name !== typeName)
+      );
+    } catch (error) {
+      console.error("Error deleting food type:", error);
     }
   };
   

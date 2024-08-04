@@ -16,15 +16,22 @@ import {
   handleTypeSelect,
   handleAdminCreated,
   handleDelete,
+
   handleAddRestaurantType,
   handleRenameRestaurantType,
-  handleDeleteRestaurantType
+  handleDeleteRestaurantType,
+
+  handleAddFoodType,
+  handleRenameFoodType,
+  handleDeleteFoodType
+
 } from "../services/adminHandlers";  // Adjusted path
 
 const AdminPage = () => {
   const { token } = useContext(UserContext);
   const [restaurants, setRestaurants] = useState([]);
   const [restaurantTypes, setRestaurantTypes] = useState([]);
+  const [foodTypes, setFoodTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("All");
   const [error, setError] = useState("");
 
@@ -33,7 +40,7 @@ const AdminPage = () => {
   }, [selectedType, token]);
 
   useEffect(() => {
-    fetchTypes(token, setRestaurantTypes);
+    fetchTypes(token, setRestaurantTypes, setFoodTypes);
   }, [token]);
 
   return (
@@ -91,10 +98,16 @@ const AdminPage = () => {
 
           <Tab.Pane eventKey="lookup-tables">
             <LookupTables
+
               restaurantTypes={restaurantTypes}
-              onAddType={(newTypeName) => handleAddRestaurantType(newTypeName, token, restaurantTypes, setRestaurantTypes)}
-              onRenameType={(oldName, newName) => handleRenameRestaurantType(oldName, newName, token, restaurantTypes, setRestaurantTypes)}
-              onDeleteType={(typeName) => handleDeleteRestaurantType(typeName, token, restaurantTypes, setRestaurantTypes)}
+              onAddRestaurantType={(newTypeName) => handleAddRestaurantType(newTypeName, token, restaurantTypes, setRestaurantTypes)}
+              onRenameRestaurantType={(oldName, newName) => handleRenameRestaurantType(oldName, newName, token, restaurantTypes, setRestaurantTypes)}
+              onDeleteRestaurantType={(typeName) => handleDeleteRestaurantType(typeName, token, restaurantTypes, setRestaurantTypes)}
+
+              foodTypes={foodTypes}
+              onAddFoodType={(newTypeName) => handleAddFoodType(newTypeName, token, foodTypes, setFoodTypes)}
+              onRenameFoodType={(oldName, newName) => handleRenameFoodType(oldName, newName, token, foodTypes, setFoodTypes)}
+              onDeleteFoodType={(typeName) => handleDeleteFoodType(typeName, token, foodTypes, setFoodTypes)}
             />
           </Tab.Pane>
         </Tab.Content>
