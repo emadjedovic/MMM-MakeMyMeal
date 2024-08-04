@@ -1,20 +1,53 @@
 // src/components/LookupTables.js
 import React from "react";
 import RestaurantTypeForm from "./RestaurantTypeForm";
+import { Container, Col, Row } from "react-bootstrap";
 
-const LookupTables = ({ restaurantTypes, onAddType, onRenameType, onDeleteType }) => {
+const LookupTables = ({
+  restaurantTypes,
+  onAddRestaurantType,
+  onRenameRestaurantType,
+  onDeleteRestaurantType,
+}) => {
   return (
-    <div>
-      <div className="mb-4">
-        <RestaurantTypeForm action="add" onSubmit={onAddType} restaurantTypes={restaurantTypes} />
-      </div>
-      <div className="mb-4">
-        <RestaurantTypeForm action="rename" onSubmit={onRenameType} restaurantTypes={restaurantTypes}/>
-      </div>
-      <div className="mb-4">
-        <RestaurantTypeForm action="delete" onSubmit={onDeleteType} restaurantTypes={restaurantTypes}/>
-      </div>
-    </div>
+    <Container>
+      <Row>
+        <Col lg={5}>
+          <h2>RESTAURANT TYPES</h2>
+          <Row>
+            <Col>
+              <RestaurantTypeForm
+                action="add"
+                onSubmit={onAddRestaurantType}
+                restaurantTypes={restaurantTypes}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <RestaurantTypeForm
+                action="rename"
+                onSubmit={onRenameRestaurantType}
+                restaurantTypes={restaurantTypes}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <RestaurantTypeForm
+                action="delete"
+                onSubmit={onDeleteRestaurantType}
+                restaurantTypes={restaurantTypes}
+              />
+            </Col>
+          </Row>
+        </Col>
+        <Col lg={5}>
+          <h2>FOOD TYPES</h2>
+          {/* Add content for FOOD TYPES here */}
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

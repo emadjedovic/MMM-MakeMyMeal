@@ -1,6 +1,6 @@
 1. ADMINISTRATOR
 
-- CRUD za tipove hrane (ovo nek bude u sklopu tabele za menu items, npr. listgroup sa tipovima hrane i onda tabelu sa svim menu items tipa hrane kojeg smo odabrali, ali grupisane po restoranima, search bar za specifičan menu item)
+- CRUD za tipove hrane
 - napraviti tabelu svih narudžbi, tabelu svih ponuda (može jedan search bar da filtriramo narudžbe ili ponude po nekom kriteriju)
 
 2. ADMINISTRATOR RESTORANA

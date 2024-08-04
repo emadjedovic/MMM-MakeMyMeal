@@ -209,7 +209,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
                 type="range"
                 name="radius_of_delivery_km"
                 min="0"
-                max="15"
+                max="10"
                 value={radiusOfDeliveryKm}
                 onChange={(e) => setRadiusOfDeliveryKm(Number(e.target.value))}
               />

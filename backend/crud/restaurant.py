@@ -28,7 +28,7 @@ def crud_create_restaurant(db: Session, restaurant: RestaurantCreate) -> DBResta
         type_name=restaurant.type_name,
         radius_of_delivery_km=restaurant.radius_of_delivery_km,
         owner_id=restaurant.owner_id,
-        imageUrl=restaurant.imageUrl
+        imageUrl=restaurant.imageUrl,
     )
     db.add(db_restaurant)
     db.commit()
@@ -105,7 +105,7 @@ def crud_get_restaurants_within_radius(db: Session, user: DBUser) -> List[DBRest
     user_latitude = user.latitude
     user_longitude = user.longitude
 
-    all_restaurants = db.query(DBRestaurant).all()
+    all_restaurants = db.query(DBRestaurant).filter(DBRestaurant.is_archived==False).all()
 
     nearby_restaurants = []
 
@@ -126,7 +126,10 @@ def crud_get_restaurants_by_type_within_radius(
     user_long = user.longitude
 
     all_restaurants_of_type = (
-        db.query(DBRestaurant).filter(DBRestaurant.type_name == type).all()
+        db.query(DBRestaurant)
+        .filter(DBRestaurant.type_name == type)
+        .filter(DBRestaurant.is_archived==False)
+        .all()
     )
 
     nearby_restaurants_of_type = []

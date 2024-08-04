@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   Button,
@@ -6,6 +6,7 @@ import {
   Pagination,
   Row,
   Col,
+  Form,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import RestaurantTypesList from "./RestaurantTypesList";
@@ -20,12 +21,32 @@ const AdminRestaurantsTable = ({
   onDelete,
 }) => {
   const itemsPerPage = 8;
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchName, setSearchName] = useState("");
+  const [searchCity, setSearchCity] = useState("");
+  const [showArchived, setShowArchived] = useState(false);
+  const [showNotArchived, setShowNotArchived] = useState(true);
   const navigate = useNavigate();
 
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
-  const currentRestaurants = restaurants.slice(
+
+  // Filter restaurants based on search queries and archived status
+  const filteredRestaurants = restaurants.filter((restaurant) => {
+    const matchesName = restaurant.name
+      .toLowerCase()
+      .includes(searchName.toLowerCase());
+    const matchesCity = restaurant.city
+      .toLowerCase()
+      .includes(searchCity.toLowerCase());
+    const matchesArchivedStatus =
+      (showArchived && restaurant.is_archived) ||
+      (showNotArchived && !restaurant.is_archived);
+
+    return matchesName && matchesCity && matchesArchivedStatus;
+  });
+
+  const currentRestaurants = filteredRestaurants.slice(
     indexOfFirstRestaurant,
     indexOfLastRestaurant
   );
@@ -35,11 +56,28 @@ const AdminRestaurantsTable = ({
   };
 
   const handleRestaurantSelect = (restaurantId) => {
-    console.log("handleRestaurantSelect");
     navigate(`/restaurant/${restaurantId}`);
   };
 
-  const totalPages = Math.ceil(restaurants.length / itemsPerPage);
+  const handleSearchNameChange = (e) => {
+    setSearchName(e.target.value);
+    setCurrentPage(1); // Reset to the first page when search query changes
+  };
+
+  const handleSearchCityChange = (e) => {
+    setSearchCity(e.target.value);
+    setCurrentPage(1); // Reset to the first page when search query changes
+  };
+
+  const handleArchivedChange = (e) => {
+    setShowArchived(e.target.checked);
+  };
+
+  const handleNotArchivedChange = (e) => {
+    setShowNotArchived(e.target.checked);
+  };
+
+  const totalPages = Math.ceil(filteredRestaurants.length / itemsPerPage);
   const paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {
     paginationItems.push(
@@ -64,6 +102,40 @@ const AdminRestaurantsTable = ({
           />
         </Col>
         <Col md={9} lg={9} xl={10}>
+          <Row className="mb-3">
+            <Col md={6} lg={5}>
+              <Form.Control
+                type="text"
+                placeholder="Search by restaurant name"
+                value={searchName}
+                onChange={handleSearchNameChange}
+              />
+            </Col>
+            <Col md={4} lg={4}>
+              <Form.Control
+                type="text"
+                placeholder="Search by city"
+                value={searchCity}
+                onChange={handleSearchCityChange}
+              />
+            </Col>
+            <Col md={2} lg={3}>
+              <Form.Group>
+                <Form.Check
+                  type="checkbox"
+                  label="Archived"
+                  checked={showArchived}
+                  onChange={handleArchivedChange}
+                />
+                <Form.Check
+                  type="checkbox"
+                  label="Not Archived"
+                  checked={showNotArchived}
+                  onChange={handleNotArchivedChange}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -86,7 +158,6 @@ const AdminRestaurantsTable = ({
                     <Button
                       variant="link"
                       onClick={() => handleRestaurantSelect(restaurant.id)}
-                      
                     >
                       {restaurant.name}
                     </Button>

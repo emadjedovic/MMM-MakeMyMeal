@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Container, Row, Col, Card, Pagination } from "react-bootstrap";
+import React, { useContext, useState } from "react";
+import { Container, Row, Col, Card, Pagination, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import RestaurantTypesList from "./RestaurantTypesList";
 import { UserContext } from "../UserContext";
@@ -12,14 +12,22 @@ const CustomerRestaurantsTable = ({
   onTypeSelect,
   selectedType,
 }) => {
+
   const itemsPerPage = 8;
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
-  const currentRestaurants = nearbyRestaurants.slice(
+
+  // Filter restaurants by name based on the search query
+  const filteredRestaurants = nearbyRestaurants.filter((restaurant) =>
+    restaurant.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const currentRestaurants = filteredRestaurants.slice(
     indexOfFirstRestaurant,
     indexOfLastRestaurant
   );
@@ -29,11 +37,15 @@ const CustomerRestaurantsTable = ({
   };
 
   const handleRestaurantSelect = (restaurantId) => {
-    console.log("handleRestaurantSelect");
     navigate(`/restaurant/${restaurantId}`);
   };
 
-  const totalPages = Math.ceil(nearbyRestaurants.length / itemsPerPage);
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1); // Reset to the first page when search query changes
+  };
+
+  const totalPages = Math.ceil(filteredRestaurants.length / itemsPerPage);
   const paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {
     paginationItems.push(
@@ -49,6 +61,7 @@ const CustomerRestaurantsTable = ({
 
   return (
     <Container className="my-4">
+      
       <Row>
         <Col md={4} lg={3} xl={2} xxl={2}>
           <RestaurantTypesList
@@ -58,6 +71,13 @@ const CustomerRestaurantsTable = ({
           />
         </Col>
         <Col md={8} lg={9} xl={10} xxl={10}>
+        <Form.Control
+            type="text"
+            placeholder="Search by restaurant name"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="mb-3"
+          />
           <Row>
             {currentRestaurants.map((restaurant) => (
               <Col
