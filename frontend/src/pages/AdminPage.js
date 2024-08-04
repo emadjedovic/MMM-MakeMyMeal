@@ -5,12 +5,16 @@ import AddRestaurantForm from "../components/AddRestaurantForm";
 import UpdateRestaurantForm from "../components/UpdateRestaurantForm";
 import AdminRestaurantsTable from "../components/AdminRestaurantsTable";
 import CreateRestaurantAdminForm from "../components/CreateRestaurantAdminForm";
+import LookupTables from "../components/LookupTables";
 import "../css/App.css";
 import {
   fetchRestaurants,
   fetchRestaurantTypes,
   toggleArchiveRestaurant,
   deleteRestaurant,
+  addRestaurantType,
+  renameRestaurantType,
+  deleteRestaurantType
 } from "../services/api";
 
 const AdminPage = () => {
@@ -38,7 +42,6 @@ const AdminPage = () => {
       try {
         const types = await fetchRestaurantTypes(token);
         setRestaurantTypes(types);
-        console.log("rest types: ", restaurantTypes);
       } catch (error) {
         console.error("Error fetching restaurant types:", error);
       }
@@ -94,6 +97,42 @@ const AdminPage = () => {
     }
   };
 
+  const handleAddType = async (newTypeName) => {
+    try {
+      const addedType = await addRestaurantType(newTypeName, token);
+      console.log("addedType: ", newTypeName)
+      setRestaurantTypes([...restaurantTypes, addedType]);
+    } catch (error) {
+      console.error("Error adding restaurant type:", error);
+    }
+  };
+
+  const handleRenameType = async (oldName, newName) => {
+    try {
+      const renamedType = await renameRestaurantType(oldName, newName, token);
+      console.log(`Renamed ${oldName} to ${newName}.`);
+      setRestaurantTypes(
+        restaurantTypes.map((type) =>
+          type.name === oldName ? renamedType : type
+        )
+      );
+    } catch (error) {
+      console.error("Error renaming restaurant type:", error);
+    }
+  };
+
+  const handleDeleteType = async (typeName) => {
+    try {
+      await deleteRestaurantType(typeName, token);
+      console.log("deletedType: ", typeName)
+      setRestaurantTypes(
+        restaurantTypes.filter((type) => type.name !== typeName)
+      );
+    } catch (error) {
+      console.error("Error deleting restaurant type:", error);
+    }
+  };
+
   return (
     <Container>
       <Tab.Container defaultActiveKey="restaurants">
@@ -109,9 +148,13 @@ const AdminPage = () => {
           <Nav.Item>
             <Nav.Link eventKey="manage-users">Manage Users</Nav.Link>
           </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="lookup-tables">Lookup Tables</Nav.Link>
+          </Nav.Item>
         </Nav>
 
         <Tab.Content>
+
           <Tab.Pane eventKey="restaurants">
             <AdminRestaurantsTable
               restaurants={restaurants}
@@ -122,6 +165,7 @@ const AdminPage = () => {
               onDelete={handleDelete}
             />
           </Tab.Pane>
+
           <Tab.Pane eventKey="manage-restaurants">
             <Row>
               <Col>
@@ -132,6 +176,7 @@ const AdminPage = () => {
               </Col>
             </Row>
           </Tab.Pane>
+
           <Tab.Pane eventKey="manage-users">
             <Row className="mt-4">
               <Col>
@@ -141,6 +186,16 @@ const AdminPage = () => {
               </Col>
             </Row>
           </Tab.Pane>
+
+          <Tab.Pane eventKey="lookup-tables">
+            <LookupTables
+              restaurantTypes={restaurantTypes}
+              onAddType={handleAddType}
+              onRenameType={handleRenameType}
+              onDeleteType={handleDeleteType}
+            />
+          </Tab.Pane>
+
         </Tab.Content>
       </Tab.Container>
 

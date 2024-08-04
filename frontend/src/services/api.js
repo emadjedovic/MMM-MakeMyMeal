@@ -190,18 +190,6 @@ export const fetchRestaurantsByOwner = async (userId, token) => {
   }
 };
 
-// ADMIN AND CUSTOMER USERS
-
-export const fetchRestaurantTypes = async (token) => {
-  try {
-    const response = await axios.get(`${API_URL}/restaurant_types/`);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching restaurant types:", error);
-    throw error;
-  }
-};
-
 export const fetchRestaurantById = async (id) => {
   try {
     const response = await axios.get(
@@ -210,6 +198,69 @@ export const fetchRestaurantById = async (id) => {
     return response.data;
   } catch (error) {
     console.error("There was an error fetching the restaurant by id!", error);
+    throw error;
+  }
+};
+
+// LOOKUP TABLES
+
+export const fetchRestaurantTypes = async (token) => {
+  try {
+    const response = await axios.get(`${API_URL}/restaurant_types/all`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching restaurant types:", error);
+    throw error;
+  }
+};
+
+export const addRestaurantType = async (newTypeName, token) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/restaurant_types/add/${newTypeName}`, {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error adding restaurant type:", error);
+    throw error;
+  }
+};
+
+export const renameRestaurantType = async (oldName, newName, token) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/restaurant_types/rename/${oldName}`, 
+      { name: newName }, // RestaurantTypeCreate
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error renaming restaurant type:", error);
+    throw error;
+  }
+};
+
+export const deleteRestaurantType = async (typeName, token) => {
+  try {
+    await axios.delete(`${API_URL}/restaurant_types/delete/${typeName}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.error("Error deleting restaurant type:", error);
     throw error;
   }
 };
