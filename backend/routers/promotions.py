@@ -49,7 +49,7 @@ def update_promotion(
 
 
 # restaurant admin
-@router.delete("/{promotion_id}", response_model=Promotion)
+@router.delete("/{promotion_id}")
 def delete_promotion(
     promotion_id: int,
     db: Session = Depends(get_db),

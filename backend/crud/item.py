@@ -71,7 +71,7 @@ def crud_delete_item(db: Session, item_id: int):
     return db_item
 
 
-def crud_toggle_is_promoted(db: Session, id: int) -> DBItem:
+def crud_toggle_is_promoted(db: Session, id: int):
     db_item = db.query(DBItem).filter(DBItem.id == id).first()
     if not db_item:
         raise HTTPException(status_code=404, detail="Item not found")
@@ -80,7 +80,7 @@ def crud_toggle_is_promoted(db: Session, id: int) -> DBItem:
     db.refresh(db_item)
     return db_item
 
-def crud_change_price(db: Session, id:int, old_discount: float, new_discount: float) -> DBItem:
+def crud_change_price(db: Session, id:int, old_discount: float, new_discount: float):
     db_item = db.query(DBItem).filter(DBItem.id == id).first()
     if not db_item:
         raise HTTPException(status_code=404, detail="Item not found")
