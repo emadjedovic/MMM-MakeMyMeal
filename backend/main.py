@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers import auth, users, restaurants, restaurant_types, food_types, items, promotions
 from database import engine, Base
 
-# from create_users import create_admin, create_customer, create_delivery_personnel, create_restaurant_admin
+# from helpers.create_users import create_admin, create_customer, create_delivery_personnel, create_restaurant_admin
 
 def create_application():
     app = FastAPI()

@@ -20,3 +20,8 @@ def calculate_distance(rest_latitude, rest_longitude, user_latitude, user_longit
     distance = R * c
 
     return round(distance, 3)
+
+
+def round_up(number: float, decimals: int) -> float:
+    factor = 10**decimals
+    return math.ceil(number * factor) / factor

@@ -5,7 +5,7 @@ from models.user import DBUser
 from typing import List
 from fastapi import HTTPException
 from models.user import UserRole
-from distance import calculate_distance
+from helpers.math import calculate_distance
 
 
 def crud_get_restaurant_by_id(db: Session, id: int) -> DBRestaurant:
@@ -87,6 +87,15 @@ def crud_toggle_archive_restaurant(db: Session, id: int) -> DBRestaurant:
     if not db_restaurant:
         raise HTTPException(status_code=404, detail="Restaurant not found")
     db_restaurant.is_archived = not db_restaurant.is_archived
+    db.commit()
+    db.refresh(db_restaurant)
+    return db_restaurant
+
+def crud_toggle_recommend_restaurant(db: Session, id: int) -> DBRestaurant:
+    db_restaurant = db.query(DBRestaurant).filter(DBRestaurant.id == id).first()
+    if not db_restaurant:
+        raise HTTPException(status_code=404, detail="Restaurant not found")
+    db_restaurant.is_recommended = not db_restaurant.is_recommended
     db.commit()
     db.refresh(db_restaurant)
     return db_restaurant

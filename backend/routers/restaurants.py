@@ -21,6 +21,7 @@ from crud.restaurant import (
     crud_get_restaurants_by_type_within_radius,
     crud_get_restaurant_by_id,
     crud_get_recommended_restaurants,
+    crud_toggle_recommend_restaurant
 )
 from schemas.user import User
 
@@ -124,6 +125,14 @@ def list_restaurants_by_owner(
 
 
 # all users
-@router.get("/restaurants/recommended", response_model=List[Restaurant])
+@router.get("/recommended", response_model=List[Restaurant])
 def get_recommended_restaurants(db: Session = Depends(get_db)):
     return crud_get_recommended_restaurants(db=db)
+
+# admin
+@router.put("/toggle_recommend/{id}", response_model=Restaurant)
+def toggle_recommend_restaurant(
+    id: int,
+    db: Session = Depends(get_db),  # admin: User = Depends(get_admin_user)
+):
+    return crud_toggle_recommend_restaurant(db=db, id=id)

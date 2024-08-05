@@ -25,7 +25,7 @@ def read_promotions(db: Session = Depends(get_db)):
 
 
 # restaurant admin
-@router.post("/", response_model=Promotion)
+@router.post("/create", response_model=Promotion)
 def create_promotion(
     promotion: PromotionCreate,
     db: Session = Depends(get_db),
@@ -35,7 +35,7 @@ def create_promotion(
 
 
 # restaurant admin
-@router.put("/{promotion_id}", response_model=Promotion)
+@router.put("/update/{promotion_id}", response_model=Promotion)
 def update_promotion(
     promotion_id: int,
     promotion_update: PromotionUpdate,
@@ -49,7 +49,7 @@ def update_promotion(
 
 
 # restaurant admin
-@router.delete("/{promotion_id}")
+@router.delete("/delete/{promotion_id}")
 def delete_promotion(
     promotion_id: int,
     db: Session = Depends(get_db),

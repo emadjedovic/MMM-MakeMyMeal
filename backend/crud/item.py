@@ -3,6 +3,7 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from models.item import DBItem
 from schemas.item import ItemCreate, ItemUpdate
+from helpers.math import round_up
 
 def crud_get_all_items(db: Session):
     return db.query(DBItem).all()
@@ -31,7 +32,7 @@ def crud_create_item(db: Session, item: ItemCreate):
     db_item = DBItem(
         name=item.name,
         description=item.description or "No description",
-        price=item.price,
+        price=round_up(item.price,2),
         imageUrl=item.imageUrl or "item-images/itemDefault.png",
         is_recommended=item.is_recommended,
         restaurant_id=item.restaurant_id,
@@ -51,7 +52,7 @@ def crud_update_item(db: Session, item_id: int, item_update: ItemUpdate):
         if item_update.description is not None:
             db_item.description = item_update.description
         if item_update.price is not None:
-            db_item.price = item_update.price
+            db_item.price = round_up(item_update.price,2)
         if item_update.imageUrl is not None:
             db_item.imageUrl = item_update.imageUrl
         if item_update.is_recommended is not None:
@@ -88,8 +89,17 @@ def crud_change_price(db: Session, id:int, old_discount: float, new_discount: fl
     original_price = db_item.price / (1 - old_discount) # old_discount = 0 for original price
     new_price = original_price * (1 - new_discount)
 
-    db_item.price = new_price
+    db_item.price = round_up(new_price,2)
 
+    db.commit()
+    db.refresh(db_item)
+    return db_item
+
+def crud_toggle_recommend_item(db: Session, id: int) -> DBItem:
+    db_item = crud_get_item_by_id(db, id)
+    if not db_item:
+        raise HTTPException(status_code=404, detail="Item not found")
+    db_item.is_recommended = not db_item.is_recommended
     db.commit()
     db.refresh(db_item)
     return db_item
