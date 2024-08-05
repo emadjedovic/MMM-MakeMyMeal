@@ -8,7 +8,6 @@ from database import engine, Base
 
 # from create_users import create_admin, create_customer, create_delivery_personnel, create_restaurant_admin
 
-
 def create_application():
     app = FastAPI()
     app.add_middleware(

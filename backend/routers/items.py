@@ -15,14 +15,20 @@ from crud.item import (
     crud_get_items_by_food_type,
     crud_get_items_by_name,
     crud_update_item,
+    crud_get_all_items
 )
 
 router = APIRouter(prefix="/items")
 
-
 # all users
 @router.get("/", response_model=List[Item])
-def read_items(restaurant_id: int, db: Session = Depends(get_db)):
+def read_items(db: Session = Depends(get_db)):
+    items = crud_get_all_items(db)
+    return items
+
+# all users
+@router.get("/restaurant", response_model=List[Item])
+def read_items_by_restaurant(restaurant_id: int, db: Session = Depends(get_db)):
     items = crud_get_items_by_restaurant(db, restaurant_id)
     return items
 
@@ -43,7 +49,7 @@ def search_items_by_name(name: str, db: Session = Depends(get_db)):
 
 # all users
 @router.get("/search-type", response_model=List[Item])
-def search_items_by_type(name: str, food_type_name: str, db: Session = Depends(get_db)):
+def search_items_by_type(food_type_name: str, db: Session = Depends(get_db)):
     items = crud_get_items_by_food_type(db, food_type_name)
     return items
 

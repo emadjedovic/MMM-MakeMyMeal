@@ -1,23 +1,21 @@
-# models/promotion.py
-
 from sqlalchemy import (
     Column,
     Integer,
     Float,
     ForeignKey,
-    DateTime,
+    Date
 )
 from sqlalchemy.orm import relationship
 from database import Base
-from datetime import datetime
+from datetime import date
 
 class DBPromotion(Base):
     __tablename__ = "promotions"
 
     id = Column(Integer, primary_key=True, index=True)
-    discount_percentage = Column(Float, nullable=False)
-    start_date = Column(DateTime, nullable=False, default=datetime.utcnow)
-    end_date = Column(DateTime, nullable=False)
+    discount_fraction = Column(Float, nullable=False)
+    start_date = Column(Date, nullable=False, default=date.today)
+    end_date = Column(Date, nullable=True)
     item_id = Column(Integer, ForeignKey("items.id"), nullable=False, unique=True)
 
-    item = relationship("DBItem", back_populates="promotion")
+    item = relationship("DBItem", back_populates="promotion", uselist=False)
