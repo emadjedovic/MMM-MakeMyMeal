@@ -3,9 +3,8 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from routers import auth, users, restaurants, restaurant_types, food_types
+from routers import auth, users, restaurants, restaurant_types, food_types, items, promotions
 from database import engine, Base
-# from routers import menu_items, menus, orders
 
 # from create_users import create_admin, create_customer, create_delivery_personnel, create_restaurant_admin
 
@@ -37,7 +36,7 @@ def startup_event():
 
 app.add_event_handler("startup", startup_event)
 
-app.mount("/images", StaticFiles(directory="assets/restaurant-images"), name="images")
+app.mount("/assets", StaticFiles(directory="assets"), name="assets")
 
 
 @app.get("/", tags=["Default"])
@@ -50,6 +49,8 @@ app.include_router(users.router, prefix="/api", tags=["Users"])
 app.include_router(restaurants.router, prefix="/api", tags=["Restaurants"])
 app.include_router(restaurant_types.router, prefix="/api", tags=["Restaurant Types"])
 app.include_router(food_types.router, prefix="/api", tags=["Food Types"])
+app.include_router(items.router, prefix="/api", tags=["Items"])
+app.include_router(promotions.router, prefix="/api", tags=["Promotions"])
 """
 app.include_router(menu_items.router, prefix="/api", tags=["menu items"])
 app.include_router(menus.router, prefix="/api", tags=["menus"])

@@ -63,6 +63,8 @@ def crud_update_restaurant(
         db_restaurant.is_archived = restaurant.is_archived
     if restaurant.imageUrl is not None:
         db_restaurant.imageUrl = restaurant.imageUrl
+    if restaurant.is_recommended is not None:
+        db_restaurant.is_recommended = restaurant.is_recommended
 
     db.commit()
     db.refresh(db_restaurant)
@@ -146,3 +148,6 @@ def crud_get_restaurants_by_type_within_radius(
 
 def crud_get_restaurants_by_owner(db: Session, owner_id: int) -> List[DBRestaurant]:
     return db.query(DBRestaurant).filter(DBRestaurant.owner_id == owner_id).all()
+
+def crud_get_recommended_restaurants(db: Session) -> List[DBRestaurant]:
+    db.query(DBRestaurant).filter(DBRestaurant.is_recommended == True).all()

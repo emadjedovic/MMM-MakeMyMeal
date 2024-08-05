@@ -26,9 +26,11 @@ class DBRestaurant(Base):
     radius_of_delivery_km = Column(Float, nullable=True, default=0)
     is_archived = Column(Boolean, nullable=True, default=False)
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    imageUrl = Column(String, nullable=False, default="restDefault.png")
+    imageUrl = Column(String, nullable=False, default="restaurant-images/restDefault.png")
+    is_recommended = Column(Boolean, nullable=False, default=False)
 
     type = relationship(
         "DBRestaurantType", primaryjoin="DBRestaurantType.name == DBRestaurant.type_name"
     )
     owner = relationship("DBUser", back_populates="restaurants")
+    items = relationship("DBItem", back_populates="restaurant")

@@ -11,6 +11,7 @@ class RestaurantBase(BaseModel):
     star_rating: Optional[int] = Field(None, ge=0, le=5)
     type_name: Optional[str] = None
     radius_of_delivery_km: float
+    is_recommended: bool
 
     @field_validator("radius_of_delivery_km", mode="before")
     def validate_radius(cls, value):
@@ -35,6 +36,7 @@ class RestaurantUpdate(BaseModel):
     radius_of_delivery_km: Optional[float] = None
     is_archived: Optional[bool] = None
     imageUrl: Optional[str] = None
+    is_recommended: Optional[bool] = None
 
 class Restaurant(RestaurantBase):
     id: int

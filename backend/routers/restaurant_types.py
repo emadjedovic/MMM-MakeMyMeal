@@ -36,9 +36,10 @@ def read_type_by_id(type_id: int, db: Session = Depends(get_db)):
 def create_type(
     type_name: str,
     db: Session = Depends(get_db),
-    admin: User = Depends(get_admin_user)
+    # admin: User = Depends(get_admin_user)
 ):
     return crud_create_restaurant_type(db=db, type_name=type_name)
+
 
 # admin
 @router.put("/rename/{old_name}", response_model=RestaurantTypeResponse)
@@ -46,7 +47,7 @@ def rename_restaurant_type(
     old_name: str,
     request: RestaurantTypeCreate,  # Use a schema to capture new_name
     db: Session = Depends(get_db),
-    admin: User = Depends(get_admin_user)
+    # admin: User = Depends(get_admin_user)
 ):
     db_type = crud_rename_restaurant_type(
         db=db, old_name=old_name, new_name=request.name
@@ -59,7 +60,8 @@ def rename_restaurant_type(
 # admin
 @router.delete("/delete/{type_name}", response_model=RestaurantTypeResponse)
 def delete_type(
-    type_name: str, db: Session = Depends(get_db), admin: User = Depends(get_admin_user)
+    type_name: str,
+    db: Session = Depends(get_db),  # admin: User = Depends(get_admin_user)
 ):
     db_type = crud_delete_restaurant_type(db, type_name)
     if db_type is None:

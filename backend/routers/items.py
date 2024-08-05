@@ -1,0 +1,85 @@
+# routers/items.py
+
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from typing import List
+from schemas.user import User
+from dependencies import get_db, get_restaurant_admin_user
+from schemas.item import Item, ItemCreate, ItemUpdate
+from crud.item import (
+    crud_create_item,
+    crud_get_recommended_items,
+    crud_get_items_by_restaurant,
+    crud_delete_item,
+    crud_get_item_by_id,
+    crud_get_items_by_food_type,
+    crud_get_items_by_name,
+    crud_update_item,
+)
+
+router = APIRouter(prefix="/items")
+
+
+# all users
+@router.get("/", response_model=List[Item])
+def read_items(restaurant_id: int, db: Session = Depends(get_db)):
+    items = crud_get_items_by_restaurant(db, restaurant_id)
+    return items
+
+
+# all users
+@router.get("/recommended", response_model=List[Item])
+def read_recommended_items(db: Session = Depends(get_db)):
+    items = crud_get_recommended_items(db)
+    return items
+
+
+# all users
+@router.get("/search-name", response_model=List[Item])
+def search_items_by_name(name: str, db: Session = Depends(get_db)):
+    items = crud_get_items_by_name(db, name)
+    return items
+
+
+# all users
+@router.get("/search-type", response_model=List[Item])
+def search_items_by_type(name: str, food_type_name: str, db: Session = Depends(get_db)):
+    items = crud_get_items_by_food_type(db, food_type_name)
+    return items
+
+
+# restaurant admin
+@router.post("/", response_model=Item)
+def create_item(
+    item: ItemCreate,
+    db: Session = Depends(get_db),
+    #restaurant_admin: User = Depends(get_restaurant_admin_user),
+):
+    return crud_create_item(db, item)
+
+
+# restaurant admin
+@router.put("/{item_id}", response_model=Item)
+def update_item(
+    item_id: int,
+    item_update: ItemUpdate,
+    db: Session = Depends(get_db),
+    #restaurant_admin: User = Depends(get_restaurant_admin_user),
+):
+    db_item = crud_get_item_by_id(db, item_id)
+    if not db_item:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return crud_update_item(db, item_id, item_update)
+
+
+# restaurant admin
+@router.delete("/{item_id}", response_model=Item)
+def delete_item(
+    item_id: int,
+    db: Session = Depends(get_db),
+    #restaurant_admin: User = Depends(get_restaurant_admin_user),
+):
+    db_item = crud_get_item_by_id(db, item_id)
+    if not db_item:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return crud_delete_item(db, item_id)

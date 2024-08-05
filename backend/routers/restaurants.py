@@ -8,11 +8,7 @@ from dependencies import (
     get_admin_or_restaurant_admin,
     get_admin_or_customer,
 )
-from schemas.restaurant import (
-    RestaurantCreate,
-    RestaurantUpdate,
-    Restaurant
-)
+from schemas.restaurant import RestaurantCreate, RestaurantUpdate, Restaurant
 from crud.restaurant import (
     crud_create_restaurant,
     crud_update_restaurant,
@@ -24,6 +20,7 @@ from crud.restaurant import (
     crud_get_restaurants_by_owner,
     crud_get_restaurants_by_type_within_radius,
     crud_get_restaurant_by_id,
+    crud_get_recommended_restaurants,
 )
 from schemas.user import User
 
@@ -39,6 +36,7 @@ def create_restaurant(
 ):
     return crud_create_restaurant(db=db, restaurant=restaurant)
 
+
 # admin and restaurant admin
 @router.put("/update/{id}", response_model=Restaurant)
 def update_restaurant(
@@ -49,10 +47,12 @@ def update_restaurant(
 ):
     return crud_update_restaurant(db=db, id=id, restaurant=restaurant)
 
+
 # admin
 @router.delete("/{id}", response_model=Restaurant)
 def delete_restaurant(
-    id: int, db: Session = Depends(get_db), admin: User = Depends(get_admin_user)
+    id: int,
+    db: Session = Depends(get_db),  # admin: User = Depends(get_admin_user)
 ):
     try:
         return crud_delete_restaurant(db=db, id=id)
@@ -66,12 +66,11 @@ def get_restaurant_by_id(id: int, db: Session = Depends(get_db)):
     return crud_get_restaurant_by_id(id=id, db=db)
 
 
-
-
 # admin
 @router.put("/{id}/toggle_archive", response_model=Restaurant)
 def toggle_archive_restaurant(
-    id: int, db: Session = Depends(get_db), admin: User = Depends(get_admin_user)
+    id: int,
+    db: Session = Depends(get_db),  # admin: User = Depends(get_admin_user)
 ):
     return crud_toggle_archive_restaurant(db=db, id=id)
 
@@ -90,10 +89,9 @@ def list_all_restaurants(
 def list_restaurants_by_type(
     type: str,
     db: Session = Depends(get_db),
-    admin: User = Depends(get_admin_user),
+    # admin: User = Depends(get_admin_user),
 ):
     return crud_get_restaurants_by_type(db=db, type=type)
-
 
 
 # customer
@@ -120,6 +118,12 @@ def nearby_restaurants_by_type(
 def list_restaurants_by_owner(
     owner_id: int,
     db: Session = Depends(get_db),
-    admin_or_restaurant_admin: User = Depends(get_admin_or_restaurant_admin),
+    # admin_or_restaurant_admin: User = Depends(get_admin_or_restaurant_admin),
 ):
     return crud_get_restaurants_by_owner(db=db, owner_id=owner_id)
+
+
+# all users
+@router.get("/restaurants/recommended", response_model=List[Restaurant])
+def get_recommended_restaurants(db: Session = Depends(get_db)):
+    return crud_get_recommended_restaurants(db=db)
