@@ -23,23 +23,21 @@ import {
   handleAddFoodType,
   handleRenameFoodType,
   handleDeleteFoodType,
-} from "../services/adminHandlers"; // Adjusted path
+} from "../services/adminHandlers";
 
 const AdminPage = () => {
   const { token } = useContext(UserContext);
   const [error, setError] = useState("");
-
   const [restaurants, setRestaurants] = useState([]);
   const [selectedType, setSelectedType] = useState("All");
-
-  useEffect(() => {
-    fetchRestaurantData(token, selectedType, setRestaurants);
-  }, [selectedType, token]);
-
   const [restaurantTypes, setRestaurantTypes] = useState([]);
   const [foodTypes, setFoodTypes] = useState([]);
   const [promotedItems, setPromotedItems] = useState([]);
   const [promotions, setPromotions] = useState([]);
+
+  useEffect(() => {
+    fetchRestaurantData(token, selectedType, setRestaurants);
+  }, [selectedType, token]);
 
   useEffect(() => {
     fetchOtherData(token, setRestaurantTypes, setFoodTypes, setPromotedItems, setPromotions);

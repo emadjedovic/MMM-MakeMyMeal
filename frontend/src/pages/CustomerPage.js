@@ -2,47 +2,33 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
 import { Container, Tab, Nav } from "react-bootstrap";
 import "../css/App.css";
-import { fetchNearbyRestaurants, fetchRestaurantTypes } from "../services/api";
 import CustomerRestaurantsTable from "../components/CustomerRestaurantsTable";
+import RecommendedRestaurants from "../components/RecommendedRestaurants";
+import {
+  fetchRestaurantsByType,
+  fetchOtherData,
+  handleTypeSelect
+} from "../services/customerHandlers";
 
 const CustomerPage = () => {
   const { token } = useContext(UserContext);
   const [nearbyRestaurants, setNearbyRestaurants] = useState([]);
   const [restaurantTypes, setRestaurantTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("All");
+  const [recommendedRestaurants, setRecommendedRestaurants] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchedNearbyRestaurants = await fetchNearbyRestaurants(
-          selectedType,
-          token
-        );
-        setNearbyRestaurants(fetchedNearbyRestaurants);
-      } catch (error) {
-        console.error("Error fetching nearby restaurants:", error);
-      }
-    };
-
-    fetchData();
+    if (token) {
+      fetchRestaurantsByType(token, selectedType, setNearbyRestaurants);
+    }
   }, [selectedType, token]);
 
   useEffect(() => {
-    const fetchTypes = async () => {
-      try {
-        const types = await fetchRestaurantTypes(token);
-        setRestaurantTypes(types);
-      } catch (error) {
-        console.error("Error fetching restaurant types:", error);
-      }
-    };
-
-    fetchTypes();
+    if (token) {
+      fetchOtherData(token, setRestaurantTypes, setRecommendedRestaurants);
+    }
   }, [token]);
 
-  const handleTypeSelect = (type) => {
-    setSelectedType(type);
-  };
 
   return (
     <Container>
@@ -58,9 +44,10 @@ const CustomerPage = () => {
             <CustomerRestaurantsTable
               nearbyRestaurants={nearbyRestaurants}
               restaurantTypes={restaurantTypes}
-              onTypeSelect={handleTypeSelect}
+              onTypeSelect={(type) => handleTypeSelect(type, setSelectedType)}
               selectedType={selectedType}
             />
+            <RecommendedRestaurants recommended={recommendedRestaurants} />
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>

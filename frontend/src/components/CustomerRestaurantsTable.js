@@ -84,7 +84,7 @@ const CustomerRestaurantsTable = ({
               <Col
                 md={12}
                 lg={6}
-                xl={4}
+                xl={3}
                 xxl={3}
                 key={restaurant.id}
                 className="mb-3"
@@ -95,7 +95,7 @@ const CustomerRestaurantsTable = ({
                 >
                   <Card.Img
                     variant="top"
-                    src={`http://localhost:8000/images/${restaurant.imageUrl}`}
+                    src={`http://localhost:8000/assets/${restaurant.imageUrl}`}
                     alt={restaurant.name}
                     style={{ height: "150px", objectFit: "cover" }}
                   />

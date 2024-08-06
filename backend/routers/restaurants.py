@@ -21,7 +21,8 @@ from crud.restaurant import (
     crud_get_restaurants_by_type_within_radius,
     crud_get_restaurant_by_id,
     crud_get_recommended_restaurants,
-    crud_toggle_recommend_restaurant
+    crud_toggle_recommend_restaurant,
+    crud_get_recommended_restaurants_within_radius,
 )
 from schemas.user import User
 
@@ -114,6 +115,21 @@ def nearby_restaurants_by_type(
     return crud_get_restaurants_by_type_within_radius(db=db, user=customer, type=type)
 
 
+# all users
+@router.get("/recommended", response_model=List[Restaurant])
+def get_recommended_restaurants(db: Session = Depends(get_db)):
+    return crud_get_recommended_restaurants(db=db)
+
+
+# customer
+@router.get("/recommended-nearby", response_model=List[Restaurant])
+def get_recommended_restaurants_nearby(
+    db: Session = Depends(get_db),
+    customer: User = Depends(get_customer_user)
+):
+    return crud_get_recommended_restaurants_within_radius(db=db, user=customer)
+
+
 # admin, restaurant admin
 @router.get("/owner/{owner_id}", response_model=List[Restaurant])
 def list_restaurants_by_owner(
@@ -123,11 +139,6 @@ def list_restaurants_by_owner(
 ):
     return crud_get_restaurants_by_owner(db=db, owner_id=owner_id)
 
-
-# all users
-@router.get("/recommended", response_model=List[Restaurant])
-def get_recommended_restaurants(db: Session = Depends(get_db)):
-    return crud_get_recommended_restaurants(db=db)
 
 # admin
 @router.put("/toggle_recommend/{id}", response_model=Restaurant)

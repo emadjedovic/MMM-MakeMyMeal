@@ -173,6 +173,29 @@ export const fetchNearbyRestaurants = async (selectedType, token) => {
   }
 };
 
+export const fetchRecommendedNearbyRestaurants = async (token) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/restaurants/recommended-nearby`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log(
+      "Success in fetching recommened restaurants nearby!",
+      response.data
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching recommened restaurants nearby:", error);
+    throw error;
+  }
+};
+
 // RESTAURANT ADMIN USER
 
 export const fetchRestaurantsByOwner = async (userId, token) => {

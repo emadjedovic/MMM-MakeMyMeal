@@ -8,15 +8,22 @@ const DeliveryPersonnelPage = () => {
 
   return (
     <Container>
-      <Tab.Container defaultActiveKey="home">
+      <Tab.Container defaultActiveKey="my-deliveries">
+
         <Nav variant="underline" className="mb-3">
+
           <Nav.Item>
-            <Nav.Link eventKey="home">Home</Nav.Link>
+            <Nav.Link eventKey="my-deliveries">My Deliveries</Nav.Link>
           </Nav.Item>
+
         </Nav>
+
         <Tab.Content>
-          <Tab.Pane eventKey="home"></Tab.Pane>
+
+          <Tab.Pane eventKey="my-deliveries"></Tab.Pane>
+          
         </Tab.Content>
+
       </Tab.Container>
     </Container>
   );

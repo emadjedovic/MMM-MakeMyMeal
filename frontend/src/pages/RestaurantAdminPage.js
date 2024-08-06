@@ -5,10 +5,14 @@ import "../css/App.css";
 import CreatePersonnelForm from "../components/CreatePersonnelForm";
 import RAdminRestaurantsTable from "../components/RAdminRestaurantsTable";
 import {
-  fetchRestaurantsByOwner,
-  updateRestaurant,
-  fetchRestaurantTypes,
-} from "../services/api";
+  getRestaurants,
+  getRestaurantTypes,
+  handleEditClick,
+  handleChange,
+  handleSave,
+  handlePageChange,
+  handlePersonnelCreated
+} from "../services/radminHandlers";
 
 const RestaurantAdminPage = () => {
   const { token, user } = useContext(UserContext);
@@ -21,55 +25,9 @@ const RestaurantAdminPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    const getRestaurants = async () => {
-      try {
-        const data = await fetchRestaurantsByOwner(userId, token);
-        setRestaurants(data);
-      } catch (error) {
-        console.error("Error fetching restaurants:", error);
-      }
-    };
-
-    const getRestaurantTypes = async () => {
-      try {
-        const types = await fetchRestaurantTypes(token);
-        setRestaurantTypes(types);
-      } catch (error) {
-        console.error("Error fetching restaurant types:", error);
-      }
-    };
-
-    getRestaurants();
-    getRestaurantTypes();
+    getRestaurants(userId, token, setRestaurants);
+    getRestaurantTypes(token, setRestaurantTypes);
   }, [userId, token]);
-
-  const handleEditClick = (id, data) => {
-    setEditId(id);
-    setEditableData(data);
-  };
-
-  const handleChange = (e) => {
-    setEditableData({
-      ...editableData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSave = async (id) => {
-    try {
-      await updateRestaurant(id, editableData, token);
-      setEditId(null);
-      setEditableData({});
-      const data = await fetchRestaurantsByOwner(userId, token);
-      setRestaurants(data);
-    } catch (error) {
-      console.error("Error updating restaurant:", error);
-    }
-  };
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
 
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
@@ -85,43 +43,39 @@ const RestaurantAdminPage = () => {
       <Pagination.Item
         key={number}
         active={number === currentPage}
-        onClick={() => handlePageChange(number)}
+        onClick={() => handlePageChange(number, setCurrentPage)}
       >
         {number}
       </Pagination.Item>
     );
   }
 
-  const handlePersonnelCreated = (dp) => {
-    console.log("New delivery personnel created:", dp);
-  };
-
   return (
     <Container>
-      <Tab.Container defaultActiveKey="restaurants">
+      <Tab.Container defaultActiveKey="my-restaurants">
         <Nav variant="underline" className="mb-3">
           <Nav.Item>
-            <Nav.Link eventKey="restaurants">My Restaurants</Nav.Link>
+            <Nav.Link eventKey="my-restaurants">My Restaurants</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link eventKey="manage-personnel">Manage Personnel</Nav.Link>
+            <Nav.Link eventKey="personnel">Personnel</Nav.Link>
           </Nav.Item>
         </Nav>
         <Tab.Content>
-          <Tab.Pane eventKey="restaurants">
+          <Tab.Pane eventKey="my-restaurants">
             <RAdminRestaurantsTable
               restaurants={currentRestaurants}
               editId={editId}
               editableData={editableData}
-              handleEditClick={handleEditClick}
-              handleChange={handleChange}
-              handleSave={handleSave}
+              handleEditClick={(id, data) => handleEditClick(id, data, setEditId, setEditableData)}
+              handleChange={(e) => handleChange(e, editableData, setEditableData)}
+              handleSave={(id) => handleSave(id, editableData, token, userId, setEditId, setEditableData, setRestaurants)}
               paginationItems={paginationItems}
-              handlePageChange={handlePageChange}
+              handlePageChange={(pageNumber) => handlePageChange(pageNumber, setCurrentPage)}
               restaurantTypes={restaurantTypes}
             />
           </Tab.Pane>
-          <Tab.Pane eventKey="manage-personnel">
+          <Tab.Pane eventKey="personnel">
             <CreatePersonnelForm onPersonnelCreated={handlePersonnelCreated} />
           </Tab.Pane>
         </Tab.Content>

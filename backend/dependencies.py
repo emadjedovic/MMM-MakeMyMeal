@@ -32,7 +32,7 @@ async def get_current_user(request: Request, db: Session = Depends(get_db)):
         logger.error("No token found")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
+            detail="Dependencies.py: get_current_user issue.",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
