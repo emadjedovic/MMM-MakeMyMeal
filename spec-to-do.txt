@@ -1,8 +1,6 @@
 1. ADMINISTRATOR
 
-- ima tabelu svih promocija
-
-- tabelu svih narudžbi
+- tabela svih narudžbi
 
 2. ADMINISTRATOR RESTORANA
 

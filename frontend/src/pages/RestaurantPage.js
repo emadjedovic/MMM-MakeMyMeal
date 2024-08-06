@@ -30,7 +30,7 @@ const RestaurantPage = () => {
   return (
     <Container>
       <Button onClick={handleBackClick} variant="outline-dark" className="mb-3">
-        Go Back
+        Back to Home
       </Button>
       <Row>
         <Col md={8} lg={9}>

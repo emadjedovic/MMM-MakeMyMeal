@@ -36,7 +36,7 @@ def startup_event():
 app.add_event_handler("startup", startup_event)
 
 app.mount("/assets", StaticFiles(directory="assets"), name="assets")
-
+# http://localhost:8000/assets/item-images/itemDefault.png
 
 @app.get("/", tags=["Default"])
 def read_root():

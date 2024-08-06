@@ -329,3 +329,80 @@ export const deleteFoodType = async (typeName, token) => {
     throw error;
   }
 };
+
+// PROMOTIONS
+
+export const fetchPromotions = async (token) => {
+  try {
+    const response = await axios.get(`${API_URL}/promotions/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching promotions:", error);
+    throw error;
+  }
+};
+
+export const createPromotion = async (promotionData, token) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/promotions/create`,
+      promotionData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("There was an error creating the promotion!", error);
+    throw error;
+  }
+};
+
+export const updatePromotion = async (id, updatePromotionData, token) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/promotions/update/${id}`,
+      updatePromotionData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating restaurant:", error);
+    throw error;
+  }
+};
+
+export const deletePromotion = async (id, token) => {
+  try {
+    await axios.delete(`${API_URL}/promotions/delete/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.error("Error deleting restaurant:", error);
+    throw error;
+  }
+};
+
+// ITEMS
+
+export const fetchPromotedItems = async (token) => {
+  try {
+    const response = await axios.get(`${API_URL}/items/promoted`);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching promoted items:", error);
+    throw error;
+  }
+};

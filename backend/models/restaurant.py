@@ -21,13 +21,13 @@ class DBRestaurant(Base):
     longitude = Column(Float, nullable=False)
     street_name = Column(String, nullable=False)
     city = Column(String, nullable=False)
-    star_rating = Column(Integer, nullable=True, default=None)
-    type_name = Column(String, ForeignKey("restaurant_types.name"), nullable=True)
+    star_rating = Column(Integer, nullable=True, default=0)
+    type_name = Column(String, ForeignKey("restaurant_types.name"), nullable=True, default="Other")
     radius_of_delivery_km = Column(Float, nullable=True, default=0)
     is_archived = Column(Boolean, nullable=True, default=False)
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    imageUrl = Column(String, nullable=False, default="restaurant-images/restDefault.png")
-    is_recommended = Column(Boolean, nullable=False, default=False)
+    imageUrl = Column(String, nullable=True, default="restaurant-images/restDefault.png")
+    is_recommended = Column(Boolean, nullable=True, default=False)
 
     type = relationship(
         "DBRestaurantType", primaryjoin="DBRestaurantType.name == DBRestaurant.type_name"

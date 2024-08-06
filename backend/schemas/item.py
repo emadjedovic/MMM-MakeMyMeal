@@ -24,6 +24,7 @@ class ItemUpdate(BaseModel):
 class Item(ItemBase):
     id: int
     is_promoted: bool = False # default is False
+    restaurant_id: int
 
     class Config:
         from_attributes = True

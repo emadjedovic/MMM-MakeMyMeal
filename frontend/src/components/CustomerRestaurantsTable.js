@@ -5,6 +5,7 @@ import RestaurantTypesList from "./RestaurantTypesList";
 import { UserContext } from "../UserContext";
 import { calculateDistance } from "../services/distance.js";
 import "../css/App.css";
+import RestaurantPage from "../pages/RestaurantPage.js";
 
 const CustomerRestaurantsTable = ({
   nearbyRestaurants,

@@ -20,7 +20,7 @@ const LookupTables = ({
     <Container>
       <Row>
         <Col lg={5}>
-          <h2>RESTAURANT TYPES</h2>
+          <h2>Restaurant Types</h2>
           <Row>
             <Col>
               <RestaurantTypeForm
@@ -52,7 +52,7 @@ const LookupTables = ({
 
 
         <Col lg={5}>
-          <h2>FOOD TYPES</h2>
+          <h2>Food Types</h2>
           <Row>
             <Col>
               <FoodTypeForm

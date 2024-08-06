@@ -16,7 +16,8 @@ from crud.item import (
     crud_get_items_by_name,
     crud_update_item,
     crud_get_all_items,
-    crud_toggle_recommend_item
+    crud_toggle_recommend_item,
+    crud_get_promoted_items
 )
 
 router = APIRouter(prefix="/items")
@@ -38,6 +39,12 @@ def read_items_by_restaurant(restaurant_id: int, db: Session = Depends(get_db)):
 @router.get("/recommended", response_model=List[Item])
 def read_recommended_items(db: Session = Depends(get_db)):
     items = crud_get_recommended_items(db)
+    return items
+
+# all users
+@router.get("/promoted", response_model=List[Item])
+def read_promoted_items(db: Session = Depends(get_db)):
+    items = crud_get_promoted_items(db)
     return items
 
 

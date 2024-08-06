@@ -15,6 +15,9 @@ def crud_get_recommended_items(db: Session):
 def crud_get_item_by_id(db: Session, item_id: int):
     return db.query(DBItem).filter(DBItem.id == item_id).first()
 
+def crud_get_promoted_items(db: Session):
+    return db.query(DBItem).filter(DBItem.is_promoted==True).all()
+
 
 def crud_get_items_by_restaurant(db: Session, restaurant_id: int):
     return db.query(DBItem).filter(DBItem.restaurant_id == restaurant_id).all()

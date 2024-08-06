@@ -53,7 +53,7 @@ const AddRestaurantForm = ({ onAdd }) => {
     type_name: type,
     radius_of_delivery_km: radiusOfDeliveryKm || 0,
     owner_id: ownerId,
-    imageUrl: imageUrl || "restDefault.png"
+    imageUrl: imageUrl || "restaurant-images/restDefault.png"
   };
 
   const clear = () => {

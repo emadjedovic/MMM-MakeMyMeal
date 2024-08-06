@@ -11,26 +11,38 @@ import {
 
     addFoodType,
     renameFoodType,
-    deleteFoodType
+    deleteFoodType,
+
+    fetchPromotedItems,
+    fetchPromotions
   } from "../services/api";
   
-  export const fetchData = async (selectedType, token, setRestaurants) => {
+  export const fetchRestaurantData = async (token, selectedType, setRestaurants) => {
     try {
       const fetchedRestaurants = await fetchRestaurants(selectedType, token);
       setRestaurants(fetchedRestaurants);
     } catch (error) {
-      console.error("Error fetching restaurants:", error);
+      console.error("Error in fetchRestaurantData.", error);
     }
   };
   
-  export const fetchTypes = async (token, setRestaurantTypes, setFoodTypes) => {
+  export const fetchOtherData = async (token, setRestaurantTypes, setFoodTypes, setPromotedItems, setPromotions) => {
     try {
       const restaurantTypes = await fetchRestaurantTypes(token);
-      const foodTypes = await fetchFoodTypes(token);
+      
       setRestaurantTypes(restaurantTypes);
+
+      const foodTypes = await fetchFoodTypes(token);
       setFoodTypes(foodTypes);
+
+      const promotedItems = await fetchPromotedItems(token);
+      setPromotedItems(promotedItems);
+
+      const promotions = await fetchPromotions(token);
+      setPromotions(promotions);
+      
     } catch (error) {
-      console.error("Error fetching types.");
+      console.error("Error in fetchOtherData.");
     }
   };
   

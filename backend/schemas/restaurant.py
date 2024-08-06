@@ -1,6 +1,5 @@
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field
 from typing import Optional
-
 
 class RestaurantBase(BaseModel):
     name: str
@@ -8,22 +7,24 @@ class RestaurantBase(BaseModel):
     longitude: float
     street_name: str
     city: str
-    star_rating: Optional[int] = Field(None, ge=0, le=5)
-    type_name: Optional[str] = None
+    star_rating: int
+    type_name: str
     radius_of_delivery_km: float
     is_recommended: bool
+    imageUrl: str
 
-    @field_validator("radius_of_delivery_km", mode="before")
-    def validate_radius(cls, value):
-        if value < 0:
-            raise ValueError("Radius must be positive.")
-        return value
-
-
-class RestaurantCreate(RestaurantBase):
+class RestaurantCreate(BaseModel):
+    name: str
+    latitude: float
+    longitude: float
+    street_name: str
+    city: str
+    star_rating: Optional[int] = Field(0, ge=0, le=5)
+    type_name: Optional[str] = 'Other'
+    radius_of_delivery_km: Optional[float] = Field(0, ge=0)
+    is_recommended: Optional[bool] = False
     owner_id: int
-    imageUrl: Optional[str] = None
-
+    imageUrl: Optional[str] = "restaurant-images/restDefault.png"
 
 class RestaurantUpdate(BaseModel):
     name: Optional[str] = None
@@ -33,7 +34,7 @@ class RestaurantUpdate(BaseModel):
     city: Optional[str] = None
     star_rating: Optional[int] = Field(None, ge=0, le=5)
     type_name: Optional[str] = None
-    radius_of_delivery_km: Optional[float] = None
+    radius_of_delivery_km: Optional[float] = Field(None, ge=0)
     is_archived: Optional[bool] = None
     imageUrl: Optional[str] = None
     is_recommended: Optional[bool] = None
@@ -42,7 +43,6 @@ class Restaurant(RestaurantBase):
     id: int
     owner_id: int
     is_archived: bool
-    imageUrl: Optional[str] = None
 
     class Config:
         from_attributes = True

@@ -25,3 +25,9 @@ def calculate_distance(rest_latitude, rest_longitude, user_latitude, user_longit
 def round_up(number: float, decimals: int) -> float:
     factor = 10**decimals
     return math.ceil(number * factor) / factor
+
+def original_price (price_on_discount: float, old_discount: float, new_discount: float):
+    original_price = price_on_discount / (1 - old_discount)
+    new_price = original_price * (1 - new_discount)
+
+    return round_up(new_price,2)
