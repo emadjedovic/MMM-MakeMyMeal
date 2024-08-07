@@ -1,8 +1,8 @@
 from passlib.context import CryptContext
 from datetime import datetime, timezone, timedelta
 from auth.config import SECRET_KEY, ALGORITHM
-import jwt
 import time
+import jwt
 from models.user import DBUser
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Request
