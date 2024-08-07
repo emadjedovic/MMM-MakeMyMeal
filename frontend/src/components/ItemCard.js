@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Card, ListGroup, Row, Col } from "react-bootstrap";
+import React, { useState, useEffect, useContext } from "react";
+import { Card, ListGroup, Button, Modal, Form } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
-import { fetchRestaurantById } from "../services/api";
+import { createPromotion } from "../services/api";
+import { UserContext } from "../UserContext";
+import { getRestaurantName } from "../services/restaurantHandlers";
 
 function ItemCard({ item }) {
+  const { userRole, token } = useContext(UserContext)
   const [restaurantName, setRestaurantName] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [promotionDetails, setPromotionDetails] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -12,22 +17,25 @@ function ItemCard({ item }) {
     navigate(`/restaurant/${restaurantId}`);
   };
 
-  useEffect(() => {
-    const getRestaurantName = async () => {
-      try {
-        const restaurant = await fetchRestaurantById(item.restaurant_id);
-        setRestaurantName(restaurant.name);
-      } catch (error) {
-        console.error("Error fetching restaurant:", error);
-      }
-    };
+  const handlePromotionSubmit = async () => {
+    try {
+      await createPromotion({ itemId: item.id, details: promotionDetails }, token);
+      setShowModal(false);
+      setPromotionDetails("");
+      // Optionally, you can refresh the item data or show a success message here
+    } catch (error) {
+      console.error("There was an error creating the promotion!", error);
+    }
+  };
 
-    getRestaurantName();
+  useEffect(() => {
+    getRestaurantName(item.restaurant_id, setRestaurantName);
   }, [item.restaurant_id]);
 
   const isRestaurantPage = location.pathname.startsWith(`/restaurant/${item.restaurant_id}`);
 
   return (
+    <>
     <Card
       onClick={() => handleItemSelect(item.restaurant_id)}
       className="hover-card"
@@ -49,12 +57,57 @@ function ItemCard({ item }) {
         </p>
         <ListGroup className="list-group-flush" style={{ flex: 1 }}>
           <ListGroup.Item>
-            <strong>PRICE:</strong> {item.price}
+            <strong>PRICE:</strong>&nbsp;{item.price}
+            
+        {item.is_promoted && (
+            <span style={{ color: "red", fontSize: "0.8rem" }}>
+            &nbsp;<strong>ON DISCOUNT!</strong>
+            <img
+              src="/tag-of-war.png"
+              alt="Discount Icon"
+              style={{ width: "20px", height: "20px", marginLeft: "5px" }}
+            />
+          </span>
+          )}
           </ListGroup.Item>
         </ListGroup>
+        {userRole === "RESTAURANT ADMIN" && (
+            <Button variant="primary" size="sm" onClick={() => setShowModal(true)} style={{ alignSelf: "flex-end" }}>
+              Add Promotion
+            </Button>
+          )}
       </Card.Body>
     </Card>
-  );
+
+    <Modal show={showModal} onHide={() => setShowModal(false)}>
+    <Modal.Header closeButton>
+      <Modal.Title>Add Promotion</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <Form>
+        <Form.Group>
+          <Form.Label>Promotion Details</Form.Label>
+          <Form.Control
+            type="text"
+            value={promotionDetails}
+            onChange={(e) => setPromotionDetails(e.target.value)}
+            placeholder="Enter promotion details"
+          />
+        </Form.Group>
+      </Form>
+    </Modal.Body>
+    <Modal.Footer>
+      <Button variant="secondary" onClick={() => setShowModal(false)}>
+        Close
+      </Button>
+      <Button variant="primary" onClick={handlePromotionSubmit}>
+        Save Promotion
+      </Button>
+    </Modal.Footer>
+    </Modal>
+    </>
+    
+);
 }
 
 export default ItemCard;

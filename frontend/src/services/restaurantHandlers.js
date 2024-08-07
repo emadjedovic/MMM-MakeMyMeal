@@ -26,3 +26,13 @@ export const getFoodTypes = async (setFoodTypes) => {
   const data = await fetchFoodTypes();
   setFoodTypes(data);
 };
+
+export const getRestaurantName = async (id, setRestaurantName) => {
+  try {
+    const restaurant = await fetchRestaurantById(id);
+    setRestaurantName(restaurant.name);
+  } catch (error) {
+    console.error("Error fetching restaurant:", error);
+  }
+};
+

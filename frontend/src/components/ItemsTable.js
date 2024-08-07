@@ -54,14 +54,14 @@ const ItemsTable = ({
   return (
     <Container className="my-4">
       <Row>
-        <Col md={4} lg={3} xl={3} xxl={2}>
+        <Col md={4} lg={3} xl={3} xxl={3}>
           <ItemTypesList
             foodTypes={foodTypes}
             selectedFoodType={selectedFoodType}
             handleFoodTypeSelect={onFoodTypeSelect}
           />
         </Col>
-        <Col md={8} lg={9} xl={9} xxl={10}>
+        <Col md={8} lg={9} xl={9} xxl={9}>
           <Form.Control
             type="text"
             placeholder="Search by item name"
@@ -71,7 +71,7 @@ const ItemsTable = ({
           />
           <Row>
             {currentItems.map((item) => (
-              <Col md={12} key={item.id} className="mb-3">
+              <Col md={12} xxl={6} key={item.id} className="mb-3">
                 <ItemCard item={item}/>
               </Col>
             ))}

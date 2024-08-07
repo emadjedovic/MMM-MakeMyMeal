@@ -47,10 +47,6 @@ const RestaurantPage = () => {
       </Button>
       <Row>
         <Col md={8} lg={9}>
-          <p>
-            Listgroup of food types on the left, items grid on the right, add
-            item form for restaurant admins
-          </p>
           <ItemsTable
             items={items}
             foodTypes={foodTypes}
