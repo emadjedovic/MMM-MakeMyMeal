@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Card, ListGroup } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Card, ListGroup, Row, Col } from "react-bootstrap";
+import { useLocation, useNavigate } from "react-router-dom";
 import { fetchRestaurantById } from "../services/api";
 
 function ItemCard({ item }) {
   const [restaurantName, setRestaurantName] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleItemSelect = (restaurantId) => {
     navigate(`/restaurant/${restaurantId}`);
@@ -24,31 +25,34 @@ function ItemCard({ item }) {
     getRestaurantName();
   }, [item.restaurant_id]);
 
+  const isRestaurantPage = location.pathname.startsWith(`/restaurant/${item.restaurant_id}`);
+
   return (
     <Card
       onClick={() => handleItemSelect(item.restaurant_id)}
       className="hover-card"
-      style={{ width: "100%" }}
+      style={{ width: "100%", display: "flex", flexDirection: "row" }}
     >
       <Card.Img
-        variant="top"
+        variant="left"
         src={`http://localhost:8000/assets/${item.imageUrl}`}
         alt={item.name}
-        style={{ width: "100%", objectFit: "cover" }}
+        style={{ width: "40%", objectFit: "cover" }}
       />
-      <Card.Body>
-        <Card.Title>
-          <strong>{item.name}</strong>&nbsp;({restaurantName})
+      <Card.Body style={{ display: "flex", flexDirection: "column" }}>
+      <Card.Title>
+          <strong>{item.name}</strong>
+          {!isRestaurantPage && ` (${restaurantName})`}
         </Card.Title>
         <p>
           {item.food_type_name} {item.description}
         </p>
+        <ListGroup className="list-group-flush" style={{ flex: 1 }}>
+          <ListGroup.Item>
+            <strong>PRICE:</strong> {item.price}
+          </ListGroup.Item>
+        </ListGroup>
       </Card.Body>
-      <ListGroup className="list-group-flush">
-        <ListGroup.Item>
-          <strong>PRICE:</strong> {item.price}
-        </ListGroup.Item>
-      </ListGroup>
     </Card>
   );
 }

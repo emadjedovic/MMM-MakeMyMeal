@@ -42,6 +42,20 @@ def read_items_by_restaurant(restaurant_id: int, db: Session = Depends(get_db)):
     items = crud_get_items_by_restaurant(db, restaurant_id)
     return items
 
+# all users
+@router.get("/search-name/{restaurant_id}/{item_name}", response_model=List[Item])
+def search_items_by_by_name(restaurant_id: int, item_name: str, db: Session = Depends(get_db)):
+    items = crud_get_items_by_name(db, item_name, restaurant_id)
+    return items
+
+
+# all users
+@router.get("/search-type/{restaurant_id}/{food_type_name}", response_model=List[Item])
+def search_items_by_type(restaurant_id: int, food_type_name: str, db: Session = Depends(get_db)):
+    items = crud_get_items_by_food_type(db, food_type_name, restaurant_id)
+    return items
+
+
 
 # all users
 @router.get("/recommended", response_model=List[Item])
@@ -66,18 +80,6 @@ def read_promoted_items(db: Session = Depends(get_db)):
     return items
 
 
-# all users
-@router.get("/search-name/{name}", response_model=List[Item])
-def search_items_by_name(name: str, db: Session = Depends(get_db)):
-    items = crud_get_items_by_name(db, name)
-    return items
-
-
-# all users
-@router.get("/search-type/{food_type_name}", response_model=List[Item])
-def search_items_by_type(food_type_name: str, db: Session = Depends(get_db)):
-    items = crud_get_items_by_food_type(db, food_type_name)
-    return items
 
 
 # restaurant admin

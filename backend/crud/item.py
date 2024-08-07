@@ -27,12 +27,12 @@ def crud_get_items_by_restaurant(db: Session, restaurant_id: int):
     return db.query(DBItem).filter(DBItem.restaurant_id == restaurant_id).all()
 
 
-def crud_get_items_by_food_type(db: Session, food_type_name: str):
-    return db.query(DBItem).filter(DBItem.food_type_name == food_type_name).all()
+def crud_get_items_by_food_type(db: Session, food_type_name: str, restaurant_id: int):
+    return db.query(DBItem).filter(DBItem.food_type_name == food_type_name).filter(DBItem.restaurant_id==restaurant_id).all()
 
 
-def crud_get_items_by_name(db: Session, name: str):
-    return db.query(DBItem).filter(DBItem.name == name).all()
+def crud_get_items_by_name(db: Session, name: str, restaurant_id: int):
+    return db.query(DBItem).filter(DBItem.name == name).filter(DBItem.restaurant_id==restaurant_id).all()
 
 
 def crud_create_item(db: Session, item: ItemCreate):

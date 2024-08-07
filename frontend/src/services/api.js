@@ -1,8 +1,46 @@
 // src/services/api.js
-
 import axios from "axios";
-
 const API_URL = "http://localhost:8000/api";
+
+// USERS
+
+export const createAdmin = async (adminData, token) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/users/create/restaurant-admin`,
+      adminData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("There was an error creating the admin!", error);
+    throw error;
+  }
+};
+
+export const createDeliveryPersonnel = async (personnelData, token) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/users/create/delivery-personnel`,
+      personnelData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("There was an error creating the personnel!", error);
+    throw error;
+  }
+};
 
 export const registerUser = async (userData) => {
   try {
@@ -23,6 +61,8 @@ export const loginUser = async (loginData) => {
     throw error;
   }
 };
+
+// RESTAURANTS
 
 export const toggleArchiveRestaurant = async (id, token) => {
   try {
@@ -75,24 +115,7 @@ export const updateRestaurant = async (id, data, token) => {
   }
 };
 
-export const createDeliveryPersonnel = async (personnelData, token) => {
-  try {
-    const response = await axios.post(
-      `${API_URL}/users/create/delivery-personnel`,
-      personnelData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.error("There was an error creating the personnel!", error);
-    throw error;
-  }
-};
+
 
 export const createRestaurant = async (restaurantData, token) => {
   try {
@@ -113,24 +136,7 @@ export const createRestaurant = async (restaurantData, token) => {
   }
 };
 
-export const createAdmin = async (adminData, token) => {
-  try {
-    const response = await axios.post(
-      `${API_URL}/users/create/restaurant-admin`,
-      adminData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.error("There was an error creating the admin!", error);
-    throw error;
-  }
-};
+
 
 export const fetchRestaurants = async (selectedType, token) => {
   try {
@@ -291,7 +297,7 @@ export const deleteRestaurantType = async (typeName, token) => {
 
 // FOOD TYPES
 
-export const fetchFoodTypes = async (token) => {
+export const fetchFoodTypes = async () => {
   try {
     const response = await axios.get(`${API_URL}/food_types/all`);
     return response.data;
@@ -442,6 +448,21 @@ export const fetchRecommendedItems = async (token) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching recommended items:", error);
+    throw error;
+  }
+};
+
+export const fetchItemsByFoodType = async (restaurant_id, selectedFoodType) => {
+  try {
+    const url =
+      selectedFoodType === "All"
+        ? `${API_URL}/items/restaurant/${restaurant_id}`
+        : `${API_URL}/items/search-type/${restaurant_id}/${selectedFoodType}`;
+    const response = await axios.get(url);
+    console.log("Success in fetching items of a restaurant!", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching items of a restaurant", error);
     throw error;
   }
 };
