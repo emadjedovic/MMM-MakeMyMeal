@@ -1,12 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, ListGroup, Row, Col } from "react-bootstrap";
 import { UserContext } from "../UserContext";
+import { calculateDistance } from "../services/distance";
 
 function RestaurantCard({ restaurant }) {
   const { user } = useContext(UserContext);
+  
+  const navigate = useNavigate();
+
+  const handleRestaurantSelect = (restaurantId) => {
+    navigate(`/restaurant/${restaurantId}`);
+  };
+
 
   return (
-    <Card style={{ width: "100%" }}>
+    <Card onClick={() => handleRestaurantSelect(restaurant.id)}
+    className="hover-card" style={{ width: "100%" }}>
       <Card.Img
         variant="top"
         src={`http://localhost:8000/assets/${restaurant.imageUrl}`}
@@ -17,41 +27,56 @@ function RestaurantCard({ restaurant }) {
         <Card.Title>
           <strong>{restaurant.name}</strong>
         </Card.Title>
-        <p>
-          {restaurant.type} {restaurant.star_rating}/5 {"\u2B50"}
-        </p>
+        <div className="text-muted">
+          {restaurant.type_name ? restaurant.type_name : "Other"}
+          &nbsp;{"\u2B50 "}
+          {restaurant.star_rating}/5
+        </div>
       </Card.Body>
-      <ListGroup className="list-group-flush">
-        <ListGroup.Item>
-          <strong>Street:</strong> {restaurant.street_name}
-        </ListGroup.Item>
-        <ListGroup.Item>
-          <strong>City:</strong> {restaurant.city}
-        </ListGroup.Item>
-        <ListGroup.Item>
-          <strong>Latitude:</strong> {restaurant.latitude}
-        </ListGroup.Item>
-        <ListGroup.Item>
-          <strong>Longitude:</strong> {restaurant.longitude}
-        </ListGroup.Item>
-        <ListGroup.Item>
-          <strong>Radius of Delivery:</strong>{" "}
-          {restaurant.radius_of_delivery_km} km
-        </ListGroup.Item>
-        {user.role === "ADMIN" && (
-          <>
+      <Card.Text style={{ margin: "1rem", marginTop:"0" }}>
+        <i>
+          {restaurant.street_name} ({restaurant.city})
+        </i>
+      </Card.Text>
+      {user.role === "CUSTOMER" && (
+        <>
+          <ListGroup className="list-group-flush">
             <ListGroup.Item>
-              <strong>ID:</strong> {restaurant.id}
+              {calculateDistance(
+                restaurant.latitude,
+                restaurant.longitude,
+                user.latitude,
+                user.longitude
+              )}{" "}
+              km from you
             </ListGroup.Item>
-            <ListGroup.Item>
-              <strong>Owner ID:</strong> {restaurant.owner_id}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <strong>Archived:</strong> {restaurant.is_archived ? "Yes" : "No"}
-            </ListGroup.Item>
-          </>
-        )}
-      </ListGroup>
+          </ListGroup>
+        </>
+      )}
+      {(user.role === "ADMIN" || user.role === "RESTAURANT ADMIN") && (
+        <ListGroup>
+          <ListGroup.Item>
+            <strong>ID:</strong> {restaurant.id}
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <strong>Owner ID:</strong> {restaurant.owner_id}
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <strong>Latitude:</strong> {restaurant.latitude}
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <strong>Longitude:</strong> {restaurant.longitude}
+          </ListGroup.Item>
+
+          <ListGroup.Item>
+            <strong>Radius of Delivery:</strong>{" "}
+            {restaurant.radius_of_delivery_km} km
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <strong>Archived:</strong> {restaurant.is_archived ? "Yes" : "No"}
+          </ListGroup.Item>
+        </ListGroup>
+      )}
     </Card>
   );
 }

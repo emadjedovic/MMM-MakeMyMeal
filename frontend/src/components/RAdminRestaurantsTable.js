@@ -39,14 +39,7 @@ const RAdminRestaurantsTable = ({
         <tbody>
           {restaurants.map((restaurant) => (
             <tr key={restaurant.id}>
-              <td>
-                <Button
-                  variant="link"
-                  onClick={() => handleRestaurantSelect(restaurant.id)}
-                >
-                  {restaurant.name}
-                </Button>
-              </td>
+              <td>{restaurant.id}</td>
               <td>
                 {editId === restaurant.id ? (
                   <input
@@ -57,9 +50,15 @@ const RAdminRestaurantsTable = ({
                     onChange={handleChange}
                   />
                 ) : (
-                  restaurant.name
+                  <Button
+                    variant="link"
+                    onClick={() => handleRestaurantSelect(restaurant.id)}
+                  >
+                    {restaurant.name}
+                  </Button>
                 )}
               </td>
+
               <td>
                 {editId === restaurant.id ? (
                   <input

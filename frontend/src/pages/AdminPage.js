@@ -9,8 +9,6 @@ import LookupTables from "../components/LookupTables";
 import PromotionsTable from "../components/PromotionsTable";
 import "../css/App.css";
 import {
-  fetchRestaurantData,
-  fetchOtherData,
   handleAdd,
   handleUpdate,
   handleToggleArchive,
@@ -23,6 +21,9 @@ import {
   handleAddFoodType,
   handleRenameFoodType,
   handleDeleteFoodType,
+  fetchPromotionData,
+  fetchTypes,
+  fetchRestaurantsByType
 } from "../services/adminHandlers";
 
 const AdminPage = () => {
@@ -36,11 +37,17 @@ const AdminPage = () => {
   const [promotions, setPromotions] = useState([]);
 
   useEffect(() => {
-    fetchRestaurantData(token, selectedType, setRestaurants);
+    fetchRestaurantsByType(token, selectedType, setRestaurants);
   }, [selectedType, token]);
 
   useEffect(() => {
-    fetchOtherData(token, setRestaurantTypes, setFoodTypes, setPromotedItems, setPromotions);
+    fetchTypes(token, setRestaurantTypes, setFoodTypes);
+  }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      fetchPromotionData(token, setPromotedItems, setPromotions);
+    }
   }, [token]);
 
   return (

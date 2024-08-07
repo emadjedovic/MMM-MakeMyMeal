@@ -4,6 +4,10 @@ from sqlalchemy.orm import Session
 from models.item import DBItem
 from schemas.item import ItemCreate, ItemUpdate
 from helpers.math import round_up
+from models.restaurant import DBRestaurant
+from typing import List
+from models.user import DBUser
+from helpers.math import calculate_distance
 
 def crud_get_all_items(db: Session):
     return db.query(DBItem).all()
@@ -106,3 +110,25 @@ def crud_toggle_recommend_item(db: Session, id: int) -> DBItem:
     db.commit()
     db.refresh(db_item)
     return db_item
+
+def crud_get_recommended_items_within_radius(db: Session, user: DBUser) -> List[DBItem]:
+    user_latitude = user.latitude
+    user_longitude = user.longitude
+
+    all_restaurants = db.query(DBRestaurant).filter(DBRestaurant.is_archived == False).all()
+
+    nearby_restaurants_ids = []
+
+    for restaurant in all_restaurants:
+        distance = calculate_distance(
+            restaurant.latitude, restaurant.longitude, user_latitude, user_longitude
+        )
+        if distance <= restaurant.radius_of_delivery_km:
+            nearby_restaurants_ids.append(restaurant.id)
+
+    recommended_items = db.query(DBItem).filter(
+        DBItem.is_recommended == True,
+        DBItem.restaurant_id.in_(nearby_restaurants_ids)
+    ).all()
+
+    return recommended_items

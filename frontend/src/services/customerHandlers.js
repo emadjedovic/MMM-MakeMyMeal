@@ -3,6 +3,9 @@ import {
   fetchNearbyRestaurants,
   fetchRestaurantTypes,
   fetchRecommendedNearbyRestaurants,
+  fetchRecommendedItems,
+  fetchPromotedItems,
+  fetchPromotions,
 } from "../services/api";
 
 export const fetchRestaurantsByType = async (
@@ -21,19 +24,51 @@ export const fetchRestaurantsByType = async (
   }
 };
 
-export const fetchOtherData = async (
+export const fetchRecommended = async (
   token,
-  setRestaurantTypes,
-  setRecommendedRestaurants
+  setRecommendedRestaurants,
+  setRecommendedItems
+) => {
+  try {
+    const fetchedRecommendedRestaurants = await fetchRecommendedNearbyRestaurants(token);
+    setRecommendedRestaurants(fetchedRecommendedRestaurants);
+
+    const fetchedRecommendedItems = await fetchRecommendedItems(token);
+    setRecommendedItems(fetchedRecommendedItems);
+  } catch (error) {
+    console.error(
+      "Error fetching recommended."
+    );
+  }
+};
+
+export const fetchTypes = async (
+  token,
+  setRestaurantTypes
 ) => {
   try {
     const types = await fetchRestaurantTypes(token);
     setRestaurantTypes(types);
-
-    const fetchedRecommended = await fetchRecommendedNearbyRestaurants(token);
-    setRecommendedRestaurants(fetchedRecommended);
   } catch (error) {
-    console.error("Error fetching restaurant types and recommended restaurants.");
+    console.error(
+      "Error fetching types."
+    );
+  }
+};
+
+export const fetchPromotionData = async (
+  token,
+  setPromotedItems,
+  setPromotions
+) => {
+  try {
+    const promotedItems = await fetchPromotedItems(token);
+    setPromotedItems(promotedItems);
+
+    const promotions = await fetchPromotions(token);
+    setPromotions(promotions);
+  } catch (error) {
+    console.error("Error fetching promotion data.");
   }
 };
 

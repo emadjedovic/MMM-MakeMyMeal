@@ -429,3 +429,19 @@ export const fetchPromotedItems = async (token) => {
     throw error;
   }
 };
+
+export const fetchRecommendedItems = async (token) => {
+  try {
+    const response = await axios.get(`${API_URL}/items/recommended_nearby`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("Success in fetching recommened items!", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching recommended items:", error);
+    throw error;
+  }
+};

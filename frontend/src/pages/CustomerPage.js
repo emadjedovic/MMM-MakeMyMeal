@@ -1,13 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
-import { Container, Tab, Nav } from "react-bootstrap";
+import { Container, Tab, Nav, Row, Col } from "react-bootstrap";
 import "../css/App.css";
 import CustomerRestaurantsTable from "../components/CustomerRestaurantsTable";
 import RecommendedRestaurants from "../components/RecommendedRestaurants";
+import PromotionsTable from "../components/PromotionsTable";
+import RecommendedItems from "../components/RecommendedItems";
 import {
   fetchRestaurantsByType,
-  fetchOtherData,
-  handleTypeSelect
+  handleTypeSelect,
+  fetchPromotionData,
+  fetchRecommended,
+  fetchTypes
 } from "../services/customerHandlers";
 
 const CustomerPage = () => {
@@ -16,6 +20,9 @@ const CustomerPage = () => {
   const [restaurantTypes, setRestaurantTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("All");
   const [recommendedRestaurants, setRecommendedRestaurants] = useState([]);
+  const [recommendedItems, setRecommendedItems] = useState([]);
+  const [promotedItems, setPromotedItems] = useState([]);
+  const [promotions, setPromotions] = useState([]);
 
   useEffect(() => {
     if (token) {
@@ -25,10 +32,21 @@ const CustomerPage = () => {
 
   useEffect(() => {
     if (token) {
-      fetchOtherData(token, setRestaurantTypes, setRecommendedRestaurants);
+      fetchRecommended(token, setRecommendedRestaurants, setRecommendedItems);
     }
   }, [token]);
 
+  useEffect(() => {
+    if (token) {
+      fetchTypes(token, setRestaurantTypes);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      fetchPromotionData(token, setPromotedItems, setPromotions);
+    }
+  }, [token]);
 
   return (
     <Container>
@@ -36,6 +54,9 @@ const CustomerPage = () => {
         <Nav variant="underline" className="mb-3">
           <Nav.Item>
             <Nav.Link eventKey="nearby-restaurants">Restaurants</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="promotions-table">Promotions</Nav.Link>
           </Nav.Item>
         </Nav>
 
@@ -47,7 +68,17 @@ const CustomerPage = () => {
               onTypeSelect={(type) => handleTypeSelect(type, setSelectedType)}
               selectedType={selectedType}
             />
-            <RecommendedRestaurants recommended={recommendedRestaurants} />
+            <Row>
+              <Col md={8} lg={8}>
+                <RecommendedItems recommended={recommendedItems} />
+              </Col>
+              <Col md={4} lg={4}>
+                <RecommendedRestaurants recommended={recommendedRestaurants} />
+              </Col>
+            </Row>
+          </Tab.Pane>
+          <Tab.Pane eventKey="promotions-table">
+            <PromotionsTable items={promotedItems} promotions={promotions} />
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>

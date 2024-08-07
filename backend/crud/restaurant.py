@@ -91,6 +91,7 @@ def crud_toggle_archive_restaurant(db: Session, id: int) -> DBRestaurant:
     db.refresh(db_restaurant)
     return db_restaurant
 
+
 def crud_toggle_recommend_restaurant(db: Session, id: int) -> DBRestaurant:
     db_restaurant = db.query(DBRestaurant).filter(DBRestaurant.id == id).first()
     if not db_restaurant:
@@ -116,7 +117,9 @@ def crud_get_restaurants_within_radius(db: Session, user: DBUser) -> List[DBRest
     user_latitude = user.latitude
     user_longitude = user.longitude
 
-    all_restaurants = db.query(DBRestaurant).filter(DBRestaurant.is_archived==False).all()
+    all_restaurants = (
+        db.query(DBRestaurant).filter(DBRestaurant.is_archived == False).all()
+    )
 
     nearby_restaurants = []
 
@@ -139,7 +142,7 @@ def crud_get_restaurants_by_type_within_radius(
     all_restaurants_of_type = (
         db.query(DBRestaurant)
         .filter(DBRestaurant.type_name == type)
-        .filter(DBRestaurant.is_archived==False)
+        .filter(DBRestaurant.is_archived == False)
         .all()
     )
 
@@ -155,24 +158,11 @@ def crud_get_restaurants_by_type_within_radius(
     return nearby_restaurants_of_type
 
 
-import logging
-from geopy.distance import geodesic
-# Ensure you have a logging configuration set up
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
-
-def calculate_distance(lat1, lon1, lat2, lon2):
-    # Dummy implementation of distance calculation, replace with actual logic
-    
-    return geodesic((lat1, lon1), (lat2, lon2)).km
-
 def crud_get_recommended_restaurants_within_radius(
     db: Session, user: DBUser
 ) -> List[DBRestaurant]:
     user_lat = user.latitude
     user_long = user.longitude
-
-    logger.debug(f"User coordinates: lat={user_lat}, long={user_long}")
 
     all_recommended_restaurants = (
         db.query(DBRestaurant)
@@ -181,23 +171,17 @@ def crud_get_recommended_restaurants_within_radius(
         .all()
     )
 
-    logger.debug(f"All recommended restaurants: {all_recommended_restaurants}")
-
     nearby_recommended_restaurants = []
 
     for restaurant in all_recommended_restaurants:
         distance = calculate_distance(
             restaurant.latitude, restaurant.longitude, user_lat, user_long
         )
-        logger.debug(f"Restaurant: {restaurant.name}, Distance: {distance}, Radius: {restaurant.radius_of_delivery_km}")
 
         if distance <= restaurant.radius_of_delivery_km:
             nearby_recommended_restaurants.append(restaurant)
 
-    logger.debug(f"Nearby recommended restaurants: {nearby_recommended_restaurants}")
-
     return nearby_recommended_restaurants
-
 
 
 def crud_get_restaurants_by_owner(db: Session, owner_id: int) -> List[DBRestaurant]:
@@ -205,5 +189,7 @@ def crud_get_restaurants_by_owner(db: Session, owner_id: int) -> List[DBRestaura
 
 
 def crud_get_recommended_restaurants(db: Session) -> List[DBRestaurant]:
-    recommended_restaurants = db.query(DBRestaurant).filter(DBRestaurant.is_recommended == True).all()
+    recommended_restaurants = (
+        db.query(DBRestaurant).filter(DBRestaurant.is_recommended == True).all()
+    )
     return recommended_restaurants
