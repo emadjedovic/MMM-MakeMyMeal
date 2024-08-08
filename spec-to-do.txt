@@ -4,10 +4,6 @@
 
 2. ADMINISTRATOR RESTORANA
 
-- dodaje items u restorane
-- dodaje promocije (period promocije, cijena tokom promocije)
-(sve u sklopu restorana)
-
 - prati narudžbe i rad dostavljača (mogućnost odobravanja narudžbi i dodjele narudžbi dostavljačima)
 
 3. KUPAC

@@ -34,7 +34,7 @@ router = APIRouter(prefix="/restaurants")
 def create_restaurant(
     restaurant: RestaurantCreate,
     db: Session = Depends(get_db),
-    # admin: User = Depends(get_admin_user),
+    admin: User = Depends(get_admin_user),
 ):
     return crud_create_restaurant(db=db, restaurant=restaurant)
 
@@ -45,7 +45,7 @@ def update_restaurant(
     id: int,
     restaurant: RestaurantUpdate,
     db: Session = Depends(get_db),
-    # admin_or_restaurant_admin: User = Depends(get_admin_or_restaurant_admin),
+    admin_or_restaurant_admin: User = Depends(get_admin_or_restaurant_admin),
 ):
     return crud_update_restaurant(db=db, id=id, restaurant=restaurant)
 
@@ -54,7 +54,8 @@ def update_restaurant(
 @router.delete("/{id}", response_model=Restaurant)
 def delete_restaurant(
     id: int,
-    db: Session = Depends(get_db),  # admin: User = Depends(get_admin_user)
+    db: Session = Depends(get_db),
+    admin: User = Depends(get_admin_user)
 ):
     try:
         return crud_delete_restaurant(db=db, id=id)
@@ -72,7 +73,8 @@ def get_restaurant_by_id(id: int, db: Session = Depends(get_db)):
 @router.put("/{id}/toggle_archive", response_model=Restaurant)
 def toggle_archive_restaurant(
     id: int,
-    db: Session = Depends(get_db),  # admin: User = Depends(get_admin_user)
+    db: Session = Depends(get_db),
+    admin: User = Depends(get_admin_user)
 ):
     return crud_toggle_archive_restaurant(db=db, id=id)
 
@@ -81,7 +83,7 @@ def toggle_archive_restaurant(
 @router.get("/all", response_model=List[Restaurant])
 def list_all_restaurants(
     db: Session = Depends(get_db),
-    # admin: User = Depends(get_admin_user),
+    admin: User = Depends(get_admin_user),
 ):
     return crud_get_all_restaurants(db=db)
 
@@ -91,7 +93,7 @@ def list_all_restaurants(
 def list_restaurants_by_type(
     type: str,
     db: Session = Depends(get_db),
-    # admin: User = Depends(get_admin_user),
+    admin: User = Depends(get_admin_user),
 ):
     return crud_get_restaurants_by_type(db=db, type=type)
 
@@ -135,7 +137,7 @@ def get_recommended_restaurants_nearby(
 def list_restaurants_by_owner(
     owner_id: int,
     db: Session = Depends(get_db),
-    # admin_or_restaurant_admin: User = Depends(get_admin_or_restaurant_admin),
+    admins: User = Depends(get_admin_or_restaurant_admin),
 ):
     return crud_get_restaurants_by_owner(db=db, owner_id=owner_id)
 
@@ -144,6 +146,7 @@ def list_restaurants_by_owner(
 @router.put("/toggle_recommend/{id}", response_model=Restaurant)
 def toggle_recommend_restaurant(
     id: int,
-    db: Session = Depends(get_db),  # admin: User = Depends(get_admin_user)
+    db: Session = Depends(get_db),
+    admin: User = Depends(get_admin_user)
 ):
     return crud_toggle_recommend_restaurant(db=db, id=id)

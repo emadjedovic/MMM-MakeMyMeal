@@ -4,7 +4,7 @@ import { Modal, Button, Form, Alert } from "react-bootstrap";
 import { createPromotion } from "../services/api";
 import { UserContext } from "../UserContext";
 
-const AddPromotionModal = ({ show, handleClose, itemId }) => {
+const AddPromotionModal = ({ show, handleClose, itemId, refreshItems }) => {
   const { token } = useContext(UserContext);
   const [discountPercentage, setDiscountPercentage] = useState("");
   const [startDate, setStartDate] = useState(
@@ -32,6 +32,7 @@ const AddPromotionModal = ({ show, handleClose, itemId }) => {
 
     try {
       await createPromotion(promotionData, token);
+      refreshItems();
       handleClose();
       clearStates();
       setError("");

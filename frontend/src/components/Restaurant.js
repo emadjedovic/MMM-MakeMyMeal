@@ -13,8 +13,12 @@ const Restaurant = ({ restaurantId }) => {
   const [foodTypes, setFoodTypes] = useState([]);
   const [selectedFoodType, setSelectedFoodType] = useState("All");
 
-  useEffect(() => {
+  const fetchItems = () => {
     getItems(restaurantId, selectedFoodType, setItems);
+  };
+
+  useEffect(() => {
+    fetchItems();
   }, [selectedFoodType]);
 
   useEffect(() => {
@@ -37,6 +41,7 @@ const Restaurant = ({ restaurantId }) => {
             }
             selectedFoodType={selectedFoodType}
             restaurantId={restaurantId}
+            refreshItems={fetchItems}
           />
         </Col>
         <Col md={2} lg={3}>

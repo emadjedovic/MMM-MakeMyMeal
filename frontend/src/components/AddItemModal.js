@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { createItem } from "../services/api.js";
 
-const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantId }) => {
+const AddItemModal = ({
+  show,
+  handleClose,
+  foodTypes,
+  token,
+  restaurantId,
+  refreshItems,
+}) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("No description");
   const [foodType, setFoodType] = useState("Other");
@@ -24,6 +31,7 @@ const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantId }) => 
 
     try {
       await createItem(newItem, token);
+      refreshItems();
       handleClose();
       clearStates();
     } catch (error) {
@@ -57,7 +65,7 @@ const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantId }) => 
               required
             />
           </Form.Group>
-          
+
           <Form.Group controlId="itemDescription" className="mb-3">
             <Form.Label>Description (optional)</Form.Label>
             <Form.Control
@@ -67,7 +75,7 @@ const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantId }) => 
               onChange={(e) => setDescription(e.target.value)}
             />
           </Form.Group>
-          
+
           <Form.Group controlId="itemType" className="mb-3">
             <Form.Label>Item Type</Form.Label>
             <Form.Control
@@ -83,7 +91,7 @@ const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantId }) => 
               ))}
             </Form.Control>
           </Form.Group>
-          
+
           <Form.Group controlId="itemPrice" className="mb-3">
             <Form.Label>Price</Form.Label>
             <Form.Control
@@ -94,7 +102,7 @@ const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantId }) => 
               required
             />
           </Form.Group>
-          
+
           <Form.Group controlId="itemImageUrl" className="mb-3">
             <Form.Label>Image URL</Form.Label>
             <Form.Control
@@ -104,7 +112,7 @@ const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantId }) => 
               onChange={(e) => setImageUrl(e.target.value)}
             />
           </Form.Group>
-          
+
           <Form.Group controlId="itemRecommended" className="mb-3">
             <Form.Check
               type="checkbox"
@@ -113,7 +121,7 @@ const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantId }) => 
               onChange={(e) => setIsRecommended(e.target.checked)}
             />
           </Form.Group>
-          
+
           <Button variant="primary" onClick={handleAddItem}>
             Confirm
           </Button>
