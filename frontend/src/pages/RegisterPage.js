@@ -143,6 +143,7 @@ const RegisterPage = () => {
                   required
                 />
               </Form.Group>
+              {/* 
               <Form.Group controlId="formLatitude" className="mb-3">
                 <Form.Control
                   type="text"
@@ -158,12 +159,12 @@ const RegisterPage = () => {
                   value={longitude}
                   onChange={(e) => setLongitude(e.target.value)}
                 />
-              </Form.Group>
+              </Form.Group>*/}
               <Button variant="danger" type="submit" className="w-50 mb-3">
                 Register
               </Button>
               {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
-              <p>Already have an account?</p>
+              <p className="m-1">Already have an account?</p>
               <Button
                 variant="link"
                 onClick={handleLoginRedirect}

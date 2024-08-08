@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button, Container, Col, Row } from "react-bootstrap";
 import RestaurantCard from "../components/RestaurantCard";
 import ItemsTable from "../components/ItemsTable";
+import { UserContext } from "../UserContext";
 import {
   handleFoodTypeSelect,
   getRestaurant,
@@ -12,6 +13,8 @@ import {
 
 const RestaurantPage = () => {
   const { id } = useParams();
+  
+  const { token, user } = useContext(UserContext);
   const navigate = useNavigate();
   const [restaurant, setRestaurant] = useState(null);
   const [items, setItems] = useState([]);
@@ -54,6 +57,7 @@ const RestaurantPage = () => {
               handleFoodTypeSelect(type_name, setSelectedFoodType)
             }
             selectedFoodType={selectedFoodType}
+            restaurantID={id}
           />
         </Col>
         <Col>

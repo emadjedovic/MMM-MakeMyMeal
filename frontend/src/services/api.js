@@ -425,6 +425,26 @@ export const deletePromotion = async (id, token) => {
 
 // ITEMS
 
+export const createItem = async (itemData, token) => {
+  console.log("item data (api.js): ", itemData)
+  try {
+    const response = await axios.post(
+      `${API_URL}/items/create`,
+      itemData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("There was an error creating the item!", error);
+    throw error;
+  }
+};
+
 export const fetchPromotedItems = async (token) => {
   try {
     const response = await axios.get(`${API_URL}/items/promoted`);

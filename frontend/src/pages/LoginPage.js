@@ -46,6 +46,35 @@ const LoginPage = () => {
             <img src="icon.ico" alt="App Logo" width="150" className="mb-3" />
             <h1>MMM</h1>
             <h1>Make My Meal</h1>
+            <div className="footer-links mt-5">
+              <div>
+                <a
+                  href="https://github.com/emadjedovic"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-link"
+                >
+                  GitHub
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/ema-djedovic/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-link"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href="https://medium.com/@emadjedovic"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-link"
+                >
+                  Medium
+                </a>
+                &copy; 2024 MMM. All rights reserved. by Ema Djedović
+              </div>
+            </div>
           </Col>
           <Col
             xs={4}
@@ -75,7 +104,7 @@ const LoginPage = () => {
                 Login
               </Button>
               {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
-              <p>Don't have an account?</p>
+              <p className="m-1">Don't have an account?</p>
               <Button
                 variant="link"
                 onClick={handleRegisterRedirect}
@@ -83,38 +112,9 @@ const LoginPage = () => {
               >
                 Register
               </Button>
-              <div className="footer-links mt-4">
-                <div>
-                  <a
-                    href="https://github.com/emadjedovic"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="footer-link"
-                  >
-                    GitHub
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/ema-djedovic/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="footer-link"
-                  >
-                    LinkedIn
-                  </a>
-                  <a
-                    href="https://medium.com/@emadjedovic"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="footer-link"
-                  >
-                    Medium
-                  </a>
-                </div>
-                <div className="mt-4">
-                  &copy; 2024 MMM. All rights reserved. <br></br>
-                  by Ema Djedović
-                </div>
-              </div>
+              <p className="m-1">Forgot your password?</p>
+              <p>Reset Password</p>
+              
             </Form>
           </Col>
         </Row>

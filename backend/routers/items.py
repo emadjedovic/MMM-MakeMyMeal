@@ -80,8 +80,6 @@ def read_promoted_items(db: Session = Depends(get_db)):
     return items
 
 
-
-
 # restaurant admin
 @router.post("/create", response_model=Item)
 def create_item(

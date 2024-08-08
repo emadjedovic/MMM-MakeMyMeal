@@ -21,7 +21,7 @@ import "./css/App.css";
 import RestaurantPage from "./pages/RestaurantPage";
 
 function App() {
-  const { token, user, userRole } = useContext(UserContext);
+  const { user, userRole } = useContext(UserContext);
   const location = useLocation();
   const navigate = useNavigate();
 

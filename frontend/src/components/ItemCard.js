@@ -53,11 +53,11 @@ function ItemCard({ item }) {
           {!isRestaurantPage && ` (${restaurantName})`}
         </Card.Title>
         <p>
-          {item.food_type_name} {item.description}
+          {item.food_type_name.toUpperCase()} // {item.description}
         </p>
         <ListGroup className="list-group-flush" style={{ flex: 1 }}>
           <ListGroup.Item>
-            <strong>PRICE:</strong>&nbsp;{item.price}
+            <strong>PRICE:</strong>&nbsp;€{item.price}
             
         {item.is_promoted && (
             <span style={{ color: "red", fontSize: "0.8rem" }}>

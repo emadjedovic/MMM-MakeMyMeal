@@ -6,12 +6,11 @@
 
 - dodaje items u restorane
 - dodaje promocije (period promocije, cijena tokom promocije)
+(sve u sklopu restorana)
 
 - prati narudžbe i rad dostavljača (mogućnost odobravanja narudžbi i dodjele narudžbi dostavljačima)
 
 3. KUPAC
-
-- mogućnost pretrage po nazivu i tipu items (na stranici restorana)
 
 - kreiranje narudžbi (unosi se količina, način plaćanja, šalje se e-mail kupcu da je narudžba uspješno spašena, kupac može odrediti vrijeme u kojem želi dostavu narudžbe - ukoliko vrijeme nije navedeno, uzima se vrijeme kreiranja narudžbe kao minimalno vrijeme dostave) (na stranici određenog restorana)
 - pregled svih dosadašnjih narudžbi

@@ -1,19 +1,28 @@
-import React from "react";
-import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
+import React, { useState } from "react";
+import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+import "leaflet-defaulticon-compatibility";
 
 const Map = ({ onLocationSelect }) => {
+  const [position, setPosition] = useState(null);
+
   const LocationMarker = () => {
     const map = useMapEvents({
       click(e) {
+        const { lat, lng } = e.latlng;
+        setPosition([lat, lng]);
         onLocationSelect(e.latlng);
       },
     });
-    return null;
+
+    return position === null ? null : (
+      <Marker position={position} />
+    );
   };
 
   return (
-    /* Sarajevo [43.8486, 18.3564] */
     <MapContainer
       center={[43.8486, 18.3564]}
       zoom={13}

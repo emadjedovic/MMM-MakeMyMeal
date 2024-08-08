@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, ListGroup, Row, Col } from "react-bootstrap";
+import { Card, ListGroup} from "react-bootstrap";
 import { UserContext } from "../UserContext";
 import { calculateDistance } from "../services/distance";
 
 function RestaurantCard({ restaurant }) {
-  const { user } = useContext(UserContext);
+  const { user, userRole } = useContext(UserContext);
   
   const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ function RestaurantCard({ restaurant }) {
           {restaurant.street_name} ({restaurant.city})
         </i>
       </Card.Text>
-      {user.role === "CUSTOMER" && (
+      {userRole === "CUSTOMER" && (
         <>
           <ListGroup className="list-group-flush">
             <ListGroup.Item>
@@ -53,7 +53,7 @@ function RestaurantCard({ restaurant }) {
           </ListGroup>
         </>
       )}
-      {(user.role === "ADMIN" || user.role === "RESTAURANT ADMIN") && (
+      {(userRole === "ADMIN" || userRole === "RESTAURANT ADMIN") && (
         <ListGroup>
           <ListGroup.Item>
             <strong>ID:</strong> {restaurant.id}

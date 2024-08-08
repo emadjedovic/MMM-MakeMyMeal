@@ -24,7 +24,7 @@ const AdminRestaurantsTable = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [searchName, setSearchName] = useState("");
   const [searchCity, setSearchCity] = useState("");
-  const [showArchived, setShowArchived] = useState(false);
+  const [showArchived, setShowArchived] = useState(true);
   const [showNotArchived, setShowNotArchived] = useState(true);
   const navigate = useNavigate();
 
