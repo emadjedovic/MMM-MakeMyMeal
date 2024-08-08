@@ -103,8 +103,8 @@ const ItemsTable = ({
           </Row>
           <Row className="mt-3">
             {currentItems.map((item) => (
-              <Col md={12} lg={12} xxl={6} key={item.id} className="mb-3">
-                <ItemCard item={item} />
+              <Col md={12} lg={12} xxl={12} key={item.id} className="mb-3">
+                <ItemCard item={item} isInRestaurant={true}/>
               </Col>
             ))}
           </Row>

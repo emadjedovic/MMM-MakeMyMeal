@@ -18,7 +18,7 @@ import CustomerPage from "./pages/CustomerPage";
 import DeliveryPersonnelPage from "./pages/DeliveryPersonnelPage";
 
 import "./css/App.css";
-import RestaurantPage from "./pages/RestaurantPage";
+import Restaurant from "./components/Restaurant";
 
 function App() {
   const { user, userRole } = useContext(UserContext);
@@ -75,7 +75,6 @@ function App() {
             element={<ProtectedRoute element={renderComponentByRole()} />}
           />
           <Route path="*" element={<RedirectToPrevious />} />
-          <Route path="/restaurant/:id" element={<RestaurantPage />} />
         </Routes>
       </div>
     </div>

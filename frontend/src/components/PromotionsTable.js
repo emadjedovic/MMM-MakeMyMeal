@@ -8,7 +8,7 @@ import {
   Col,
   Form,
 } from "react-bootstrap";
-import RestaurantPage from "../pages/RestaurantPage";
+import Restaurant from "./Restaurant";
 
 const PromotionsTable = ({ items, promotions }) => {
   const itemsPerPage = 8;
@@ -83,7 +83,7 @@ const PromotionsTable = ({ items, promotions }) => {
   return (
     <Container className="my-4">
       {selectedRestaurantId ? (
-        <RestaurantPage restaurantId={selectedRestaurantId} />
+        <Restaurant restaurantId={selectedRestaurantId} />
       ) : (
         <>
           <Row>

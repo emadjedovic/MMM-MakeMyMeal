@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, Row, Col, Card, ListGroup } from "react-bootstrap";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import { fetchRestaurantById } from "../services/api"; // Import your API fetching function
+import Restaurant from "./Restaurant";
 
 const RecommendedItems = ({ recommended }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [restaurantNames, setRestaurantNames] = useState({});
-  const navigate = useNavigate();
+
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
+
+  const handleItemSelect = (restaurantId) => {
+    setSelectedRestaurantId(restaurantId);
+  };
+
 
   const itemsPerPage = 3;
   const totalPages = Math.ceil(recommended.length / itemsPerPage);
@@ -22,9 +28,6 @@ const RecommendedItems = ({ recommended }) => {
     setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
 
-  const handleCardClick = (restaurantId) => {
-    navigate(`/restaurant/${restaurantId}`);
-  };
 
   const fetchRestaurantNames = async () => {
     const names = {};
@@ -50,7 +53,11 @@ const RecommendedItems = ({ recommended }) => {
   const currentItems = recommended.slice(startIndex, endIndex);
 
   return (
-    <Container>
+    <Container className="my-4">
+      {selectedRestaurantId ? (
+        <Restaurant restaurantId={selectedRestaurantId} />
+      ) : (
+        <>
       <Row className="justify-content-center">
         <Col className="text-center">
           <h4>
@@ -66,7 +73,7 @@ const RecommendedItems = ({ recommended }) => {
                 <Col>
                   <Card
                     style={{ display: 'flex', flexDirection: 'row', cursor: 'pointer' }}
-                    onClick={() => handleCardClick(item.restaurant_id)}
+                    onClick={() => handleItemSelect(item.restaurant_id)}
                   >
                     <Card.Img
                       variant="left"
@@ -112,6 +119,8 @@ const RecommendedItems = ({ recommended }) => {
           </Button>
         </Col>
       </Row>
+      </>
+      )}
     </Container>
   );
 };

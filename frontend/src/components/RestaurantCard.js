@@ -1,21 +1,32 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Card, ListGroup, Container } from "react-bootstrap";
 import { UserContext } from "../UserContext";
 import { calculateDistance } from "../services/distance";
+import Restaurant from "./Restaurant";
 import { getRestaurant } from "../services/restaurantHandlers";
 
 function RestaurantCard({ restaurantId }) {
   const { user, userRole } = useContext(UserContext);
-  const [restaurant, setRestaurant] = useState("")
+  
+  const [restaurant, setRestaurant] = useState("");
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
+
+  const handleRestaurantSelect = (restaurantId) => {
+    setSelectedRestaurantId(restaurantId);
+  };
 
   useEffect(() => {
-    getRestaurant(restaurantId, setRestaurant);
-  }, []);
+    getRestaurant(restaurantId, setRestaurant)
+  },[])
 
   return (
     <Container className="my-4">
+      {selectedRestaurantId ? (
+        <Restaurant restaurantId={selectedRestaurantId} />
+      ) : (
+        <>
           <Card
-            onClick={()=>{}}
+            onClick={() => handleRestaurantSelect(restaurant.id)}
             className="hover-card"
             style={{ width: "100%" }}
           >
@@ -37,7 +48,7 @@ function RestaurantCard({ restaurantId }) {
             </Card.Body>
             <Card.Text style={{ margin: "1rem", marginTop: "0" }}>
               <i>
-                {restaurant.street_name} ({restaurant.city})
+                {restaurant.street_name}<br></br>({restaurant.city})
               </i>
             </Card.Text>
             {userRole === "CUSTOMER" && (
@@ -58,7 +69,7 @@ function RestaurantCard({ restaurantId }) {
             {(userRole === "ADMIN" || userRole === "RESTAURANT ADMIN") && (
               <ListGroup>
                 <ListGroup.Item>
-                  <strong>ID:</strong> {restaurantId}
+                  <strong>ID:</strong> {restaurant.id}
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <strong>Owner ID:</strong> {restaurant.owner_id}
@@ -81,6 +92,8 @@ function RestaurantCard({ restaurantId }) {
               </ListGroup>
             )}
           </Card>
+        </>
+      )}
     </Container>
   );
 };

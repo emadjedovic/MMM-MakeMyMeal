@@ -1,40 +1,29 @@
 // src/components/ItemCard.js
 import React, { useState, useEffect, useContext } from "react";
 import { Card, ListGroup, Button, Container } from "react-bootstrap";
-//import { useLocation} from "react-router-dom";
 import { UserContext } from "../UserContext";
-import { getRestaurantName } from "../services/restaurantHandlers";
 import AddPromotionModal from "./AddPromotionModal";
-import RestaurantPage from "../pages/RestaurantPage";
+import Restaurant from "./Restaurant";
+import { getRestaurantName } from "../services/restaurantHandlers";
 
-function ItemCard({ item }) {
+function ItemCard({ item, isInRestaurant }) {
   const { userRole } = useContext(UserContext);
   const [restaurantName, setRestaurantName] = useState("");
   const [showModal, setShowModal] = useState(false);
-  //const location = useLocation();
-
-  const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
-
-  const handleItemSelect = (restaurantId) => {
-    setSelectedRestaurantId(restaurantId);
-  };
+  const [selected, setSelected] = useState(false);
 
   useEffect(() => {
     getRestaurantName(item.restaurant_id, setRestaurantName);
   }, [item.restaurant_id]);
-/*
-  const isRestaurantPage = location.pathname.startsWith(
-    `/restaurant/${item.restaurant_id}`
-  );*/
 
   return (
-    <Container className="my-4">
-      {selectedRestaurantId ? (
-        <RestaurantPage restaurantId={selectedRestaurantId} />
+    <Container>
+      {(selected && !isInRestaurant) ? (
+        <Restaurant restaurantId={item.restaurant_id} />
       ) : (
         <>
       <Card
-        onClick={() => handleItemSelect(item.restaurant_id)}
+        onClick={() => setSelected(true)}
         className="hover-card"
         style={{ width: "100%", display: "flex", flexDirection: "row" }}
       >
@@ -42,12 +31,12 @@ function ItemCard({ item }) {
           variant="left"
           src={`http://localhost:8000/assets/${item.imageUrl}`}
           alt={item.name}
-          style={{ width: "40%", objectFit: "cover" }}
+          style={{ width: "30%", objectFit: "cover" }}
         />
         <Card.Body style={{ display: "flex", flexDirection: "column" }}>
           <Card.Title>
-            <strong>{item.name}</strong>({restaurantName})
-            {/*!isRestaurantPage && ` (${restaurantName})`*/}
+            <strong>{item.name}</strong>
+            {!isInRestaurant ? ({restaurantName}) : ""}
           </Card.Title>
           <p>
             {item.food_type_name.toUpperCase()} // {item.description}

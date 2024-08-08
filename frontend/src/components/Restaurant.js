@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Container, Col, Row } from "react-bootstrap";
-import RestaurantCard from "../components/RestaurantCard";
-import ItemsTable from "../components/ItemsTable";
+import RestaurantCard from "./RestaurantCard";
+import ItemsTable from "./ItemsTable";
 import {
   handleFoodTypeSelect,
   getItems,
   getFoodTypes,
 } from "../services/restaurantHandlers";
 
-const RestaurantPage = ({restaurantId}) => {
+const Restaurant = ({restaurantId}) => {
   const [items, setItems] = useState([]);
   const [foodTypes, setFoodTypes] = useState([]);
   const [selectedFoodType, setSelectedFoodType] = useState("All");
@@ -29,7 +29,7 @@ const RestaurantPage = ({restaurantId}) => {
   return (
     <Container>
       <Row>
-        <Col md={9} lg={9}>
+        <Col md={10} lg={9}>
           <ItemsTable
             items={items}
             foodTypes={foodTypes}
@@ -40,7 +40,7 @@ const RestaurantPage = ({restaurantId}) => {
             restaurantId={restaurantId}
           />
         </Col>
-        <Col md={3} lg={3}>
+        <Col md={2} lg={3}>
           <RestaurantCard restaurantId={restaurantId} />
         </Col>
       </Row>
@@ -48,4 +48,4 @@ const RestaurantPage = ({restaurantId}) => {
   );
 };
 
-export default RestaurantPage;
+export default Restaurant;

@@ -11,7 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import RestaurantTypesList from "./RestaurantTypesList";
 import DeleteRestaurant from "./DeleteRestaurant";
-import RestaurantPage from "../pages/RestaurantPage";
+import Restaurant from "./Restaurant";
 
 const AdminRestaurantsTable = ({
   restaurants,
@@ -96,7 +96,7 @@ const AdminRestaurantsTable = ({
   return (
     <Container className="my-4">
       {selectedRestaurantId ? (
-        <RestaurantPage restaurantId={selectedRestaurantId} />
+        <Restaurant restaurantId={selectedRestaurantId} />
       ) : (
         <>
           <Row>
