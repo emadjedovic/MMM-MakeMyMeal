@@ -4,21 +4,21 @@ import "../css/App.css";
 import ItemCard from "./ItemCard.js";
 import ItemTypesList from "./ItemTypesList.js";
 import { UserContext } from "../UserContext.js";
-import AddItemModal from "./AddItemModal.js"; // Import the AddItemModal component
+import AddItemModal from "./AddItemModal.js";
 
 const ItemsTable = ({
   items,
   foodTypes,
   onFoodTypeSelect,
   selectedFoodType,
-  restaurantId
+  restaurantId,
 }) => {
-  const itemsPerPage = 6;
+  const itemsPerPage = 4;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [showOnPromotion, setShowOnPromotion] = useState(false);
   const { userRole, token } = useContext(UserContext);
-  const [showModal, setShowModal] = useState(false); // State to manage modal visibility
+  const [showModal, setShowModal] = useState(false);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -104,14 +104,13 @@ const ItemsTable = ({
           <Row className="mt-3">
             {currentItems.map((item) => (
               <Col md={12} lg={12} xxl={12} key={item.id} className="mb-3">
-                <ItemCard item={item} isInRestaurant={true}/>
+                <ItemCard item={item} isInRestaurant={true} />
               </Col>
             ))}
           </Row>
           <Pagination>{paginationItems}</Pagination>
         </Col>
       </Row>
-      {/* AddItemModal Component */}
       <AddItemModal
         show={showModal}
         handleClose={() => setShowModal(false)}

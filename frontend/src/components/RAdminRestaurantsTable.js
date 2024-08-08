@@ -1,6 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { Table, Button, Pagination, Container } from "react-bootstrap";
+import { Table, Button, Pagination } from "react-bootstrap";
 
 const RAdminRestaurantsTable = ({
   restaurants,
@@ -12,16 +11,10 @@ const RAdminRestaurantsTable = ({
   paginationItems,
   handlePageChange,
   restaurantTypes,
+  handleRestaurantSelectParent,
 }) => {
-  const navigate = useNavigate();
-
-  const handleRestaurantSelect = (restaurantId) => {
-    console.log("handleRestaurantSelect");
-    navigate(`/restaurant/${restaurantId}`);
-  };
-
   return (
-    <Container className="my-4">
+    <>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -52,7 +45,7 @@ const RAdminRestaurantsTable = ({
                 ) : (
                   <Button
                     variant="link"
-                    onClick={() => handleRestaurantSelect(restaurant.id)}
+                    onClick={() => handleRestaurantSelectParent(restaurant.id)}
                   >
                     {restaurant.name}
                   </Button>
@@ -164,7 +157,7 @@ const RAdminRestaurantsTable = ({
         </tbody>
       </Table>
       <Pagination>{paginationItems}</Pagination>
-    </Container>
+    </>
   );
 };
 

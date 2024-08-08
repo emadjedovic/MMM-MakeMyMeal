@@ -5,7 +5,6 @@ import FoodTypeForm from "./FoodTypeForm";
 import { Container, Col, Row } from "react-bootstrap";
 
 const LookupTables = ({
-  
   restaurantTypes,
   onAddRestaurantType,
   onRenameRestaurantType,
@@ -14,7 +13,7 @@ const LookupTables = ({
   foodTypes,
   onAddFoodType,
   onRenameFoodType,
-  onDeleteFoodType
+  onDeleteFoodType,
 }) => {
   return (
     <Container>
@@ -49,7 +48,6 @@ const LookupTables = ({
             </Col>
           </Row>
         </Col>
-
 
         <Col lg={5}>
           <h2>Food Types</h2>

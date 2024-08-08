@@ -11,8 +11,9 @@ import {
   handleTypeSelect,
   fetchPromotionData,
   fetchRecommended,
-  fetchTypes
+  fetchTypes,
 } from "../services/customerHandlers";
+import Restaurant from "../components/Restaurant";
 
 const CustomerPage = () => {
   const { token } = useContext(UserContext);
@@ -48,10 +49,29 @@ const CustomerPage = () => {
     }
   }, [token]);
 
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
+
+  const handleRestaurantSelectParent = (restaurantId) => {
+    setSelectedRestaurantId(restaurantId);
+    console.log("Called handleRestaurantSelectParent", selectedRestaurantId);
+  };
+
+  const handlePopState = () => {
+    setSelectedRestaurantId(null);
+  };
+
+  useEffect(() => {
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+
   return (
     <Container>
       <Tab.Container defaultActiveKey="nearby-restaurants">
-        <Nav variant="underline" className="mb-3">
+        <Nav variant="underline" className="mb-3" onSelect={handlePopState}>
           <Nav.Item>
             <Nav.Link eventKey="nearby-restaurants">Restaurants</Nav.Link>
           </Nav.Item>
@@ -62,23 +82,53 @@ const CustomerPage = () => {
 
         <Tab.Content>
           <Tab.Pane eventKey="nearby-restaurants">
-            <CustomerRestaurantsTable
-              nearbyRestaurants={nearbyRestaurants}
-              restaurantTypes={restaurantTypes}
-              onTypeSelect={(type) => handleTypeSelect(type, setSelectedType)}
-              selectedType={selectedType}
-            />
-            <Row>
-              <Col md={8} lg={8}>
-                <RecommendedItems recommended={recommendedItems} />
-              </Col>
-              <Col md={4} lg={4}>
-                <RecommendedRestaurants recommended={recommendedRestaurants} />
-              </Col>
-            </Row>
+            {selectedRestaurantId ? (
+              <Restaurant restaurantId={selectedRestaurantId} />
+            ) : (
+              <>
+                <CustomerRestaurantsTable
+                  nearbyRestaurants={nearbyRestaurants}
+                  restaurantTypes={restaurantTypes}
+                  onTypeSelect={(type) =>
+                    handleTypeSelect(type, setSelectedType)
+                  }
+                  selectedType={selectedType}
+                  handleRestaurantSelectParent={handleRestaurantSelectParent}
+                />
+                <Row>
+                  <Col md={8} lg={8}>
+                    <RecommendedItems
+                      recommended={recommendedItems}
+                      handleRestaurantSelectParent={
+                        handleRestaurantSelectParent
+                      }
+                    />
+                  </Col>
+                  <Col md={4} lg={4}>
+                    <RecommendedRestaurants
+                      recommended={recommendedRestaurants}
+                      handleRestaurantSelectParent={
+                        handleRestaurantSelectParent
+                      }
+                    />
+                  </Col>
+                </Row>
+              </>
+            )}
           </Tab.Pane>
+
           <Tab.Pane eventKey="promotions-table">
-            <PromotionsTable items={promotedItems} promotions={promotions} />
+            {selectedRestaurantId ? (
+              <Restaurant restaurantId={selectedRestaurantId} />
+            ) : (
+              <>
+                <PromotionsTable
+                  items={promotedItems}
+                  promotions={promotions}
+                  handleRestaurantSelectParent={handleRestaurantSelectParent}
+                />
+              </>
+            )}
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>

@@ -53,7 +53,7 @@ const AddRestaurantForm = ({ onAdd }) => {
     type_name: type,
     radius_of_delivery_km: radiusOfDeliveryKm || 0,
     owner_id: ownerId,
-    imageUrl: imageUrl || "restaurant-images/restDefault.png"
+    imageUrl: imageUrl || "restaurant-images/restDefault.png",
   };
 
   const clear = () => {
@@ -208,11 +208,11 @@ const AddRestaurantForm = ({ onAdd }) => {
             <Form.Group>
               <Form.Label>Image URL</Form.Label>
               <Form.Control
-              type="text"
-              value={imageUrl}
-              name="imageUrl"
-              onChange={(e) => setImageUrl(e.target.value)}
-              placeholder="for example 'my_image.jpg'"
+                type="text"
+                value={imageUrl}
+                name="imageUrl"
+                onChange={(e) => setImageUrl(e.target.value)}
+                placeholder="for example 'my_image.jpg'"
               />
             </Form.Group>
             <Button

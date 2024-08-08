@@ -8,10 +8,8 @@ import {
   Col,
   Form,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import RestaurantTypesList from "./RestaurantTypesList";
 import DeleteRestaurant from "./DeleteRestaurant";
-import Restaurant from "./Restaurant";
 
 const AdminRestaurantsTable = ({
   restaurants,
@@ -20,6 +18,7 @@ const AdminRestaurantsTable = ({
   onTypeSelect,
   selectedType,
   onDelete,
+  handleRestaurantSelectParent,
 }) => {
   const itemsPerPage = 8;
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,16 +27,9 @@ const AdminRestaurantsTable = ({
   const [showArchived, setShowArchived] = useState(true);
   const [showNotArchived, setShowNotArchived] = useState(true);
 
-  const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
-
-  const handleRestaurantSelect = (restaurantId) => {
-    setSelectedRestaurantId(restaurantId);
-  };
-
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
 
-  // Filter restaurants based on search queries and archived status
   const filteredRestaurants = restaurants.filter((restaurant) => {
     const matchesName = restaurant.name
       .toLowerCase()
@@ -63,12 +55,12 @@ const AdminRestaurantsTable = ({
 
   const handleSearchNameChange = (e) => {
     setSearchName(e.target.value);
-    setCurrentPage(1); // Reset to the first page when search query changes
+    setCurrentPage(1);
   };
 
   const handleSearchCityChange = (e) => {
     setSearchCity(e.target.value);
-    setCurrentPage(1); // Reset to the first page when search query changes
+    setCurrentPage(1);
   };
 
   const handleArchivedChange = (e) => {
@@ -94,111 +86,101 @@ const AdminRestaurantsTable = ({
   }
 
   return (
-    <Container className="my-4">
-      {selectedRestaurantId ? (
-        <Restaurant restaurantId={selectedRestaurantId} />
-      ) : (
-        <>
-          <Row>
-            <Col md={3} lg={3} xl={2}>
-              <RestaurantTypesList
-                restaurantTypes={restaurantTypes}
-                selectedType={selectedType}
-                handleTypeSelect={onTypeSelect}
+    <Row>
+      <Col md={3} lg={3} xl={2}>
+        <RestaurantTypesList
+          restaurantTypes={restaurantTypes}
+          selectedType={selectedType}
+          handleTypeSelect={onTypeSelect}
+        />
+      </Col>
+      <Col md={9} lg={9} xl={10}>
+        <Row className="mb-3">
+          <Col md={6} lg={5}>
+            <Form.Control
+              type="text"
+              placeholder="Search by restaurant name"
+              value={searchName}
+              onChange={handleSearchNameChange}
+            />
+          </Col>
+          <Col md={4} lg={4}>
+            <Form.Control
+              type="text"
+              placeholder="Search by city"
+              value={searchCity}
+              onChange={handleSearchCityChange}
+            />
+          </Col>
+          <Col md={2} lg={3}>
+            <Form.Group>
+              <Form.Check
+                type="checkbox"
+                label="Archived"
+                checked={showArchived}
+                onChange={handleArchivedChange}
               />
-            </Col>
-            <Col md={9} lg={9} xl={10}>
-              <Row className="mb-3">
-                <Col md={6} lg={5}>
-                  <Form.Control
-                    type="text"
-                    placeholder="Search by restaurant name"
-                    value={searchName}
-                    onChange={handleSearchNameChange}
+              <Form.Check
+                type="checkbox"
+                label="Not Archived"
+                checked={showNotArchived}
+                onChange={handleNotArchivedChange}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
+              <th>Street</th>
+              <th>City</th>
+              <th>Rating</th>
+              <th>Type</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentRestaurants.map((restaurant) => (
+              <tr key={restaurant.id}>
+                <td>{restaurant.id}</td>
+                <td>
+                  <Button
+                    variant="link"
+                    onClick={() => handleRestaurantSelectParent(restaurant.id)}
+                  >
+                    {restaurant.name}
+                  </Button>
+                </td>
+                <td>{restaurant.latitude.toFixed(3)}</td>
+                <td>{restaurant.longitude.toFixed(3)}</td>
+                <td>{restaurant.street_name}</td>
+                <td>{restaurant.city}</td>
+                <td>{restaurant.star_rating}</td>
+                <td>{restaurant.type_name}</td>
+                <td>
+                  <Button
+                    variant={restaurant.is_archived ? "secondary" : "warning"}
+                    onClick={() => onToggleArchive(restaurant.id)}
+                    style={{ margin: "0.3rem" }}
+                  >
+                    {restaurant.is_archived ? "Unarchive" : "Archive"}
+                  </Button>
+                  <DeleteRestaurant
+                    restaurantId={restaurant.id}
+                    onDelete={onDelete}
                   />
-                </Col>
-                <Col md={4} lg={4}>
-                  <Form.Control
-                    type="text"
-                    placeholder="Search by city"
-                    value={searchCity}
-                    onChange={handleSearchCityChange}
-                  />
-                </Col>
-                <Col md={2} lg={3}>
-                  <Form.Group>
-                    <Form.Check
-                      type="checkbox"
-                      label="Archived"
-                      checked={showArchived}
-                      onChange={handleArchivedChange}
-                    />
-                    <Form.Check
-                      type="checkbox"
-                      label="Not Archived"
-                      checked={showNotArchived}
-                      onChange={handleNotArchivedChange}
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
-                    <th>Street</th>
-                    <th>City</th>
-                    <th>Rating</th>
-                    <th>Type</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentRestaurants.map((restaurant) => (
-                    <tr key={restaurant.id}>
-                      <td>{restaurant.id}</td>
-                      <td>
-                        <Button
-                          variant="link"
-                          onClick={() => handleRestaurantSelect(restaurant.id)}
-                        >
-                          {restaurant.name}
-                        </Button>
-                      </td>
-                      <td>{restaurant.latitude.toFixed(3)}</td>
-                      <td>{restaurant.longitude.toFixed(3)}</td>
-                      <td>{restaurant.street_name}</td>
-                      <td>{restaurant.city}</td>
-                      <td>{restaurant.star_rating}</td>
-                      <td>{restaurant.type_name}</td>
-                      <td>
-                        <Button
-                          variant={
-                            restaurant.is_archived ? "secondary" : "warning"
-                          }
-                          onClick={() => onToggleArchive(restaurant.id)}
-                          style={{ margin: "0.3rem" }}
-                        >
-                          {restaurant.is_archived ? "Unarchive" : "Archive"}
-                        </Button>
-                        <DeleteRestaurant
-                          restaurantId={restaurant.id}
-                          onDelete={onDelete}
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-              <Pagination>{paginationItems}</Pagination>
-            </Col>
-          </Row>
-        </>
-      )}
-    </Container>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+        <Pagination>{paginationItems}</Pagination>
+      </Col>
+    </Row>
   );
 };
 

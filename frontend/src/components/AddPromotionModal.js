@@ -7,26 +7,24 @@ import { UserContext } from "../UserContext";
 const AddPromotionModal = ({ show, handleClose, itemId }) => {
   const { token } = useContext(UserContext);
   const [discountPercentage, setDiscountPercentage] = useState("");
-  const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]); // Default to today
+  const [startDate, setStartDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [endDate, setEndDate] = useState("");
   const [error, setError] = useState("");
 
-  // Convert percentage to fraction
   const PercentageToFraction = (percentage) => {
-    return (percentage / 100).toFixed(2); // ensures exactly 2 decimals
+    return (percentage / 100).toFixed(2);
   };
 
-  // Format promotion data
   const promotionData = {
     discount_fraction: PercentageToFraction(discountPercentage),
-    start_date: startDate || new Date().toISOString().split('T')[0],
+    start_date: startDate || new Date().toISOString().split("T")[0],
     end_date: endDate || null,
-    item_id: itemId
+    item_id: itemId,
   };
 
-  // Handle form submission
   const handlePromotionSubmit = async () => {
-    // Validate required fields
     if (!discountPercentage || !endDate) {
       setError("Discount percentage and end date are required.");
       return;
@@ -36,18 +34,16 @@ const AddPromotionModal = ({ show, handleClose, itemId }) => {
       await createPromotion(promotionData, token);
       handleClose();
       clearStates();
-      setError(""); // Clear any previous error
-      // Optionally, you can refresh the item data or show a success message here
+      setError("");
     } catch (error) {
       console.error("There was an error creating the promotion!", error);
       setError("Failed to create promotion. Please try again.");
     }
   };
 
-  // Clear form states
   const clearStates = () => {
     setDiscountPercentage("");
-    setStartDate(new Date().toISOString().split('T')[0]);
+    setStartDate(new Date().toISOString().split("T")[0]);
     setEndDate("");
   };
 

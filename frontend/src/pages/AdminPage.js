@@ -7,6 +7,7 @@ import AdminRestaurantsTable from "../components/AdminRestaurantsTable";
 import CreateRestaurantAdminForm from "../components/CreateRestaurantAdminForm";
 import LookupTables from "../components/LookupTables";
 import PromotionsTable from "../components/PromotionsTable";
+import Restaurant from "../components/Restaurant";
 import "../css/App.css";
 import {
   handleAdd,
@@ -23,7 +24,7 @@ import {
   handleDeleteFoodType,
   fetchPromotionData,
   fetchTypes,
-  fetchRestaurantsByType
+  fetchRestaurantsByType,
 } from "../services/adminHandlers";
 
 const AdminPage = () => {
@@ -50,129 +51,182 @@ const AdminPage = () => {
     }
   }, [token]);
 
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
+
+  const handleRestaurantSelectParent = (restaurantId) => {
+    setSelectedRestaurantId(restaurantId);
+    console.log("Called handleRestaurantSelectParent", selectedRestaurantId);
+  };
+
+  const handlePopState = () => {
+    setSelectedRestaurantId(null);
+  };
+
+  useEffect(() => {
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+
   return (
-    <Container>
-      <Tab.Container defaultActiveKey="restaurants">
-        <Nav variant="underline" className="mb-3">
+    <Container className="my-4">
+      <>
+        <Tab.Container defaultActiveKey="restaurants">
+          <Nav variant="underline" className="mb-3" onClick={handlePopState}>
+            <Nav.Item>
+              <Nav.Link eventKey="restaurants">Restaurants</Nav.Link>
+            </Nav.Item>
 
-          <Nav.Item>
-            <Nav.Link eventKey="restaurants">Restaurants</Nav.Link>
-          </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="manage-users">Users</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="lookup-tables">Lookup Tables</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="promotions-table">Promotions</Nav.Link>
+            </Nav.Item>
+          </Nav>
 
-          <Nav.Item>
-            <Nav.Link eventKey="manage-users">Users</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="lookup-tables">Lookup Tables</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="promotions-table">Promotions</Nav.Link>
-          </Nav.Item>
-        </Nav>
+          <Tab.Content>
+            <Tab.Pane eventKey="restaurants">
+              {selectedRestaurantId ? (
+                <Restaurant restaurantId={selectedRestaurantId} />
+              ) : (
+                <>
+                  <Row>
+                    <AdminRestaurantsTable
+                      restaurants={restaurants}
+                      onToggleArchive={(id) =>
+                        handleToggleArchive(
+                          id,
+                          token,
+                          restaurants,
+                          setRestaurants
+                        )
+                      }
+                      restaurantTypes={restaurantTypes}
+                      onTypeSelect={(type) =>
+                        handleTypeSelect(type, setSelectedType)
+                      }
+                      selectedType={selectedType}
+                      onDelete={(id) =>
+                        handleDelete(
+                          id,
+                          token,
+                          restaurants,
+                          setRestaurants,
+                          setError
+                        )
+                      }
+                      handleRestaurantSelectParent={
+                        handleRestaurantSelectParent
+                      }
+                    />
+                  </Row>
+                  <Row>
+                    <Col>
+                      <AddRestaurantForm
+                        onAdd={(newRestaurant) =>
+                          handleAdd(newRestaurant, restaurants, setRestaurants)
+                        }
+                      />
+                    </Col>
+                    <Col>
+                      <UpdateRestaurantForm
+                        onUpdate={(updatedRestaurant) =>
+                          handleUpdate(
+                            updatedRestaurant,
+                            restaurants,
+                            setRestaurants
+                          )
+                        }
+                      />
+                    </Col>
+                  </Row>
+                </>
+              )}
+            </Tab.Pane>
 
-        <Tab.Content>
-          
-          <Tab.Pane eventKey="restaurants">
-            <Row>
-            <AdminRestaurantsTable
-              restaurants={restaurants}
-              onToggleArchive={(id) =>
-                handleToggleArchive(id, token, restaurants, setRestaurants)
-              }
-              restaurantTypes={restaurantTypes}
-              onTypeSelect={(type) => handleTypeSelect(type, setSelectedType)}
-              selectedType={selectedType}
-              onDelete={(id) =>
-                handleDelete(id, token, restaurants, setRestaurants, setError)
-              }
-            />
-            </Row>
-            <Row>
-              <Col>
-                <AddRestaurantForm
-                  onAdd={(newRestaurant) =>
-                    handleAdd(newRestaurant, restaurants, setRestaurants)
-                  }
+            <Tab.Pane eventKey="manage-users">
+              <Row className="mt-4">
+                <Col>
+                  <CreateRestaurantAdminForm
+                    onAdminCreated={handleAdminCreated}
+                  />
+                </Col>
+              </Row>
+            </Tab.Pane>
+
+            <Tab.Pane eventKey="lookup-tables">
+              <LookupTables
+                restaurantTypes={restaurantTypes}
+                onAddRestaurantType={(newTypeName) =>
+                  handleAddRestaurantType(
+                    newTypeName,
+                    token,
+                    restaurantTypes,
+                    setRestaurantTypes
+                  )
+                }
+                onRenameRestaurantType={(oldName, newName) =>
+                  handleRenameRestaurantType(
+                    oldName,
+                    newName,
+                    token,
+                    restaurantTypes,
+                    setRestaurantTypes
+                  )
+                }
+                onDeleteRestaurantType={(typeName) =>
+                  handleDeleteRestaurantType(
+                    typeName,
+                    token,
+                    restaurantTypes,
+                    setRestaurantTypes
+                  )
+                }
+                foodTypes={foodTypes}
+                onAddFoodType={(newTypeName) =>
+                  handleAddFoodType(newTypeName, token, foodTypes, setFoodTypes)
+                }
+                onRenameFoodType={(oldName, newName) =>
+                  handleRenameFoodType(
+                    oldName,
+                    newName,
+                    token,
+                    foodTypes,
+                    setFoodTypes
+                  )
+                }
+                onDeleteFoodType={(typeName) =>
+                  handleDeleteFoodType(typeName, token, foodTypes, setFoodTypes)
+                }
+              />
+            </Tab.Pane>
+
+            <Tab.Pane eventKey="promotions-table">
+              {selectedRestaurantId ? (
+                <Restaurant restaurantId={selectedRestaurantId} />
+              ) : (
+                <PromotionsTable
+                  items={promotedItems}
+                  promotions={promotions}
+                  handleRestaurantSelectParent={handleRestaurantSelectParent}
                 />
-              </Col>
-              <Col>
-                <UpdateRestaurantForm
-                  onUpdate={(updatedRestaurant) =>
-                    handleUpdate(updatedRestaurant, restaurants, setRestaurants)
-                  }
-                />
-              </Col>
-            </Row>
-          </Tab.Pane>
+              )}
+            </Tab.Pane>
+          </Tab.Content>
+        </Tab.Container>
 
-          <Tab.Pane eventKey="manage-users">
-            <Row className="mt-4">
-              <Col>
-                <CreateRestaurantAdminForm
-                  onAdminCreated={handleAdminCreated}
-                />
-              </Col>
-            </Row>
-          </Tab.Pane>
-
-          <Tab.Pane eventKey="lookup-tables">
-            <LookupTables
-              restaurantTypes={restaurantTypes}
-              onAddRestaurantType={(newTypeName) =>
-                handleAddRestaurantType(
-                  newTypeName,
-                  token,
-                  restaurantTypes,
-                  setRestaurantTypes
-                )
-              }
-              onRenameRestaurantType={(oldName, newName) =>
-                handleRenameRestaurantType(
-                  oldName,
-                  newName,
-                  token,
-                  restaurantTypes,
-                  setRestaurantTypes
-                )
-              }
-              onDeleteRestaurantType={(typeName) =>
-                handleDeleteRestaurantType(
-                  typeName,
-                  token,
-                  restaurantTypes,
-                  setRestaurantTypes
-                )
-              }
-              foodTypes={foodTypes}
-              onAddFoodType={(newTypeName) =>
-                handleAddFoodType(newTypeName, token, foodTypes, setFoodTypes)
-              }
-              onRenameFoodType={(oldName, newName) =>
-                handleRenameFoodType(
-                  oldName,
-                  newName,
-                  token,
-                  foodTypes,
-                  setFoodTypes
-                )
-              }
-              onDeleteFoodType={(typeName) =>
-                handleDeleteFoodType(typeName, token, foodTypes, setFoodTypes)
-              }
-            />
-          </Tab.Pane>
-
-          <Tab.Pane eventKey="promotions-table">
-            <PromotionsTable items={promotedItems} promotions={promotions} />
-          </Tab.Pane>
-        </Tab.Content>
-      </Tab.Container>
-
-      {error && (
-        <Alert variant="danger" className="mt-3">
-          {error}
-        </Alert>
-      )}
+        {error && (
+          <Alert variant="danger" className="mt-3">
+            {error}
+          </Alert>
+        )}
+      </>
     </Container>
   );
 };

@@ -3,7 +3,10 @@ import { Container, Button, Row, Col } from "react-bootstrap";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import RestaurantCard from "./RestaurantCard";
 
-const RecommendedRestaurants = ({ recommended }) => {
+const RecommendedRestaurants = ({
+  recommended,
+  handleRestaurantSelectParent,
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
@@ -28,7 +31,10 @@ const RecommendedRestaurants = ({ recommended }) => {
       <Row className="justify-content-center">
         <Col md={8} lg={8}>
           {recommended.length > 0 && (
-            <RestaurantCard restaurant={recommended[currentIndex]} />
+            <RestaurantCard
+              restaurantId={recommended[currentIndex].id}
+              handleRestaurantSelectParent={handleRestaurantSelectParent}
+            />
           )}
         </Col>
       </Row>

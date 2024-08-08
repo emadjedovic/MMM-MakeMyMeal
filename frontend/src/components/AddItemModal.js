@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { createItem } from "../services/api.js";
 
-const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantID }) => {
-  // State hooks for form fields
+const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantId }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("No description");
   const [foodType, setFoodType] = useState("Other");
@@ -14,25 +13,24 @@ const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantID }) => 
   const handleAddItem = async () => {
     const newItem = {
       name,
-      description, // Optional
-      food_type_name: foodType, // Optional
+      description,
+      food_type_name: foodType,
       price,
-      imageUrl, // Optional
-      restaurant_id: restaurantID, // Current restaurant's ID
+      imageUrl,
+      restaurant_id: restaurantId,
       is_recommended: isRecommended,
-      is_promoted: false, // Default promotion status
+      is_promoted: false,
     };
 
     try {
       await createItem(newItem, token);
-      handleClose(); // Close the modal after item is added
-      clearStates(); // Clear form fields
+      handleClose();
+      clearStates();
     } catch (error) {
-      console.error("Failed to create item from additemmodal:", error);
+      console.error("Failed to create item from addItemModal:", error);
     }
   };
 
-  // Function to clear state fields
   const clearStates = () => {
     setName("");
     setDescription("No description");
@@ -49,7 +47,6 @@ const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantID }) => 
       </Modal.Header>
       <Modal.Body>
         <Form>
-          {/* Item Name */}
           <Form.Group controlId="itemName" className="mb-3">
             <Form.Label>Item Name</Form.Label>
             <Form.Control
@@ -61,7 +58,6 @@ const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantID }) => 
             />
           </Form.Group>
           
-          {/* Description */}
           <Form.Group controlId="itemDescription" className="mb-3">
             <Form.Label>Description (optional)</Form.Label>
             <Form.Control
@@ -72,7 +68,6 @@ const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantID }) => 
             />
           </Form.Group>
           
-          {/* Food Type */}
           <Form.Group controlId="itemType" className="mb-3">
             <Form.Label>Item Type</Form.Label>
             <Form.Control
@@ -89,7 +84,6 @@ const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantID }) => 
             </Form.Control>
           </Form.Group>
           
-          {/* Price */}
           <Form.Group controlId="itemPrice" className="mb-3">
             <Form.Label>Price</Form.Label>
             <Form.Control
@@ -101,7 +95,6 @@ const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantID }) => 
             />
           </Form.Group>
           
-          {/* Image URL */}
           <Form.Group controlId="itemImageUrl" className="mb-3">
             <Form.Label>Image URL</Form.Label>
             <Form.Control
@@ -112,7 +105,6 @@ const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantID }) => 
             />
           </Form.Group>
           
-          {/* Recommended Checkbox */}
           <Form.Group controlId="itemRecommended" className="mb-3">
             <Form.Check
               type="checkbox"
@@ -122,7 +114,6 @@ const AddItemModal = ({ show, handleClose, foodTypes, token, restaurantID }) => 
             />
           </Form.Group>
           
-          {/* Confirm Button */}
           <Button variant="primary" onClick={handleAddItem}>
             Confirm
           </Button>

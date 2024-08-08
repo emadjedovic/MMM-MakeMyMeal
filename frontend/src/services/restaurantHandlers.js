@@ -12,7 +12,9 @@ export const handleAddItem = (newItem, items, setItems) => {
   setItems([...items, newItem]);
 };
 
-export const getRestaurant = async (id, setRestaurant) => {
+// ovdje!
+export const getRestaurantById = async (id, setRestaurant) => {
+  console.log("id: ", id)
   const data = await fetchRestaurantById(id);
   setRestaurant(data);
 };

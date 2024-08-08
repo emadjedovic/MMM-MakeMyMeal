@@ -18,7 +18,6 @@ import CustomerPage from "./pages/CustomerPage";
 import DeliveryPersonnelPage from "./pages/DeliveryPersonnelPage";
 
 import "./css/App.css";
-import Restaurant from "./components/Restaurant";
 
 function App() {
   const { user, userRole } = useContext(UserContext);

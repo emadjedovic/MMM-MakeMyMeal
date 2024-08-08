@@ -8,14 +8,13 @@ import {
   getFoodTypes,
 } from "../services/restaurantHandlers";
 
-const Restaurant = ({restaurantId}) => {
+const Restaurant = ({ restaurantId }) => {
   const [items, setItems] = useState([]);
   const [foodTypes, setFoodTypes] = useState([]);
   const [selectedFoodType, setSelectedFoodType] = useState("All");
 
-
   useEffect(() => {
-      getItems(restaurantId, selectedFoodType, setItems);
+    getItems(restaurantId, selectedFoodType, setItems);
   }, [selectedFoodType]);
 
   useEffect(() => {
@@ -41,7 +40,7 @@ const Restaurant = ({restaurantId}) => {
           />
         </Col>
         <Col md={2} lg={3}>
-          <RestaurantCard restaurantId={restaurantId} />
+          <RestaurantCard restaurantId={restaurantId} handleRestaurantSelectParent={()=>{}}/>
         </Col>
       </Row>
     </Container>

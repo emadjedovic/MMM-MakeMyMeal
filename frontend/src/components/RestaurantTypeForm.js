@@ -12,21 +12,20 @@ const RestaurantTypeForm = ({ action, onSubmit, restaurantTypes }) => {
     try {
       if (action === "rename") {
         await onSubmit(oldName, newName);
-        
-      setMessage("Restaurant type renamed successfully!");
+
+        setMessage("Restaurant type renamed successfully!");
       } else if (action === "delete") {
         await onSubmit(oldName);
-        
-      setMessage("Restaurant type deleted successfully!");
+
+        setMessage("Restaurant type deleted successfully!");
       } else {
         await onSubmit(newName);
-        
-      
-      clear();
-      setMessage("Restaurant type added successfully!");
+
+        clear();
+        setMessage("Restaurant type added successfully!");
       }
     } catch (error) {
-      console.log("Error on submit from RestaurantTypeForm: ", error)
+      console.log("Error on submit from RestaurantTypeForm: ", error);
       setMessage("Error adding the restaurant.");
     }
   };
@@ -41,20 +40,23 @@ const RestaurantTypeForm = ({ action, onSubmit, restaurantTypes }) => {
     <Card className="my-3 mx-auto" style={{ maxWidth: "400px" }}>
       <Card.Body>
         <Card.Title>
-          {action === "add" ? "Add" : action === "rename" ? "Rename" : "Delete"} Restaurant Type
+          {action === "add" ? "Add" : action === "rename" ? "Rename" : "Delete"}{" "}
+          Restaurant Type
         </Card.Title>
 
         <Form onSubmit={handleSubmit}>
           {action === "rename" && (
             <>
-              <Form.Group controlId="formOldName" style={{marginTop:'1rem'}}>
+              <Form.Group controlId="formOldName" style={{ marginTop: "1rem" }}>
                 <Form.Control
                   as="select"
                   value={oldName}
                   onChange={(e) => setOldName(e.target.value)}
                   required
                 >
-                  <option value="" disabled>Select Type</option>
+                  <option value="" disabled>
+                    Select Type
+                  </option>
                   {restaurantTypes.map((type) => (
                     <option key={type.id} value={type.name}>
                       {type.name}
@@ -62,7 +64,7 @@ const RestaurantTypeForm = ({ action, onSubmit, restaurantTypes }) => {
                   ))}
                 </Form.Control>
               </Form.Group>
-              <Form.Group controlId="formNewName" style={{marginTop:'1rem'}}>
+              <Form.Group controlId="formNewName" style={{ marginTop: "1rem" }}>
                 <Form.Control
                   type="text"
                   placeholder="Enter new type name"
@@ -73,16 +75,18 @@ const RestaurantTypeForm = ({ action, onSubmit, restaurantTypes }) => {
               </Form.Group>
             </>
           )}
-          
+
           {action === "delete" && (
-            <Form.Group controlId="formOldName" style={{marginTop:'1rem'}}>
+            <Form.Group controlId="formOldName" style={{ marginTop: "1rem" }}>
               <Form.Control
                 as="select"
                 value={oldName}
                 onChange={(e) => setOldName(e.target.value)}
                 required
               >
-                <option value="" disabled>Select Type</option>
+                <option value="" disabled>
+                  Select Type
+                </option>
                 {restaurantTypes.map((type) => (
                   <option key={type.id} value={type.name}>
                     {type.name}
@@ -92,7 +96,7 @@ const RestaurantTypeForm = ({ action, onSubmit, restaurantTypes }) => {
             </Form.Group>
           )}
           {action === "add" && (
-            <Form.Group controlId="formNewName" style={{marginTop:'1rem'}}>
+            <Form.Group controlId="formNewName" style={{ marginTop: "1rem" }}>
               <Form.Control
                 type="text"
                 placeholder="Enter new type name"
@@ -103,18 +107,22 @@ const RestaurantTypeForm = ({ action, onSubmit, restaurantTypes }) => {
             </Form.Group>
           )}
           <Button variant="primary" type="submit" className="my-3">
-            {action === "add" ? "Add" : action === "rename" ? "Rename" : "Delete"}
+            {action === "add"
+              ? "Add"
+              : action === "rename"
+              ? "Rename"
+              : "Delete"}
           </Button>
         </Form>
-        
-      {message && (
-        <Alert
-          variant={message.includes("Error") ? "danger" : "success"}
-          className="mt-3"
-        >
-          {message}
-        </Alert>
-      )}
+
+        {message && (
+          <Alert
+            variant={message.includes("Error") ? "danger" : "success"}
+            className="mt-3"
+          >
+            {message}
+          </Alert>
+        )}
       </Card.Body>
     </Card>
   );

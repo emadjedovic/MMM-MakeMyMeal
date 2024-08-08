@@ -6,11 +6,10 @@ const ItemTypesList = ({
   selectedFoodType,
   handleFoodTypeSelect,
 }) => {
-
   if (!foodTypes.length) {
     return <div>No Food Types Available</div>;
   }
-  
+
   return (
     <ListGroup className="me-3">
       <ListGroup.Item

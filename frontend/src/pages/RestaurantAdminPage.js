@@ -11,8 +11,9 @@ import {
   handleChange,
   handleSave,
   handlePageChange,
-  handlePersonnelCreated
+  handlePersonnelCreated,
 } from "../services/radminHandlers";
+import Restaurant from "../components/Restaurant";
 
 const RestaurantAdminPage = () => {
   const { token, user } = useContext(UserContext);
@@ -50,10 +51,29 @@ const RestaurantAdminPage = () => {
     );
   }
 
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
+
+  const handleRestaurantSelectParent = (restaurantId) => {
+    setSelectedRestaurantId(restaurantId);
+    console.log("Called handleRestaurantSelectParent", selectedRestaurantId);
+  };
+
+  const handlePopState = () => {
+    setSelectedRestaurantId(null);
+  };
+
+  useEffect(() => {
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+
   return (
     <Container>
       <Tab.Container defaultActiveKey="my-restaurants">
-        <Nav variant="underline" className="mb-3">
+        <Nav variant="underline" className="mb-3" onSelect={handlePopState}>
           <Nav.Item>
             <Nav.Link eventKey="my-restaurants">My Restaurants</Nav.Link>
           </Nav.Item>
@@ -63,17 +83,38 @@ const RestaurantAdminPage = () => {
         </Nav>
         <Tab.Content>
           <Tab.Pane eventKey="my-restaurants">
-            <RAdminRestaurantsTable
-              restaurants={currentRestaurants}
-              editId={editId}
-              editableData={editableData}
-              handleEditClick={(id, data) => handleEditClick(id, data, setEditId, setEditableData)}
-              handleChange={(e) => handleChange(e, editableData, setEditableData)}
-              handleSave={(id) => handleSave(id, editableData, token, userId, setEditId, setEditableData, setRestaurants)}
-              paginationItems={paginationItems}
-              handlePageChange={(pageNumber) => handlePageChange(pageNumber, setCurrentPage)}
-              restaurantTypes={restaurantTypes}
-            />
+            {selectedRestaurantId ? (
+              <Restaurant restaurantId={selectedRestaurantId} />
+            ) : (
+              <RAdminRestaurantsTable
+                restaurants={currentRestaurants}
+                editId={editId}
+                editableData={editableData}
+                handleEditClick={(id, data) =>
+                  handleEditClick(id, data, setEditId, setEditableData)
+                }
+                handleChange={(e) =>
+                  handleChange(e, editableData, setEditableData)
+                }
+                handleSave={(id) =>
+                  handleSave(
+                    id,
+                    editableData,
+                    token,
+                    userId,
+                    setEditId,
+                    setEditableData,
+                    setRestaurants
+                  )
+                }
+                paginationItems={paginationItems}
+                handlePageChange={(pageNumber) =>
+                  handlePageChange(pageNumber, setCurrentPage)
+                }
+                restaurantTypes={restaurantTypes}
+                handleRestaurantSelectParent={handleRestaurantSelectParent}
+              />
+            )}
           </Tab.Pane>
           <Tab.Pane eventKey="personnel">
             <CreatePersonnelForm onPersonnelCreated={handlePersonnelCreated} />

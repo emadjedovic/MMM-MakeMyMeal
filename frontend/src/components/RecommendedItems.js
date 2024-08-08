@@ -1,33 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, Row, Col, Card, ListGroup } from "react-bootstrap";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
-import { fetchRestaurantById } from "../services/api"; // Import your API fetching function
-import Restaurant from "./Restaurant";
+import { fetchRestaurantById } from "../services/api";
 
-const RecommendedItems = ({ recommended }) => {
+const RecommendedItems = ({ recommended, handleRestaurantSelectParent }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [restaurantNames, setRestaurantNames] = useState({});
-
-  const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
-
-  const handleItemSelect = (restaurantId) => {
-    setSelectedRestaurantId(restaurantId);
-  };
-
 
   const itemsPerPage = 3;
   const totalPages = Math.ceil(recommended.length / itemsPerPage);
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      Math.min(prevIndex + 1, totalPages - 1)
-    );
+    setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, totalPages - 1));
   };
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
-
 
   const fetchRestaurantNames = async () => {
     const names = {};
@@ -54,10 +43,6 @@ const RecommendedItems = ({ recommended }) => {
 
   return (
     <Container className="my-4">
-      {selectedRestaurantId ? (
-        <Restaurant restaurantId={selectedRestaurantId} />
-      ) : (
-        <>
       <Row className="justify-content-center">
         <Col className="text-center">
           <h4>
@@ -66,38 +51,44 @@ const RecommendedItems = ({ recommended }) => {
         </Col>
       </Row>
       <Row className="align-items-start">
-     
         <Col>
-            {currentItems.map((item) => (
-              <Row key={item.id} className="mb-3">
-                <Col>
-                  <Card
-                    style={{ display: 'flex', flexDirection: 'row', cursor: 'pointer' }}
-                    onClick={() => handleItemSelect(item.restaurant_id)}
-                  >
-                    <Card.Img
-                      variant="left"
-                      src={`http://localhost:8000/assets/${item.imageUrl}`}
-                      alt={item.name}
-                      style={{ width: "150px", height: "auto" }}
-                    />
-                    <Card.Body>
-                      <Card.Title>
-                        <strong>{item.name}</strong>&nbsp;({restaurantNames[item.restaurant_id]})
-                      </Card.Title>
-                      <Card.Text>
-                        {item.food_type_name} {item.description}
-                      </Card.Text>
-                      <ListGroup className="list-group-flush">
-                        <ListGroup.Item>
-                          <strong>PRICE:</strong> {item.price}
-                        </ListGroup.Item>
-                      </ListGroup>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
-            ))}
+          {currentItems.map((item) => (
+            <Row key={item.id} className="mb-3">
+              <Col>
+                <Card
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    cursor: "pointer",
+                  }}
+                  onClick={() =>
+                    handleRestaurantSelectParent(item.restaurant_id)
+                  }
+                >
+                  <Card.Img
+                    variant="left"
+                    src={`http://localhost:8000/assets/${item.imageUrl}`}
+                    alt={item.name}
+                    style={{ width: "150px", height: "auto" }}
+                  />
+                  <Card.Body>
+                    <Card.Title>
+                      <strong>{item.name}</strong>&nbsp;(
+                      {restaurantNames[item.restaurant_id]})
+                    </Card.Title>
+                    <Card.Text>
+                      {item.food_type_name} {item.description}
+                    </Card.Text>
+                    <ListGroup className="list-group-flush">
+                      <ListGroup.Item>
+                        <strong>PRICE:</strong> {item.price}
+                      </ListGroup.Item>
+                    </ListGroup>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          ))}
         </Col>
         <Col xs="auto" className="d-flex flex-column align-items-center">
           <Button
@@ -119,8 +110,6 @@ const RecommendedItems = ({ recommended }) => {
           </Button>
         </Col>
       </Row>
-      </>
-      )}
     </Container>
   );
 };

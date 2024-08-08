@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
-import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
@@ -17,9 +16,7 @@ const Map = ({ onLocationSelect }) => {
       },
     });
 
-    return position === null ? null : (
-      <Marker position={position} />
-    );
+    return position === null ? null : <Marker position={position} />;
   };
 
   return (

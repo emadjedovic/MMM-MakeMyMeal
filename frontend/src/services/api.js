@@ -226,7 +226,7 @@ export const fetchRestaurantById = async (id) => {
     );
     return response.data;
   } catch (error) {
-    console.error("There was an error fetching the restaurant by id!", error);
+    //console.error("There was an error fetching the restaurant by id!", error);
     throw error;
   }
 };

@@ -9,8 +9,8 @@ const CustomerRestaurantsTable = ({
   restaurantTypes,
   onTypeSelect,
   selectedType,
+  handleRestaurantSelectParent,
 }) => {
-
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,7 +18,6 @@ const CustomerRestaurantsTable = ({
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
 
-  // Filter restaurants by name based on the search query
   const filteredRestaurants = nearbyRestaurants.filter((restaurant) =>
     restaurant.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -34,7 +33,7 @@ const CustomerRestaurantsTable = ({
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
-    setCurrentPage(1); // Reset to the first page when search query changes
+    setCurrentPage(1);
   };
 
   const totalPages = Math.ceil(filteredRestaurants.length / itemsPerPage);
@@ -53,22 +52,21 @@ const CustomerRestaurantsTable = ({
 
   return (
     <Container className="my-4">
-      
       <Row>
-        <Col md={4} lg={3} xl={3} xxl={2}>
+        <Col md={4} lg={3} xl={2} xxl={3}>
           <RestaurantTypesList
             restaurantTypes={restaurantTypes}
             selectedType={selectedType}
             handleTypeSelect={onTypeSelect}
           />
         </Col>
-        <Col md={8} lg={9} xl={9} xxl={10}>
-        <Form.Control
+        <Col md={8} lg={9} xl={10} xxl={9}>
+          <Form.Control
             type="text"
             placeholder="Search by restaurant name"
             value={searchQuery}
             onChange={handleSearchChange}
-            className="mb-3"
+            className="mb-4"
           />
           <Row>
             {currentRestaurants.map((restaurant) => (
@@ -76,11 +74,14 @@ const CustomerRestaurantsTable = ({
                 md={12}
                 lg={6}
                 xl={4}
-                xxl={3}
+                xxl={4}
                 key={restaurant.id}
-                className="mb-3"
+                className="mb-1"
               >
-                <RestaurantCard restaurant={restaurant}/>
+                <RestaurantCard
+                  restaurantId={restaurant.id}
+                  handleRestaurantSelectParent={handleRestaurantSelectParent}
+                />
               </Col>
             ))}
           </Row>
