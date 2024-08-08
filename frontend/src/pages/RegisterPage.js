@@ -57,7 +57,6 @@ const RegisterPage = () => {
   const handleLocationSelect = (latlng) => {
     setLatitude(latlng.lat);
     setLongitude(latlng.lng);
-    console.log("Selected Location:", latlng);
   };
 
   return (

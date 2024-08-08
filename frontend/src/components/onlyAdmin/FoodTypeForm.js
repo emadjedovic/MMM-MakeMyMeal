@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 
-const RestaurantTypeForm = ({ action, onSubmit, restaurantTypes }) => {
+const FoodTypeForm = ({ action, onSubmit, foodTypes }) => {
   const [oldName, setOldName] = useState("");
   const [newName, setNewName] = useState("");
   const [message, setMessage] = useState("");
@@ -12,21 +12,17 @@ const RestaurantTypeForm = ({ action, onSubmit, restaurantTypes }) => {
     try {
       if (action === "rename") {
         await onSubmit(oldName, newName);
-
-        setMessage("Restaurant type renamed successfully!");
+        setMessage("Food type renamed successfully!");
       } else if (action === "delete") {
         await onSubmit(oldName);
-
-        setMessage("Restaurant type deleted successfully!");
+        setMessage("Food type deleted successfully!");
       } else {
         await onSubmit(newName);
-
         clear();
-        setMessage("Restaurant type added successfully!");
+        setMessage("Food type added successfully!");
       }
     } catch (error) {
-      console.log("Error on submit from RestaurantTypeForm: ", error);
-      setMessage("Error adding the restaurant.");
+      setMessage("Error adding the food type.");
     }
   };
 
@@ -41,7 +37,7 @@ const RestaurantTypeForm = ({ action, onSubmit, restaurantTypes }) => {
       <Card.Body>
         <Card.Title>
           {action === "add" ? "Add" : action === "rename" ? "Rename" : "Delete"}{" "}
-          Restaurant Type
+          Food Type
         </Card.Title>
 
         <Form onSubmit={handleSubmit}>
@@ -57,7 +53,7 @@ const RestaurantTypeForm = ({ action, onSubmit, restaurantTypes }) => {
                   <option value="" disabled>
                     Select Type
                   </option>
-                  {restaurantTypes.map((type) => (
+                  {foodTypes.map((type) => (
                     <option key={type.id} value={type.name}>
                       {type.name}
                     </option>
@@ -87,7 +83,7 @@ const RestaurantTypeForm = ({ action, onSubmit, restaurantTypes }) => {
                 <option value="" disabled>
                   Select Type
                 </option>
-                {restaurantTypes.map((type) => (
+                {foodTypes.map((type) => (
                   <option key={type.id} value={type.name}>
                     {type.name}
                   </option>
@@ -128,4 +124,4 @@ const RestaurantTypeForm = ({ action, onSubmit, restaurantTypes }) => {
   );
 };
 
-export default RestaurantTypeForm;
+export default FoodTypeForm;

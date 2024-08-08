@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, Row, Col, Card, ListGroup } from "react-bootstrap";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
-import { fetchRestaurantById } from "../services/api";
+import { getRestaurantNames } from "../../handlers/restaurantHandlers";
 
 const RecommendedItems = ({ recommended, handleRestaurantSelectParent }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -18,23 +18,8 @@ const RecommendedItems = ({ recommended, handleRestaurantSelectParent }) => {
     setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
 
-  const fetchRestaurantNames = async () => {
-    const names = {};
-    for (const item of recommended) {
-      if (!names[item.restaurant_id]) {
-        try {
-          const response = await fetchRestaurantById(item.restaurant_id);
-          names[item.restaurant_id] = response.name;
-        } catch (error) {
-          console.error("Error fetching restaurant:", error);
-        }
-      }
-    }
-    setRestaurantNames(names);
-  };
-
   useEffect(() => {
-    fetchRestaurantNames();
+    getRestaurantNames(recommended, setRestaurantNames);
   }, [recommended, currentIndex]);
 
   const startIndex = currentIndex * itemsPerPage;

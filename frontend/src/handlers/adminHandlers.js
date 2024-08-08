@@ -96,10 +96,6 @@ export const handleTypeSelect = (type, setSelectedType) => {
   setSelectedType(type);
 };
 
-export const handleAdminCreated = (rest_admin) => {
-  console.log("New restaurant admin created:", rest_admin);
-};
-
 export const handleDelete = async (
   id,
   token,
@@ -127,7 +123,6 @@ export const handleAddRestaurantType = async (
 ) => {
   try {
     const addedType = await addRestaurantType(newTypeName, token);
-    console.log("addedType: ", newTypeName);
     setRestaurantTypes([...restaurantTypes, addedType]);
   } catch (error) {
     console.error("Error adding restaurant type:", error);
@@ -143,7 +138,6 @@ export const handleRenameRestaurantType = async (
 ) => {
   try {
     const renamedType = await renameRestaurantType(oldName, newName, token);
-    console.log(`Renamed ${oldName} to ${newName}.`);
     setRestaurantTypes(
       restaurantTypes.map((type) =>
         type.name === oldName ? renamedType : type
@@ -162,7 +156,6 @@ export const handleDeleteRestaurantType = async (
 ) => {
   try {
     await deleteRestaurantType(typeName, token);
-    console.log("deletedType: ", typeName);
     setRestaurantTypes(
       restaurantTypes.filter((type) => type.name !== typeName)
     );
@@ -181,7 +174,6 @@ export const handleAddFoodType = async (
 ) => {
   try {
     const addedType = await addFoodType(newTypeName, token);
-    console.log("addedType: ", newTypeName);
     setFoodTypes([...foodTypes, addedType]);
   } catch (error) {
     console.error("Error adding food type:", error);
@@ -197,7 +189,6 @@ export const handleRenameFoodType = async (
 ) => {
   try {
     const renamedType = await renameFoodType(oldName, newName, token);
-    console.log(`Renamed ${oldName} to ${newName}.`);
     setFoodTypes(
       foodTypes.map((type) => (type.name === oldName ? renamedType : type))
     );
@@ -214,9 +205,18 @@ export const handleDeleteFoodType = async (
 ) => {
   try {
     await deleteFoodType(typeName, token);
-    console.log("deletedType: ", typeName);
     setFoodTypes(foodTypes.filter((type) => type.name !== typeName));
   } catch (error) {
     console.error("Error deleting food type:", error);
   }
+};
+
+//
+
+export const handleRestaurantSelectParent = (restaurantId, setSelectedRestaurantId) => {
+  setSelectedRestaurantId(restaurantId);
+};
+
+export const handlePopState = (setSelectedRestaurantId) => {
+  setSelectedRestaurantId(null);
 };

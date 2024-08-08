@@ -20,3 +20,19 @@ export const calculateDistance = (
 
   return distance.toFixed(3);
 };
+
+export const originalPrice = (priceOnDiscount, discount) => {
+  const original = priceOnDiscount / (1 - discount);
+  return Math.round(original * 100) / 100;
+};
+
+export const formatDiscount = (discount) => {
+  if (discount !== null) {
+    return `${Math.round(discount * 100)}%`;
+  }
+  return "N/A";
+};
+
+export const PercentageToFraction = (percentage) => {
+  return (percentage / 100).toFixed(2);
+};

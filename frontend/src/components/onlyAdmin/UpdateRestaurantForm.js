@@ -9,8 +9,9 @@ import {
   Card,
   Alert,
 } from "react-bootstrap";
-import { UserContext } from "../UserContext";
-import { updateRestaurant, fetchRestaurantTypes } from "../services/api";
+import { UserContext } from "../../UserContext";
+import { getRestaurantTypes } from "../../handlers/restaurantHandlers";
+import { handleUpdateRestaurant } from "../../handlers/restaurantHandlers";
 
 const UpdateRestaurantForm = ({ onUpdate }) => {
   const { token } = useContext(UserContext);
@@ -29,16 +30,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
   const [restaurantTypes, setRestaurantTypes] = useState([]);
 
   useEffect(() => {
-    const fetchTypes = async () => {
-      try {
-        const types = await fetchRestaurantTypes();
-        setRestaurantTypes(types);
-      } catch (error) {
-        console.error("Error fetching restaurant types:", error);
-      }
-    };
-
-    fetchTypes();
+    getRestaurantTypes(setRestaurantTypes);
   }, [token]);
 
   const requestData = {
@@ -68,27 +60,10 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
     setImageUrl("");
   };
 
-  const handleUpdateRestaurant = async () => {
-    if (updateId < 0) {
-      alert("Restaurant ID cannot be less than 0.");
-      return;
-    }
-    try {
-      const data = await updateRestaurant(updateId, requestData, token);
-      console.log("Restaurant updated successfully: ", data);
-      setMessage("Restaurant updated successfully!");
-      clear();
-      onUpdate(data);
-    } catch (error) {
-      console.error("There was an error updating the restaurant!", error);
-      setMessage("There was an error updating the restaurant.");
-      clear();
-    }
-  };
-
-  const handleClearStarRating = () => {
-    setStarRating("");
-  };
+  const handleUpdate = async () => {
+    handleUpdateRestaurant(updateId, requestData, token, onUpdate, setMessage);
+    clear();
+  }
 
   return (
     <Container className="my-4" style={{ maxWidth: "400px" }}>
@@ -182,7 +157,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
             </Form.Group>
             <Button
               variant="secondary"
-              onClick={handleClearStarRating}
+              onClick={() => setStarRating("")}
               style={{ margin: "1rem" }}
             >
               Clear Selection
@@ -238,7 +213,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
             </Form.Group>
             <Button
               variant="primary"
-              onClick={handleUpdateRestaurant}
+              onClick={handleUpdate}
               style={{ margin: "1rem" }}
             >
               Update Restaurant

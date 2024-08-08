@@ -1,8 +1,8 @@
-import React, { useContext, useState } from "react";
-import { Container, Row, Col, Card, Pagination, Form } from "react-bootstrap";
-import RestaurantTypesList from "./RestaurantTypesList";
-import "../css/App.css";
-import RestaurantCard from "./RestaurantCard.js";
+import React, { useState } from "react";
+import { Container, Row, Col, Pagination, Form } from "react-bootstrap";
+import RestaurantTypesList from "../RestaurantTypesList";
+import "../../css/App.css";
+import RestaurantCard from "../RestaurantCard.js";
 
 const CustomerRestaurantsTable = ({
   nearbyRestaurants,

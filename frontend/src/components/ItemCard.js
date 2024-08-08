@@ -2,9 +2,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Card, ListGroup, Button, Container } from "react-bootstrap";
 import { UserContext } from "../UserContext";
-import AddPromotionModal from "./AddPromotionModal";
+import AddPromotionModal from "./onlyRestaurantAdmin/AddPromotionModal";
 import Restaurant from "./Restaurant";
-import { getRestaurantName } from "../services/restaurantHandlers";
+import { getRestaurantName } from "../handlers/restaurantHandlers";
 
 function ItemCard({ item, isInRestaurant, refreshItems }) {
   const { userRole } = useContext(UserContext);

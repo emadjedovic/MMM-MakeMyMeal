@@ -75,3 +75,13 @@ export const fetchPromotionData = async (
 export const handleTypeSelect = (type, setSelectedType) => {
   setSelectedType(type);
 };
+
+//
+
+export const handleRestaurantSelectParent = (restaurantId, setSelectedRestaurantId) => {
+  setSelectedRestaurantId(restaurantId);
+};
+
+export const handlePopState = (setSelectedRestaurantId) => {
+  setSelectedRestaurantId(null);
+};

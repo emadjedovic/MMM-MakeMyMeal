@@ -190,11 +190,6 @@ export const fetchRecommendedNearbyRestaurants = async (token) => {
         },
       }
     );
-
-    console.log(
-      "Success in fetching recommened restaurants nearby!",
-      response.data
-    );
     return response.data;
   } catch (error) {
     console.error("Error fetching recommened restaurants nearby:", error);
@@ -383,7 +378,6 @@ export const createPromotion = async (promotionData, token) => {
         },
       }
     );
-    console.log("Created promotion successfully: ", response.data)
     return response.data;
   } catch (error) {
     console.error("There was an error creating the promotion!", error);
@@ -427,7 +421,6 @@ export const deletePromotion = async (id, token) => {
 // ITEMS
 
 export const createItem = async (itemData, token) => {
-  console.log("item data (api.js): ", itemData)
   try {
     const response = await axios.post(
       `${API_URL}/items/create`,
@@ -465,7 +458,6 @@ export const fetchRecommendedItems = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("Success in fetching recommened items!", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching recommended items:", error);
@@ -480,7 +472,6 @@ export const fetchItemsByFoodType = async (restaurant_id, selectedFoodType) => {
         ? `${API_URL}/items/restaurant/${restaurant_id}`
         : `${API_URL}/items/search-type/${restaurant_id}/${selectedFoodType}`;
     const response = await axios.get(url);
-    console.log("Success in fetching items of a restaurant!", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching items of a restaurant", error);

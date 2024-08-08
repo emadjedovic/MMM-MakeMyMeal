@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { createItem } from "../services/api.js";
+import { createItem } from "../../services/api.js";
 
 const AddItemModal = ({
   show,

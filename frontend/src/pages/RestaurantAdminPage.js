@@ -2,8 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
 import { Container, Tab, Nav, Pagination } from "react-bootstrap";
 import "../css/App.css";
-import CreatePersonnelForm from "../components/CreatePersonnelForm";
-import RAdminRestaurantsTable from "../components/RAdminRestaurantsTable";
+
+import CreatePersonnelForm from "../components/onlyRestaurantAdmin/CreatePersonnelForm";
+import RAdminRestaurantsTable from "../components/onlyRestaurantAdmin/RAdminRestaurantsTable";
+import Restaurant from "../components/Restaurant";
+
 import {
   getRestaurants,
   getRestaurantTypes,
@@ -11,9 +14,9 @@ import {
   handleChange,
   handleSave,
   handlePageChange,
-  handlePersonnelCreated,
-} from "../services/radminHandlers";
-import Restaurant from "../components/Restaurant";
+  handleRestaurantSelectParent,
+  handlePopState,
+} from "../handlers/radminHandlers";
 
 const RestaurantAdminPage = () => {
   const { token, user } = useContext(UserContext);
@@ -24,11 +27,7 @@ const RestaurantAdminPage = () => {
   const userId = user.id;
   const itemsPerPage = 8;
   const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    getRestaurants(userId, token, setRestaurants);
-    getRestaurantTypes(token, setRestaurantTypes);
-  }, [userId, token]);
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
 
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
@@ -51,29 +50,31 @@ const RestaurantAdminPage = () => {
     );
   }
 
-  const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
-
-  const handleRestaurantSelectParent = (restaurantId) => {
-    setSelectedRestaurantId(restaurantId);
-    console.log("Called handleRestaurantSelectParent", selectedRestaurantId);
-  };
-
-  const handlePopState = () => {
-    setSelectedRestaurantId(null);
-  };
+  useEffect(() => {
+    getRestaurants(userId, token, setRestaurants);
+    getRestaurantTypes(token, setRestaurantTypes);
+  }, [userId, token]);
 
   useEffect(() => {
-    window.addEventListener("popstate", handlePopState);
+    window.addEventListener("popstate", () =>
+      handlePopState(setSelectedRestaurantId)
+    );
 
     return () => {
-      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener("popstate", () =>
+        handlePopState(setSelectedRestaurantId)
+      );
     };
   }, []);
 
   return (
     <Container>
       <Tab.Container defaultActiveKey="my-restaurants">
-        <Nav variant="underline" className="mb-3" onSelect={handlePopState}>
+        <Nav
+          variant="underline"
+          className="mb-3"
+          onSelect={() => handlePopState(setSelectedRestaurantId)}
+        >
           <Nav.Item>
             <Nav.Link eventKey="my-restaurants">My Restaurants</Nav.Link>
           </Nav.Item>
@@ -112,12 +113,17 @@ const RestaurantAdminPage = () => {
                   handlePageChange(pageNumber, setCurrentPage)
                 }
                 restaurantTypes={restaurantTypes}
-                handleRestaurantSelectParent={handleRestaurantSelectParent}
+                handleRestaurantSelectParent={(restaurantId) =>
+                  handleRestaurantSelectParent(
+                    restaurantId,
+                    setSelectedRestaurantId
+                  )
+                }
               />
             )}
           </Tab.Pane>
           <Tab.Pane eventKey="personnel">
-            <CreatePersonnelForm onPersonnelCreated={handlePersonnelCreated} />
+            <CreatePersonnelForm/>
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>

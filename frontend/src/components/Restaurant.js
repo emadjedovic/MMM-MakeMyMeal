@@ -6,7 +6,7 @@ import {
   handleFoodTypeSelect,
   getItems,
   getFoodTypes,
-} from "../services/restaurantHandlers";
+} from "../handlers/restaurantHandlers";
 
 const Restaurant = ({ restaurantId }) => {
   const [items, setItems] = useState([]);

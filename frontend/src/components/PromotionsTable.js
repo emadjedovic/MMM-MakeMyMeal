@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { originalPrice } from "../services/calculations";
+import { formatDiscount } from "../services/calculations";
 import {
   Table,
   Button,
@@ -34,21 +36,6 @@ const PromotionsTable = ({
   });
 
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const handleSearchNameChange = (e) => {
-    setSearchName(e.target.value);
-    setCurrentPage(1);
-  };
-
-  const handleFoodTypeChange = (e) => {
-    setFoodType(e.target.value);
-    setCurrentPage(1);
-  };
-
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {
@@ -63,16 +50,18 @@ const PromotionsTable = ({
     );
   }
 
-  const originalPrice = (priceOnDiscount, discount) => {
-    const original = priceOnDiscount / (1 - discount);
-    return Math.round(original * 100) / 100;
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
-  const formatDiscount = (discount) => {
-    if (discount !== null) {
-      return `${Math.round(discount * 100)}%`;
-    }
-    return "N/A";
+  const handleSearchNameChange = (e) => {
+    setSearchName(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const handleFoodTypeChange = (e) => {
+    setFoodType(e.target.value);
+    setCurrentPage(1);
   };
 
   return (

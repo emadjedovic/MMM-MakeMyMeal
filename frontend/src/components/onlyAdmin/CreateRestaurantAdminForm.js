@@ -1,17 +1,10 @@
+// src/components/CreateRestaurantAdminForm.js
 import React, { useState, useContext } from "react";
-import {
-  Form,
-  Button,
-  Alert,
-  Container,
-  Card,
-  Row,
-  Col,
-} from "react-bootstrap";
-import { UserContext } from "../UserContext";
-import { createDeliveryPersonnel } from "../services/api.js";
+import { Form, Button, Row, Col, Alert, Card } from "react-bootstrap";
+import { UserContext } from "../../UserContext";
+import { createAdmin } from "../../services/api";
 
-const CreatePersonnelForm = ({ onPersonnelCreated }) => {
+const CreateRestaurantAdminForm = () => {
   const { token } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -33,23 +26,22 @@ const CreatePersonnelForm = ({ onPersonnelCreated }) => {
     setPassword("");
   };
 
-  const handleCreatePersonnel = async (event) => {
+  const handleCreateAdmin = async (event) => {
     event.preventDefault();
     try {
-      const data = await createDeliveryPersonnel(requestData, token);
-      console.log("Delivery personnel created:", data);
+      await createAdmin(requestData, token);
       setMessage("User successfully created!");
       clear();
-      onPersonnelCreated(data);
     } catch (error) {
-      console.error("Error creating the personnel!", error);
+      setMessage("Error! Email already exists.");
+      clear();
     }
   };
 
   return (
     <Row>
       <Col>
-        <h2>Create Delivery Personnel</h2>
+        <h2>Create Restaurant Admin</h2>
 
         <br></br>
         {message ? (
@@ -63,8 +55,8 @@ const CreatePersonnelForm = ({ onPersonnelCreated }) => {
       <Col>
         <Card>
           <Card.Body>
-            <Form onSubmit={handleCreatePersonnel}>
-              <Form.Group controlId="personnelEmail">
+            <Form onSubmit={handleCreateAdmin}>
+              <Form.Group controlId="adminEmail">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
                   type="email"
@@ -76,7 +68,7 @@ const CreatePersonnelForm = ({ onPersonnelCreated }) => {
                   style={{ width: "100%" }}
                 />
               </Form.Group>
-              <Form.Group controlId="personnelFirstName">
+              <Form.Group controlId="adminFirstName">
                 <Form.Label>First Name</Form.Label>
                 <Form.Control
                   type="text"
@@ -88,7 +80,7 @@ const CreatePersonnelForm = ({ onPersonnelCreated }) => {
                   style={{ width: "100%" }}
                 />
               </Form.Group>
-              <Form.Group controlId="personnelLastName">
+              <Form.Group controlId="adminLastName">
                 <Form.Label>Last Name</Form.Label>
                 <Form.Control
                   type="text"
@@ -100,7 +92,7 @@ const CreatePersonnelForm = ({ onPersonnelCreated }) => {
                   style={{ width: "100%" }}
                 />
               </Form.Group>
-              <Form.Group controlId="personnelPassword">
+              <Form.Group controlId="adminPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                   type="password"
@@ -129,4 +121,4 @@ const CreatePersonnelForm = ({ onPersonnelCreated }) => {
   );
 };
 
-export default CreatePersonnelForm;
+export default CreateRestaurantAdminForm;

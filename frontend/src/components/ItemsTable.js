@@ -4,7 +4,7 @@ import "../css/App.css";
 import ItemCard from "./ItemCard.js";
 import ItemTypesList from "./ItemTypesList.js";
 import { UserContext } from "../UserContext.js";
-import AddItemModal from "./AddItemModal.js";
+import AddItemModal from "./onlyRestaurantAdmin/AddItemModal.js";
 
 const ItemsTable = ({
   items,
@@ -12,7 +12,7 @@ const ItemsTable = ({
   onFoodTypeSelect,
   selectedFoodType,
   restaurantId,
-  refreshItems
+  refreshItems,
 }) => {
   const itemsPerPage = 4;
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,20 +33,6 @@ const ItemsTable = ({
   });
 
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-    setCurrentPage(1);
-  };
-
-  const handlePromotedChange = () => {
-    setShowOnPromotion(!showOnPromotion);
-  };
-
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {
@@ -60,6 +46,19 @@ const ItemsTable = ({
       </Pagination.Item>
     );
   }
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const handlePromotedChange = () => {
+    setShowOnPromotion(!showOnPromotion);
+  };
 
   return (
     <Container className="my-4">
@@ -105,7 +104,11 @@ const ItemsTable = ({
           <Row className="mt-3">
             {currentItems.map((item) => (
               <Col md={12} lg={12} xxl={12} key={item.id} className="mb-3">
-                <ItemCard item={item} isInRestaurant={true} refreshItems={refreshItems}/>
+                <ItemCard
+                  item={item}
+                  isInRestaurant={true}
+                  refreshItems={refreshItems}
+                />
               </Col>
             ))}
           </Row>

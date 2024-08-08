@@ -1,8 +1,9 @@
 // src/components/AddPromotionModal.js
 import React, { useState, useContext } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
-import { createPromotion } from "../services/api";
-import { UserContext } from "../UserContext";
+import { createPromotion } from "../../services/api";
+import { UserContext } from "../../UserContext";
+import { PercentageToFraction } from "../../services/calculations";
 
 const AddPromotionModal = ({ show, handleClose, itemId, refreshItems }) => {
   const { token } = useContext(UserContext);
@@ -12,10 +13,6 @@ const AddPromotionModal = ({ show, handleClose, itemId, refreshItems }) => {
   );
   const [endDate, setEndDate] = useState("");
   const [error, setError] = useState("");
-
-  const PercentageToFraction = (percentage) => {
-    return (percentage / 100).toFixed(2);
-  };
 
   const promotionData = {
     discount_fraction: PercentageToFraction(discountPercentage),

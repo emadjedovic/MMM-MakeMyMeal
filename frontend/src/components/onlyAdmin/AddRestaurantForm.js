@@ -1,6 +1,6 @@
 // src/components/AddRestaurantForm.js
 import React, { useContext, useState, useEffect } from "react";
-import { createRestaurant, fetchRestaurantTypes } from "../services/api";
+import { createRestaurant, fetchRestaurantTypes } from "../../services/api";
 import {
   Form,
   Button,
@@ -10,7 +10,7 @@ import {
   Card,
   Alert,
 } from "react-bootstrap";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../../UserContext";
 
 const AddRestaurantForm = ({ onAdd }) => {
   const { token } = useContext(UserContext);
@@ -72,12 +72,10 @@ const AddRestaurantForm = ({ onAdd }) => {
   const handleAddRestaurant = async () => {
     try {
       const data = await createRestaurant(requestData, token);
-      console.log("Restaurant added successfully: ", data);
       setMessage("Restaurant added successfully!");
       onAdd(data);
       clear();
     } catch (error) {
-      console.error("Error adding the restaurant!", error);
       setMessage("Error adding the restaurant.");
       clear();
     }

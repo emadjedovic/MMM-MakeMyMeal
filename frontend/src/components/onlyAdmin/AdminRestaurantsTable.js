@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import {
   Table,
   Button,
-  Container,
   Pagination,
   Row,
   Col,
   Form,
 } from "react-bootstrap";
-import RestaurantTypesList from "./RestaurantTypesList";
+import RestaurantTypesList from "../RestaurantTypesList";
 import DeleteRestaurant from "./DeleteRestaurant";
 
 const AdminRestaurantsTable = ({

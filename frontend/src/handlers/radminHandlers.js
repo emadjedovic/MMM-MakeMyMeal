@@ -59,6 +59,12 @@ export const handlePageChange = (pageNumber, setCurrentPage) => {
   setCurrentPage(pageNumber);
 };
 
-export const handlePersonnelCreated = (dp) => {
-  console.log("New delivery personnel created:", dp);
+//
+
+export const handleRestaurantSelectParent = (restaurantId, setSelectedRestaurantId) => {
+  setSelectedRestaurantId(restaurantId);
+};
+
+export const handlePopState = (setSelectedRestaurantId) => {
+  setSelectedRestaurantId(null);
 };
