@@ -383,6 +383,7 @@ export const createPromotion = async (promotionData, token) => {
         },
       }
     );
+    console.log("Created promotion successfully: ", response.data)
     return response.data;
   } catch (error) {
     console.error("There was an error creating the promotion!", error);

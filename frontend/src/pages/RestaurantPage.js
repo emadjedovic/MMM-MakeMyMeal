@@ -49,7 +49,7 @@ const RestaurantPage = () => {
         Back to Home
       </Button>
       <Row>
-        <Col md={8} lg={9}>
+        <Col md={9} lg={9}>
           <ItemsTable
             items={items}
             foodTypes={foodTypes}
@@ -60,7 +60,7 @@ const RestaurantPage = () => {
             restaurantID={id}
           />
         </Col>
-        <Col>
+        <Col md={3} lg={3}>
           <RestaurantCard restaurant={restaurant} />
         </Col>
       </Row>

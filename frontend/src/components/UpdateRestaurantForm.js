@@ -14,7 +14,7 @@ import { updateRestaurant, fetchRestaurantTypes } from "../services/api";
 
 const UpdateRestaurantForm = ({ onUpdate }) => {
   const { token } = useContext(UserContext);
-  const [updateId, setUpdateId] = useState(0);
+  const [updateId, setUpdateId] = useState("");
   const [name, setName] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
@@ -22,7 +22,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
   const [city, setCity] = useState("");
   const [starRating, setStarRating] = useState("");
   const [type, setType] = useState("");
-  const [radiusOfDeliveryKm, setRadiusOfDeliveryKm] = useState("");
+  const [radiusOfDeliveryKm, setRadiusOfDeliveryKm] = useState(0);
   const [isArchived, setIsArchived] = useState(false);
   const [imageUrl, setImageUrl] = useState("")
   const [message, setMessage] = useState("");
@@ -55,7 +55,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
   };
 
   const clear = () => {
-    setUpdateId(0);
+    setUpdateId("");
     setName("");
     setLatitude("");
     setLongitude("");
@@ -63,7 +63,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
     setCity("");
     setStarRating("");
     setType("");
-    setRadiusOfDeliveryKm("");
+    setRadiusOfDeliveryKm(0);
     setIsArchived(false);
     setImageUrl("")
   };
