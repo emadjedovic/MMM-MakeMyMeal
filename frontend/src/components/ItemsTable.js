@@ -11,7 +11,7 @@ const ItemsTable = ({
   foodTypes,
   onFoodTypeSelect,
   selectedFoodType,
-  restaurantID
+  restaurantId
 }) => {
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
@@ -117,7 +117,7 @@ const ItemsTable = ({
         handleClose={() => setShowModal(false)}
         foodTypes={foodTypes}
         token={token}
-        restaurantID={restaurantID}
+        restaurantId={restaurantId}
       />
     </Container>
   );
