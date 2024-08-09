@@ -8,6 +8,7 @@ from sqlalchemy import (
     Enum as sqlEnum,
     Boolean,
     Float,
+    ForeignKey,
 )
 from datetime import datetime
 from database import Base
@@ -35,5 +36,23 @@ class DBUser(Base):
     disabled = Column(Boolean, default=False)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
+    restaurant_id = Column(
+        Integer, ForeignKey("restaurants.id", ondelete="SET NULL"), nullable=True
+    )  # New attribute
 
-    restaurants = relationship("DBRestaurant", back_populates="owner")
+    restaurants = relationship(
+        "DBRestaurant", back_populates="owner", foreign_keys="[DBRestaurant.owner_id]"
+    )
+    delivery_restaurant = relationship(
+        "DBRestaurant",
+        back_populates="delivery_personnel",
+        foreign_keys=[restaurant_id],
+    )
+    assigned_orders = relationship(
+        "DBOrder",
+        back_populates="delivery_personnel",
+        foreign_keys="DBOrder.delivery_id",
+    )
+    orders = relationship(
+        "DBOrder", back_populates="customer", foreign_keys="DBOrder.customer_id"
+    )

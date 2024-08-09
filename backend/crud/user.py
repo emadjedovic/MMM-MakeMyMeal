@@ -7,6 +7,10 @@ from auth.security import pwd_context
 from fastapi import HTTPException, status
 
 
+def crud_get_user_by_id(db: Session, id: int) -> DBUser:
+    return db.query(DBUser).filter(DBUser.id == id).first()
+
+
 def crud_get_user_by_email(db: Session, email: str) -> DBUser:
     return db.query(DBUser).filter(DBUser.email == email).first()
 
@@ -68,6 +72,7 @@ def crud_create_delivery_personnel(db: Session, user: UserCreate) -> DBUser:
         first_name=user.first_name,
         last_name=user.last_name,
         hashed_password=hashed_password,
+        restaurant_id=user.restaurant_id,
     )
     db_user.role = UserRole.DELIVERY_PERSONNEL
     db.add(db_user)

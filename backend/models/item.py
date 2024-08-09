@@ -1,3 +1,5 @@
+# models/item.py
+
 from sqlalchemy import (
     Column,
     String,
@@ -5,10 +7,11 @@ from sqlalchemy import (
     Float,
     ForeignKey,
     Boolean,
-    UniqueConstraint
+    UniqueConstraint,
 )
 from sqlalchemy.orm import relationship
 from database import Base
+
 
 class DBItem(Base):
     __tablename__ = "items"
@@ -16,16 +19,33 @@ class DBItem(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     description = Column(String, nullable=False, default="No description")
-    is_promoted = Column(Boolean, nullable=False, default=False) # updated in crud after a relevant promotion had been created or deleted
+    is_promoted = Column(Boolean, nullable=False, default=False)
     price = Column(Float, nullable=False)
     imageUrl = Column(String, nullable=False, default="item-images/itemDefault.png")
     is_recommended = Column(Boolean, nullable=False, default=False)
     restaurant_id = Column(Integer, ForeignKey("restaurants.id"), nullable=False)
-    food_type_name = Column(String, ForeignKey("food_types.name"), nullable=False, default="Other")
+    food_type_name = Column(
+        String, ForeignKey("food_types.name"), nullable=False, default="Other"
+    )
 
-    restaurant = relationship("DBRestaurant", back_populates="items")
-    promotion = relationship("DBPromotion", uselist=False, back_populates="item", cascade="all, delete-orphan")
+    food_type = relationship(
+        "DBFoodType", primaryjoin="DBFoodType.name == DBItem.food_type_name"
+    )
+
+    restaurant = relationship(
+        "DBRestaurant", back_populates="items", foreign_keys=[restaurant_id]
+    )
+    promotion = relationship(
+        "DBPromotion",
+        uselist=False,
+        back_populates="item",
+        cascade="all, delete-orphan",
+        foreign_keys="DBPromotion.item_id",
+    )
+    orders = relationship(
+        "DBOrderItem", back_populates="item", foreign_keys="DBOrderItem.item_id"
+    )
 
     __table_args__ = (
-        UniqueConstraint('id', 'restaurant_id', name='unique_item_per_restaurant'),
+        UniqueConstraint("id", "restaurant_id", name="unique_item_per_restaurant"),
     )

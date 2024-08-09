@@ -1,3 +1,4 @@
+# routers/auth.py
 from fastapi import APIRouter, Depends, HTTPException
 from dependencies import get_db
 from datetime import timedelta

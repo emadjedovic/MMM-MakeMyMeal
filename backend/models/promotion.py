@@ -1,13 +1,10 @@
-from sqlalchemy import (
-    Column,
-    Integer,
-    Float,
-    ForeignKey,
-    Date
-)
+# models/promotion.py
+
+from sqlalchemy import Column, Integer, Float, ForeignKey, Date
 from sqlalchemy.orm import relationship
 from database import Base
 from datetime import date
+
 
 class DBPromotion(Base):
     __tablename__ = "promotions"
@@ -18,4 +15,6 @@ class DBPromotion(Base):
     end_date = Column(Date, nullable=True)
     item_id = Column(Integer, ForeignKey("items.id"), nullable=False, unique=True)
 
-    item = relationship("DBItem", back_populates="promotion", uselist=False)
+    item = relationship(
+        "DBItem", back_populates="promotion", uselist=False, foreign_keys=[item_id]
+    )
