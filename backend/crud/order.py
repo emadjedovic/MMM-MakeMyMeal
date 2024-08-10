@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from models.order import DBOrder, DBOrderItem, OrderStatus
 from models.user import DBUser
 from models.item import DBItem
-from schemas.order import OrderCreate, OrderUpdate
+from schemas.order import OrderCreate
 from datetime import datetime
 from fastapi import HTTPException, BackgroundTasks
 from typing import List
@@ -15,17 +15,18 @@ def create_order(db: Session, order: OrderCreate, customer_id: int):
     db_order = DBOrder(
         customer_id=customer_id,
         restaurant_id=order.restaurant_id,
-        status=OrderStatus.UNASSIGNED,
+        status="UNASSIGNED",
         payment_method=order.payment_method,
-        total_price=0.0,  # Calculated below
-        created_at=datetime.utcnow(),
+        preferred_arrival_time=order.preferred_arrival_time,
+        created_at=datetime.utcnow()
     )
     db.add(db_order)
     db.commit()
+    db.refresh(db_order)
 
     # Add items to the order
     total_price = 0.0
-    for item_id in order.items:
+    for item_id in order.items_ids:
         db_item = db.query(DBItem).filter(DBItem.id == item_id).first()
         if not db_item:
             raise HTTPException(
@@ -34,6 +35,7 @@ def create_order(db: Session, order: OrderCreate, customer_id: int):
 
         db_order_item = DBOrderItem(order_id=db_order.id, item_id=item_id)
         db.add(db_order_item)
+        print("db_item.price: ", db_item.price)
         total_price += db_item.price
 
     # Update total price
@@ -44,19 +46,26 @@ def create_order(db: Session, order: OrderCreate, customer_id: int):
     return db_order
 
 
-def update_order(db: Session, order_id: int, order_update: OrderUpdate):
+def update_order_status(db: Session, order_id: int, status: str):
+    db_order = db.query(DBOrder).filter(DBOrder.id == order_id).first()
+
+    if not db_order:
+        raise HTTPException(status_code=404, detail="Order not found")
+    
+    if status is not None:
+        db_order.status = status
+
+    db.commit()
+    db.refresh(db_order)
+    return db_order
+
+def update_order_delivery(db: Session, order_id: int, delivery_id: int):
     db_order = db.query(DBOrder).filter(DBOrder.id == order_id).first()
     if not db_order:
         raise HTTPException(status_code=404, detail="Order not found")
 
-    if order_update.delivery_id is not None:
-        db_order.delivery_id = order_update.delivery_id
-    if order_update.status is not None:
-        db_order.status = OrderStatus(order_update.status)
-    if order_update.payment_method is not None:
-        db_order.payment_method = order_update.payment_method
-    if order_update.preferred_arrival_time is not None:
-        db_order.preferred_arrival_time = order_update.preferred_arrival_time
+    if delivery_id is not None:
+        db_order.delivery_id = delivery_id
 
     db.commit()
     db.refresh(db_order)

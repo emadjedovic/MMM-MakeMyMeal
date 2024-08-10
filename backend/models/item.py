@@ -16,7 +16,7 @@ from database import Base
 class DBItem(Base):
     __tablename__ = "items"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     name = Column(String, nullable=False)
     description = Column(String, nullable=False, default="No description")
     is_promoted = Column(Boolean, nullable=False, default=False)
@@ -42,7 +42,7 @@ class DBItem(Base):
         cascade="all, delete-orphan",
         foreign_keys="DBPromotion.item_id",
     )
-    orders = relationship(
+    order_items = relationship(
         "DBOrderItem", back_populates="item", foreign_keys="DBOrderItem.item_id"
     )
 

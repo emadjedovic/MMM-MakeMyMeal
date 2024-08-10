@@ -32,15 +32,17 @@ class PaymentMethod(enum.Enum):
 class DBOrder(Base):
     __tablename__ = "orders"
 
-    id = Column(Integer, primary_key=True, index=True)
-    customer_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    customer_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     restaurant_id = Column(Integer, ForeignKey("restaurants.id"), nullable=False)
     delivery_id = Column(Integer, ForeignKey("users.id"), nullable=True)
-    status = Column(sqlEnum(OrderStatus), default=OrderStatus.UNASSIGNED)
-    payment_method = Column(sqlEnum(PaymentMethod), default=PaymentMethod.CASH)
-    total_price = Column(Float, default=0.0)
-    preferred_arrival_time = Column(DateTime, default=datetime.utcnow)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    status = Column(sqlEnum(OrderStatus), nullable=True, default=OrderStatus.UNASSIGNED)
+    payment_method = Column(
+        sqlEnum(PaymentMethod), nullable=False, default=PaymentMethod.CASH
+    )
+    total_price = Column(Float, nullable=True, default=0.0)
+    preferred_arrival_time = Column(DateTime, nullable=True, default=datetime.utcnow)
+    created_at = Column(DateTime, nullable=True, default=datetime.utcnow)
 
     restaurant = relationship(
         "DBRestaurant", back_populates="orders", foreign_keys=[restaurant_id]
@@ -53,8 +55,13 @@ class DBOrder(Base):
         "DBUser", back_populates="orders", foreign_keys=[customer_id]
     )
 
-    items = relationship(
-        "DBOrderItem", back_populates="order", foreign_keys="DBOrderItem.order_id"
+    # passive_deletes=True optimizes the cascade delete operation by making it more efficient
+    order_items = relationship(
+        "DBOrderItem",
+        back_populates="order",
+        foreign_keys="DBOrderItem.order_id",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
     )
 
 
@@ -62,9 +69,10 @@ class DBOrder(Base):
 class DBOrderItem(Base):
     __tablename__ = "order_items"
 
-    order_id = Column(Integer, ForeignKey("orders.id"), primary_key=True)
-    item_id = Column(Integer, ForeignKey("items.id"), primary_key=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    order_id = Column(Integer, ForeignKey("orders.id"), nullable=False)
+    item_id = Column(Integer, ForeignKey("items.id"), nullable=False)
     quantity = Column(Integer, nullable=False, default=1)
 
-    order = relationship("DBOrder", back_populates="items", foreign_keys=[order_id])
-    item = relationship("DBItem", back_populates="orders", foreign_keys=[item_id])
+    order = relationship("DBOrder", back_populates="order_items", foreign_keys=[order_id])
+    item = relationship("DBItem", back_populates="order_items", foreign_keys=[item_id])

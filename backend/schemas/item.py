@@ -34,7 +34,6 @@ class Item(ItemBase):
     id: int
     is_promoted: bool = False  # default is False
     restaurant_id: int
-    orders: List["Order"] = []  # Use forward declaration
 
     class Config:
         from_attributes = True

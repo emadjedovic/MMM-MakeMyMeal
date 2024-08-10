@@ -10,30 +10,23 @@ if TYPE_CHECKING:
 
 
 class OrderBase(BaseModel):
-    customer_id: int
     restaurant_id: int
-    delivery_id: Optional[int] = None
-    status: str = "UNASSIGNED"
-    payment_method: str = "cash"
-    total_price: float = 0.0
+    payment_method: str = "CASH"
     preferred_arrival_time: Optional[datetime] = None
+    items_ids: List[int] = []
 
 
 class OrderCreate(OrderBase):
-    items: List[int]  # List of item IDs
-
-
-class OrderUpdate(BaseModel):
-    delivery_id: Optional[int] = None
-    status: Optional[str] = None
-    payment_method: Optional[str] = None
-    preferred_arrival_time: Optional[datetime] = None
+    pass
 
 
 class Order(OrderBase):
     id: int
+    customer_id: int
     created_at: datetime
-    items: List["Item"] = []  # Use forward declaration
+    status: str #updated later
+    total_price: float = 0.0 # calculated after creation
+    delivery_id: Optional[int] = None # assigned later by the restaurant admin
 
     class Config:
         from_attributes = True

@@ -26,7 +26,7 @@ class UserRole(enum.Enum):
 class DBUser(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     role = Column(sqlEnum(UserRole), nullable=False, default=UserRole.CUSTOMER)
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)

@@ -9,7 +9,7 @@ from datetime import date
 class DBPromotion(Base):
     __tablename__ = "promotions"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     discount_fraction = Column(Float, nullable=False)
     start_date = Column(Date, nullable=False, default=date.today)
     end_date = Column(Date, nullable=True)

@@ -3,15 +3,16 @@ from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
 from typing import List
 from datetime import datetime
-from schemas.order import Order, OrderCreate, OrderUpdate
+from schemas.order import Order, OrderCreate
 from schemas.user import User
 from crud.order import (
     create_order,
-    update_order,
     get_order_by_id,
     get_orders_by_customer,
     get_orders_by_delivery_personnel,
     assign_order_to_delivery,
+    update_order_delivery,
+    update_order_status
 )
 from dependencies import (
     get_db,
@@ -27,10 +28,11 @@ router = APIRouter(prefix="/orders")
 @router.post("/", response_model=Order)
 def create_new_order(
     order: OrderCreate,
+    customer_id: int, # ovo kasnije izbrisati i koristiti id iz depends dole
     db: Session = Depends(get_db),
-    customer: User = Depends(get_customer_user),
+    #customer: User = Depends(get_customer_user),
 ):
-    return create_order(db, order, customer.id)
+    return create_order(db, order, customer_id)
 
 
 # Customer - Get order history
@@ -67,12 +69,22 @@ def assign_order(
         raise HTTPException(status_code=e.status_code, detail=e.detail)
 
 
-# Restaurant Admin - Update order status or delivery personnel
+# Restaurant Admin
 @router.put("/update/{order_id}", response_model=Order)
-def update_order_status_or_delivery(
+def update_order_status(
     order_id: int,
-    order_update: OrderUpdate,
+    status: str,
     db: Session = Depends(get_db),
     restaurant_admin: User = Depends(get_restaurant_admin_user),
 ):
-    return update_order(db, order_id, order_update)
+    return update_order_status(db, order_id, status)
+
+# Restaurant Admin
+@router.put("/update/{order_id}", response_model=Order)
+def update_order_delivery(
+    order_id: int,
+    delivery_id: int,
+    db: Session = Depends(get_db),
+    restaurant_admin: User = Depends(get_restaurant_admin_user),
+):
+    return update_order_delivery(db, order_id, delivery_id)

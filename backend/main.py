@@ -32,13 +32,14 @@ app = create_application()
 
 
 # from helpers.create_users import create_admin, create_customer, create_delivery_personnel, create_restaurant_admin
+
 def startup_event():
     Base.metadata.create_all(bind=engine)
-    """
+    '''
     create_admin()
     create_customer()
     create_restaurant_admin()
-    create_delivery_personnel()"""
+    create_delivery_personnel()'''
 
 
 app.add_event_handler("startup", startup_event)
