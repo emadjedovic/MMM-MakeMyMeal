@@ -32,7 +32,7 @@ email_settings = EmailSettings(
     MAIL_SSL=config("MAIL_SSL", cast=bool),
     MAIL_FROM_NAME=config("MAIL_FROM_NAME")
 )
-
+''''''
 # Optional: Print to verify values (for debugging)
 print(email_settings.MAIL_USERNAME)
 print(email_settings.MAIL_PASSWORD)

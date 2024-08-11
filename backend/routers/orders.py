@@ -4,15 +4,16 @@ from sqlalchemy.orm import Session
 from typing import List
 from datetime import datetime
 from schemas.order import Order, OrderCreate
+from models.order import OrderStatus
 from schemas.user import User
 from crud.order import (
-    create_order,
-    get_order_by_id,
-    get_orders_by_customer,
-    get_orders_by_delivery_personnel,
-    assign_order_to_delivery,
-    update_order_delivery,
-    update_order_status
+    crud_create_order,
+    crud_get_order_by_id,
+    crud_get_orders_by_customer,
+    crud_get_orders_by_delivery_personnel,
+    crud_assign_order_to_delivery,
+    crud_change_status,
+    crud_delete_order
 )
 from dependencies import (
     get_db,
@@ -25,32 +26,44 @@ router = APIRouter(prefix="/orders")
 
 
 # Customer - Create a new order
-@router.post("/", response_model=Order)
+@router.post("/new", response_model=Order)
 def create_new_order(
     order: OrderCreate,
     customer_id: int, # ovo kasnije izbrisati i koristiti id iz depends dole
     db: Session = Depends(get_db),
     #customer: User = Depends(get_customer_user),
 ):
-    return create_order(db, order, customer_id)
+    return crud_create_order(db, order, customer_id)
+
+@router.delete("/delete")
+def delete_order(
+    order_id: int,
+    db: Session = Depends(get_db)
+):
+    return crud_delete_order(db, order_id)
 
 
 # Customer - Get order history
 @router.get("/history", response_model=List[Order])
 def get_order_history(
-    db: Session = Depends(get_db), customer: User = Depends(get_customer_user)
+    
+    customer_id: int, # ovo kasnije izbrisati i koristiti id iz depends dole
+    db: Session = Depends(get_db),
+    #customer: User = Depends(get_customer_user)
 ):
-    return get_orders_by_customer(db, customer.id)
+    return crud_get_orders_by_customer(db, customer_id)
 
 
 # Delivery Personnel - Get assigned orders for the current day
 @router.get("/assigned", response_model=List[Order])
 def get_assigned_orders(
+    
+    delivery_personnel_id: int, # ovo kasnije izbrisati i koristiti id iz depends dole
     db: Session = Depends(get_db),
-    delivery_personnel: User = Depends(get_delivery_personnel_user),
+    #delivery_personnel: User = Depends(get_delivery_personnel_user),
 ):
     current_date = datetime.utcnow()
-    return get_orders_by_delivery_personnel(db, delivery_personnel.id, current_date)
+    return crud_get_orders_by_delivery_personnel(db, delivery_personnel_id, current_date)
 
 
 # Restaurant Admin - Assign order to delivery personnel
@@ -60,31 +73,21 @@ def assign_order(
     delivery_id: int,
     background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
-    restaurant_admin: User = Depends(get_restaurant_admin_user)
+    #restaurant_admin: User = Depends(get_restaurant_admin_user)
 ):
     try:
-        db_order = assign_order_to_delivery(db, order_id, delivery_id, background_tasks)
+        db_order = crud_assign_order_to_delivery(db, order_id, delivery_id, background_tasks)
         return db_order
     except HTTPException as e:
         raise HTTPException(status_code=e.status_code, detail=e.detail)
 
 
 # Restaurant Admin
-@router.put("/update/{order_id}", response_model=Order)
-def update_order_status(
+@router.put("/status/{order_id}", response_model=Order)
+def change_status(
     order_id: int,
-    status: str,
+    status: OrderStatus,
     db: Session = Depends(get_db),
-    restaurant_admin: User = Depends(get_restaurant_admin_user),
+    #restaurant_admin: User = Depends(get_restaurant_admin_user),
 ):
-    return update_order_status(db, order_id, status)
-
-# Restaurant Admin
-@router.put("/update/{order_id}", response_model=Order)
-def update_order_delivery(
-    order_id: int,
-    delivery_id: int,
-    db: Session = Depends(get_db),
-    restaurant_admin: User = Depends(get_restaurant_admin_user),
-):
-    return update_order_delivery(db, order_id, delivery_id)
+    return crud_change_status(db, order_id, status)

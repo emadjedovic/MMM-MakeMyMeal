@@ -60,7 +60,6 @@ class DBOrder(Base):
         "DBOrderItem",
         back_populates="order",
         foreign_keys="DBOrderItem.order_id",
-        cascade="all, delete-orphan",
         passive_deletes=True,
     )
 

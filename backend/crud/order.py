@@ -1,21 +1,19 @@
 # crud/order.py
 from sqlalchemy.orm import Session
 from models.order import DBOrder, DBOrderItem, OrderStatus
-from models.user import DBUser
 from models.item import DBItem
 from schemas.order import OrderCreate
-from datetime import datetime
+from datetime import datetime, timedelta
 from fastapi import HTTPException, BackgroundTasks
-from typing import List
 from helpers.email import send_email
 from crud.user import crud_get_user_by_id
 
 
-def create_order(db: Session, order: OrderCreate, customer_id: int):
+def crud_create_order(db: Session, order: OrderCreate, customer_id: int):
     db_order = DBOrder(
         customer_id=customer_id,
         restaurant_id=order.restaurant_id,
-        status="UNASSIGNED",
+        status=OrderStatus.UNASSIGNED,
         payment_method=order.payment_method,
         preferred_arrival_time=order.preferred_arrival_time,
         created_at=datetime.utcnow()
@@ -45,8 +43,27 @@ def create_order(db: Session, order: OrderCreate, customer_id: int):
 
     return db_order
 
+def crud_delete_order_items(db: Session, order_id: int):
+    db_order_items = db.query(DBOrderItem).filter(DBOrderItem.order_id == order_id).all() # a list
+    for order_item in db_order_items:
+        db.delete(order_item)
+    
+    db.commit()
 
-def update_order_status(db: Session, order_id: int, status: str):
+# for testing purposes only
+def crud_delete_order(db: Session, order_id: int):
+    db_order = db.query(DBOrder).filter(DBOrder.id == order_id).first()
+    if not db_order:
+        raise HTTPException(status_code=404, detail="Order not found")
+
+    crud_delete_order_items(db, order_id)
+    db.delete(db_order)
+    db.commit()
+    
+    return {"detail": "Order deleted successfully"}
+
+
+def crud_change_status(db: Session, order_id: int, status: OrderStatus):
     db_order = db.query(DBOrder).filter(DBOrder.id == order_id).first()
 
     if not db_order:
@@ -59,20 +76,8 @@ def update_order_status(db: Session, order_id: int, status: str):
     db.refresh(db_order)
     return db_order
 
-def update_order_delivery(db: Session, order_id: int, delivery_id: int):
-    db_order = db.query(DBOrder).filter(DBOrder.id == order_id).first()
-    if not db_order:
-        raise HTTPException(status_code=404, detail="Order not found")
 
-    if delivery_id is not None:
-        db_order.delivery_id = delivery_id
-
-    db.commit()
-    db.refresh(db_order)
-    return db_order
-
-
-def get_order_by_id(db: Session, order_id: int):
+def crud_get_order_by_id(db: Session, order_id: int):
     return db.query(DBOrder).filter(DBOrder.id == order_id).first()
 
 
@@ -84,24 +89,27 @@ def get_order_by_id(db: Session, order_id: int):
 """
 
 
-def get_orders_by_customer(db: Session, customer_id: int):
+def crud_get_orders_by_customer(db: Session, customer_id: int):
     return db.query(DBOrder).filter(DBOrder.customer_id == customer_id).all()
 
 
-def get_orders_by_delivery_personnel(
-    db: Session, delivery_id: int, current_date: datetime
-):
+def crud_get_orders_by_delivery_personnel(db: Session, delivery_id: int, current_date: datetime):
+    start_of_day = datetime(current_date.year, current_date.month, current_date.day)
+    end_of_day = start_of_day + timedelta(days=1)
+
     return (
         db.query(DBOrder)
         .filter(
             DBOrder.delivery_id == delivery_id,
-            DBOrder.created_at.date() == current_date.date(),
+            DBOrder.created_at >= start_of_day,
+            DBOrder.created_at < end_of_day,
         )
         .all()
     )
 
 
-def assign_order_to_delivery(
+
+def crud_assign_order_to_delivery(
     db: Session, order_id: int, delivery_id: int, background_tasks: BackgroundTasks
 ):
     db_order = db.query(DBOrder).filter(DBOrder.id == order_id).first()
@@ -119,7 +127,7 @@ def assign_order_to_delivery(
 
     # Send email in the background
     background_tasks.add_task(
-        send_order_assigned_email,
+        crud_send_order_assigned_email,
         recipient=db_order.customer.email,
         order_details=order_details,
     )
@@ -130,7 +138,7 @@ def assign_order_to_delivery(
 from sqlalchemy.orm import joinedload
 
 
-def send_order_assigned_email(db: Session, order_id: int):
+def crud_send_order_assigned_email(db: Session, order_id: int):
     db_order = (
         db.query(DBOrder)
         .options(joinedload(DBOrder.customer))
@@ -149,3 +157,5 @@ def send_order_assigned_email(db: Session, order_id: int):
             print("Customer email is missing.")
     else:
         print("Order or customer not found.")
+
+
