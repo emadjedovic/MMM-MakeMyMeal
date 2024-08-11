@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { Card, ListGroup, Container } from "react-bootstrap";
 import { UserContext } from "../UserContext";
 import { calculateDistance } from "../services/calculations";
-import { getRestaurantById } from "../handlers/restaurantHandlers";
+import { handleFetchRestaurantById } from "../handlers/restaurantHandlers";
 
 function RestaurantCard({ restaurantId, handleRestaurantSelectParent }) {
   const { user, userRole } = useContext(UserContext);
   const [restaurant, setRestaurant] = useState("");
 
   useEffect(() => {
-    getRestaurantById(restaurantId, setRestaurant);
+    handleFetchRestaurantById(restaurantId, setRestaurant);
   }, []);
 
   return (

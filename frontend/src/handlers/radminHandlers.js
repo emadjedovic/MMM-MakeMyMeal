@@ -5,21 +5,21 @@ import {
   fetchRestaurantTypes,
 } from "../services/api";
 
-export const getRestaurants = async (userId, token, setRestaurants) => {
+export const handleFetchRestaurantsByOwner = async (userId, token, setRestaurants) => {
   try {
     const data = await fetchRestaurantsByOwner(userId, token);
     setRestaurants(data);
   } catch (error) {
-    console.error("Error fetching restaurants:", error);
+    console.error("Error in handleFetchRestaurantsByOwner.");
   }
 };
 
-export const getRestaurantTypes = async (token, setRestaurantTypes) => {
+export const handleFetchRestaurantTypes = async (token, setRestaurantTypes) => {
   try {
     const types = await fetchRestaurantTypes(token);
     setRestaurantTypes(types);
   } catch (error) {
-    console.error("Error fetching restaurant types:", error);
+    console.error("Error in handleFetchRestaurantTypes.");
   }
 };
 
@@ -51,15 +51,13 @@ export const handleSave = async (
     const data = await fetchRestaurantsByOwner(userId, token);
     setRestaurants(data);
   } catch (error) {
-    console.error("Error updating restaurant:", error);
+    console.error("Error in handleSave.");
   }
 };
 
 export const handlePageChange = (pageNumber, setCurrentPage) => {
   setCurrentPage(pageNumber);
 };
-
-//
 
 export const handleRestaurantSelectParent = (restaurantId, setSelectedRestaurantId) => {
   setSelectedRestaurantId(restaurantId);

@@ -10,7 +10,7 @@ import {
   Alert,
 } from "react-bootstrap";
 import { UserContext } from "../../UserContext";
-import { getRestaurantTypes } from "../../handlers/restaurantHandlers";
+import { handleFetchRestaurantTypes } from "../../handlers/restaurantHandlers";
 import { handleUpdateRestaurant } from "../../handlers/restaurantHandlers";
 
 const UpdateRestaurantForm = ({ onUpdate }) => {
@@ -30,7 +30,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
   const [restaurantTypes, setRestaurantTypes] = useState([]);
 
   useEffect(() => {
-    getRestaurantTypes(setRestaurantTypes);
+    handleFetchRestaurantTypes(setRestaurantTypes);
   }, [token]);
 
   const requestData = {

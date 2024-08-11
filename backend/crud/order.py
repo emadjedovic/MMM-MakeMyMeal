@@ -9,6 +9,16 @@ from helpers.email import send_email
 from crud.user import crud_get_user_by_id
 from crud.restaurant import crud_get_restaurant_by_id
 
+# new
+def crud_get_orders_all(db: Session):
+    orders = db.query(DBOrder).all()
+    return orders
+
+# new
+def crud_get_order_by_id(db: Session, id: int) -> DBOrder:
+    db_order = db.query(DBOrder).filter(DBOrder.id == id).first()
+    return db_order
+
 
 def crud_create_order(db: Session, order: OrderCreate, customer_id: int):
     db_order = DBOrder(
@@ -76,11 +86,6 @@ def crud_change_status(db: Session, order_id: int, status: OrderStatus):
     db.commit()
     db.refresh(db_order)
     return db_order
-
-
-def crud_get_order_by_id(db: Session, order_id: int):
-    return db.query(DBOrder).filter(DBOrder.id == order_id).first()
-
 
 """
 from sqlalchemy.orm import joinedload

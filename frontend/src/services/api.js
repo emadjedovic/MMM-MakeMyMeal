@@ -18,7 +18,7 @@ export const createAdmin = async (adminData, token) => {
     );
     return response.data;
   } catch (error) {
-    console.error("There was an error creating the admin!", error);
+    console.error("Error in createAdmin.");
     throw error;
   }
 };
@@ -37,7 +37,7 @@ export const createDeliveryPersonnel = async (personnelData, token) => {
     );
     return response.data;
   } catch (error) {
-    console.error("There was an error creating the personnel!", error);
+    console.error("Error in createDeliveryPersonnel.");
     throw error;
   }
 };
@@ -47,7 +47,7 @@ export const registerUser = async (userData) => {
     const response = await axios.post(`${API_URL}/auth/register`, userData);
     return response.data;
   } catch (error) {
-    console.error("Registration error:", error);
+    console.error("Error in registerUser.");
     throw error;
   }
 };
@@ -57,7 +57,7 @@ export const loginUser = async (loginData) => {
     const response = await axios.post(`${API_URL}/auth/login`, loginData);
     return response.data;
   } catch (error) {
-    console.error("Login error:", error);
+    console.error("Error in loginUser.");
     throw error;
   }
 };
@@ -77,7 +77,7 @@ export const toggleArchiveRestaurant = async (id, token) => {
       }
     );
   } catch (error) {
-    console.error("Error archiving restaurant:", error);
+    console.error("Error in toggleArchiveRestaurant.");
     throw error;
   }
 };
@@ -91,7 +91,7 @@ export const deleteRestaurant = async (id, token) => {
       },
     });
   } catch (error) {
-    console.error("Error deleting restaurant:", error);
+    console.error("Error in deleteRestaurant.");
     throw error;
   }
 };
@@ -110,7 +110,7 @@ export const updateRestaurant = async (id, data, token) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error updating restaurant:", error);
+    console.error("Error in updateRestaurant.");
     throw error;
   }
 };
@@ -131,14 +131,14 @@ export const createRestaurant = async (restaurantData, token) => {
     );
     return response.data;
   } catch (error) {
-    console.error("There was an error adding the restaurant!", error);
+    console.error("Error in createRestaurant.");
     throw error;
   }
 };
 
 
 
-export const fetchRestaurants = async (selectedType, token) => {
+export const fetchRestaurantsByType = async (selectedType, token) => {
   try {
     const url =
       selectedType === "All"
@@ -152,7 +152,7 @@ export const fetchRestaurants = async (selectedType, token) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching restaurants:", error);
+    console.error("Error in fetchRestaurantsByType.");
     throw error;
   }
 };
@@ -174,12 +174,12 @@ export const fetchNearbyRestaurants = async (selectedType, token) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching nearby restaurants:", error);
+    console.error("Error in fetchNearbyRestaurants.");
     throw error;
   }
 };
 
-export const fetchRecommendedNearbyRestaurants = async (token) => {
+export const fetchRecommendedRestaurants = async (token) => {
   try {
     const response = await axios.get(
       `${API_URL}/restaurants/recommended-nearby`,
@@ -192,7 +192,7 @@ export const fetchRecommendedNearbyRestaurants = async (token) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error fetching recommened restaurants nearby:", error);
+    console.error("Error in fetchRecommendedRestaurants.");
     throw error;
   }
 };
@@ -209,7 +209,7 @@ export const fetchRestaurantsByOwner = async (userId, token) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching restaurants:", error);
+    console.error("Error in fetchRestaurantsByOwner.");
     throw error;
   }
 };
@@ -221,7 +221,7 @@ export const fetchRestaurantById = async (id) => {
     );
     return response.data;
   } catch (error) {
-    //console.error("There was an error fetching the restaurant by id!", error);
+    console.error("Error in fetchRestaurantById.");
     throw error;
   }
 };
@@ -233,7 +233,7 @@ export const fetchRestaurantTypes = async (token) => {
     const response = await axios.get(`${API_URL}/restaurant_types/all`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching restaurant types:", error);
+    console.error("Error in fetchRestaurantTypes.");
     throw error;
   }
 };
@@ -252,7 +252,7 @@ export const addRestaurantType = async (newTypeName, token) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error adding restaurant type:", error);
+    console.error("Error in addRestaurantType.");
     throw error;
   }
 };
@@ -271,7 +271,7 @@ export const renameRestaurantType = async (oldName, newName, token) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error renaming restaurant type:", error);
+    console.error("Error in renameRestaurantType.");
     throw error;
   }
 };
@@ -285,7 +285,7 @@ export const deleteRestaurantType = async (typeName, token) => {
       },
     });
   } catch (error) {
-    console.error("Error deleting restaurant type:", error);
+    console.error("Error in deleteRestaurantType.");
     throw error;
   }
 };
@@ -297,7 +297,7 @@ export const fetchFoodTypes = async () => {
     const response = await axios.get(`${API_URL}/food_types/all`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching food types:", error);
+    console.error("Error in fetchFoodTypes.");
     throw error;
   }
 };
@@ -316,7 +316,7 @@ export const addFoodType = async (newTypeName, token) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error adding food type:", error);
+    console.error("Error in addFoodType.");
     throw error;
   }
 };
@@ -335,7 +335,7 @@ export const renameFoodType = async (oldName, newName, token) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error renaming food type:", error);
+    console.error("Error in renameFoodType.");
     throw error;
   }
 };
@@ -349,7 +349,7 @@ export const deleteFoodType = async (typeName, token) => {
       },
     });
   } catch (error) {
-    console.error("Error deleting food type:", error);
+    console.error("Error in deleteFoodType.");
     throw error;
   }
 };
@@ -361,7 +361,7 @@ export const fetchPromotions = async (token) => {
     const response = await axios.get(`${API_URL}/promotions/`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching promotions:", error);
+    console.error("Error in fetchPromotions.");
     throw error;
   }
 };
@@ -380,7 +380,7 @@ export const createPromotion = async (promotionData, token) => {
     );
     return response.data;
   } catch (error) {
-    console.error("There was an error creating the promotion!", error);
+    console.error("Error in createPromotion.");
     throw error;
   }
 };
@@ -399,7 +399,7 @@ export const updatePromotion = async (id, updatePromotionData, token) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error updating restaurant:", error);
+    console.error("Error in updatePromotion.");
     throw error;
   }
 };
@@ -413,7 +413,7 @@ export const deletePromotion = async (id, token) => {
       },
     });
   } catch (error) {
-    console.error("Error deleting restaurant:", error);
+    console.error("Error in deletePromotion.");
     throw error;
   }
 };
@@ -434,7 +434,7 @@ export const createItem = async (itemData, token) => {
     );
     return response.data;
   } catch (error) {
-    console.error("There was an error creating the item!", error);
+    console.error("Error in createItem.");
     throw error;
   }
 };
@@ -445,7 +445,7 @@ export const fetchPromotedItems = async (token) => {
 
     return response.data;
   } catch (error) {
-    console.error("Error fetching promoted items:", error);
+    console.error("Error in fetchPromotedItems.");
     throw error;
   }
 };
@@ -460,7 +460,7 @@ export const fetchRecommendedItems = async (token) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching recommended items:", error);
+    console.error("Error in fetchRecommendedItems.");
     throw error;
   }
 };
@@ -474,7 +474,32 @@ export const fetchItemsByFoodType = async (restaurant_id, selectedFoodType) => {
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
-    console.error("Error fetching items of a restaurant", error);
+    console.error("Error in fetchItemsByFoodType.");
     throw error;
   }
 };
+
+export const fetchOrdersAll = async (token) => {
+  try {
+    const response = await axios.get(`${API_URL}/orders/all`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in fetchOrdersAll.");
+    throw error;
+  }
+}
+
+export const fetchOrderById = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/orders/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error in fetchOrderById.");
+    throw error;
+  }
+}

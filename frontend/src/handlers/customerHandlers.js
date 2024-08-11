@@ -2,13 +2,13 @@
 import {
   fetchNearbyRestaurants,
   fetchRestaurantTypes,
-  fetchRecommendedNearbyRestaurants,
+  fetchRecommendedRestaurants,
   fetchRecommendedItems,
   fetchPromotedItems,
   fetchPromotions,
 } from "../services/api";
 
-export const fetchRestaurantsByType = async (
+export const handleFetchNearbyRestaurants = async (
   token,
   selectedType,
   setNearbyRestaurants
@@ -20,29 +20,29 @@ export const fetchRestaurantsByType = async (
     );
     setNearbyRestaurants(fetchedNearbyRestaurants);
   } catch (error) {
-    console.error("Error fetching customers restaurants:", error);
+    console.error("Error in handleFetchNearbyRestaurants.");
   }
 };
 
-export const fetchRecommended = async (
+export const handleFetchRecommended = async (
   token,
   setRecommendedRestaurants,
   setRecommendedItems
 ) => {
   try {
-    const fetchedRecommendedRestaurants = await fetchRecommendedNearbyRestaurants(token);
+    const fetchedRecommendedRestaurants = await fetchRecommendedRestaurants(token);
     setRecommendedRestaurants(fetchedRecommendedRestaurants);
 
     const fetchedRecommendedItems = await fetchRecommendedItems(token);
     setRecommendedItems(fetchedRecommendedItems);
   } catch (error) {
     console.error(
-      "Error fetching recommended."
+      "Error in handleFetchRecommended."
     );
   }
 };
 
-export const fetchTypes = async (
+export const handleFetchRestaurantTypes = async (
   token,
   setRestaurantTypes
 ) => {
@@ -51,12 +51,12 @@ export const fetchTypes = async (
     setRestaurantTypes(types);
   } catch (error) {
     console.error(
-      "Error fetching types."
+      "Error in handleFetchRestaurantTypes."
     );
   }
 };
 
-export const fetchPromotionData = async (
+export const handleFetchPromotionData = async (
   token,
   setPromotedItems,
   setPromotions
@@ -68,15 +68,13 @@ export const fetchPromotionData = async (
     const promotions = await fetchPromotions(token);
     setPromotions(promotions);
   } catch (error) {
-    console.error("Error fetching promotion data.");
+    console.error("Error in handleFetchPromotionData.");
   }
 };
 
 export const handleTypeSelect = (type, setSelectedType) => {
   setSelectedType(type);
 };
-
-//
 
 export const handleRestaurantSelectParent = (restaurantId, setSelectedRestaurantId) => {
   setSelectedRestaurantId(restaurantId);

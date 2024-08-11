@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, Row, Col, Card, ListGroup } from "react-bootstrap";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
-import { getRestaurantNames } from "../../handlers/restaurantHandlers";
+import { handleFetchRecommendedRestaurantNames } from "../../handlers/restaurantHandlers";
 
 const RecommendedItems = ({ recommended, handleRestaurantSelectParent }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -19,7 +19,7 @@ const RecommendedItems = ({ recommended, handleRestaurantSelectParent }) => {
   };
 
   useEffect(() => {
-    getRestaurantNames(recommended, setRestaurantNames);
+    handleFetchRecommendedRestaurantNames(recommended, setRestaurantNames);
   }, [recommended, currentIndex]);
 
   const startIndex = currentIndex * itemsPerPage;

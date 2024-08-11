@@ -11,13 +11,25 @@ from crud.order import (
     crud_get_orders_by_delivery_personnel,
     crud_assign_order_to_delivery,
     crud_change_status,
-    crud_delete_order
+    crud_delete_order,
+    crud_get_orders_all,
+    crud_get_order_by_id
 )
 from dependencies import (
     get_db,
 )
 
 router = APIRouter(prefix="/orders")
+
+# new route
+@router.get("/all", response_model=List[Order])
+def get_all_orders(db: Session = Depends(get_db)):
+    return crud_get_orders_all(db)
+
+# all users
+@router.get("/{id}", response_model=Order)
+def get_order_by_id(id: int, db: Session = Depends(get_db)):
+    return crud_get_order_by_id(id=id, db=db)
 
 
 # Customer - Create a new order

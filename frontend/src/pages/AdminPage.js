@@ -8,25 +8,31 @@ import CreateRestaurantAdminForm from "../components/onlyAdmin/CreateRestaurantA
 import LookupTables from "../components/onlyAdmin/LookupTables";
 import PromotionsTable from "../components/PromotionsTable";
 import Restaurant from "../components/Restaurant";
+import OrdersTable from "../components/OrdersTable";
+import Order from "../components/Order";
 import "../css/App.css";
 import {
-  handleAdd,
-  handleUpdate,
-  handleToggleArchive,
+  handleAddRestaurant,
+  handleUpdateRestaurant,
+  handleToggleArchiveRestaurant,
   handleTypeSelect,
-  handleDelete,
+  handleDeleteRestaurant,
   handleAddRestaurantType,
   handleRenameRestaurantType,
   handleDeleteRestaurantType,
   handleAddFoodType,
   handleRenameFoodType,
   handleDeleteFoodType,
-  fetchPromotionData,
-  fetchTypes,
-  fetchRestaurantsByType,
+  handleFetchPromotionData,
+  handleFetchTypes,
+  handleFetchRestaurantsByType,
   handleRestaurantSelectParent,
-  handlePopState,
+  handlePopState
 } from "../handlers/adminHandlers";
+import {
+  handleOrderSelectParent,
+  handleFetchOrdersAll
+} from "../handlers/orderHandlers"
 
 const AdminPage = () => {
   const { token } = useContext(UserContext);
@@ -38,26 +44,35 @@ const AdminPage = () => {
   const [promotedItems, setPromotedItems] = useState([]);
   const [promotions, setPromotions] = useState([]);
   const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [ordersAll, setOrdersAll] = useState([]);
 
   useEffect(() => {
-    fetchRestaurantsByType(token, selectedType, setRestaurants);
+    handleFetchRestaurantsByType(token, selectedType, setRestaurants);
   }, [selectedType, token]);
 
   useEffect(() => {
-    fetchTypes(token, setRestaurantTypes, setFoodTypes);
+    handleFetchTypes(token, setRestaurantTypes, setFoodTypes);
   }, [token]);
 
   useEffect(() => {
     if (token) {
-      fetchPromotionData(token, setPromotedItems, setPromotions);
+      handleFetchPromotionData(token, setPromotedItems, setPromotions);
     }
   }, [token]);
 
   useEffect(() => {
-    window.addEventListener("popstate", () => handlePopState(setSelectedRestaurantId));
+    handleFetchOrdersAll(token, setOrdersAll);
+  }, [token]);
 
+  useEffect(() => {
+    window.addEventListener("popstate", () =>
+      handlePopState(setSelectedRestaurantId)
+    );
     return () => {
-      window.removeEventListener("popstate", () => handlePopState(setSelectedRestaurantId));
+      window.removeEventListener("popstate", () =>
+        handlePopState(setSelectedRestaurantId)
+      );
     };
   }, []);
 
@@ -65,7 +80,11 @@ const AdminPage = () => {
     <Container className="my-4">
       <>
         <Tab.Container defaultActiveKey="restaurants">
-          <Nav variant="underline" className="mb-3" onClick={() => handlePopState(setSelectedRestaurantId)}>
+          <Nav
+            variant="underline"
+            className="mb-3"
+            onClick={() => handlePopState(setSelectedRestaurantId)}
+          >
             <Nav.Item>
               <Nav.Link eventKey="restaurants">Restaurants</Nav.Link>
             </Nav.Item>
@@ -77,6 +96,9 @@ const AdminPage = () => {
             </Nav.Item>
             <Nav.Item>
               <Nav.Link eventKey="promotions-table">Promotions</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="orders-table">Orders</Nav.Link>
             </Nav.Item>
           </Nav>
 
@@ -90,7 +112,7 @@ const AdminPage = () => {
                     <AdminRestaurantsTable
                       restaurants={restaurants}
                       onToggleArchive={(id) =>
-                        handleToggleArchive(
+                        handleToggleArchiveRestaurant(
                           id,
                           token,
                           restaurants,
@@ -103,7 +125,7 @@ const AdminPage = () => {
                       }
                       selectedType={selectedType}
                       onDelete={(id) =>
-                        handleDelete(
+                        handleDeleteRestaurant(
                           id,
                           token,
                           restaurants,
@@ -111,21 +133,26 @@ const AdminPage = () => {
                           setError
                         )
                       }
-                      handleRestaurantSelectParent={(restaurantId) => handleRestaurantSelectParent(restaurantId, setSelectedRestaurantId)}
+                      handleRestaurantSelectParent={(restaurantId) =>
+                        handleRestaurantSelectParent(
+                          restaurantId,
+                          setSelectedRestaurantId
+                        )
+                      }
                     />
                   </Row>
                   <Row>
                     <Col>
                       <AddRestaurantForm
                         onAdd={(newRestaurant) =>
-                          handleAdd(newRestaurant, restaurants, setRestaurants)
+                          handleAddRestaurant(newRestaurant, restaurants, setRestaurants)
                         }
                       />
                     </Col>
                     <Col>
                       <UpdateRestaurantForm
                         onUpdate={(updatedRestaurant) =>
-                          handleUpdate(
+                          handleUpdateRestaurant(
                             updatedRestaurant,
                             restaurants,
                             setRestaurants
@@ -141,8 +168,7 @@ const AdminPage = () => {
             <Tab.Pane eventKey="manage-users">
               <Row className="mt-4">
                 <Col>
-                  <CreateRestaurantAdminForm
-                  />
+                  <CreateRestaurantAdminForm />
                 </Col>
               </Row>
             </Tab.Pane>
@@ -201,7 +227,33 @@ const AdminPage = () => {
                 <PromotionsTable
                   items={promotedItems}
                   promotions={promotions}
-                  handleRestaurantSelectParent={(restaurantId) => handleRestaurantSelectParent(restaurantId, setSelectedRestaurantId)}
+                  handleRestaurantSelectParent={(restaurantId) =>
+                    handleRestaurantSelectParent(
+                      restaurantId,
+                      setSelectedRestaurantId
+                    )
+                  }
+                />
+              )}
+            </Tab.Pane>
+
+            <Tab.Pane eventKey="orders-table">
+              {selectedRestaurantId ? (
+                <Restaurant restaurantId={selectedRestaurantId} />
+              ) : selectedOrderId ? (
+                <Order orderId={selectedOrderId} />
+              ) : (
+                <OrdersTable
+                  orders={ordersAll}
+                  handleOrderSelectParent={(orderId) =>
+                    handleOrderSelectParent(orderId, setSelectedOrderId)
+                  }
+                  handleRestaurantSelectParent={(restaurantId) =>
+                    handleRestaurantSelectParent(
+                      restaurantId,
+                      setSelectedRestaurantId
+                    )
+                  }
                 />
               )}
             </Tab.Pane>

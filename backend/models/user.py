@@ -38,7 +38,7 @@ class DBUser(Base):
     longitude = Column(Float, nullable=True)
     restaurant_id = Column(
         Integer, ForeignKey("restaurants.id", ondelete="SET NULL"), nullable=True
-    )  # New attribute
+    )  # delivery personnel
 
     restaurants = relationship(
         "DBRestaurant", back_populates="owner", foreign_keys="[DBRestaurant.owner_id]"

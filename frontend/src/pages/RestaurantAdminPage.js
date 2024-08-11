@@ -8,8 +8,8 @@ import RAdminRestaurantsTable from "../components/onlyRestaurantAdmin/RAdminRest
 import Restaurant from "../components/Restaurant";
 
 import {
-  getRestaurants,
-  getRestaurantTypes,
+  handleFetchRestaurantsByOwner,
+  handleFetchRestaurantTypes,
   handleEditClick,
   handleChange,
   handleSave,
@@ -51,8 +51,8 @@ const RestaurantAdminPage = () => {
   }
 
   useEffect(() => {
-    getRestaurants(userId, token, setRestaurants);
-    getRestaurantTypes(token, setRestaurantTypes);
+    handleFetchRestaurantsByOwner(userId, token, setRestaurants);
+    handleFetchRestaurantTypes(token, setRestaurantTypes);
   }, [userId, token]);
 
   useEffect(() => {

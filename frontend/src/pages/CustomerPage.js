@@ -10,13 +10,13 @@ import RecommendedItems from "../components/onlyCustomer/RecommendedItems";
 import Restaurant from "../components/Restaurant";
 
 import {
-  fetchRestaurantsByType,
   handleTypeSelect,
-  fetchPromotionData,
-  fetchRecommended,
-  fetchTypes,
+  handleFetchPromotionData,
+  handleFetchRecommended,
+  handleFetchRestaurantTypes,
   handleRestaurantSelectParent,
   handlePopState,
+  handleFetchNearbyRestaurants,
 } from "../handlers/customerHandlers";
 
 const CustomerPage = () => {
@@ -32,25 +32,29 @@ const CustomerPage = () => {
 
   useEffect(() => {
     if (token) {
-      fetchRestaurantsByType(token, selectedType, setNearbyRestaurants);
+      handleFetchNearbyRestaurants(token, selectedType, setNearbyRestaurants);
     }
   }, [selectedType, token]);
 
   useEffect(() => {
     if (token) {
-      fetchRecommended(token, setRecommendedRestaurants, setRecommendedItems);
+      handleFetchRecommended(
+        token,
+        setRecommendedRestaurants,
+        setRecommendedItems
+      );
     }
   }, [token]);
 
   useEffect(() => {
     if (token) {
-      fetchTypes(token, setRestaurantTypes);
+      handleFetchRestaurantTypes(token, setRestaurantTypes);
     }
   }, [token]);
 
   useEffect(() => {
     if (token) {
-      fetchPromotionData(token, setPromotedItems, setPromotions);
+      handleFetchPromotionData(token, setPromotedItems, setPromotions);
     }
   }, [token]);
 

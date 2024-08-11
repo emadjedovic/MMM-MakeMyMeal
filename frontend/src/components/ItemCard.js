@@ -4,7 +4,7 @@ import { Card, ListGroup, Button, Container } from "react-bootstrap";
 import { UserContext } from "../UserContext";
 import AddPromotionModal from "./onlyRestaurantAdmin/AddPromotionModal";
 import Restaurant from "./Restaurant";
-import { getRestaurantName } from "../handlers/restaurantHandlers";
+import { handleFetchRestaurantName } from "../handlers/restaurantHandlers";
 
 function ItemCard({ item, isInRestaurant, refreshItems }) {
   const { userRole } = useContext(UserContext);
@@ -13,7 +13,7 @@ function ItemCard({ item, isInRestaurant, refreshItems }) {
   const [selected, setSelected] = useState(false);
 
   useEffect(() => {
-    getRestaurantName(item.restaurant_id, setRestaurantName);
+    handleFetchRestaurantName(item.restaurant_id, setRestaurantName);
   }, [item.restaurant_id]);
 
   return (

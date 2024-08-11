@@ -4,8 +4,8 @@ import RestaurantCard from "./RestaurantCard";
 import ItemsTable from "./ItemsTable";
 import {
   handleFoodTypeSelect,
-  getItems,
-  getFoodTypes,
+  handleFetchFoodTypes,
+  handleFetchItemsByFoodType,
 } from "../handlers/restaurantHandlers";
 
 const Restaurant = ({ restaurantId }) => {
@@ -13,16 +13,16 @@ const Restaurant = ({ restaurantId }) => {
   const [foodTypes, setFoodTypes] = useState([]);
   const [selectedFoodType, setSelectedFoodType] = useState("All");
 
-  const fetchItems = () => {
-    getItems(restaurantId, selectedFoodType, setItems);
+  const handleFetchItems = () => {
+    handleFetchItemsByFoodType(restaurantId, selectedFoodType, setItems);
   };
 
   useEffect(() => {
-    fetchItems();
+    handleFetchItemsByFoodType(restaurantId, selectedFoodType, setItems);
   }, [selectedFoodType]);
 
   useEffect(() => {
-    getFoodTypes(setFoodTypes);
+    handleFetchFoodTypes(setFoodTypes);
   }, []);
 
   if (!restaurantId) {
@@ -41,7 +41,7 @@ const Restaurant = ({ restaurantId }) => {
             }
             selectedFoodType={selectedFoodType}
             restaurantId={restaurantId}
-            refreshItems={fetchItems}
+            refreshItems={handleFetchItems}
           />
         </Col>
         <Col md={2} lg={3}>
