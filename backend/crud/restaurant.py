@@ -10,7 +10,8 @@ from helpers.math import calculate_distance
 
 
 def crud_get_restaurant_by_id(db: Session, id: int) -> DBRestaurant:
-    return db.query(DBRestaurant).filter(DBRestaurant.id == id).first()
+    db_rest = db.query(DBRestaurant).filter(DBRestaurant.id == id).first()
+    return db_rest
 
 
 def crud_create_restaurant(db: Session, restaurant: RestaurantCreate) -> DBRestaurant:

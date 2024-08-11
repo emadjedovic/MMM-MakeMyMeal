@@ -15,7 +15,7 @@ from database import Base
 class DBRestaurant(Base):
     __tablename__ = "restaurants"
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
@@ -42,7 +42,7 @@ class DBRestaurant(Base):
         "DBUser", back_populates="restaurants", foreign_keys=[owner_id]
     )
     items = relationship(
-        "DBItem", back_populates="restaurant", foreign_keys="DBItem.restaurant_id"
+        "DBItem", back_populates="restaurant", foreign_keys="DBItem.restaurant_id", cascade="all, delete-orphan"
     )
     delivery_personnel = relationship(
         "DBUser",
@@ -50,5 +50,5 @@ class DBRestaurant(Base):
         foreign_keys="DBUser.restaurant_id",
     )
     orders = relationship(
-        "DBOrder", back_populates="restaurant", foreign_keys="DBOrder.restaurant_id"
+        "DBOrder", back_populates="restaurant", foreign_keys="DBOrder.restaurant_id", cascade="all, delete-orphan"
     )

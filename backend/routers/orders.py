@@ -5,10 +5,8 @@ from typing import List
 from datetime import datetime
 from schemas.order import Order, OrderCreate
 from models.order import OrderStatus
-from schemas.user import User
 from crud.order import (
     crud_create_order,
-    crud_get_order_by_id,
     crud_get_orders_by_customer,
     crud_get_orders_by_delivery_personnel,
     crud_assign_order_to_delivery,
@@ -17,9 +15,6 @@ from crud.order import (
 )
 from dependencies import (
     get_db,
-    get_customer_user,
-    get_restaurant_admin_user,
-    get_delivery_personnel_user,
 )
 
 router = APIRouter(prefix="/orders")

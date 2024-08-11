@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from fastapi import HTTPException, BackgroundTasks
 from helpers.email import send_email
 from crud.user import crud_get_user_by_id
+from crud.restaurant import crud_get_restaurant_by_id
 
 
 def crud_create_order(db: Session, order: OrderCreate, customer_id: int):
@@ -122,40 +123,45 @@ def crud_assign_order_to_delivery(
     db.commit()
     db.refresh(db_order)
 
-    # Prepare order details for the email
-    order_details = {"order_id": db_order.id, "total_price": db_order.total_price}
+    
+    customer = crud_get_user_by_id(db, db_order.customer_id)
+    restaurant = crud_get_restaurant_by_id(db, db_order.restaurant_id)
+    payment_method = db_order.payment_method
+
+    order_details = {
+        "total_price": db_order.total_price,
+        "payment_method": payment_method.value,
+        "restaurant_name": restaurant.name if restaurant else "Unknown"}
+
 
     # Send email in the background
     background_tasks.add_task(
         crud_send_order_assigned_email,
-        recipient=db_order.customer.email,
+        recipient=customer.email,
+        customer_name=customer.first_name,
         order_details=order_details,
     )
 
     return db_order
 
 
-from sqlalchemy.orm import joinedload
+def crud_send_order_assigned_email(recipient: str, customer_name: str, order_details: dict):
+    subject = "MMM - Make My Meal"
+    body = (f"Dear {customer_name},\n\n"
+            f"Your order has been assigned to our delivery staff.\n\n"
+            f"Total Price: ${order_details['total_price']}\n"
+            f"Payment Method: {order_details['payment_method']}\n"
+            f"Restaurant: {order_details['restaurant_name']}\n\n"
+            "Best regards, Ema.")
 
+    send_email(subject, body, recipient)
 
-def crud_send_order_assigned_email(db: Session, order_id: int):
-    db_order = (
-        db.query(DBOrder)
-        .options(joinedload(DBOrder.customer))
-        .filter(DBOrder.id == order_id)
-        .first()
-    )
-    customer = crud_get_user_by_id(db_order.customer_id)
+'''
+def crud_send_order_assigned_email(recipient: str, customer_name: str, order_details: dict):
+    subject = "MMM - Make My Meal"
+    body = ("špašiošamtemišumali <333333333")
 
-    if db_order and customer:
-        customer_email = customer.email
-        if customer_email:
-            subject = "Your Order Has Been Assigned"
-            body = f"Dear Customer,\n\nYour order #{order_id} has been assigned to a delivery person.\n\nThank you for using our service!"
-            send_email(subject, body, recipient=customer_email)
-        else:
-            print("Customer email is missing.")
-    else:
-        print("Order or customer not found.")
+    send_email(subject, body, recipient)'''
+
 
 

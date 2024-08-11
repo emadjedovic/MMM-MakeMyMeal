@@ -32,13 +32,3 @@ email_settings = EmailSettings(
     MAIL_SSL=config("MAIL_SSL", cast=bool),
     MAIL_FROM_NAME=config("MAIL_FROM_NAME")
 )
-''''''
-# Optional: Print to verify values (for debugging)
-print(email_settings.MAIL_USERNAME)
-print(email_settings.MAIL_PASSWORD)
-print(email_settings.MAIL_FROM)
-print(email_settings.MAIL_PORT)
-print(email_settings.MAIL_SERVER)
-print(email_settings.MAIL_TLS)
-print(email_settings.MAIL_SSL)
-print(email_settings.MAIL_FROM_NAME)

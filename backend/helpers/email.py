@@ -8,7 +8,7 @@ from auth.config import email_settings
 
 def send_email(subject: str, body: str, recipient: str):
     msg = MIMEMultipart()
-    msg["From"] = email_settings.MAIL_FROM
+    msg["From"] = email_settings.MAIL_FROM # issue
     msg["To"] = recipient
     msg["Subject"] = subject
 
