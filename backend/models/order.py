@@ -35,8 +35,9 @@ class DBOrder(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     customer_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     restaurant_id = Column(Integer, ForeignKey("restaurants.id"), nullable=False)
-    delivery_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+    
     status = Column(sqlEnum(OrderStatus), nullable=True, default=OrderStatus.UNASSIGNED)
+    delivery_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     payment_method = Column(
         sqlEnum(PaymentMethod), nullable=False, default=PaymentMethod.CASH
     )

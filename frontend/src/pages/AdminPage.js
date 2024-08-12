@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container, Row, Col, Tab, Nav, Alert } from "react-bootstrap";
+import { Container, Row, Col, Tab, Nav, Alert, Modal, Button } from "react-bootstrap";
 import { UserContext } from "../UserContext";
 import AddRestaurantForm from "../components/admin/AddRestaurantForm";
 import UpdateRestaurantForm from "../components/admin/UpdateRestaurantForm";
@@ -9,7 +9,7 @@ import LookupTables from "../components/admin/LookupTables";
 import PromotionsTable from "../components/PromotionsTable";
 import RestaurantPage from "../components/RestaurantPage";
 import OrdersTable from "../components/OrdersTable";
-import Order from "../components/OrderPage";
+import OrderModal from "../components/OrderModal";
 import "../css/App.css";
 import {
   handleToggleArchiveRestaurant,
@@ -39,6 +39,7 @@ const AdminPage = () => {
   const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [ordersAll, setOrdersAll] = useState([]);
+  const [showOrderModal, setShowOrderModal] = useState(false);
 
   useEffect(() => {
     handleFetchRestaurantsByType(token, selectedType, setRestaurants);
@@ -59,11 +60,19 @@ const AdminPage = () => {
   useEffect(() => {
     window.addEventListener("popstate", () => setSelectedRestaurantId(null));
     return () => {
-      window.removeEventListener("popstate", () =>
-        setSelectedRestaurantId(null)
-      );
+      window.removeEventListener("popstate", () => setSelectedRestaurantId(null));
     };
-  }, []);
+  }, [selectedRestaurantId]);
+
+  const handleShowOrderModal = (orderId) => {
+    setSelectedOrderId(orderId);
+    setShowOrderModal(true);
+  };
+
+  const handleCloseOrderModal = () => {
+    setShowOrderModal(false);
+    setSelectedOrderId(null);
+  };
 
   return (
     <Container className="my-4">
@@ -72,7 +81,10 @@ const AdminPage = () => {
           <Nav
             variant="underline"
             className="mb-3"
-            onClick={() => setSelectedRestaurantId(null)}
+            onClick={() => {
+              setSelectedRestaurantId(null);
+              setSelectedOrderId(null);
+            }}
           >
             <Nav.Item>
               <Nav.Link eventKey="restaurants">Restaurants</Nav.Link>
@@ -221,19 +233,41 @@ const AdminPage = () => {
             <Tab.Pane eventKey="orders-table">
               {selectedRestaurantId ? (
                 <RestaurantPage restaurantId={selectedRestaurantId} />
-              ) : selectedOrderId ? (
-                <Order orderId={selectedOrderId} />
               ) : (
-                <OrdersTable
-                  orders={ordersAll}
-                  handleOrderSelectParent={(orderId) =>
-                    setSelectedOrderId(orderId)
-                  }
-                  handleRestaurantSelectParent={(restaurantId) =>
-                    setSelectedRestaurantId(restaurantId)
-                  }
-                />
+                <>
+                <Row>
+                <Col>
+                  <OrdersTable
+                    orders={ordersAll}
+                    handleOrderSelectParent={(orderId) =>
+                      handleShowOrderModal(orderId)
+                    }
+                    handleRestaurantSelectParent={(restaurantId) =>
+                      setSelectedRestaurantId(restaurantId)
+                    }
+                  />
+                </Col>
+              </Row>
+              {showOrderModal && (
+                <Modal show={showOrderModal} onHide={handleCloseOrderModal}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Order Details</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <OrderModal
+                      orderId={selectedOrderId}
+                      showModal={showOrderModal}
+                      handleClose={handleCloseOrderModal}
+                    />
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseOrderModal}>
+                      Close
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
               )}
+                </>)}
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>

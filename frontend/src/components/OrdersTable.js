@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   Button,
@@ -7,6 +7,8 @@ import {
   Row,
   Col
 } from "react-bootstrap";
+import { formatCreatedAt } from "../calculations";
+import { handleFetchRestaurantNamesFromOrders } from "../handlers/RestaurantPageHandlers";
 
 const OrdersTable = ({
   orders,
@@ -15,6 +17,7 @@ const OrdersTable = ({
 }) => {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
+  const [restaurantNames, setRestaurantNames] = useState({});
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -35,6 +38,10 @@ const OrdersTable = ({
     );
   }
 
+  useEffect(() => {
+    handleFetchRestaurantNamesFromOrders(orders, setRestaurantNames, restaurantNames);
+  }, [orders]);
+
   return (
     <Container className="my-4">
       <Row>
@@ -42,8 +49,8 @@ const OrdersTable = ({
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Restaurant ID</th>
+                <th>Order ID</th>
+                <th>Restaurant</th>
                 <th>Status</th>
                 <th>Payment Method</th>
                 <th>Total Price</th>
@@ -69,13 +76,13 @@ const OrdersTable = ({
                           handleRestaurantSelectParent(order.restaurant_id)
                         }
                       >
-                        {order.restaurant_id}
+                        {restaurantNames[order.restaurant_id] || "Loading..."}
                       </Button>
                     </td>
-                    <td>{order.status.value}</td>
-                    <td>{order.payment_method.value}</td>
-                    <td>{order.total_price}</td>
-                    <td>{order.created_at}</td>
+                    <td>{order.status}</td>
+                    <td>{order.payment_method}</td>
+                    <td>€{order.total_price}</td>
+                    <td>{formatCreatedAt(order.created_at)}</td>
                   </tr>
                 );
               })}

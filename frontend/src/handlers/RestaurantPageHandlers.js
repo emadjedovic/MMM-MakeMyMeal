@@ -39,18 +39,33 @@ export const handleFetchRestaurantName = async (id, setRestaurantName) => {
   }
 };
 
-export const handleFetchRecommendedRestaurantNames = async (
-  recommended,
+export const handleFetchRestaurantNamesFromItems = async (
+  items,
   setRestaurantNames
 ) => {
   const names = {};
-  for (const item of recommended) {
+  for (const item of items) {
     if (!names[item.restaurant_id]) {
       try {
         const response = await fetchRestaurantById(item.restaurant_id);
         names[item.restaurant_id] = response.name;
       } catch (error) {
-        console.error("Error in handleFetchRecommendedRestaurantNames.");
+        console.error("Error in handleFetchRestaurantNamesFromItems.");
+      }
+    }
+  }
+  setRestaurantNames(names);
+};
+
+export const handleFetchRestaurantNamesFromOrders = async (orders, setRestaurantNames, restaurantNames) => {
+  const names = { ...restaurantNames }; // Clone the current state to avoid overwriting
+  for (const order of orders) {
+    if (!names[order.restaurant_id]) {
+      try {
+        const response = await fetchRestaurantById(order.restaurant_id);
+        names[order.restaurant_id] = response.name;
+      } catch (error) {
+        console.error("Error in fetchRestaurantNamesFromOrders.");
       }
     }
   }
