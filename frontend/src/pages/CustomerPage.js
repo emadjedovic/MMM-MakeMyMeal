@@ -27,6 +27,9 @@ const CustomerPage = () => {
   const [promotions, setPromotions] = useState([]);
   const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
 
+  
+  const [ordersCustomerHistory, setOrdersCustomerHistory] = useState([]);
+
   useEffect(() => {
     if (token) {
       handleFetchNearbyRestaurants(token, selectedType, setNearbyRestaurants);

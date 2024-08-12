@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
-import { Container, Tab, Nav, Pagination } from "react-bootstrap";
+import { Container, Tab, Nav, Pagination, Row, Col, Modal, Button } from "react-bootstrap";
 import "../css/App.css";
 
 import CreatePersonnelForm from "../components/restaurantadmin/CreatePersonnelForm";
 import RAdminRestaurantsTable from "../components/restaurantadmin/RAdminRestaurantsTable";
 import RestaurantPage from "../components/RestaurantPage";
+import OrdersTable from "../components/OrdersTable";
+import OrderModal from "../components/OrderModal";
 
 import {
   handleFetchRestaurantsByOwner,
@@ -13,6 +15,7 @@ import {
   handleEditClick,
   handleSave,
   handleChange,
+  handleFetchOrdersOwner
 } from "../handlers/RestaurantAdminPageHandlers";
 
 const RestaurantAdminPage = () => {
@@ -25,6 +28,24 @@ const RestaurantAdminPage = () => {
   const itemsPerPage = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
+
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [ordersOwner, setOrdersOwner] = useState([]);
+  const [showOrderModal, setShowOrderModal] = useState(false);
+
+  useEffect(() => {
+    handleFetchOrdersOwner(token, userId, setOrdersOwner);
+  }, [token]);
+
+  const handleShowOrderModal = (orderId) => {
+    setSelectedOrderId(orderId);
+    setShowOrderModal(true);
+  };
+
+  const handleCloseOrderModal = () => {
+    setShowOrderModal(false);
+    setSelectedOrderId(null);
+  };
 
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
@@ -54,13 +75,8 @@ const RestaurantAdminPage = () => {
 
   useEffect(() => {
     window.addEventListener("popstate", () => setSelectedRestaurantId(null));
-
-    return () => {
-      window.removeEventListener("popstate", () =>
-        setSelectedRestaurantId(null)
-      );
-    };
-  }, []);
+    return () => {window.removeEventListener("popstate", () => setSelectedRestaurantId(null));};
+  }, [selectedRestaurantId]);
 
   return (
     <Container>
@@ -70,14 +86,21 @@ const RestaurantAdminPage = () => {
           className="mb-3"
           onSelect={() => setSelectedRestaurantId(null)}
         >
+
           <Nav.Item>
             <Nav.Link eventKey="my-restaurants">My Restaurants</Nav.Link>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="personnel">Personnel</Nav.Link>
           </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="orders-table">Orders</Nav.Link>
+          </Nav.Item>
+
         </Nav>
+
         <Tab.Content>
+
           <Tab.Pane eventKey="my-restaurants">
             {selectedRestaurantId ? (
               <RestaurantPage restaurantId={selectedRestaurantId} />
@@ -115,6 +138,46 @@ const RestaurantAdminPage = () => {
           <Tab.Pane eventKey="personnel">
             <CreatePersonnelForm />
           </Tab.Pane>
+          <Tab.Pane eventKey="orders-table">
+              {selectedRestaurantId ? (
+                <RestaurantPage restaurantId={selectedRestaurantId} />
+              ) : (
+                <>
+                <Row>
+                <Col>
+                  <OrdersTable
+                    orders={ordersOwner}
+                    handleOrderSelectParent={(orderId) =>
+                      handleShowOrderModal(orderId)
+                    }
+                    handleRestaurantSelectParent={(restaurantId) =>
+                      setSelectedRestaurantId(restaurantId)
+                    }
+                  />
+                </Col>
+              </Row>
+              {showOrderModal && (
+                <Modal show={showOrderModal} onHide={handleCloseOrderModal}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Order Details</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <OrderModal
+                      orderId={selectedOrderId}
+                      showModal={showOrderModal}
+                      handleClose={handleCloseOrderModal}
+                    />
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseOrderModal}>
+                      Close
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              )}
+                </>)}
+            </Tab.Pane>
+
         </Tab.Content>
       </Tab.Container>
     </Container>

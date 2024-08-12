@@ -83,7 +83,6 @@ const AdminPage = () => {
             className="mb-3"
             onClick={() => {
               setSelectedRestaurantId(null);
-              setSelectedOrderId(null);
             }}
           >
             <Nav.Item>

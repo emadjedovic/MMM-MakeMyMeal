@@ -1,20 +1,30 @@
 # crud/order.py
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 from models.order import DBOrder, DBOrderItem, OrderStatus
 from models.item import DBItem
+from models.restaurant import DBRestaurant
 from schemas.order import OrderCreate
 from datetime import datetime, timedelta
 from fastapi import HTTPException, BackgroundTasks
 from helpers.email import send_email
 from crud.user import crud_get_user_by_id
 from crud.restaurant import crud_get_restaurant_by_id
+from typing import List
 
-# new
-def crud_get_orders_all(db: Session):
+# .scalars().all() extracts the results into a list of DBOrder objects
+def crud_get_orders_owner_id(owner_id: int, db: Session) -> List[DBOrder]:
+    return db.execute(
+        select(DBOrder)
+        .join(DBRestaurant, DBOrder.restaurant_id == DBRestaurant.id)
+        .where(DBRestaurant.owner_id == owner_id)
+    ).scalars().all()
+
+
+def crud_get_orders_all(db: Session) -> List[DBOrder]:
     orders = db.query(DBOrder).all()
     return orders
 
-# new
 def crud_get_order_by_id(db: Session, id: int) -> DBOrder:
     db_order = db.query(DBOrder).filter(DBOrder.id == id).first()
     return db_order

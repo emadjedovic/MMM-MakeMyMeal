@@ -1,9 +1,21 @@
 // services/radminHandlers.js
 import {
   fetchRestaurantsByOwner,
-  updateRestaurant,
+  updateRestaurant
 } from "../api/restaurantsApi";
+
+import { fetchOrdersOwner } from "../api/ordersApi";
 import { fetchRestaurantTypes } from "../api/restaurantTypesApi";
+
+export const handleFetchOrdersOwner = async (token, userId, setOrdersOwner) => {
+  try {
+    const ordersOwner = await fetchOrdersOwner(token, userId);
+
+    setOrdersOwner(ordersOwner);
+  } catch (error) {
+    console.error("Error in handleFetchOrdersOwner.");
+  }
+};
 
 export const handleFetchRestaurantsByOwner = async (
   userId,
