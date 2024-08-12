@@ -26,7 +26,22 @@ export const fetchOrdersOwner = async (token, owner_id) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error in fetchOrdersAll.");
+    console.error("Error in fetchOrdersOwner.");
+    throw error;
+  }
+};
+
+export const fetchDeliveriesToday = async (token, delivery_id) => {
+  try {
+    const response = await axios.get(`${API_URL}/orders/assigned/${delivery_id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in fetchDeliveriesToday.");
     throw error;
   }
 };
@@ -55,3 +70,21 @@ export const fetchOrderById = async (id, token) => {
     throw error;
   }
 };
+
+export const updateOrderStatus = async (token, order_id, newStatus) => {
+  try {
+    await axios.put(
+      `${API_URL}/orders/status/${order_id}/${newStatus}`, {},{},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+  } catch (error) {
+    console.error("Error in updateOrderStatus.", error)
+    throw error;
+  }
+}

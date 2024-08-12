@@ -1,6 +1,6 @@
 1. ADMINISTRATOR
 
-- tabela svih narudžbi
+(DONE)
 
 2. ADMINISTRATOR RESTORANA
 
@@ -9,10 +9,41 @@
 3. KUPAC
 
 - kreiranje narudžbi (unosi se količina, način plaćanja, šalje se e-mail kupcu da je narudžba uspješno spašena, kupac može odrediti vrijeme u kojem želi dostavu narudžbe - ukoliko vrijeme nije navedeno, uzima se vrijeme kreiranja narudžbe kao minimalno vrijeme dostave) (na stranici određenog restorana)
-- pregled svih dosadašnjih narudžbi
+
 
 4. DOSTAVLJAČ
 
 - radi dostavu (samo za jedan restoran)
 - pregled svih narudžbi koje treba dostaviti za taj dan (podaci o narudžbi, status narudžbe, cijena...)
 - mogućnost slanja informacija administratoru (isporučena/nije isporučena narudžba)
+
+------------------------------------------------------------------------------------------
++ 20 BODOVA (UKUPNO 50)
+------------------------------------------------------------------------------------------
+
+- Chat sa glavnim administratorom ili administratorom restorana.
+
+- Notifikacije administratoru restorana kada stigne nova narudžba ili u momentu kada
+dostavljač potvrdi isporuku.
+
+- Prikaz narudžbi za neki dan na mapi. Različitim markerima se prikazuju različiti statusi.
+
+- Mogućnost filtriranja mape po dostavljačima.
+
+- E-mail izvještaj administratoru i administratoru restorana.
+
+- Administrator restorana dobija izvještaj o broju narudžbi za svaki dan, te zbirni
+broj narudžbi za taj mjesec, kao i izvještaj o radu svakog dostavljača.
+
+- Administrator dobija podatak o broju narudžbi za svaki restoran, te ostvarenom
+profitu po restoranu.
+
+- Ocjenjivanje usluge restorana (korisnik popunjava anketu pri isporuci).
+
+- Kreirati automatsko dodjeljivanje narudžbi dostavljaču! Osmisliti “mudar” algoritam za
+dodjelu narudžbi.
+
+- Jedan dostavljač može raditi za više restorana.
+
+- Bar 3 dodatna elementa aplikacije. Budite kreativni i originalni!
+

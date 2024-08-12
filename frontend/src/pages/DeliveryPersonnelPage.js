@@ -1,27 +1,48 @@
-import React from "react";
-import { Container, Tab, Nav } from "react-bootstrap";
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext } from "../UserContext";
+import { Container, Tab, Nav, Row, Col } from "react-bootstrap";
 import "../css/App.css";
+import OrdersTable from "../components/OrdersTable";
+
+import { handleFetchDeliveriesToday } from "../handlers/DeliveryPageHandlers";
 
 const DeliveryPersonnelPage = () => {
+  const { token, user } = useContext(UserContext);
+  const userId = user.id;
+  const [deliveriesToday, setDeliveriesToday] = useState([]);
+
+  useEffect(() => {
+    handleFetchDeliveriesToday(token, userId, setDeliveriesToday);
+  }, [token, userId]);
 
   return (
     <Container>
-      <Tab.Container defaultActiveKey="my-deliveries">
-
+      <Tab.Container defaultActiveKey="orders-table">
         <Nav variant="underline" className="mb-3">
-
           <Nav.Item>
-            <Nav.Link eventKey="my-deliveries">My Deliveries</Nav.Link>
+            <Nav.Link eventKey="orders-table">Today</Nav.Link>
           </Nav.Item>
-
         </Nav>
 
         <Tab.Content>
-
-          <Tab.Pane eventKey="my-deliveries"></Tab.Pane>
-          
+          <Tab.Pane eventKey="orders-table">
+            <Row>
+              <Col>
+                <OrdersTable
+                  orders={deliveriesToday}
+                  handleOrderSelectParent={() => {}}
+                  handleRestaurantSelectParent={() => {}}
+                  refreshOrdersParent={() =>
+                    handleFetchDeliveriesToday(
+                      token,
+                      userId,
+                      setDeliveriesToday
+                    )}
+                />
+              </Col>
+            </Row>
+          </Tab.Pane>
         </Tab.Content>
-
       </Tab.Container>
     </Container>
   );

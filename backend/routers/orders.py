@@ -2,13 +2,13 @@
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
 from typing import List
-from datetime import datetime
+from datetime import datetime, timezone
 from schemas.order import Order, OrderCreate
 from models.order import OrderStatus
 from crud.order import (
     crud_create_order,
     crud_get_orders_by_customer,
-    crud_get_orders_by_delivery_personnel,
+    crud_get_deliveries_today,
     crud_assign_order_to_delivery,
     crud_change_status,
     crud_delete_order,
@@ -44,17 +44,17 @@ def get_orders_of_restaurants_by(
 
 
 # Customer - Create a new order
-@router.post("/new", response_model=Order)
+@router.post("/new/{customer_id}", response_model=Order)
 def create_new_order(
-    order: OrderCreate,
     customer_id: int,  # ovo kasnije izbrisati i koristiti id iz depends dole
+    order: OrderCreate,
     db: Session = Depends(get_db),
     # customer: User = Depends(get_customer_user),
 ):
     return crud_create_order(db, order, customer_id)
 
 
-@router.delete("/delete")
+@router.delete("/delete/{order_id}")
 def delete_order(order_id: int, db: Session = Depends(get_db)):
     return crud_delete_order(db, order_id)
 
@@ -70,15 +70,14 @@ def get_order_history(
 
 
 # Delivery Personnel - Get assigned orders for the current day
-@router.get("/assigned", response_model=List[Order])
+@router.get("/assigned/{delivery_personnel_id}", response_model=List[Order])
 def get_assigned_orders(
-    delivery_personnel_id: int,  # ovo kasnije izbrisati i koristiti id iz depends dole
+    delivery_personnel_id: int,
     db: Session = Depends(get_db),
     # delivery_personnel: User = Depends(get_delivery_personnel_user),
 ):
-    current_date = datetime.utcnow()
-    return crud_get_orders_by_delivery_personnel(
-        db, delivery_personnel_id, current_date
+    return crud_get_deliveries_today(
+        db, delivery_personnel_id
     )
 
 
@@ -100,12 +99,12 @@ def assign_order(
         raise HTTPException(status_code=e.status_code, detail=e.detail)
 
 
-# Restaurant Admin
-@router.put("/status/{order_id}", response_model=Order)
+# Restaurant Admin and Delivery Personnel (maybe others as well)
+@router.put("/status/{order_id}/{status}", response_model=Order)
 def change_status(
     order_id: int,
-    status: OrderStatus,
-    db: Session = Depends(get_db),
-    # restaurant_admin: User = Depends(get_restaurant_admin_user),
+    status: str,
+    db: Session = Depends(get_db)
 ):
+
     return crud_change_status(db, order_id, status)

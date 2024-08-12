@@ -1,20 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Table,
   Button,
   Container,
   Pagination,
   Row,
-  Col
+  Col,
+  Form
 } from "react-bootstrap";
 import { formatCreatedAt } from "../calculations";
 import { handleFetchRestaurantNamesFromOrders } from "../handlers/RestaurantPageHandlers";
+import { handleUpdateOrderStatus } from "../handlers/DeliveryPageHandlers";
+import { UserContext } from "../UserContext";
 
 const OrdersTable = ({
   orders,
   handleOrderSelectParent,
   handleRestaurantSelectParent,
+  refreshOrdersParent
 }) => {
+  
+  const { user, userRole } = useContext(UserContext);
+  const [editingStatus, setEditingStatus] = useState({}); // Track the selected status for each order
+
+  const handleStatusChange = (orderId, newStatus) => {
+    setEditingStatus((prev) => ({
+      ...prev,
+      [orderId]: newStatus,
+    }));
+  };
+
+  const handleSaveStatus = (orderId) => {
+    const newStatus = editingStatus[orderId];
+    handleUpdateOrderStatus(user.token, orderId, newStatus)
+      .then(() => {
+        // Notify the parent to refresh the orders
+        refreshOrdersParent();
+      })
+      .catch((error) => {
+        console.error("Failed to update status:", error);
+      });
+  };
+
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [restaurantNames, setRestaurantNames] = useState({});
@@ -55,10 +82,12 @@ const OrdersTable = ({
                 <th>Payment Method</th>
                 <th>Total Price</th>
                 <th>Created At</th>
+                {userRole === "DELIVERY PERSONNEL" && <th>Actions</th>} {/* New column for Save button, only for delivery personnel */}
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((order) => {
+            {currentItems.map((order) => {
+                const isStatusChanged = editingStatus[order.id] && editingStatus[order.id] !== order.status;
                 return (
                   <tr key={order.id}>
                     <td><Button
@@ -79,10 +108,36 @@ const OrdersTable = ({
                         {restaurantNames[order.restaurant_id] || "Loading..."}
                       </Button>
                     </td>
-                    <td>{order.status}</td>
+                    <td>
+                      {userRole === "DELIVERY PERSONNEL" ? (
+                        <Form.Control
+                          as="select"
+                          value={editingStatus[order.id] || order.status}
+                          onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                        >
+                          <option value="ASSIGNED">ASSIGNED</option>
+                          <option value="IN_PROGRESS">IN PROGRESS</option>
+                          <option value="COMPLETED">COMPLETED</option>
+                          <option value="CANCELLED">CANCELLED</option>
+                        </Form.Control>
+                      ) : (
+                        order.status
+                      )}
+                    </td>
                     <td>{order.payment_method}</td>
                     <td>€{order.total_price}</td>
                     <td>{formatCreatedAt(order.created_at)}</td>
+                    {userRole === "DELIVERY PERSONNEL" && (
+                      <td>
+                        <Button
+                          variant="primary"
+                          onClick={() => handleSaveStatus(order.id)}
+                          disabled={!isStatusChanged} // Disable if status is unchanged
+                        >
+                          Save
+                        </Button>
+                      </td>
+                    )}
                   </tr>
                 );
               })}

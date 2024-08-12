@@ -5,7 +5,7 @@ from models.order import DBOrder, DBOrderItem, OrderStatus
 from models.item import DBItem
 from models.restaurant import DBRestaurant
 from schemas.order import OrderCreate
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from fastapi import HTTPException, BackgroundTasks
 from helpers.email import send_email
 from crud.user import crud_get_user_by_id
@@ -37,8 +37,12 @@ def crud_create_order(db: Session, order: OrderCreate, customer_id: int):
         status=OrderStatus.UNASSIGNED,
         payment_method=order.payment_method,
         preferred_arrival_time=order.preferred_arrival_time,
-        created_at=datetime.utcnow()
+        created_at=datetime.now(timezone.utc)
     )
+    
+    if not db_order.preferred_arrival_time or db_order.preferred_arrival_time < db_order.created_at:
+        db_order.preferred_arrival_time = db_order.created_at
+
     db.add(db_order)
     db.commit()
     db.refresh(db_order)
@@ -84,45 +88,43 @@ def crud_delete_order(db: Session, order_id: int):
     return {"detail": "Order deleted successfully"}
 
 
-def crud_change_status(db: Session, order_id: int, status: OrderStatus):
+def crud_change_status(db: Session, order_id: int, status: str):
     db_order = db.query(DBOrder).filter(DBOrder.id == order_id).first()
 
     if not db_order:
         raise HTTPException(status_code=404, detail="Order not found")
     
     if status is not None:
-        db_order.status = status
+        # Convert the status string to the corresponding OrderStatus enum
+        try:
+            db_order.status = status
+        except ValueError:
+            print("status:", status)
+            raise HTTPException(status_code=400, detail="Invalid order status")
 
     db.commit()
     db.refresh(db_order)
     return db_order
-
-"""
-from sqlalchemy.orm import joinedload
-
-def get_order_by_id(db: Session, order_id: int):
-    return db.query(DBOrder).options(joinedload(DBOrder.customer)).filter(DBOrder.id == order_id).first()
-"""
 
 
 def crud_get_orders_by_customer(db: Session, customer_id: int):
     return db.query(DBOrder).filter(DBOrder.customer_id == customer_id).all()
 
 
-def crud_get_orders_by_delivery_personnel(db: Session, delivery_id: int, current_date: datetime):
-    start_of_day = datetime(current_date.year, current_date.month, current_date.day)
+def crud_get_deliveries_today(db: Session, delivery_id: int):
+    current_time = datetime.now(timezone.utc)
+    start_of_day = datetime(current_time.year, current_time.month, current_time.day, tzinfo=timezone.utc)
     end_of_day = start_of_day + timedelta(days=1)
 
     return (
         db.query(DBOrder)
         .filter(
             DBOrder.delivery_id == delivery_id,
-            DBOrder.created_at >= start_of_day,
-            DBOrder.created_at < end_of_day,
+            DBOrder.preferred_arrival_time < end_of_day,
+            DBOrder.status.in_([OrderStatus.ASSIGNED, OrderStatus.IN_PROGRESS])
         )
         .all()
     )
-
 
 
 def crud_assign_order_to_delivery(

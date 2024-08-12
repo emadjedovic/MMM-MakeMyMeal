@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel, Field
 from typing import List, Optional, TYPE_CHECKING
-from datetime import datetime
+from datetime import datetime, timezone
 from schemas.item import Item
 from models.order import OrderStatus
 
@@ -15,7 +15,6 @@ class OrderBase(BaseModel):
     payment_method: str = "CASH"
     preferred_arrival_time: Optional[datetime] = None
 
-
 class OrderCreate(OrderBase):
     items_ids: List[int] = []
 
@@ -23,7 +22,7 @@ class OrderCreate(OrderBase):
 class Order(OrderBase):
     id: int
     customer_id: int
-    created_at: datetime
+    created_at: datetime = datetime.now(timezone.utc)
     status: OrderStatus = "UNASSIGNED" #updated later
     total_price: float = 0.0 # calculated after creation
     delivery_id: Optional[int] = None # assigned later by the restaurant admin

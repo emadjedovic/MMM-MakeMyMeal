@@ -35,7 +35,7 @@ const RestaurantAdminPage = () => {
 
   useEffect(() => {
     handleFetchOrdersOwner(token, userId, setOrdersOwner);
-  }, [token]);
+  }, [token, userId]);
 
   const handleShowOrderModal = (orderId) => {
     setSelectedOrderId(orderId);
