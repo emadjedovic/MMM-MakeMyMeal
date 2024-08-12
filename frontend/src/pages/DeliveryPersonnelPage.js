@@ -1,10 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../UserContext";
+import React from "react";
 import { Container, Tab, Nav } from "react-bootstrap";
 import "../css/App.css";
 
 const DeliveryPersonnelPage = () => {
-  const { token } = useContext(UserContext);
 
   return (
     <Container>

@@ -1,12 +1,11 @@
 // services/customerHandlers.js
 import {
   fetchNearbyRestaurants,
-  fetchRestaurantTypes,
   fetchRecommendedRestaurants,
-  fetchRecommendedItems,
-  fetchPromotedItems,
-  fetchPromotions,
-} from "../services/api";
+} from "../api/restaurantsApi";
+import { fetchRestaurantTypes } from "../api/restaurantTypesApi";
+import { fetchPromotions } from "../api/promotionsApi";
+import { fetchRecommendedItems, fetchPromotedItems } from "../api/itemsApi";
 
 export const handleFetchNearbyRestaurants = async (
   token,
@@ -30,29 +29,24 @@ export const handleFetchRecommended = async (
   setRecommendedItems
 ) => {
   try {
-    const fetchedRecommendedRestaurants = await fetchRecommendedRestaurants(token);
+    const fetchedRecommendedRestaurants = await fetchRecommendedRestaurants(
+      token
+    );
     setRecommendedRestaurants(fetchedRecommendedRestaurants);
 
     const fetchedRecommendedItems = await fetchRecommendedItems(token);
     setRecommendedItems(fetchedRecommendedItems);
   } catch (error) {
-    console.error(
-      "Error in handleFetchRecommended."
-    );
+    console.error("Error in handleFetchRecommended.");
   }
 };
 
-export const handleFetchRestaurantTypes = async (
-  token,
-  setRestaurantTypes
-) => {
+export const handleFetchRestaurantTypes = async (token, setRestaurantTypes) => {
   try {
     const types = await fetchRestaurantTypes(token);
     setRestaurantTypes(types);
   } catch (error) {
-    console.error(
-      "Error in handleFetchRestaurantTypes."
-    );
+    console.error("Error in handleFetchRestaurantTypes.");
   }
 };
 
@@ -70,16 +64,4 @@ export const handleFetchPromotionData = async (
   } catch (error) {
     console.error("Error in handleFetchPromotionData.");
   }
-};
-
-export const handleTypeSelect = (type, setSelectedType) => {
-  setSelectedType(type);
-};
-
-export const handleRestaurantSelectParent = (restaurantId, setSelectedRestaurantId) => {
-  setSelectedRestaurantId(restaurantId);
-};
-
-export const handlePopState = (setSelectedRestaurantId) => {
-  setSelectedRestaurantId(null);
 };

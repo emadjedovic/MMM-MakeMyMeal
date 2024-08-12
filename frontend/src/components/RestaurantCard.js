@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Card, ListGroup, Container } from "react-bootstrap";
 import { UserContext } from "../UserContext";
-import { calculateDistance } from "../services/calculations";
-import { handleFetchRestaurantById } from "../handlers/restaurantHandlers";
+import { calculateDistance } from "../calculations";
+import { handleFetchRestaurantById } from "../handlers/RestaurantPageHandlers";
 
 function RestaurantCard({ restaurantId, handleRestaurantSelectParent }) {
   const { user, userRole } = useContext(UserContext);
@@ -10,7 +10,7 @@ function RestaurantCard({ restaurantId, handleRestaurantSelectParent }) {
 
   useEffect(() => {
     handleFetchRestaurantById(restaurantId, setRestaurant);
-  }, []);
+  }, [restaurantId]);
 
   return (
     <Container className="my-2">

@@ -1,9 +1,9 @@
 // src/components/AddPromotionModal.js
 import React, { useState, useContext } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
-import { createPromotion } from "../../services/api";
+import { createPromotion } from "../../api/promotionsApi";
 import { UserContext } from "../../UserContext";
-import { PercentageToFraction } from "../../services/calculations";
+import { PercentageToFraction } from "../../calculations";
 
 const AddPromotionModal = ({ show, handleClose, itemId, refreshItems }) => {
   const { token } = useContext(UserContext);

@@ -5,7 +5,7 @@ import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/LoginPage.css";
 import { UserContext } from "../UserContext";
-import { loginUser } from "../services/api";
+import { loginUser } from "../api/authApi";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");

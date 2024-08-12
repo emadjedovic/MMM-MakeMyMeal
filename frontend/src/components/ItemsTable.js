@@ -4,7 +4,7 @@ import "../css/App.css";
 import ItemCard from "./ItemCard.js";
 import ItemTypesList from "./ItemTypesList.js";
 import { UserContext } from "../UserContext.js";
-import AddItemModal from "./onlyRestaurantAdmin/AddItemModal.js";
+import AddItemModal from "./restaurantadmin/AddItemModal.js";
 
 const ItemsTable = ({
   items,
@@ -40,24 +40,17 @@ const ItemsTable = ({
       <Pagination.Item
         key={number}
         active={number === currentPage}
-        onClick={() => handlePageChange(number)}
+        onClick={(pageNumber) => 
+          setCurrentPage(pageNumber)}
       >
         {number}
       </Pagination.Item>
     );
   }
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
     setCurrentPage(1);
-  };
-
-  const handlePromotedChange = () => {
-    setShowOnPromotion(!showOnPromotion);
   };
 
   return (
@@ -86,7 +79,8 @@ const ItemsTable = ({
                 type="checkbox"
                 label="On Discount"
                 checked={showOnPromotion}
-                onChange={handlePromotedChange}
+                onChange={() => 
+                  setShowOnPromotion(!showOnPromotion)}
               />
             </Col>
             {userRole === "RESTAURANT ADMIN" && (

@@ -8,7 +8,7 @@ import {
   Col,
 } from "react-bootstrap";
 import { UserContext } from "../../UserContext.js";
-import { createDeliveryPersonnel } from "../../services/api.js";
+import { createDeliveryPersonnel } from "../../api/usersApi.js";
 
 const CreatePersonnelForm = () => {
   const { token } = useContext(UserContext);

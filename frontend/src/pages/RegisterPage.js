@@ -5,7 +5,7 @@ import Map from "../components/Map";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import "../css/RegisterPage.css";
 import { UserContext } from "../UserContext";
-import { registerUser } from "../services/api";
+import { registerUser } from "../api/authApi";
 
 const RegisterPage = () => {
   const [firstName, setFirstName] = useState("");

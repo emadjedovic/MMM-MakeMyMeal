@@ -1,3 +1,0 @@
-- ra create delivery personnel add restaurant id field
-
-"owner_id": 3

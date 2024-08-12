@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { handleFetchOrderById } from "../handlers/orderHandlers";
+import { fetchOrderById } from "../api/ordersApi";
 
 const Order = ({ orderId }) => {
   const [orderDetails, setOrderDetails] = useState(null);
 
+  const handleFetchOrderById = async () => {
+    try {
+      const order = await fetchOrderById(orderId);
+      setOrderDetails(order);
+    } catch (error) {
+      console.error("Error in handleFetchOrderById.");
+    }
+  };
+
   useEffect(() => {
-    const data = handleFetchOrderById(orderId);
-    setOrderDetails(data);
+    handleFetchOrderById();
   }, [orderId]);
 
   if (!orderDetails) return <div>Loading...</div>;

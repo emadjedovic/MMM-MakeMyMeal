@@ -2,10 +2,14 @@
 import {
   fetchRestaurantsByOwner,
   updateRestaurant,
-  fetchRestaurantTypes,
-} from "../services/api";
+} from "../api/restaurantsApi";
+import { fetchRestaurantTypes } from "../api/restaurantTypesApi";
 
-export const handleFetchRestaurantsByOwner = async (userId, token, setRestaurants) => {
+export const handleFetchRestaurantsByOwner = async (
+  userId,
+  token,
+  setRestaurants
+) => {
   try {
     const data = await fetchRestaurantsByOwner(userId, token);
     setRestaurants(data);
@@ -53,16 +57,4 @@ export const handleSave = async (
   } catch (error) {
     console.error("Error in handleSave.");
   }
-};
-
-export const handlePageChange = (pageNumber, setCurrentPage) => {
-  setCurrentPage(pageNumber);
-};
-
-export const handleRestaurantSelectParent = (restaurantId, setSelectedRestaurantId) => {
-  setSelectedRestaurantId(restaurantId);
-};
-
-export const handlePopState = (setSelectedRestaurantId) => {
-  setSelectedRestaurantId(null);
 };

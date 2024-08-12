@@ -9,7 +9,6 @@ const RAdminRestaurantsTable = ({
   handleChange,
   handleSave,
   paginationItems,
-  handlePageChange,
   restaurantTypes,
   handleRestaurantSelectParent,
 }) => {

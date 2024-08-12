@@ -3,20 +3,17 @@ import { UserContext } from "../UserContext";
 import { Container, Tab, Nav, Pagination } from "react-bootstrap";
 import "../css/App.css";
 
-import CreatePersonnelForm from "../components/onlyRestaurantAdmin/CreatePersonnelForm";
-import RAdminRestaurantsTable from "../components/onlyRestaurantAdmin/RAdminRestaurantsTable";
-import Restaurant from "../components/Restaurant";
+import CreatePersonnelForm from "../components/restaurantadmin/CreatePersonnelForm";
+import RAdminRestaurantsTable from "../components/restaurantadmin/RAdminRestaurantsTable";
+import RestaurantPage from "../components/RestaurantPage";
 
 import {
   handleFetchRestaurantsByOwner,
   handleFetchRestaurantTypes,
   handleEditClick,
-  handleChange,
   handleSave,
-  handlePageChange,
-  handleRestaurantSelectParent,
-  handlePopState,
-} from "../handlers/radminHandlers";
+  handleChange,
+} from "../handlers/RestaurantAdminPageHandlers";
 
 const RestaurantAdminPage = () => {
   const { token, user } = useContext(UserContext);
@@ -43,7 +40,7 @@ const RestaurantAdminPage = () => {
       <Pagination.Item
         key={number}
         active={number === currentPage}
-        onClick={() => handlePageChange(number, setCurrentPage)}
+        onClick={(pageNumber) => setCurrentPage(pageNumber)}
       >
         {number}
       </Pagination.Item>
@@ -56,13 +53,11 @@ const RestaurantAdminPage = () => {
   }, [userId, token]);
 
   useEffect(() => {
-    window.addEventListener("popstate", () =>
-      handlePopState(setSelectedRestaurantId)
-    );
+    window.addEventListener("popstate", () => setSelectedRestaurantId(null));
 
     return () => {
       window.removeEventListener("popstate", () =>
-        handlePopState(setSelectedRestaurantId)
+        setSelectedRestaurantId(null)
       );
     };
   }, []);
@@ -73,7 +68,7 @@ const RestaurantAdminPage = () => {
         <Nav
           variant="underline"
           className="mb-3"
-          onSelect={() => handlePopState(setSelectedRestaurantId)}
+          onSelect={() => setSelectedRestaurantId(null)}
         >
           <Nav.Item>
             <Nav.Link eventKey="my-restaurants">My Restaurants</Nav.Link>
@@ -85,7 +80,7 @@ const RestaurantAdminPage = () => {
         <Tab.Content>
           <Tab.Pane eventKey="my-restaurants">
             {selectedRestaurantId ? (
-              <Restaurant restaurantId={selectedRestaurantId} />
+              <RestaurantPage restaurantId={selectedRestaurantId} />
             ) : (
               <RAdminRestaurantsTable
                 restaurants={currentRestaurants}
@@ -109,21 +104,16 @@ const RestaurantAdminPage = () => {
                   )
                 }
                 paginationItems={paginationItems}
-                handlePageChange={(pageNumber) =>
-                  handlePageChange(pageNumber, setCurrentPage)
-                }
+                handlePageChange={(pageNumber) => setCurrentPage(pageNumber)}
                 restaurantTypes={restaurantTypes}
                 handleRestaurantSelectParent={(restaurantId) =>
-                  handleRestaurantSelectParent(
-                    restaurantId,
-                    setSelectedRestaurantId
-                  )
+                  setSelectedRestaurantId(restaurantId)
                 }
               />
             )}
           </Tab.Pane>
           <Tab.Pane eventKey="personnel">
-            <CreatePersonnelForm/>
+            <CreatePersonnelForm />
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>

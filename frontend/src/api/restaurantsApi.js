@@ -1,0 +1,156 @@
+import axios from "axios";
+const API_URL = "http://localhost:8000/api";
+
+export const toggleArchiveRestaurant = async (id, token) => {
+  try {
+    await axios.put(
+      `${API_URL}/restaurants/${id}/toggle_archive`,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (error) {
+    console.error("Error in toggleArchiveRestaurant.");
+    throw error;
+  }
+};
+
+export const deleteRestaurant = async (id, token) => {
+  try {
+    await axios.delete(`${API_URL}/restaurants/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.error("Error in deleteRestaurant.");
+    throw error;
+  }
+};
+
+export const updateRestaurant = async (id, data, token) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/restaurants/update/${id}`,
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error in updateRestaurant.");
+    throw error;
+  }
+};
+
+export const createRestaurant = async (restaurantData, token) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/restaurants/new`,
+      restaurantData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error in createRestaurant.");
+    throw error;
+  }
+};
+
+export const fetchRestaurantsByType = async (selectedType, token) => {
+  try {
+    const url =
+      selectedType === "All"
+        ? `${API_URL}/restaurants/all`
+        : `${API_URL}/restaurants/all/${selectedType}`;
+    const response = await axios.get(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in fetchRestaurantsByType.");
+    throw error;
+  }
+};
+
+export const fetchNearbyRestaurants = async (selectedType, token) => {
+  try {
+    const url =
+      selectedType === "All"
+        ? `${API_URL}/restaurants/nearby`
+        : `${API_URL}/restaurants/nearby/${selectedType}`;
+
+    const response = await axios.get(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in fetchNearbyRestaurants.");
+    throw error;
+  }
+};
+
+export const fetchRecommendedRestaurants = async (token) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/restaurants/recommended-nearby`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error in fetchRecommendedRestaurants.");
+    throw error;
+  }
+};
+
+export const fetchRestaurantsByOwner = async (userId, token) => {
+  try {
+    const response = await axios.get(`${API_URL}/restaurants/owner/${userId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in fetchRestaurantsByOwner.");
+    throw error;
+  }
+};
+
+export const fetchRestaurantById = async (id, token) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/restaurants/crazy_route/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error in fetchRestaurantById.");
+    throw error;
+  }
+};

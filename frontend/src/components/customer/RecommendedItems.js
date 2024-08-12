@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, Row, Col, Card, ListGroup } from "react-bootstrap";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
-import { handleFetchRecommendedRestaurantNames } from "../../handlers/restaurantHandlers";
+import { handleFetchRecommendedRestaurantNames } from "../../handlers/RestaurantPageHandlers";
 
 const RecommendedItems = ({ recommended, handleRestaurantSelectParent }) => {
   const [currentIndex, setCurrentIndex] = useState(0);

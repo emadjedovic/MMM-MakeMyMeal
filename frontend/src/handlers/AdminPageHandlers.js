@@ -1,19 +1,33 @@
 import {
   fetchRestaurantsByType,
-  fetchRestaurantTypes,
-  fetchFoodTypes,
   toggleArchiveRestaurant,
   deleteRestaurant,
+} from "../api/restaurantsApi";
+import {
+  fetchRestaurantTypes,
   addRestaurantType,
   renameRestaurantType,
   deleteRestaurantType,
+} from "../api/restaurantTypesApi";
+import {
+  fetchFoodTypes,
   addFoodType,
   renameFoodType,
   deleteFoodType,
-  fetchPromotedItems,
-  fetchPromotions,
-  fetchOrdersAll
-} from "../services/api";
+} from "../api/foodTypesApi";
+import { fetchPromotions } from "../api/promotionsApi";
+import { fetchPromotedItems } from "../api/itemsApi";
+import { fetchOrdersAll } from "../api/ordersApi";
+
+export const handleFetchOrdersAll = async (token, setOrdersAll) => {
+  try {
+    const ordersAll = await fetchOrdersAll(token);
+
+    setOrdersAll(ordersAll);
+  } catch (error) {
+    console.error("Error in handleFetchOrdersAll.");
+  }
+};
 
 export const handleFetchRestaurantsByType = async (
   token,
@@ -21,14 +35,21 @@ export const handleFetchRestaurantsByType = async (
   setRestaurants
 ) => {
   try {
-    const fetchedRestaurants = await fetchRestaurantsByType(selectedType, token);
+    const fetchedRestaurants = await fetchRestaurantsByType(
+      selectedType,
+      token
+    );
     setRestaurants(fetchedRestaurants);
   } catch (error) {
     console.error("Error in handleFetchRestaurantByType.", error);
   }
 };
 
-export const handleFetchTypes = async (token, setRestaurantTypes, setFoodTypes) => {
+export const handleFetchTypes = async (
+  token,
+  setRestaurantTypes,
+  setFoodTypes
+) => {
   try {
     const restaurantTypes = await fetchRestaurantTypes(token);
 
@@ -57,21 +78,6 @@ export const handleFetchPromotionData = async (
   }
 };
 
-export const handleAddRestaurant = (newRestaurant, restaurants, setRestaurants) => {
-  setRestaurants([...restaurants, newRestaurant]);
-};
-
-export const handleUpdateRestaurant = (
-  updatedRestaurant,
-  restaurants,
-  setRestaurants
-) => {
-  setRestaurants(
-    restaurants.map((restaurant) =>
-      restaurant.id === updatedRestaurant.id ? updatedRestaurant : restaurant
-    )
-  );
-};
 
 export const handleToggleArchiveRestaurant = async (
   id,
@@ -93,9 +99,7 @@ export const handleToggleArchiveRestaurant = async (
   }
 };
 
-export const handleTypeSelect = (type, setSelectedType) => {
-  setSelectedType(type);
-};
+
 
 export const handleDeleteRestaurant = async (
   id,
@@ -114,7 +118,6 @@ export const handleDeleteRestaurant = async (
   }
 };
 
-// RESTAURANT TYPES
 
 export const handleAddRestaurantType = async (
   newTypeName,
@@ -165,7 +168,6 @@ export const handleDeleteRestaurantType = async (
   }
 };
 
-// FOOD TYPES
 
 export const handleAddFoodType = async (
   newTypeName,
@@ -212,11 +214,12 @@ export const handleDeleteFoodType = async (
   }
 };
 
-
-export const handleRestaurantSelectParent = (restaurantId, setSelectedRestaurantId) => {
-  setSelectedRestaurantId(restaurantId);
+export const handleUpdateRestaurant = (updatedRestaurant, restaurants, setRestaurants) => {
+  setRestaurants(
+    restaurants.map((restaurant) =>
+      restaurant.id === updatedRestaurant.id ? updatedRestaurant : restaurant
+    )
+  );
 };
 
-export const handlePopState = (setSelectedRestaurantId) => {
-  setSelectedRestaurantId(null);
-};
+

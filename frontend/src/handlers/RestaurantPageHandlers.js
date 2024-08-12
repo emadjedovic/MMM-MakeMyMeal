@@ -1,13 +1,24 @@
-import {
-  fetchRestaurantById,
-  fetchItemsByFoodType,
-  fetchFoodTypes,
-  fetchRestaurantTypes,
-  updateRestaurant
-} from "../services/api";
+import { fetchRestaurantById, updateRestaurant } from "../api/restaurantsApi";
+import { fetchRestaurantTypes } from "../api/restaurantTypesApi";
+import { fetchItemsByFoodType } from "../api/itemsApi";
+import { fetchFoodTypes } from "../api/foodTypesApi";
 
-export const handleFoodTypeSelect = (type_name, setSelectedFoodType) => {
-  setSelectedFoodType(type_name);
+export const handleFetchItemsByFoodType = async (setItems, restaurantId, selectedFoodType) => {
+  try {
+    const items = await fetchItemsByFoodType(restaurantId, selectedFoodType);
+    setItems(items);
+  } catch (error) {
+    console.error("Error in handleFetchItemsByFoodType.");
+  }
+};
+
+export const handleFetchFoodTypes = async (setFoodTypes) => {
+  try {
+    const foodTypes = await fetchFoodTypes();
+    setFoodTypes(foodTypes);
+  } catch (error) {
+    console.error("Error in handleFetchFoodTypes.");
+  }
 };
 
 export const handleAddItem = (newItem, items, setItems) => {
@@ -19,16 +30,6 @@ export const handleFetchRestaurantById = async (id, setRestaurant) => {
   setRestaurant(data);
 };
 
-export const handleFetchItemsByFoodType = async (restaurantId, selectedFoodType, setItems) => {
-  const data = await fetchItemsByFoodType(restaurantId, selectedFoodType);
-  setItems(data);
-};
-
-export const handleFetchFoodTypes = async (setFoodTypes) => {
-  const data = await fetchFoodTypes();
-  setFoodTypes(data);
-};
-
 export const handleFetchRestaurantName = async (id, setRestaurantName) => {
   try {
     const restaurant = await fetchRestaurantById(id);
@@ -38,7 +39,10 @@ export const handleFetchRestaurantName = async (id, setRestaurantName) => {
   }
 };
 
-export const handleFetchRecommendedRestaurantNames = async (recommended, setRestaurantNames) => {
+export const handleFetchRecommendedRestaurantNames = async (
+  recommended,
+  setRestaurantNames
+) => {
   const names = {};
   for (const item of recommended) {
     if (!names[item.restaurant_id]) {
@@ -62,7 +66,13 @@ export const handleFetchRestaurantTypes = async (setRestaurantTypes) => {
   }
 };
 
-export const handleUpdateRestaurant = async (updateId, requestData, token, onUpdate, setMessage) => {
+export const handleUpdateRestaurant = async (
+  updateId,
+  requestData,
+  token,
+  onUpdate,
+  setMessage
+) => {
   if (updateId < 0) {
     alert("Restaurant ID cannot be less than 0.");
     return;
@@ -76,4 +86,3 @@ export const handleUpdateRestaurant = async (updateId, requestData, token, onUpd
     setMessage("There was an error updating the restaurant.");
   }
 };
-
