@@ -6,6 +6,17 @@ import {
 import { fetchRestaurantTypes } from "../api/restaurantTypesApi";
 import { fetchPromotions } from "../api/promotionsApi";
 import { fetchRecommendedItems, fetchPromotedItems } from "../api/itemsApi";
+import { fetchOrdersCustomerHistory} from "../api/ordersApi"
+
+export const handleFetchOrdersHistory = async (token, customer_id, setOrdersCustomerHistory) => {
+  try {
+    const orders = await fetchOrdersCustomerHistory(token, customer_id);
+
+    setOrdersCustomerHistory(orders);
+  } catch (error) {
+    console.error("Error in handleFetchOrdersHistory.");
+  }
+};
 
 export const handleFetchNearbyRestaurants = async (
   token,

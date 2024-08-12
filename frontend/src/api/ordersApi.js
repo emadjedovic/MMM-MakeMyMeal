@@ -1,6 +1,21 @@
 import axios from "axios";
 const API_URL = "http://localhost:8000/api";
 
+export const fetchOrdersCustomerHistory = async (token, customer_id) => {
+  try {
+    const response = await axios.get(`${API_URL}/orders/history/${customer_id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in fetchOrdersCustomerHistory.");
+    throw error;
+  }
+};
+
 export const fetchOrdersOwner = async (token, owner_id) => {
   try {
     const response = await axios.get(`${API_URL}/orders/owner/${owner_id}`, {

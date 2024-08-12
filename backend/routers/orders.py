@@ -60,9 +60,9 @@ def delete_order(order_id: int, db: Session = Depends(get_db)):
 
 
 # Customer - Get order history
-@router.get("/history", response_model=List[Order])
+@router.get("/history/{customer_id}", response_model=List[Order])
 def get_order_history(
-    customer_id: int,  # ovo kasnije izbrisati i koristiti id iz depends dole
+    customer_id: int,
     db: Session = Depends(get_db),
     # customer: User = Depends(get_customer_user)
 ):
