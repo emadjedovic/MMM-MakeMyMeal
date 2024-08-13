@@ -46,7 +46,7 @@ def get_orders_of_restaurants_by(
 # Customer - Create a new order
 @router.post("/new/{customer_id}", response_model=Order)
 def create_new_order(
-    customer_id: int,  # ovo kasnije izbrisati i koristiti id iz depends dole
+    customer_id: int,
     order: OrderCreate,
     db: Session = Depends(get_db),
     # customer: User = Depends(get_customer_user),

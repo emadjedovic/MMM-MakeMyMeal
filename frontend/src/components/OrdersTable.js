@@ -28,7 +28,6 @@ const OrdersTable = ({
   const [statusModal, setStatusModal] = useState(false);
   const [currentStatus, setCurrentStatus] = useState("");
 
-
   const handleOpenStatusModal = (orderId, status) => {
     setSelectedOrderId(orderId);
     setCurrentStatus(status); // Set the current status of the selected order
@@ -118,7 +117,6 @@ const OrdersTable = ({
             </thead>
             <tbody>
               {currentItems.map((order) => {
-
                 return (
                   <tr key={order.id}>
                     <td>
@@ -139,9 +137,7 @@ const OrdersTable = ({
                         {restaurantNames[order.restaurant_id] || "Loading..."}
                       </Button>
                     </td>
-                    <td>
-                        {order.status}
-                    </td>
+                    <td>{order.status}</td>
                     <td>{order.payment_method}</td>
                     <td>€{order.total_price}</td>
                     <td>{formatCreatedAt(order.created_at)}</td>

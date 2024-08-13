@@ -4,16 +4,14 @@ from sqlalchemy import (
     Column,
     Integer,
     Float,
-    String,
     Enum as sqlEnum,
     ForeignKey,
     DateTime,
-    Text,
 )
 from sqlalchemy.orm import relationship
 from database import Base
 import enum
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 
 class OrderStatus(enum.Enum):
@@ -28,7 +26,7 @@ class PaymentMethod(enum.Enum):
     CASH = "CASH"
     CARD = "CARD"
 
-
+local_tz = timezone(timedelta(hours=2))
 class DBOrder(Base):
     __tablename__ = "orders"
 
@@ -43,7 +41,7 @@ class DBOrder(Base):
     )
     total_price = Column(Float, nullable=True, default=0.0)
     preferred_arrival_time = Column(DateTime, nullable=True, default=None)
-    created_at = Column(DateTime, nullable=True, default=datetime.now(timezone.utc))
+    created_at = Column(DateTime, nullable=True, default=datetime.now(local_tz))
 
     restaurant = relationship(
         "DBRestaurant", back_populates="orders", foreign_keys=[restaurant_id]

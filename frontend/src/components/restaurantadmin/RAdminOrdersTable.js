@@ -6,14 +6,11 @@ import {
   Pagination,
   Row,
   Col,
-  Form,
-  Modal,
 } from "react-bootstrap";
 import { formatCreatedAt } from "../../calculations";
 import { handleFetchRestaurantNamesFromOrders } from "../../handlers/RestaurantPageHandlers";
-import { handleUpdateOrderStatus } from "../../handlers/DeliveryPageHandlers";
 import { UserContext } from "../../UserContext";
-import AssignOrderModal from "../AssignOrderModal";
+import AssignOrderModal from "./AssignOrderModal";
 
 const RAdminsOrdersTable = ({
   orders,
@@ -24,7 +21,6 @@ const RAdminsOrdersTable = ({
   const { user } = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
-
 
   const handleOpenModal = (orderId) => {
     setSelectedOrderId(orderId);
@@ -115,7 +111,6 @@ const RAdminsOrdersTable = ({
                     <td>{order.payment_method}</td>
                     <td>€{order.total_price}</td>
                     <td>{formatCreatedAt(order.created_at)}</td>
-                    
                   </tr>
                 );
               })}
@@ -133,7 +128,6 @@ const RAdminsOrdersTable = ({
         token={user.token}
         refreshOrdersParent={refreshOrdersParent}
       />
-
     </Container>
   );
 };

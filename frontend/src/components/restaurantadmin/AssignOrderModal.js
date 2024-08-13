@@ -1,7 +1,7 @@
 // src/components/AssignOrderModal.js
 import React, { useState } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
-import { assignOrder } from "../api/ordersApi";
+import { assignOrder } from "../../api/ordersApi";
 
 const AssignOrderModal = ({ show, closeModal, refreshOrdersParent, orderId, token }) => {
   const [deliveryId, setDeliveryId] = useState("");

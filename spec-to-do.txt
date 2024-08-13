@@ -1,24 +1,14 @@
-1. ADMINISTRATOR
+------------------------------------------------------------------------------------------
+PART I
+------------------------------------------------------------------------------------------
 
-(DONE)
-
-2. ADMINISTRATOR RESTORANA
-
-(DONE)
-
-3. KUPAC
-
-- kreiranje narudžbi (unosi se količina, način plaćanja, šalje se e-mail kupcu da je narudžba uspješno spašena, kupac može odrediti vrijeme u kojem želi dostavu narudžbe - ukoliko vrijeme nije navedeno, uzima se vrijeme kreiranja narudžbe kao minimalno vrijeme dostave) (na stranici određenog restorana)
-
-
-4. DOSTAVLJAČ
+DOSTAVLJAČ
 
 - radi dostavu (samo za jedan restoran)
-- pregled svih narudžbi koje treba dostaviti za taj dan (podaci o narudžbi, status narudžbe, cijena...)
 - mogućnost slanja informacija administratoru (isporučena/nije isporučena narudžba)
 
 ------------------------------------------------------------------------------------------
-+ 20 BODOVA (UKUPNO 50)
+PART II
 ------------------------------------------------------------------------------------------
 
 - Chat sa glavnim administratorom ili administratorom restorana.
