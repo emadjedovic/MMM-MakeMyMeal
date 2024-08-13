@@ -107,10 +107,10 @@ const OrdersTable = ({
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Order ID</th>
+                <th>Order</th>
                 <th>Restaurant</th>
                 <th>Status</th>
-                <th>Payment Method</th>
+                <th>Payment</th>
                 <th>Total Price</th>
                 <th>Created At</th>
                 {userRole === "DELIVERY PERSONNEL" && <th>Actions</th>}
@@ -140,7 +140,7 @@ const OrdersTable = ({
                       </Button>
                     </td>
                     <td>
-                        order.status
+                        {order.status}
                     </td>
                     <td>{order.payment_method}</td>
                     <td>€{order.total_price}</td>

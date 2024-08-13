@@ -20,7 +20,7 @@ const DeliveryPersonnelPage = () => {
       <Tab.Container defaultActiveKey="orders-table">
         <Nav variant="underline" className="mb-3">
           <Nav.Item>
-            <Nav.Link eventKey="orders-table">Today</Nav.Link>
+            <Nav.Link eventKey="orders-table">Deliveries for Today</Nav.Link>
           </Nav.Item>
         </Nav>
 
