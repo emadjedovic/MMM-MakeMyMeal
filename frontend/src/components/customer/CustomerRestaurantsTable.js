@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Pagination, Form } from "react-bootstrap";
-import RestaurantTypesList from "../RestaurantTypesList";
+import RestaurantTypesList from "../RestaurantTypesList.js";
 import "../../css/App.css";
 import RestaurantCard from "../RestaurantCard.js";
 
@@ -27,10 +27,6 @@ const CustomerRestaurantsTable = ({
     indexOfLastRestaurant
   );
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
     setCurrentPage(1);
@@ -43,7 +39,8 @@ const CustomerRestaurantsTable = ({
       <Pagination.Item
         key={number}
         active={number === currentPage}
-        onClick={() => handlePageChange(number)}
+        onClick={(pageNumber) =>
+          setCurrentPage(pageNumber)}
       >
         {number}
       </Pagination.Item>

@@ -5,6 +5,7 @@ from typing import Optional, List
 from datetime import datetime
 from models.user import UserRole
 from schemas.restaurant import Restaurant
+from schemas.order import Order
 
 
 class UserBase(BaseModel):
@@ -15,8 +16,9 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
-    latitude: Optional[float] = None
-    longitude: Optional[float] = None
+    latitude: Optional[float] = None  # Customer only
+    longitude: Optional[float] = None  # Customer only
+    restaurant_id: Optional[int] = None  # Delivery Personnel only
 
 
 class UserLogin(BaseModel):
@@ -31,6 +33,8 @@ class User(UserBase):
     disabled: bool = False
     latitude: Optional[float] = None
     longitude: Optional[float] = None
+    restaurant_id: Optional[int] = None  # Delivery Personnel only
+    assigned_orders: List[Order] = []  # Delivery Personnel only
 
     class Config:
         from_attributes = True
@@ -41,4 +45,4 @@ class UserInDB(User):
 
 
 class UserWithRestaurants(UserInDB):
-    restaurants: List[Restaurant] = []
+    restaurants: List[Restaurant] = []  # Restaurant Admin only

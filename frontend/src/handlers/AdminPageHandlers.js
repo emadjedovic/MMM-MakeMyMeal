@@ -1,33 +1,55 @@
 import {
-  fetchRestaurants,
-  fetchRestaurantTypes,
-  fetchFoodTypes,
+  fetchRestaurantsByType,
   toggleArchiveRestaurant,
   deleteRestaurant,
+} from "../api/restaurantsApi";
+import {
+  fetchRestaurantTypes,
   addRestaurantType,
   renameRestaurantType,
   deleteRestaurantType,
+} from "../api/restaurantTypesApi";
+import {
+  fetchFoodTypes,
   addFoodType,
   renameFoodType,
   deleteFoodType,
-  fetchPromotedItems,
-  fetchPromotions,
-} from "../services/api";
+} from "../api/foodTypesApi";
+import { fetchPromotions } from "../api/promotionsApi";
+import { fetchPromotedItems } from "../api/itemsApi";
+import { fetchOrdersAll } from "../api/ordersApi";
 
-export const fetchRestaurantsByType = async (
+export const handleFetchOrdersAll = async (token, setOrdersAll) => {
+  try {
+    const ordersAll = await fetchOrdersAll(token);
+
+    setOrdersAll(ordersAll);
+  } catch (error) {
+    console.error("Error in handleFetchOrdersAll.");
+  }
+};
+
+export const handleFetchRestaurantsByType = async (
   token,
   selectedType,
   setRestaurants
 ) => {
   try {
-    const fetchedRestaurants = await fetchRestaurants(selectedType, token);
+    const fetchedRestaurants = await fetchRestaurantsByType(
+      selectedType,
+      token
+    );
     setRestaurants(fetchedRestaurants);
   } catch (error) {
-    console.error("Error in fetchRestaurantByType.", error);
+    console.error("Error in handleFetchRestaurantByType.", error);
   }
 };
 
-export const fetchTypes = async (token, setRestaurantTypes, setFoodTypes) => {
+export const handleFetchTypes = async (
+  token,
+  setRestaurantTypes,
+  setFoodTypes
+) => {
   try {
     const restaurantTypes = await fetchRestaurantTypes(token);
 
@@ -36,11 +58,11 @@ export const fetchTypes = async (token, setRestaurantTypes, setFoodTypes) => {
     const foodTypes = await fetchFoodTypes(token);
     setFoodTypes(foodTypes);
   } catch (error) {
-    console.error("Error in fetchTypes.");
+    console.error("Error in handleFetchTypes.");
   }
 };
 
-export const fetchPromotionData = async (
+export const handleFetchPromotionData = async (
   token,
   setPromotedItems,
   setPromotions
@@ -52,27 +74,12 @@ export const fetchPromotionData = async (
     const promotions = await fetchPromotions(token);
     setPromotions(promotions);
   } catch (error) {
-    console.error("Error fetching promotion data.");
+    console.error("Error in handleFetchPromotionData.");
   }
 };
 
-export const handleAdd = (newRestaurant, restaurants, setRestaurants) => {
-  setRestaurants([...restaurants, newRestaurant]);
-};
 
-export const handleUpdate = (
-  updatedRestaurant,
-  restaurants,
-  setRestaurants
-) => {
-  setRestaurants(
-    restaurants.map((restaurant) =>
-      restaurant.id === updatedRestaurant.id ? updatedRestaurant : restaurant
-    )
-  );
-};
-
-export const handleToggleArchive = async (
+export const handleToggleArchiveRestaurant = async (
   id,
   token,
   restaurants,
@@ -92,11 +99,9 @@ export const handleToggleArchive = async (
   }
 };
 
-export const handleTypeSelect = (type, setSelectedType) => {
-  setSelectedType(type);
-};
 
-export const handleDelete = async (
+
+export const handleDeleteRestaurant = async (
   id,
   token,
   restaurants,
@@ -109,11 +114,10 @@ export const handleDelete = async (
     setRestaurants(restaurants.filter((restaurant) => restaurant.id !== id));
   } catch (err) {
     setError("There was an error deleting the restaurant.");
-    console.error("Error deleting the restaurant:", err);
+    console.error("Error in handleDeleteRestaurant.");
   }
 };
 
-// RESTAURANT TYPES
 
 export const handleAddRestaurantType = async (
   newTypeName,
@@ -125,7 +129,7 @@ export const handleAddRestaurantType = async (
     const addedType = await addRestaurantType(newTypeName, token);
     setRestaurantTypes([...restaurantTypes, addedType]);
   } catch (error) {
-    console.error("Error adding restaurant type:", error);
+    console.error("Error in handleAddRestaurantType.");
   }
 };
 
@@ -144,7 +148,7 @@ export const handleRenameRestaurantType = async (
       )
     );
   } catch (error) {
-    console.error("Error renaming restaurant type:", error);
+    console.error("Error in handleRenameRestaurantType.");
   }
 };
 
@@ -160,11 +164,10 @@ export const handleDeleteRestaurantType = async (
       restaurantTypes.filter((type) => type.name !== typeName)
     );
   } catch (error) {
-    console.error("Error deleting restaurant type:", error);
+    console.error("Error in handleDeleteRestaurantType.");
   }
 };
 
-// FOOD TYPES
 
 export const handleAddFoodType = async (
   newTypeName,
@@ -176,7 +179,7 @@ export const handleAddFoodType = async (
     const addedType = await addFoodType(newTypeName, token);
     setFoodTypes([...foodTypes, addedType]);
   } catch (error) {
-    console.error("Error adding food type:", error);
+    console.error("Error in handleAddFoodType.");
   }
 };
 
@@ -193,7 +196,7 @@ export const handleRenameFoodType = async (
       foodTypes.map((type) => (type.name === oldName ? renamedType : type))
     );
   } catch (error) {
-    console.error("Error renaming food type:", error);
+    console.error("Error in handleRenameFoodType.");
   }
 };
 
@@ -207,16 +210,17 @@ export const handleDeleteFoodType = async (
     await deleteFoodType(typeName, token);
     setFoodTypes(foodTypes.filter((type) => type.name !== typeName));
   } catch (error) {
-    console.error("Error deleting food type:", error);
+    console.error("Error in handleDeleteFoodType");
   }
 };
 
-//
-
-export const handleRestaurantSelectParent = (restaurantId, setSelectedRestaurantId) => {
-  setSelectedRestaurantId(restaurantId);
+export const handleUpdateRestaurant = (updatedRestaurant, restaurants, setRestaurants) => {
+  setRestaurants(
+    restaurants.map((restaurant) =>
+      restaurant.id === updatedRestaurant.id ? updatedRestaurant : restaurant
+    )
+  );
 };
 
-export const handlePopState = (setSelectedRestaurantId) => {
-  setSelectedRestaurantId(null);
-};
+
+

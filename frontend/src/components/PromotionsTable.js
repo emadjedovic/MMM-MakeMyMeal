@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { originalPrice } from "../services/calculations";
-import { formatDiscount } from "../services/calculations";
+import { originalPrice, formatDiscount } from "../calculations";
 import {
   Table,
   Button,
@@ -43,16 +42,13 @@ const PromotionsTable = ({
       <Pagination.Item
         key={number}
         active={number === currentPage}
-        onClick={() => handlePageChange(number)}
+        onClick={(pageNumber) => 
+          setCurrentPage(pageNumber)}
       >
         {number}
       </Pagination.Item>
     );
   }
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
 
   const handleSearchNameChange = (e) => {
     setSearchName(e.target.value);

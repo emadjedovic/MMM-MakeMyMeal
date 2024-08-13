@@ -4,46 +4,13 @@ from auth.security import get_password_hash
 from schemas.user import UserCreate
 
 
-def create_customer():
-    db = SessionLocal()
-    try:
-        customer_user = UserCreate(
-            email="c@example.com",
-            first_name="Customer",
-            last_name="User",
-            role=UserRole.CUSTOMER,
-            password="password",
-            latitude=0,
-            longitude=0,
-        )
-        hashed_password = get_password_hash(customer_user.password)
-        db_user = DBUser(
-            email=customer_user.email,
-            first_name=customer_user.first_name,
-            last_name=customer_user.last_name,
-            hashed_password=hashed_password,
-            latitude=customer_user.latitude,
-            longitude=customer_user.longitude,
-        )
-        db_user.role = UserRole.CUSTOMER
-        db.add(db_user)
-        db.commit()
-        print("Customer user created successfully")
-        print(f"Enum value: {db_user.role}")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        print(f"Enum value: {db_user.role}")
-    finally:
-        db.close()
-
-
 def create_admin():
     db = SessionLocal()
     try:
         admin_user = UserCreate(
-            email="a@example.com",
-            first_name="Admin",
-            last_name="User",
+            email="ema.djedovic27@gmail.com",
+            first_name="Ema",
+            last_name="Djedović",
             role=UserRole.ADMIN,
             password="password",
         )
@@ -57,11 +24,9 @@ def create_admin():
         db_user.role = UserRole.ADMIN
         db.add(db_user)
         db.commit()
-        print("Admin user created successfully")
-        print(f"Enum value: {db_user.role}")
+        print("\nAdmin user created successfully.")
     except Exception as e:
         print(f"An error occurred: {e}")
-        print(f"Enum value: {db_user.role}")
     finally:
         db.close()
 
@@ -70,9 +35,9 @@ def create_restaurant_admin():
     db = SessionLocal()
     try:
         restaurant_admin_user = UserCreate(
-            email="ra@example.com",
-            first_name="Restaurant Admin",
-            last_name="User",
+            email="ema.djedovic1@gmail.com",
+            first_name="Ema",
+            last_name="Djedović",
             role=UserRole.RESTAURANT_ADMIN,
             password="password",
         )
@@ -86,11 +51,41 @@ def create_restaurant_admin():
         db_user.role = UserRole.RESTAURANT_ADMIN
         db.add(db_user)
         db.commit()
-        print("Restaurant admin user created successfully")
-        print(f"Enum value: {db_user.role}")
+        print("\nRestaurant admin user created successfully.")
     except Exception as e:
         print(f"An error occurred: {e}")
-        print(f"Enum value: {db_user.role}")
+    finally:
+        db.close()
+
+
+def create_customer():
+    db = SessionLocal()
+    try:
+        customer_user = UserCreate(
+            email="toocoolstretch@gmail.com",
+            first_name="Dino",
+            last_name="Musić",
+            role=UserRole.CUSTOMER,
+            password="password",
+            # Tuzla
+            latitude=44.5384,
+            longitude=18.6671,
+        )
+        hashed_password = get_password_hash(customer_user.password)
+        db_user = DBUser(
+            email=customer_user.email,
+            first_name=customer_user.first_name,
+            last_name=customer_user.last_name,
+            hashed_password=hashed_password,
+            latitude=customer_user.latitude,
+            longitude=customer_user.longitude,
+        )
+        db_user.role = UserRole.CUSTOMER
+        db.add(db_user)
+        db.commit()
+        print("\nCustomer user created successfully.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
     finally:
         db.close()
 
@@ -99,9 +94,9 @@ def create_delivery_personnel():
     db = SessionLocal()
     try:
         delivery_personnel_user = UserCreate(
-            email="dp@example.com",
-            first_name="Delivery Personnel",
-            last_name="User",
+            email="agnesounds@gmail.com",
+            first_name="Ema",
+            last_name="Djedović",
             role=UserRole.DELIVERY_PERSONNEL,
             password="password",
         )
@@ -115,10 +110,8 @@ def create_delivery_personnel():
         db_user.role = UserRole.DELIVERY_PERSONNEL
         db.add(db_user)
         db.commit()
-        print("Delivery personnel user created successfully")
-        print(f"Enum value: {db_user.role}")
+        print("\nDelivery personnel user created successfully.")
     except Exception as e:
         print(f"An error occurred: {e}")
-        print(f"Enum value: {db_user.role}")
     finally:
         db.close()

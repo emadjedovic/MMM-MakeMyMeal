@@ -3,26 +3,21 @@ import { Container, Col, Row } from "react-bootstrap";
 import RestaurantCard from "./RestaurantCard";
 import ItemsTable from "./ItemsTable";
 import {
-  handleFoodTypeSelect,
-  getItems,
-  getFoodTypes,
-} from "../handlers/restaurantHandlers";
+  handleFetchItemsByFoodType,
+  handleFetchFoodTypes,
+} from "../handlers/RestaurantPageHandlers";
 
-const Restaurant = ({ restaurantId }) => {
+const RestaurantPage = ({ restaurantId }) => {
   const [items, setItems] = useState([]);
   const [foodTypes, setFoodTypes] = useState([]);
   const [selectedFoodType, setSelectedFoodType] = useState("All");
 
-  const fetchItems = () => {
-    getItems(restaurantId, selectedFoodType, setItems);
-  };
+  useEffect(() => {
+    handleFetchItemsByFoodType(setItems, restaurantId, selectedFoodType);
+  }, [selectedFoodType, restaurantId]);
 
   useEffect(() => {
-    fetchItems();
-  }, [selectedFoodType]);
-
-  useEffect(() => {
-    getFoodTypes(setFoodTypes);
+    handleFetchFoodTypes(setFoodTypes);
   }, []);
 
   if (!restaurantId) {
@@ -36,20 +31,27 @@ const Restaurant = ({ restaurantId }) => {
           <ItemsTable
             items={items}
             foodTypes={foodTypes}
-            onFoodTypeSelect={(type_name) =>
-              handleFoodTypeSelect(type_name, setSelectedFoodType)
-            }
+            onFoodTypeSelect={(type_name) => setSelectedFoodType(type_name)}
             selectedFoodType={selectedFoodType}
             restaurantId={restaurantId}
-            refreshItems={fetchItems}
+            refreshItems={() =>
+              handleFetchItemsByFoodType(
+                setItems,
+                restaurantId,
+                selectedFoodType
+              )
+            }
           />
         </Col>
         <Col md={2} lg={3}>
-          <RestaurantCard restaurantId={restaurantId} handleRestaurantSelectParent={()=>{}}/>
+          <RestaurantCard
+            restaurantId={restaurantId}
+            handleRestaurantSelectParent={() => {}}
+          />
         </Col>
       </Row>
     </Container>
   );
 };
 
-export default Restaurant;
+export default RestaurantPage;

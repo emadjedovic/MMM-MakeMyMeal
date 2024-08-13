@@ -3,24 +3,24 @@ import { UserContext } from "../UserContext";
 import { Container, Tab, Nav, Row, Col } from "react-bootstrap";
 import "../css/App.css";
 
-import CustomerRestaurantsTable from "../components/onlyCustomer/CustomerRestaurantsTable";
-import RecommendedRestaurants from "../components/onlyCustomer/RecommendedRestaurants";
+import CustomerRestaurantsTable from "../components/customer/CustomerRestaurantsTable";
+import RecommendedRestaurants from "../components/customer/RecommendedRestaurants";
 import PromotionsTable from "../components/PromotionsTable";
-import RecommendedItems from "../components/onlyCustomer/RecommendedItems";
-import Restaurant from "../components/Restaurant";
+import RecommendedItems from "../components/customer/RecommendedItems";
+import RestaurantPage from "../components/RestaurantPage";
+import OrdersTable from "../components/OrdersTable";
 
 import {
-  fetchRestaurantsByType,
-  handleTypeSelect,
-  fetchPromotionData,
-  fetchRecommended,
-  fetchTypes,
-  handleRestaurantSelectParent,
-  handlePopState,
-} from "../handlers/customerHandlers";
+  handleFetchPromotionData,
+  handleFetchRecommended,
+  handleFetchRestaurantTypes,
+  handleFetchNearbyRestaurants,
+  handleFetchOrdersHistory,
+} from "../handlers/CustomerPageHandlers";
 
 const CustomerPage = () => {
-  const { token } = useContext(UserContext);
+  const { token, user } = useContext(UserContext);
+  const userId = user.id;
   const [nearbyRestaurants, setNearbyRestaurants] = useState([]);
   const [restaurantTypes, setRestaurantTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("All");
@@ -29,39 +29,46 @@ const CustomerPage = () => {
   const [promotedItems, setPromotedItems] = useState([]);
   const [promotions, setPromotions] = useState([]);
   const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
+  const [ordersCustomerHistory, setOrdersCustomerHistory] = useState([]);
+
+  useEffect(() => {
+    handleFetchOrdersHistory(token, userId, setOrdersCustomerHistory);
+  }, [token, userId]);
 
   useEffect(() => {
     if (token) {
-      fetchRestaurantsByType(token, selectedType, setNearbyRestaurants);
+      handleFetchNearbyRestaurants(token, selectedType, setNearbyRestaurants);
     }
   }, [selectedType, token]);
 
   useEffect(() => {
     if (token) {
-      fetchRecommended(token, setRecommendedRestaurants, setRecommendedItems);
+      handleFetchRecommended(
+        token,
+        setRecommendedRestaurants,
+        setRecommendedItems
+      );
     }
   }, [token]);
 
   useEffect(() => {
     if (token) {
-      fetchTypes(token, setRestaurantTypes);
+      handleFetchRestaurantTypes(token, setRestaurantTypes);
     }
   }, [token]);
 
   useEffect(() => {
     if (token) {
-      fetchPromotionData(token, setPromotedItems, setPromotions);
+      handleFetchPromotionData(token, setPromotedItems, setPromotions);
     }
   }, [token]);
 
   useEffect(() => {
-    window.addEventListener("popstate", () =>
-      handlePopState(setSelectedRestaurantId)
-    );
+    window.addEventListener("popstate", () => setSelectedRestaurantId(null));
 
     return () => {
       window.removeEventListener("popstate", () =>
-        handlePopState(setSelectedRestaurantId)
+        setSelectedRestaurantId(null)
       );
     };
   }, []);
@@ -72,7 +79,7 @@ const CustomerPage = () => {
         <Nav
           variant="underline"
           className="mb-3"
-          onClick={() => handlePopState(setSelectedRestaurantId)}
+          onClick={() => setSelectedRestaurantId(null)}
         >
           <Nav.Item>
             <Nav.Link eventKey="nearby-restaurants">Restaurants</Nav.Link>
@@ -80,26 +87,24 @@ const CustomerPage = () => {
           <Nav.Item>
             <Nav.Link eventKey="promotions-table">Promotions</Nav.Link>
           </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="orders-table">Orders</Nav.Link>
+          </Nav.Item>
         </Nav>
 
         <Tab.Content>
           <Tab.Pane eventKey="nearby-restaurants">
             {selectedRestaurantId ? (
-              <Restaurant restaurantId={selectedRestaurantId} />
+              <RestaurantPage restaurantId={selectedRestaurantId} />
             ) : (
               <>
                 <CustomerRestaurantsTable
                   nearbyRestaurants={nearbyRestaurants}
                   restaurantTypes={restaurantTypes}
-                  onTypeSelect={(type) =>
-                    handleTypeSelect(type, setSelectedType)
-                  }
+                  onTypeSelect={(type) => setSelectedType(type)}
                   selectedType={selectedType}
                   handleRestaurantSelectParent={(restaurantId) =>
-                    handleRestaurantSelectParent(
-                      restaurantId,
-                      setSelectedRestaurantId
-                    )
+                    setSelectedRestaurantId(restaurantId)
                   }
                 />
                 <Row>
@@ -107,10 +112,7 @@ const CustomerPage = () => {
                     <RecommendedItems
                       recommended={recommendedItems}
                       handleRestaurantSelectParent={(restaurantId) =>
-                        handleRestaurantSelectParent(
-                          restaurantId,
-                          setSelectedRestaurantId
-                        )
+                        setSelectedRestaurantId(restaurantId)
                       }
                     />
                   </Col>
@@ -118,10 +120,7 @@ const CustomerPage = () => {
                     <RecommendedRestaurants
                       recommended={recommendedRestaurants}
                       handleRestaurantSelectParent={(restaurantId) =>
-                        handleRestaurantSelectParent(
-                          restaurantId,
-                          setSelectedRestaurantId
-                        )
+                        setSelectedRestaurantId(restaurantId)
                       }
                     />
                   </Col>
@@ -132,20 +131,41 @@ const CustomerPage = () => {
 
           <Tab.Pane eventKey="promotions-table">
             {selectedRestaurantId ? (
-              <Restaurant restaurantId={selectedRestaurantId} />
+              <RestaurantPage restaurantId={selectedRestaurantId} />
             ) : (
               <>
                 <PromotionsTable
                   items={promotedItems}
                   promotions={promotions}
                   handleRestaurantSelectParent={(restaurantId) =>
-                    handleRestaurantSelectParent(
-                      restaurantId,
-                      setSelectedRestaurantId
-                    )
+                    setSelectedRestaurantId(restaurantId)
                   }
                 />
               </>
+            )}
+          </Tab.Pane>
+
+          <Tab.Pane eventKey="orders-table">
+            {selectedRestaurantId ? (
+              <RestaurantPage restaurantId={selectedRestaurantId} />
+            ) : (
+              <Row>
+                <Col>
+                  <OrdersTable
+                    orders={ordersCustomerHistory}
+                    handleOrderSelectParent={() => {}}
+                    handleRestaurantSelectParent={(restaurantId) =>
+                      setSelectedRestaurantId(restaurantId)
+                    }
+                    refreshOrdersParent={() =>
+                      handleFetchOrdersHistory(
+                        token,
+                        userId,
+                        setOrdersCustomerHistory
+                      )}
+                  />
+                </Col>
+              </Row>
             )}
           </Tab.Pane>
         </Tab.Content>

@@ -28,6 +28,7 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        console.log("Calling axios to fetch user.")
         const response = await axios.get("http://localhost:8000/api/users/me", {
           headers: {
             "Content-Type": "application/json",
@@ -36,11 +37,12 @@ const UserProvider = ({ children }) => {
         });
         setUser(response.data);
         setUserRole(response.data.role);
+        console.log("User set.")
         if (location.pathname === "/login") {
           navigate("/home");
         }
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error fetching user data from UserContext.js (or user logged out).");
         handleLogout();
       }
     };

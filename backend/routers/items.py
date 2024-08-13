@@ -71,7 +71,8 @@ def read_recommended_items(db: Session = Depends(get_db)):
 # customers
 @router.get("/recommended_nearby", response_model=List[Item])
 def get_recommended_items_within_radius(
-    db: Session = Depends(get_db), customer: User = Depends(get_customer_user)
+    db: Session = Depends(get_db),
+    customer: User = Depends(get_customer_user)
 ):
     items = crud_get_recommended_items_within_radius(db=db, user=customer)
     return items
@@ -89,7 +90,7 @@ def read_promoted_items(db: Session = Depends(get_db)):
 def create_item(
     item: ItemCreate,
     db: Session = Depends(get_db),
-    restaurant_admin: User = Depends(get_restaurant_admin_user),
+    #restaurant_admin: User = Depends(get_restaurant_admin_user),
 ):
     return crud_create_item(db, item)
 
@@ -100,7 +101,7 @@ def update_item(
     item_id: int,
     item_update: ItemUpdate,
     db: Session = Depends(get_db),
-    restaurant_admin: User = Depends(get_restaurant_admin_user),
+    #restaurant_admin: User = Depends(get_restaurant_admin_user),
 ):
     db_item = crud_get_item_by_id(db, item_id)
     if not db_item:
@@ -113,7 +114,7 @@ def update_item(
 def delete_item(
     item_id: int,
     db: Session = Depends(get_db),
-    restaurant_admin: User = Depends(get_restaurant_admin_user),
+    #restaurant_admin: User = Depends(get_restaurant_admin_user),
 ):
     db_item = crud_get_item_by_id(db, item_id)
     if not db_item:
@@ -126,6 +127,6 @@ def delete_item(
 def toggle_recommend_item(
     id: int,
     db: Session = Depends(get_db),
-    admins: User = Depends(get_admin_or_restaurant_admin),
+    #admins: User = Depends(get_admin_or_restaurant_admin),
 ):
     return crud_toggle_recommend_item(db=db, id=id)

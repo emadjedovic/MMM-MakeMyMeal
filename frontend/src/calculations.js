@@ -36,3 +36,8 @@ export const formatDiscount = (discount) => {
 export const PercentageToFraction = (percentage) => {
   return (percentage / 100).toFixed(2);
 };
+
+export const formatCreatedAt = (dateString) => {
+  const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+};

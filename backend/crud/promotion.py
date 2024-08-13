@@ -1,3 +1,4 @@
+# crud/promotion.py
 from sqlalchemy.orm import Session
 from models.promotion import DBPromotion
 from schemas.promotion import PromotionCreate, PromotionUpdate
@@ -15,9 +16,10 @@ def crud_get_all_promotions(db: Session):
 
 
 def crud_create_promotion(db: Session, promotion: PromotionCreate):
-
     # Check if a promotion already exists for the given item_id
-    existing_promotion = db.query(DBPromotion).filter(DBPromotion.item_id == promotion.item_id).first()
+    existing_promotion = (
+        db.query(DBPromotion).filter(DBPromotion.item_id == promotion.item_id).first()
+    )
 
     if existing_promotion:
         # If a promotion already exists, update it instead
@@ -26,10 +28,10 @@ def crud_create_promotion(db: Session, promotion: PromotionCreate):
             promotion_id=existing_promotion.id,
             promotion_update=PromotionUpdate(
                 discount_fraction=promotion.discount_fraction,
-                end_date=promotion.end_date
-            )
+                end_date=promotion.end_date,
+            ),
         )
-    
+
     db_promotion = DBPromotion(
         discount_fraction=promotion.discount_fraction,
         start_date=date.today(),  # Automatically set to current time
@@ -75,7 +77,7 @@ def crud_update_promotion(
             # Call crud_delete_promotion to delete the promotion
             crud_delete_promotion(db, promotion_id)
             return db_promotion
-        
+
         crud_change_price(
             db=db, id=db_item.id, old_discount=old_discount, new_discount=new_discount
         )

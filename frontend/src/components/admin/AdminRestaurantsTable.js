@@ -48,9 +48,6 @@ const AdminRestaurantsTable = ({
     indexOfLastRestaurant
   );
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
 
   const handleSearchNameChange = (e) => {
     setSearchName(e.target.value);
@@ -62,13 +59,7 @@ const AdminRestaurantsTable = ({
     setCurrentPage(1);
   };
 
-  const handleArchivedChange = (e) => {
-    setShowArchived(e.target.checked);
-  };
 
-  const handleNotArchivedChange = (e) => {
-    setShowNotArchived(e.target.checked);
-  };
 
   const totalPages = Math.ceil(filteredRestaurants.length / itemsPerPage);
   const paginationItems = [];
@@ -77,7 +68,8 @@ const AdminRestaurantsTable = ({
       <Pagination.Item
         key={number}
         active={number === currentPage}
-        onClick={() => handlePageChange(number)}
+        onClick={(pageNumber) => 
+          setCurrentPage(pageNumber)}
       >
         {number}
       </Pagination.Item>
@@ -117,13 +109,15 @@ const AdminRestaurantsTable = ({
                 type="checkbox"
                 label="Archived"
                 checked={showArchived}
-                onChange={handleArchivedChange}
+                onChange={(e) => 
+                  setShowArchived(e.target.checked)}
               />
               <Form.Check
                 type="checkbox"
                 label="Not Archived"
                 checked={showNotArchived}
-                onChange={handleNotArchivedChange}
+                onChange={(e) => 
+                  setShowNotArchived(e.target.checked)}
               />
             </Form.Group>
           </Col>

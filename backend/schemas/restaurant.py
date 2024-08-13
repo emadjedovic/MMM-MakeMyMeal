@@ -1,5 +1,10 @@
+# schemas/restaurant.py
+
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
+from schemas.item import Item
+from schemas.order import Order
+
 
 class RestaurantBase(BaseModel):
     name: str
@@ -13,6 +18,7 @@ class RestaurantBase(BaseModel):
     is_recommended: bool
     imageUrl: str
 
+
 class RestaurantCreate(BaseModel):
     name: str
     latitude: float
@@ -20,11 +26,12 @@ class RestaurantCreate(BaseModel):
     street_name: str
     city: str
     star_rating: Optional[int] = Field(0, ge=0, le=5)
-    type_name: Optional[str] = 'Other'
+    type_name: Optional[str] = "Other"
     radius_of_delivery_km: Optional[float] = Field(0, ge=0)
     is_recommended: Optional[bool] = False
     owner_id: int
     imageUrl: Optional[str] = "restaurant-images/restDefault.png"
+
 
 class RestaurantUpdate(BaseModel):
     name: Optional[str] = None
@@ -39,10 +46,13 @@ class RestaurantUpdate(BaseModel):
     imageUrl: Optional[str] = None
     is_recommended: Optional[bool] = None
 
+
 class Restaurant(RestaurantBase):
     id: int
     owner_id: int
     is_archived: bool
+    items: List[Item] = []
+    orders: List[Order] = []  # Added relationship
 
     class Config:
         from_attributes = True

@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Card, ListGroup, Container } from "react-bootstrap";
 import { UserContext } from "../UserContext";
-import { calculateDistance } from "../services/calculations";
-import { getRestaurantById } from "../handlers/restaurantHandlers";
+import { calculateDistance } from "../calculations";
+import { handleFetchRestaurantById } from "../handlers/RestaurantPageHandlers";
 
 function RestaurantCard({ restaurantId, handleRestaurantSelectParent }) {
   const { user, userRole } = useContext(UserContext);
   const [restaurant, setRestaurant] = useState("");
 
   useEffect(() => {
-    getRestaurantById(restaurantId, setRestaurant);
-  }, []);
+    handleFetchRestaurantById(restaurantId, setRestaurant);
+  }, [restaurantId]);
 
   return (
     <Container className="my-2">

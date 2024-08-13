@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
-import { Alert, Button, Container, Card } from "react-bootstrap";
+import { Alert, Button, Card } from "react-bootstrap";
 import axios from "axios";
 import "../css/App.css";
 

@@ -2,7 +2,7 @@
 import React, { useState, useContext } from "react";
 import { Form, Button, Row, Col, Alert, Card } from "react-bootstrap";
 import { UserContext } from "../../UserContext";
-import { createAdmin } from "../../services/api";
+import { createAdmin } from "../../api/usersApi";
 
 const CreateRestaurantAdminForm = () => {
   const { token } = useContext(UserContext);
