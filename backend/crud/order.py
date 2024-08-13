@@ -29,7 +29,7 @@ def crud_get_order_by_id(db: Session, id: int) -> DBOrder:
     db_order = db.query(DBOrder).filter(DBOrder.id == id).first()
     return db_order
 
-
+local_tz = timezone(timedelta(hours=2))
 def crud_create_order(db: Session, order: OrderCreate, customer_id: int):
     db_order = DBOrder(
         customer_id=customer_id,
@@ -37,7 +37,7 @@ def crud_create_order(db: Session, order: OrderCreate, customer_id: int):
         status=OrderStatus.UNASSIGNED,
         payment_method=order.payment_method,
         preferred_arrival_time=order.preferred_arrival_time,
-        created_at=datetime.now(timezone.utc)
+        created_at=datetime.now(local_tz)
     )
     
     if not db_order.preferred_arrival_time or db_order.preferred_arrival_time < db_order.created_at:

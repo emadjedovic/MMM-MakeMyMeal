@@ -1,16 +1,19 @@
 // src/components/ItemCard.js
 import React, { useState, useEffect, useContext } from "react";
-import { Card, ListGroup, Button, Container } from "react-bootstrap";
+import { Card, ListGroup, Button, Container, Form } from "react-bootstrap";
 import { UserContext } from "../UserContext";
 import AddPromotionModal from "./restaurantadmin/AddPromotionModal";
 import Restaurant from "./RestaurantPage";
 import { handleFetchRestaurantName } from "../handlers/RestaurantPageHandlers";
 
-function ItemCard({ item, isInRestaurant, refreshItems }) {
+function ItemCard({ item, isInRestaurant, refreshItems, addItemToOrder }) {
   const { userRole } = useContext(UserContext);
   const [restaurantName, setRestaurantName] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [selected, setSelected] = useState(false);
+
+  // new
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     handleFetchRestaurantName(item.restaurant_id, setRestaurantName);
@@ -60,6 +63,25 @@ function ItemCard({ item, isInRestaurant, refreshItems }) {
                   )}
                 </ListGroup.Item>
               </ListGroup>
+              {userRole === "CUSTOMER" && (
+                <>
+                  <Form.Group>
+                    <Form.Label>Quantity</Form.Label>
+                    <Form.Control
+                      type="number"
+                      min="1"
+                      value={quantity}
+                      onChange={(e) => setQuantity(parseInt(e.target.value))}
+                    />
+                  </Form.Group>
+                  <Button
+                    variant="primary"
+                    onClick={() => addItemToOrder(item.id, quantity)}
+                  >
+                    Add to Order
+                  </Button>
+                </>
+              )}
               {userRole === "RESTAURANT ADMIN" && (
                 <Button
                   variant="outline-dark"

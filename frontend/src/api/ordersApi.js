@@ -3,12 +3,15 @@ const API_URL = "http://localhost:8000/api";
 
 export const fetchOrdersCustomerHistory = async (token, customer_id) => {
   try {
-    const response = await axios.get(`${API_URL}/orders/history/${customer_id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      `${API_URL}/orders/history/${customer_id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error in fetchOrdersCustomerHistory.");
@@ -19,14 +22,14 @@ export const fetchOrdersCustomerHistory = async (token, customer_id) => {
 export const fetchOrdersOwner = async (token, owner_id) => {
   try {
     console.log("token: ", token);
-    console.log("owner_id: ", owner_id)
+    console.log("owner_id: ", owner_id);
     const response = await axios.get(`${API_URL}/orders/owner/${owner_id}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("response.data: ", response.data)
+    console.log("response.data: ", response.data);
     return response.data;
   } catch (error) {
     console.error("Error in fetchOrdersOwner.", error);
@@ -36,12 +39,15 @@ export const fetchOrdersOwner = async (token, owner_id) => {
 
 export const fetchDeliveriesToday = async (token, delivery_id) => {
   try {
-    const response = await axios.get(`${API_URL}/orders/assigned/${delivery_id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      `${API_URL}/orders/assigned/${delivery_id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error in fetchDeliveriesToday.");
@@ -77,7 +83,9 @@ export const fetchOrderById = async (id, token) => {
 export const updateOrderStatus = async (token, order_id, newStatus) => {
   try {
     await axios.put(
-      `${API_URL}/orders/status/${order_id}/${newStatus}`, {},{},
+      `${API_URL}/orders/status/${order_id}/${newStatus}`,
+      {},
+      {},
       {
         headers: {
           "Content-Type": "application/json",
@@ -85,18 +93,31 @@ export const updateOrderStatus = async (token, order_id, newStatus) => {
         },
       }
     );
-
   } catch (error) {
-    console.error("Error in updateOrderStatus.", error)
+    console.error("Error in updateOrderStatus.", error);
     throw error;
   }
-}
+};
 
 export const assignOrder = async (token, orderId, deliveryId) => {
   try {
-    await axios.put(
-      `${API_URL}/orders/assign/${orderId}/${deliveryId}`,
-      null,
+    await axios.put(`${API_URL}/orders/assign/${orderId}/${deliveryId}`, null, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.error("Error in assignOrder.", error);
+    throw error;
+  }
+};
+
+export const placeOrder = async (token, customer_id, orderData) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/orders/new/${customer_id}`,
+      orderData,
       {
         headers: {
           "Content-Type": "application/json",
@@ -104,8 +125,9 @@ export const assignOrder = async (token, orderId, deliveryId) => {
         },
       }
     );
+    return response.data;
   } catch (error) {
-    console.error("Error in assignOrder.", error);
+    console.error("Error in placeOrder.");
     throw error;
   }
 };

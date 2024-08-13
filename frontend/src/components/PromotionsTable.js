@@ -42,8 +42,7 @@ const PromotionsTable = ({
       <Pagination.Item
         key={number}
         active={number === currentPage}
-        onClick={(pageNumber) => 
-          setCurrentPage(pageNumber)}
+        onClick={(pageNumber) => setCurrentPage(pageNumber)}
       >
         {number}
       </Pagination.Item>

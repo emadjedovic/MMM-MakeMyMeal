@@ -5,6 +5,8 @@ import ItemCard from "./ItemCard.js";
 import ItemTypesList from "./ItemTypesList.js";
 import { UserContext } from "../UserContext.js";
 import AddItemModal from "./restaurantadmin/AddItemModal.js";
+import { placeOrder } from "../api/ordersApi.js";
+import PlaceOrderModal from "./customer/PlaceOrderModal.js";
 
 const ItemsTable = ({
   items,
@@ -18,8 +20,8 @@ const ItemsTable = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [showOnPromotion, setShowOnPromotion] = useState(false);
-  const { userRole, token } = useContext(UserContext);
-  const [showModal, setShowModal] = useState(false);
+  const { userRole, token, user } = useContext(UserContext);
+  const [showModal, setShowModal] = useState(false); // for restaurant admins adding items
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -40,8 +42,7 @@ const ItemsTable = ({
       <Pagination.Item
         key={number}
         active={number === currentPage}
-        onClick={(pageNumber) => 
-          setCurrentPage(pageNumber)}
+        onClick={(pageNumber) => setCurrentPage(pageNumber)}
       >
         {number}
       </Pagination.Item>
@@ -53,6 +54,28 @@ const ItemsTable = ({
     setCurrentPage(1);
   };
 
+  // new for orders
+
+  const [orderItems, setOrderItems] = useState([]);
+  const [showPlaceOrderModal, setShowPlaceOrderModal] = useState(false); // for customers
+
+  const addItemToOrder = (itemId, quantity) => {
+    setOrderItems((prevItems) => [...prevItems, { itemId, quantity }]);
+    console.log(`Item with ID ${itemId} added to order in quantity ${quantity}.`)
+  };
+
+  const handlePlaceOrder = async (orderData) => {
+    try {
+      await placeOrder(token, user.id, {
+        ...orderData,
+        restaurant_id: restaurantId,
+      });
+      console.log("Order placed successfully.");
+    } catch (error) {
+      console.error("Error in handlePlaceOrder (ItemsTable.js).");
+    }
+  };
+
   return (
     <Container className="my-4">
       <Row>
@@ -61,6 +84,19 @@ const ItemsTable = ({
             foodTypes={foodTypes}
             selectedFoodType={selectedFoodType}
             handleFoodTypeSelect={onFoodTypeSelect}
+          />
+
+          <Button
+            variant="success"
+            onClick={() => setShowPlaceOrderModal(true)}
+          >
+            Review Order
+          </Button>
+          <PlaceOrderModal
+            show={showPlaceOrderModal}
+            handleClose={() => setShowPlaceOrderModal(false)}
+            handlePlaceOrder={handlePlaceOrder}
+            orderItems={orderItems}
           />
         </Col>
         <Col md={8} lg={9} xl={9} xxl={9}>
@@ -79,8 +115,7 @@ const ItemsTable = ({
                 type="checkbox"
                 label="On Discount"
                 checked={showOnPromotion}
-                onChange={() => 
-                  setShowOnPromotion(!showOnPromotion)}
+                onChange={() => setShowOnPromotion(!showOnPromotion)}
               />
             </Col>
             {userRole === "RESTAURANT ADMIN" && (
@@ -102,6 +137,7 @@ const ItemsTable = ({
                   item={item}
                   isInRestaurant={true}
                   refreshItems={refreshItems}
+                  addItemToOrder={addItemToOrder}
                 />
               </Col>
             ))}
