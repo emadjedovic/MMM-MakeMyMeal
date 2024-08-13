@@ -6,7 +6,7 @@ import "../css/App.css";
 import CreatePersonnelForm from "../components/restaurantadmin/CreatePersonnelForm";
 import RAdminRestaurantsTable from "../components/restaurantadmin/RAdminRestaurantsTable";
 import RestaurantPage from "../components/RestaurantPage";
-import OrdersTable from "../components/OrdersTable";
+import RAdminOrdersTable from "../components/restaurantadmin/RAdminOrdersTable";
 import OrderModal from "../components/OrderModal";
 
 import {
@@ -145,7 +145,7 @@ const RestaurantAdminPage = () => {
                 <>
                 <Row>
                 <Col>
-                  <OrdersTable
+                  <RAdminOrdersTable
                     orders={ordersOwner}
                     handleOrderSelectParent={(orderId) =>
                       handleShowOrderModal(orderId)
@@ -153,6 +153,8 @@ const RestaurantAdminPage = () => {
                     handleRestaurantSelectParent={(restaurantId) =>
                       setSelectedRestaurantId(restaurantId)
                     }
+                    refreshOrdersParent={() =>
+                      handleFetchOrdersOwner(token, userId, setOrdersOwner)}
                   />
                 </Col>
               </Row>

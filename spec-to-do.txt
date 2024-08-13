@@ -4,7 +4,7 @@
 
 2. ADMINISTRATOR RESTORANA
 
-- prati narudžbe i rad dostavljača (mogućnost odobravanja narudžbi i dodjele narudžbi dostavljačima)
+(DONE)
 
 3. KUPAC
 

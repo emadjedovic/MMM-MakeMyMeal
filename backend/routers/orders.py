@@ -82,7 +82,7 @@ def get_assigned_orders(
 
 
 # Restaurant Admin - Assign order to delivery personnel
-@router.put("/assign/{order_id}", response_model=Order)
+@router.put("/assign/{order_id}/{delivery_id}", response_model=Order)
 def assign_order(
     order_id: int,
     delivery_id: int,

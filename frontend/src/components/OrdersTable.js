@@ -6,7 +6,8 @@ import {
   Pagination,
   Row,
   Col,
-  Form
+  Form,
+  Modal,
 } from "react-bootstrap";
 import { formatCreatedAt } from "../calculations";
 import { handleFetchRestaurantNamesFromOrders } from "../handlers/RestaurantPageHandlers";
@@ -17,29 +18,56 @@ const OrdersTable = ({
   orders,
   handleOrderSelectParent,
   handleRestaurantSelectParent,
-  refreshOrdersParent
+  refreshOrdersParent,
 }) => {
-  
   const { user, userRole } = useContext(UserContext);
-  const [editingStatus, setEditingStatus] = useState({}); // Track the selected status for each order
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-  const handleStatusChange = (orderId, newStatus) => {
-    setEditingStatus((prev) => ({
-      ...prev,
-      [orderId]: newStatus,
-    }));
+  // delivery personnel status update
+  const [newStatus, setNewStatus] = useState("");
+  const [statusModal, setStatusModal] = useState(false);
+  const [currentStatus, setCurrentStatus] = useState("");
+
+
+  const handleOpenStatusModal = (orderId, status) => {
+    setSelectedOrderId(orderId);
+    setCurrentStatus(status); // Set the current status of the selected order
+    setNewStatus(status); // Set the new status to the current status initially
+    setStatusModal(true);
   };
 
-  const handleSaveStatus = (orderId) => {
-    const newStatus = editingStatus[orderId];
-    handleUpdateOrderStatus(user.token, orderId, newStatus)
-      .then(() => {
-        // Notify the parent to refresh the orders
-        refreshOrdersParent();
-      })
-      .catch((error) => {
-        console.error("Failed to update status:", error);
-      });
+  const handleStatusChange = async (status) => {
+    try {
+      await handleUpdateOrderStatus(user.token, selectedOrderId, status);
+      console.log(`Order ${selectedOrderId} status updated to ${status}`);
+      setStatusModal(false);
+      refreshOrdersParent(); // Refresh the orders after updating the status
+    } catch (error) {
+      console.error("Error updating order status:", error);
+    }
+  };
+
+  // Determine the available status options based on the current status
+  const getStatusOptions = () => {
+    switch (currentStatus) {
+      case "IN PROGRESS":
+        return (
+          <>
+            <option value="">Choose...</option>
+            <option value="COMPLETED">COMPLETED</option>
+            <option value="CANCELLED">CANCELLED</option>
+          </>
+        );
+      default:
+        return (
+          <>
+            <option value="">Choose...</option>
+            <option value="IN_PROGRESS">IN PROGRESS</option>
+            <option value="COMPLETED">COMPLETED</option>
+            <option value="CANCELLED">CANCELLED</option>
+          </>
+        );
+    }
   };
 
   const itemsPerPage = 10;
@@ -48,7 +76,6 @@ const OrdersTable = ({
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
 
   const currentItems = orders.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(orders.length / itemsPerPage);
@@ -66,7 +93,11 @@ const OrdersTable = ({
   }
 
   useEffect(() => {
-    handleFetchRestaurantNamesFromOrders(orders, setRestaurantNames, restaurantNames);
+    handleFetchRestaurantNamesFromOrders(
+      orders,
+      setRestaurantNames,
+      restaurantNames
+    );
   }, [orders]);
 
   return (
@@ -82,22 +113,22 @@ const OrdersTable = ({
                 <th>Payment Method</th>
                 <th>Total Price</th>
                 <th>Created At</th>
-                {userRole === "DELIVERY PERSONNEL" && <th>Actions</th>} {/* New column for Save button, only for delivery personnel */}
+                {userRole === "DELIVERY PERSONNEL" && <th>Actions</th>}
               </tr>
             </thead>
             <tbody>
-            {currentItems.map((order) => {
-                const isStatusChanged = editingStatus[order.id] && editingStatus[order.id] !== order.status;
+              {currentItems.map((order) => {
+
                 return (
                   <tr key={order.id}>
-                    <td><Button
+                    <td>
+                      <Button
                         variant="link"
-                        onClick={() =>
-                          handleOrderSelectParent(order.id)
-                        }
+                        onClick={() => handleOrderSelectParent(order.id)}
                       >
                         #{order.id}
-                      </Button></td>
+                      </Button>
+                    </td>
                     <td>
                       <Button
                         variant="link"
@@ -109,20 +140,7 @@ const OrdersTable = ({
                       </Button>
                     </td>
                     <td>
-                      {userRole === "DELIVERY PERSONNEL" ? (
-                        <Form.Control
-                          as="select"
-                          value={editingStatus[order.id] || order.status}
-                          onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                        >
-                          <option value="ASSIGNED">ASSIGNED</option>
-                          <option value="IN_PROGRESS">IN PROGRESS</option>
-                          <option value="COMPLETED">COMPLETED</option>
-                          <option value="CANCELLED">CANCELLED</option>
-                        </Form.Control>
-                      ) : (
                         order.status
-                      )}
                     </td>
                     <td>{order.payment_method}</td>
                     <td>€{order.total_price}</td>
@@ -131,10 +149,11 @@ const OrdersTable = ({
                       <td>
                         <Button
                           variant="primary"
-                          onClick={() => handleSaveStatus(order.id)}
-                          disabled={!isStatusChanged} // Disable if status is unchanged
+                          onClick={() =>
+                            handleOpenStatusModal(order.id, order.status)
+                          }
                         >
-                          Save
+                          Change Status
                         </Button>
                       </td>
                     )}
@@ -146,6 +165,39 @@ const OrdersTable = ({
           <Pagination>{paginationItems}</Pagination>
         </Col>
       </Row>
+
+      {/* Status Change Modal */}
+      <Modal show={statusModal} onHide={() => setStatusModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Change Order Status</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="formStatus">
+              <Form.Label>Select New Status</Form.Label>
+              <Form.Control
+                as="select"
+                value={newStatus}
+                onChange={(e) => setNewStatus(e.target.value)}
+              >
+                {getStatusOptions()}
+              </Form.Control>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setStatusModal(false)}>
+            Close
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => handleStatusChange(newStatus)}
+            disabled={newStatus === currentStatus || newStatus === ""}
+          >
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };

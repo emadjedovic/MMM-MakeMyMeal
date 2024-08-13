@@ -29,8 +29,6 @@ const CustomerPage = () => {
   const [promotedItems, setPromotedItems] = useState([]);
   const [promotions, setPromotions] = useState([]);
   const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
-
-  const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [ordersCustomerHistory, setOrdersCustomerHistory] = useState([]);
 
   useEffect(() => {
@@ -159,6 +157,12 @@ const CustomerPage = () => {
                     handleRestaurantSelectParent={(restaurantId) =>
                       setSelectedRestaurantId(restaurantId)
                     }
+                    refreshOrdersParent={() =>
+                      handleFetchOrdersHistory(
+                        token,
+                        userId,
+                        setOrdersCustomerHistory
+                      )}
                   />
                 </Col>
               </Row>

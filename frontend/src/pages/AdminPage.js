@@ -244,6 +244,11 @@ const AdminPage = () => {
                     handleRestaurantSelectParent={(restaurantId) =>
                       setSelectedRestaurantId(restaurantId)
                     }
+                    refreshOrdersParent={() =>
+                      handleFetchOrdersAll(
+                        token,
+                        setOrdersAll
+                      )}
                   />
                 </Col>
               </Row>
@@ -257,6 +262,7 @@ const AdminPage = () => {
                       orderId={selectedOrderId}
                       showModal={showOrderModal}
                       handleClose={handleCloseOrderModal}
+                      
                     />
                   </Modal.Body>
                   <Modal.Footer>
