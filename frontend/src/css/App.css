@@ -27,7 +27,7 @@ body {
 
 .App-content {
   flex: 1;
-  padding: 4rem; /* Adjust margin to create spacing around content */
+  padding: 1rem; /* Adjust margin to create spacing around content */
   padding-left: 10rem; /* Adjust to the width of the sidebar */
 }
 
@@ -38,7 +38,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p {
-  margin: 0 0 1.25rem 0; /* Increase margin below paragraphs */
+  margin: 0;
 }
 
 

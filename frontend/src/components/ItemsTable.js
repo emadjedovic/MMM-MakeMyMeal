@@ -59,9 +59,21 @@ const ItemsTable = ({
   const [orderItems, setOrderItems] = useState([]);
   const [showPlaceOrderModal, setShowPlaceOrderModal] = useState(false); // for customers
 
-  const addItemToOrder = (itemId, quantity) => {
-    setOrderItems((prevItems) => [...prevItems, { itemId, quantity }]);
-    console.log(`Item with ID ${itemId} added to order in quantity ${quantity}.`)
+  const addItemToOrder = (itemId, itemName, quantity) => {
+    setOrderItems((prevItems) => [
+      ...prevItems,
+      { itemId, itemName, quantity },
+    ]);
+    console.log(
+      `Item ${itemName} with ID ${itemId} added to order in quantity ${quantity}.`
+    );
+  };
+
+  const removeItemFromOrder = (itemId) => {
+    setOrderItems((prevItems) =>
+      prevItems.filter((item) => item.itemId !== itemId)
+    );
+    console.log(`Item with ID ${itemId} removed from order.`);
   };
 
   const handlePlaceOrder = async (orderData) => {
@@ -85,19 +97,34 @@ const ItemsTable = ({
             selectedFoodType={selectedFoodType}
             handleFoodTypeSelect={onFoodTypeSelect}
           />
+          {userRole === "CUSTOMER" && (
+            <>
+              <Button
+                variant="danger"
+                onClick={() => setShowPlaceOrderModal(true)}
+                className="mt-4"
+                style={{
+                  borderColor: "#ae4d2f",
+                  fontSize: "1.5rem",
+                  padding: "0.5rem 1.5rem",
+                  borderRadius: "10rem",
+                  color: "#ffffff", // Text color for contrast
+                }}
+              >
+                ORDER
+              </Button>
 
-          <Button
-            variant="success"
-            onClick={() => setShowPlaceOrderModal(true)}
-          >
-            Review Order
-          </Button>
-          <PlaceOrderModal
-            show={showPlaceOrderModal}
-            handleClose={() => setShowPlaceOrderModal(false)}
-            handlePlaceOrder={handlePlaceOrder}
-            orderItems={orderItems}
-          />
+              <div className="m-3" style={{ fontSize: "4rem" }}>
+                &#x1F6D2;
+              </div>
+              <PlaceOrderModal
+                show={showPlaceOrderModal}
+                handleClose={() => setShowPlaceOrderModal(false)}
+                handlePlaceOrder={handlePlaceOrder}
+                orderItems={orderItems}
+              />
+            </>
+          )}
         </Col>
         <Col md={8} lg={9} xl={9} xxl={9}>
           <Row>
@@ -138,6 +165,7 @@ const ItemsTable = ({
                   isInRestaurant={true}
                   refreshItems={refreshItems}
                   addItemToOrder={addItemToOrder}
+                  removeItemFromOrder={removeItemFromOrder}
                 />
               </Col>
             ))}

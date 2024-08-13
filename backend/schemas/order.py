@@ -1,13 +1,9 @@
 # schemas/order.py
 
-from pydantic import BaseModel, Field
-from typing import List, Optional, TYPE_CHECKING
+from pydantic import BaseModel
+from typing import List, Optional
 from datetime import datetime, timezone, timedelta
-from schemas.item import Item
 from models.order import OrderStatus
-
-if TYPE_CHECKING:
-    from schemas.item import Item
 
 
 class OrderBase(BaseModel):
