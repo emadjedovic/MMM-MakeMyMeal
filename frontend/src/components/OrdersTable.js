@@ -110,6 +110,7 @@ const OrdersTable = ({
                 <th>Restaurant</th>
                 <th>Status</th>
                 <th>Payment</th>
+                <th>Location</th>
                 <th>Total Price</th>
                 <th>Created At</th>
                 {userRole === "DELIVERY PERSONNEL" && <th>Actions</th>}
@@ -139,17 +140,19 @@ const OrdersTable = ({
                     </td>
                     <td>{order.status}</td>
                     <td>{order.payment_method}</td>
+                    <td>({order.latitude.toFixed(5)}, {order.longitude.toFixed(5)})</td>
                     <td>€{order.total_price}</td>
                     <td>{formatCreatedAt(order.created_at)}</td>
                     {userRole === "DELIVERY PERSONNEL" && (
                       <td>
                         <Button
-                          variant="primary"
+                          variant="success"
                           onClick={() =>
                             handleOpenStatusModal(order.id, order.status)
                           }
+                          style={{borderRadius: "5rem"}}
                         >
-                          Change Status
+                          UPDATE
                         </Button>
                       </td>
                     )}

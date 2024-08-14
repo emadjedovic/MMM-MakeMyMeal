@@ -18,7 +18,7 @@ export const calculateDistance = (
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c;
 
-  return distance.toFixed(3);
+  return distance.toFixed(5);
 };
 
 export const originalPrice = (priceOnDiscount, discount) => {
@@ -38,6 +38,6 @@ export const PercentageToFraction = (percentage) => {
 };
 
 export const formatCreatedAt = (dateString) => {
-  const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+  const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' };
   return new Date(dateString).toLocaleDateString(undefined, options);
 };

@@ -44,6 +44,7 @@ const OrderModal = ({ orderId, showModal, handleClose }) => {
       <ListGroup.Item><strong>Total Price:</strong> €{orderDetails.total_price}</ListGroup.Item>
       <ListGroup.Item><strong>Preferred Arrival Time:</strong> {formatCreatedAt(orderDetails.preferred_arrival_time)}</ListGroup.Item>
       <ListGroup.Item><strong>Created At:</strong> {formatCreatedAt(orderDetails.created_at)}</ListGroup.Item>
+      <ListGroup.Item><strong>Location: ({orderDetails.latitude.toFixed(5)}, {orderDetails.longitude.toFixed(5)})</strong></ListGroup.Item>
     </ListGroup>
   </Modal.Body>
 </Modal>

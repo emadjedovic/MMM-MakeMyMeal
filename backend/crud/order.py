@@ -8,7 +8,7 @@ from schemas.order import OrderCreate
 from datetime import datetime, timedelta, timezone
 from fastapi import HTTPException, BackgroundTasks
 from helpers.email import send_email
-from crud.user import crud_get_user_by_id
+from crud.user import crud_get_user_by_id, crud_get_customer_location
 from crud.restaurant import crud_get_restaurant_by_id
 from typing import List
 
@@ -42,6 +42,10 @@ def crud_create_order(db: Session, order: OrderCreate, customer_id: int):
     
     if not db_order.preferred_arrival_time or db_order.preferred_arrival_time < db_order.created_at:
         db_order.preferred_arrival_time = db_order.created_at
+
+    location = crud_get_customer_location(db, customer_id)
+    db_order.latitude = location["latitude"]
+    db_order.longitude = location["longitude"]
 
     db.add(db_order)
     db.commit()

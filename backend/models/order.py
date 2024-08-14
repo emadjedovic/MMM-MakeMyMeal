@@ -42,6 +42,8 @@ class DBOrder(Base):
     total_price = Column(Float, nullable=True, default=0.0)
     preferred_arrival_time = Column(DateTime, nullable=True, default=None)
     created_at = Column(DateTime, nullable=True, default=datetime.now(local_tz))
+    latitude = Column(Float, nullable=True) # from customer
+    longitude = Column(Float, nullable=True) # from customer
 
     restaurant = relationship(
         "DBRestaurant", back_populates="orders", foreign_keys=[restaurant_id]

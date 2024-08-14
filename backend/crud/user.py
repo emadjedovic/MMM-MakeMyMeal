@@ -28,6 +28,10 @@ def crud_delete_user(db: Session, id: int):
 
     return {"detail": "User deleted successfully"}
 
+def crud_get_customer_location(db: Session, id: int):
+    customer = db.query(DBUser).filter(DBUser.id == id).first()
+    return {"latitude": customer.latitude, "longitude": customer.longitude}
+
 
 def crud_get_users_by_role(db: Session, role: UserRole, skip: int = 0, limit: int = 10):
     return db.query(DBUser).filter(DBUser.role == role).offset(skip).limit(limit).all()

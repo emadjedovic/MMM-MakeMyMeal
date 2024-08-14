@@ -67,7 +67,7 @@ const PlaceOrderModal = ({ show, handleClose, handlePlaceOrder, orderItems }) =>
         <Button variant="secondary" onClick={handleClose}>
           Cancel
         </Button>
-        <Button variant="success" onClick={handleConfirmOrder}>
+        <Button variant="success" onClick={handleConfirmOrder} disabled={aggregatedItems.length===0}>
           Confirm Order
         </Button>
       </Modal.Footer>

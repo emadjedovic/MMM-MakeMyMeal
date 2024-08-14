@@ -44,11 +44,6 @@ class DBRestaurant(Base):
     items = relationship(
         "DBItem", back_populates="restaurant", foreign_keys="DBItem.restaurant_id", cascade="all, delete-orphan"
     )
-    delivery_personnel = relationship(
-        "DBUser",
-        back_populates="delivery_restaurant",
-        foreign_keys="DBUser.restaurant_id",
-    )
     orders = relationship(
         "DBOrder", back_populates="restaurant", foreign_keys="DBOrder.restaurant_id", cascade="all, delete-orphan"
     )

@@ -148,8 +148,8 @@ const AdminRestaurantsTable = ({
                     {restaurant.name}
                   </Button>
                 </td>
-                <td>{restaurant.latitude.toFixed(3)}</td>
-                <td>{restaurant.longitude.toFixed(3)}</td>
+                <td>{restaurant.latitude.toFixed(5)}</td>
+                <td>{restaurant.longitude.toFixed(5)}</td>
                 <td>{restaurant.street_name}</td>
                 <td>{restaurant.city}</td>
                 <td>{restaurant.star_rating}</td>

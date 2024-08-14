@@ -19,7 +19,7 @@ const RAdminRestaurantsTable = ({
           <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Latitude</th>
+            <th>Location</th>
             <th>Longitude</th>
             <th>Street Name</th>
             <th>City</th>
@@ -62,7 +62,7 @@ const RAdminRestaurantsTable = ({
                     onChange={handleChange}
                   />
                 ) : (
-                  restaurant.latitude.toFixed(3)
+                  restaurant.latitude.toFixed(5)
                 )}
               </td>
               <td>
@@ -76,7 +76,7 @@ const RAdminRestaurantsTable = ({
                     onChange={handleChange}
                   />
                 ) : (
-                  restaurant.longitude.toFixed(3)
+                  restaurant.longitude.toFixed(5)
                 )}
               </td>
               <td>

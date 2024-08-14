@@ -18,7 +18,6 @@ class UserCreate(UserBase):
     password: str
     latitude: Optional[float] = None  # Customer only
     longitude: Optional[float] = None  # Customer only
-    restaurant_id: Optional[int] = None  # Delivery Personnel only
 
 
 class UserLogin(BaseModel):
@@ -33,7 +32,6 @@ class User(UserBase):
     disabled: bool = False
     latitude: Optional[float] = None
     longitude: Optional[float] = None
-    restaurant_id: Optional[int] = None  # Delivery Personnel only
     assigned_orders: List[Order] = []  # Delivery Personnel only
 
     class Config:

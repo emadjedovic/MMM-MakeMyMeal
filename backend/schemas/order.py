@@ -22,6 +22,8 @@ class Order(OrderBase):
     status: OrderStatus = "UNASSIGNED" #updated later
     total_price: float = 0.0 # calculated after creation
     delivery_id: Optional[int] = None # assigned later by the restaurant admin
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
     class Config:
         from_attributes = True

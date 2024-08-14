@@ -67,7 +67,8 @@ const RAdminsOrdersTable = ({
                 <th>Order ID</th>
                 <th>Restaurant</th>
                 <th>Status</th>
-                <th>Payment Method</th>
+                <th>Payment</th>
+                <th>Location</th>
                 <th>Total Price</th>
                 <th>Created At</th>
               </tr>
@@ -109,6 +110,7 @@ const RAdminsOrdersTable = ({
                       )}
                     </td>
                     <td>{order.payment_method}</td>
+                    <td>({order.latitude.toFixed(5)}, {order.longitude.toFixed(5)})</td>
                     <td>€{order.total_price}</td>
                     <td>{formatCreatedAt(order.created_at)}</td>
                   </tr>

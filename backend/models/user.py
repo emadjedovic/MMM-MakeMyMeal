@@ -36,23 +36,20 @@ class DBUser(Base):
     disabled = Column(Boolean, default=False)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
-    restaurant_id = Column(
-        Integer, ForeignKey("restaurants.id", ondelete="SET NULL"), nullable=True
-    )  # delivery personnel
 
+    # for owners (restaurant admins)
     restaurants = relationship(
         "DBRestaurant", back_populates="owner", foreign_keys="[DBRestaurant.owner_id]"
     )
-    delivery_restaurant = relationship(
-        "DBRestaurant",
-        back_populates="delivery_personnel",
-        foreign_keys=[restaurant_id],
-    )
+
+    # for delivery personnel
     assigned_orders = relationship(
         "DBOrder",
         back_populates="delivery_personnel",
         foreign_keys="DBOrder.delivery_id",
     )
+
+    # for customers
     orders = relationship(
         "DBOrder", back_populates="customer", foreign_keys="DBOrder.customer_id"
     )

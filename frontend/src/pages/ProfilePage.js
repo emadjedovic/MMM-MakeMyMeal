@@ -70,8 +70,8 @@ function ProfilePage() {
           </Card.Text>
           {userData.latitude !== null && (
             <Card.Text>
-              <strong>ADDRESS:</strong> ({userData.latitude.toFixed(3)},{" "}
-              {userData.longitude.toFixed(3)})
+              <strong>ADDRESS:</strong> ({userData.latitude.toFixed(5)},{" "}
+              {userData.longitude.toFixed(5)})
             </Card.Text>
           )}
 

@@ -1,20 +1,10 @@
 ------------------------------------------------------------------------------------------
-PART I
-------------------------------------------------------------------------------------------
-
-DOSTAVLJAČ
-
-- radi dostavu (samo za jedan restoran)
-- mogućnost slanja informacija administratoru (isporučena/nije isporučena narudžba)
-
-------------------------------------------------------------------------------------------
 PART II
 ------------------------------------------------------------------------------------------
 
-- Chat sa glavnim administratorom ili administratorom restorana.
+- chat sa glavnim administratorom ili administratorom restorana.
 
-- Notifikacije administratoru restorana kada stigne nova narudžba ili u momentu kada
-dostavljač potvrdi isporuku.
+- Notifikacije administratoru restorana kada stigne nova narudžba i kada dostavljač promijeni status narudžbe (sa ASSIGNED na IN PROGRESS, COMPLETED ili CANCELLED)
 
 - Prikaz narudžbi za neki dan na mapi. Različitim markerima se prikazuju različiti statusi.
 
@@ -35,5 +25,14 @@ dodjelu narudžbi.
 
 - Jedan dostavljač može raditi za više restorana.
 
-- Bar 3 dodatna elementa aplikacije. Budite kreativni i originalni!
+------------------------------------------------------------------------------------------
+DODATNI ELEMENTI (barem tri)
+------------------------------------------------------------------------------------------
+
+reset passowrd
+muzika u pozadini
+dark mode toggle
+customize profile (avatars?)
+archiements/badges
+fetched location automatically
 
