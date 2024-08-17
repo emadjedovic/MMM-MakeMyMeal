@@ -1,8 +1,16 @@
 // src/components/ItemCard.js
 import React, { useState, useEffect, useContext } from "react";
-import { Card, ListGroup, Button, Container, Form } from "react-bootstrap";
+import {
+  Card,
+  ListGroup,
+  Button,
+  Container,
+  Form,
+  Row,
+  Col,
+} from "react-bootstrap";
 import { UserContext } from "../UserContext";
-import AddPromotionModal from "./restaurantadmin/AddPromotionModal";
+import AddPromotionModal from "./modals/AddPromotionModal";
 import Restaurant from "./RestaurantPage";
 import { handleFetchRestaurantName } from "../handlers/RestaurantPageHandlers";
 
@@ -18,7 +26,6 @@ function ItemCard({
   const [showModal, setShowModal] = useState(false);
   const [selected, setSelected] = useState(false);
 
-  // new
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
@@ -31,93 +38,106 @@ function ItemCard({
         <Restaurant restaurantId={item.restaurant_id} />
       ) : (
         <>
-          <Card
-            onClick={() => setSelected(true)}
-            className="hover-card"
-            style={{ width: "100%", display: "flex", flexDirection: "row" }}
-          >
-            <Card.Img
-              variant="left"
-              src={`http://localhost:8000/assets/${item.imageUrl}`}
-              alt={item.name}
-              style={{ width: "10rem", objectFit: "cover" }}
-            />
-            <Card.Body style={{ display: "flex", flexDirection: "column" }}>
-              <Card.Title>
-                <strong>{item.name}</strong>
-                {!isInRestaurant ? { restaurantName } : ""}
-              </Card.Title>
-
-              <ListGroup className="list-group-flush" style={{ flex: 1 }}>
-                <ListGroup.Item>
-                  <p>
-                    {item.food_type_name.toUpperCase()} // {item.description}
-                  </p>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <strong>PRICE:</strong>&nbsp;€{item.price}
-                  {item.is_promoted && (
-                    <span style={{ color: "red", fontSize: "0.8rem" }}>
-                      &nbsp;<strong>ON DISCOUNT!</strong>
-                      <img
-                        src="/tag-of-war.png"
-                        alt="Discount Icon"
+          <Card onClick={() => setSelected(true)} className="hover-card">
+            <Row noGutters>
+              <Col xs={12} md={4}>
+                <Card.Img
+                  src={`http://localhost:8000/assets/${item.imageUrl}`}
+                  alt={item.name}
+                  style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                />
+              </Col>
+              <Col xs={12} md={8}>
+                <Card.Body>
+                  <Row>
+                    <Col>
+                      <Card.Title>
+                        <strong>{item.name}</strong>
+                        {!isInRestaurant && ` - ${restaurantName}`}
+                      </Card.Title>
+                    </Col>
+                  </Row>
+                  <ListGroup className="list-group-flush">
+                    <ListGroup.Item>
+                      <p
                         style={{
-                          width: "20px",
-                          height: "20px",
-                          marginLeft: "5px",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
                         }}
-                      />
-                    </span>
-                  )}
-                </ListGroup.Item>
-                {userRole === "CUSTOMER" && (
-                  <ListGroup.Item>
-                    <Form.Group
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                      }}
+                      >
+                        {item.food_type_name.toUpperCase()} //{" "}
+                        {item.description}
+                      </p>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <strong>PRICE:</strong>&nbsp;€{item.price}
+                      {item.is_promoted && (
+                        <span style={{ color: "red", fontSize: "0.8rem" }}>
+                          &nbsp;<strong>ON DISCOUNT!</strong>
+                          <img
+                            src="/tag-of-war.png"
+                            alt="Discount Icon"
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              marginLeft: "5px",
+                            }}
+                          />
+                        </span>
+                      )}
+                    </ListGroup.Item>
+                    {userRole === "CUSTOMER" && (
+                      <ListGroup.Item>
+                        <Form.Group as={Row}>
+                          <Col sm={12} md={8} lg={5} xl={4}>
+                            <Form.Control
+                              type="number"
+                              min="1"
+                              value={quantity}
+                              onChange={(e) =>
+                                setQuantity(parseInt(e.target.value))
+                              }
+                              className="m-1"
+                            />
+                          </Col>
+                          <Col>
+                            <Button
+                              variant="outline-danger"
+                              onClick={() =>
+                                addItemToOrder(item.id, item.name, item.price, quantity)
+                              }
+                              className="m-1"
+                            >
+                              ADD
+                            </Button>
+                          </Col>
+                          <Col>
+                            <Button
+                              variant="outline-secondary"
+                              className="m-1"
+                              onClick={() => removeItemFromOrder(item.id)}
+                            >
+                              Cancel
+                            </Button>
+                          </Col>
+                        </Form.Group>
+                      </ListGroup.Item>
+                    )}
+                  </ListGroup>
+                  {userRole === "RESTAURANT ADMIN" && (
+                    <Button
+                      variant="outline-dark"
+                      size="sm"
+                      onClick={() => setShowModal(true)}
+                      className="mt-3"
                     >
-                      <Form.Label style={{ margin: "0" }}>Quantity:</Form.Label>
-                      <Form.Control
-                        type="number"
-                        min="1"
-                        value={quantity}
-                        onChange={(e) => setQuantity(parseInt(e.target.value))}
-                        style={{ width: "4rem" }}
-                      />
-                      <Button
-                        variant="outline-danger"
-                        onClick={() =>
-                          addItemToOrder(item.id, item.name, quantity)
-                        }
-                        style={{ marginLeft: "1rem" }}
-                      >
-                        ADD
-                      </Button>
-                      <Button
-                        variant="outline-danger"
-                        onClick={() => removeItemFromOrder(item.id)}
-                      >
-                        REMOVE
-                      </Button>
-                    </Form.Group>
-                  </ListGroup.Item>
-                )}
-              </ListGroup>
-              {userRole === "RESTAURANT ADMIN" && (
-                <Button
-                  variant="outline-dark"
-                  size="sm"
-                  onClick={() => setShowModal(true)}
-                  style={{ alignSelf: "flex-end" }}
-                >
-                  Edit Discount
-                </Button>
-              )}
-            </Card.Body>
+                      Edit Discount
+                    </Button>
+                  )}
+                </Card.Body>
+              </Col>
+            </Row>
           </Card>
 
           <AddPromotionModal

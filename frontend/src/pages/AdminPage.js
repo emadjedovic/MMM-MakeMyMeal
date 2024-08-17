@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Container, Row, Col, Tab, Nav, Alert, Modal, Button } from "react-bootstrap";
 import { UserContext } from "../UserContext";
-import AddRestaurantForm from "../components/admin/AddRestaurantForm";
-import UpdateRestaurantForm from "../components/admin/UpdateRestaurantForm";
-import AdminRestaurantsTable from "../components/admin/AdminRestaurantsTable";
-import CreateRestaurantAdminForm from "../components/admin/CreateRestaurantAdminForm";
-import LookupTables from "../components/admin/LookupTables";
-import PromotionsTable from "../components/PromotionsTable";
+import AddRestaurantForm from "../components/forms/AddRestaurantForm";
+import UpdateRestaurantForm from "../components/forms/UpdateRestaurantForm";
+import AdminRestaurantsTable from "../components/tables/AdminRestaurantsTable";
+import CreateRestaurantAdminForm from "../components/forms/CreateRestaurantAdminForm";
+import LookupTables from "../components/LookupTables";
+import PromotionsTable from "../components/tables/PromotionsTable";
 import RestaurantPage from "../components/RestaurantPage";
-import OrdersTable from "../components/OrdersTable";
-import OrderModal from "../components/OrderModal";
+import OrdersTable from "../components/tables/OrdersTable";
+import OrderModal from "../components/modals/OrderModal";
 import "../css/App.css";
 import {
   handleToggleArchiveRestaurant,

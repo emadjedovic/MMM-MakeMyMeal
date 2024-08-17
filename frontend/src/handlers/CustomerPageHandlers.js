@@ -24,9 +24,8 @@ export const handleFetchNearbyRestaurants = async (
   setNearbyRestaurants
 ) => {
   try {
-    const fetchedNearbyRestaurants = await fetchNearbyRestaurants(
-      selectedType,
-      token
+    const fetchedNearbyRestaurants = await fetchNearbyRestaurants(token, 
+      selectedType
     );
     setNearbyRestaurants(fetchedNearbyRestaurants);
   } catch (error) {

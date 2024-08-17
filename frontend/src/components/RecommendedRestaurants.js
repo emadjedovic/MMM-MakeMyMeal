@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import RestaurantCard from "../RestaurantCard";
+import RestaurantCard from "./RestaurantCard";
 
 const RecommendedRestaurants = ({
   recommended,

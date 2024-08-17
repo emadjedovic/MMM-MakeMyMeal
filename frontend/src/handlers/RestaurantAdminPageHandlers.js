@@ -23,7 +23,7 @@ export const handleFetchRestaurantsByOwner = async (
   setRestaurants
 ) => {
   try {
-    const data = await fetchRestaurantsByOwner(userId, token);
+    const data = await fetchRestaurantsByOwner(token, userId);
     setRestaurants(data);
   } catch (error) {
     console.error("Error in handleFetchRestaurantsByOwner.");
@@ -61,10 +61,10 @@ export const handleSave = async (
   setRestaurants
 ) => {
   try {
-    await updateRestaurant(id, editableData, token);
+    await updateRestaurant(token, id, editableData);
     setEditId(null);
     setEditableData({});
-    const data = await fetchRestaurantsByOwner(userId, token);
+    const data = await fetchRestaurantsByOwner(token, userId);
     setRestaurants(data);
   } catch (error) {
     console.error("Error in handleSave.");

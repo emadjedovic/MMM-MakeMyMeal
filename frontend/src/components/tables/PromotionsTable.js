@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { originalPrice, formatDiscount } from "../calculations";
+import { originalPrice, formatDiscount } from "../../calculations";
 import {
   Table,
   Button,

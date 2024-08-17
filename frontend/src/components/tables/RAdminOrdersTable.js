@@ -10,7 +10,7 @@ import {
 import { formatCreatedAt } from "../../calculations";
 import { handleFetchRestaurantNamesFromOrders } from "../../handlers/RestaurantPageHandlers";
 import { UserContext } from "../../UserContext";
-import AssignOrderModal from "./AssignOrderModal";
+import AssignOrderModal from "../modals/AssignOrderModal";
 
 const RAdminsOrdersTable = ({
   orders,

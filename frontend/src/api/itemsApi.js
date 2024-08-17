@@ -1,7 +1,7 @@
 import axios from "axios";
 const API_URL = "http://localhost:8000/api";
 
-export const createItem = async (itemData, token) => {
+export const createItem = async (token, itemData) => {
   try {
     const response = await axios.post(`${API_URL}/items/create`, itemData, {
       headers: {
@@ -44,8 +44,7 @@ export const fetchRecommendedItems = async (token) => {
 
 export const fetchItemsByFoodType = async (
   restaurant_id,
-  selectedFoodType,
-  token
+  selectedFoodType
 ) => {
   try {
     const url =

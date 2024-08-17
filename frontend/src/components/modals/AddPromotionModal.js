@@ -28,7 +28,7 @@ const AddPromotionModal = ({ show, handleClose, itemId, refreshItems }) => {
     }
 
     try {
-      await createPromotion(promotionData, token);
+      await createPromotion(token, promotionData);
       refreshItems();
       handleClose();
       clearStates();

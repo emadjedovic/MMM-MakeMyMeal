@@ -35,9 +35,8 @@ export const handleFetchRestaurantsByType = async (
   setRestaurants
 ) => {
   try {
-    const fetchedRestaurants = await fetchRestaurantsByType(
-      selectedType,
-      token
+    const fetchedRestaurants = await fetchRestaurantsByType(token,
+      selectedType
     );
     setRestaurants(fetchedRestaurants);
   } catch (error) {
@@ -86,7 +85,7 @@ export const handleToggleArchiveRestaurant = async (
   setRestaurants
 ) => {
   try {
-    await toggleArchiveRestaurant(id, token);
+    await toggleArchiveRestaurant(token, id);
     setRestaurants(
       restaurants.map((restaurant) =>
         restaurant.id === id
@@ -110,7 +109,7 @@ export const handleDeleteRestaurant = async (
 ) => {
   setError("");
   try {
-    await deleteRestaurant(id, token);
+    await deleteRestaurant(token, id);
     setRestaurants(restaurants.filter((restaurant) => restaurant.id !== id));
   } catch (err) {
     setError("There was an error deleting the restaurant.");
@@ -126,7 +125,7 @@ export const handleAddRestaurantType = async (
   setRestaurantTypes
 ) => {
   try {
-    const addedType = await addRestaurantType(newTypeName, token);
+    const addedType = await addRestaurantType(token, newTypeName);
     setRestaurantTypes([...restaurantTypes, addedType]);
   } catch (error) {
     console.error("Error in handleAddRestaurantType.");
@@ -141,7 +140,7 @@ export const handleRenameRestaurantType = async (
   setRestaurantTypes
 ) => {
   try {
-    const renamedType = await renameRestaurantType(oldName, newName, token);
+    const renamedType = await renameRestaurantType(token, oldName, newName);
     setRestaurantTypes(
       restaurantTypes.map((type) =>
         type.name === oldName ? renamedType : type
@@ -159,7 +158,7 @@ export const handleDeleteRestaurantType = async (
   setRestaurantTypes
 ) => {
   try {
-    await deleteRestaurantType(typeName, token);
+    await deleteRestaurantType(token, typeName);
     setRestaurantTypes(
       restaurantTypes.filter((type) => type.name !== typeName)
     );
@@ -176,7 +175,7 @@ export const handleAddFoodType = async (
   setFoodTypes
 ) => {
   try {
-    const addedType = await addFoodType(newTypeName, token);
+    const addedType = await addFoodType(token, newTypeName);
     setFoodTypes([...foodTypes, addedType]);
   } catch (error) {
     console.error("Error in handleAddFoodType.");
@@ -191,7 +190,7 @@ export const handleRenameFoodType = async (
   setFoodTypes
 ) => {
   try {
-    const renamedType = await renameFoodType(oldName, newName, token);
+    const renamedType = await renameFoodType(token, oldName, newName);
     setFoodTypes(
       foodTypes.map((type) => (type.name === oldName ? renamedType : type))
     );
@@ -207,7 +206,7 @@ export const handleDeleteFoodType = async (
   setFoodTypes
 ) => {
   try {
-    await deleteFoodType(typeName, token);
+    await deleteFoodType(token, typeName);
     setFoodTypes(foodTypes.filter((type) => type.name !== typeName));
   } catch (error) {
     console.error("Error in handleDeleteFoodType");

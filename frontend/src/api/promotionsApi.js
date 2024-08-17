@@ -11,7 +11,7 @@ export const fetchPromotions = async (token) => {
   }
 };
 
-export const createPromotion = async (promotionData, token) => {
+export const createPromotion = async (token, promotionData) => {
   try {
     const response = await axios.post(
       `${API_URL}/promotions/create`,
@@ -30,7 +30,7 @@ export const createPromotion = async (promotionData, token) => {
   }
 };
 
-export const updatePromotion = async (id, updatePromotionData, token) => {
+export const updatePromotion = async (token, id, updatePromotionData) => {
   try {
     const response = await axios.put(
       `${API_URL}/promotions/update/${id}`,
@@ -49,7 +49,7 @@ export const updatePromotion = async (id, updatePromotionData, token) => {
   }
 };
 
-export const deletePromotion = async (id, token) => {
+export const deletePromotion = async (token, id) => {
   try {
     await axios.delete(`${API_URL}/promotions/delete/${id}`, {
       headers: {

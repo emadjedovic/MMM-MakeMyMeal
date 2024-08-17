@@ -1,7 +1,7 @@
 import axios from "axios";
 const API_URL = "http://localhost:8000/api";
 
-export const fetchRestaurantTypes = async (token) => {
+export const fetchRestaurantTypes = async () => {
   try {
     const response = await axios.get(`${API_URL}/restaurant_types/all`);
     return response.data;
@@ -13,9 +13,9 @@ export const fetchRestaurantTypes = async (token) => {
 
 export const addRestaurantType = async (token, newTypeName) => {
   try {
+    console.log("type name: ", newTypeName)
     const response = await axios.post(
       `${API_URL}/restaurant_types/add/${newTypeName}`,
-      {},
       {
         headers: {
           "Content-Type": "application/json",

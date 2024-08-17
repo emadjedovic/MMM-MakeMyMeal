@@ -1,5 +1,7 @@
-// src/components/UpdateRestaurantForm.js
+// src/components/AddRestaurantForm.js
 import React, { useContext, useState, useEffect } from "react";
+import { createRestaurant } from "../../api/restaurantsApi";
+import { fetchRestaurantTypes } from "../../api/restaurantTypesApi";
 import {
   Form,
   Button,
@@ -10,82 +12,87 @@ import {
   Alert,
 } from "react-bootstrap";
 import { UserContext } from "../../UserContext";
-import { handleFetchRestaurantTypes } from "../../handlers/RestaurantPageHandlers";
-import { handleUpdateRestaurant } from "../../handlers/RestaurantPageHandlers";
 
-const UpdateRestaurantForm = ({ onUpdate }) => {
+const AddRestaurantForm = ({ onAdd }) => {
   const { token } = useContext(UserContext);
-  const [updateId, setUpdateId] = useState("");
   const [name, setName] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [streetName, setStreetName] = useState("");
   const [city, setCity] = useState("");
-  const [starRating, setStarRating] = useState("");
+  const [starRating, setStarRating] = useState(0);
   const [type, setType] = useState("");
   const [radiusOfDeliveryKm, setRadiusOfDeliveryKm] = useState(0);
-  const [isArchived, setIsArchived] = useState(false);
+  const [ownerId, setOwnerId] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [message, setMessage] = useState("");
-  const [restaurantTypes, setRestaurantTypes] = useState([]);
+  const [types, setTypes] = useState([]);
 
   useEffect(() => {
-    handleFetchRestaurantTypes(setRestaurantTypes);
+    const fetchTypes = async () => {
+      try {
+        const data = await fetchRestaurantTypes();
+        setTypes(data);
+        if (data.length > 0) {
+          setType(data[0].name);
+        }
+      } catch (error) {
+        console.error("Error fetching restaurant types", error);
+      }
+    };
+
+    fetchTypes();
   }, [token]);
 
   const requestData = {
-    name: name || undefined,
-    latitude: latitude || undefined,
-    longitude: longitude || undefined,
-    street_name: streetName || undefined,
-    city: city || undefined,
-    star_rating: starRating || undefined,
-    type_name: type || undefined,
-    radius_of_delivery_km: radiusOfDeliveryKm || undefined,
-    is_archived: isArchived,
-    imageUrl: imageUrl || undefined,
+    name: name,
+    latitude: latitude,
+    longitude: longitude,
+    street_name: streetName,
+    city: city,
+    star_rating: starRating || 0,
+    type_name: type,
+    radius_of_delivery_km: radiusOfDeliveryKm || 0,
+    owner_id: ownerId,
+    imageUrl: imageUrl || "restaurant-images/restDefault.png",
   };
 
   const clear = () => {
-    setUpdateId("");
     setName("");
     setLatitude("");
     setLongitude("");
     setStreetName("");
     setCity("");
-    setStarRating("");
-    setType("");
+    setStarRating(0);
+    setType(types.length > 0 ? types[0].name : "");
     setRadiusOfDeliveryKm(0);
-    setIsArchived(false);
+    setOwnerId("");
     setImageUrl("");
   };
 
-  const handleUpdate = async () => {
-    handleUpdateRestaurant(updateId, requestData, token, onUpdate, setMessage);
-    clear();
-  }
+  const handleAddRestaurant = async () => {
+    try {
+      const data = await createRestaurant(token, requestData);
+      setMessage("Restaurant added successfully!");
+      onAdd(data);
+      clear();
+    } catch (error) {
+      setMessage("Error adding the restaurant.");
+      clear();
+    }
+  };
+
 
   return (
     <Container className="my-4" style={{ maxWidth: "400px" }}>
       <Card>
         <Card.Body>
-          <h3>UPDATE A RESTAURANT</h3>
+          <h3>ADD A RESTAURANT</h3>
           <Form>
-            <Form.Group controlId="formUpdateId">
-              <Form.Label>Restaurant ID</Form.Label>
-              <Form.Control
-                type="number"
-                value={updateId}
-                onChange={(e) => setUpdateId(Number(e.target.value))}
-                placeholder="Enter restaurant ID"
-                min="0"
-              />
-            </Form.Group>
             <Form.Group controlId="formName">
-              <Form.Label>Restaurant Name (optional)</Form.Label>
+              <Form.Label>Restaurant Name</Form.Label>
               <Form.Control
                 type="text"
-                name="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter restaurant name"
@@ -94,47 +101,43 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
             <Row>
               <Col>
                 <Form.Group controlId="formLatitude">
-                  <Form.Label>Latitude (optional)</Form.Label>
+                  <Form.Label>Latitude</Form.Label>
                   <Form.Control
                     type="number"
-                    name="latitude"
                     value={latitude}
                     onChange={(e) => setLatitude(Number(e.target.value))}
-                    placeholder="Enter latitude"
+                    placeholder="43.856430"
                   />
                 </Form.Group>
               </Col>
               <Col>
                 <Form.Group controlId="formLongitude">
-                  <Form.Label>Longitude (optional)</Form.Label>
+                  <Form.Label>Longitude</Form.Label>
                   <Form.Control
                     type="number"
-                    name="longitude"
                     value={longitude}
                     onChange={(e) => setLongitude(Number(e.target.value))}
-                    placeholder="Enter longitude"
+                    placeholder="18.413029"
                   />
                 </Form.Group>
               </Col>
             </Row>
             <Form.Group controlId="formStreetName">
-              <Form.Label>Street Name (optional)</Form.Label>
+              <Form.Label>Street Name</Form.Label>
               <Form.Control
                 type="text"
-                name="street_name"
                 value={streetName}
                 onChange={(e) => setStreetName(e.target.value)}
                 placeholder="Enter street name"
               />
             </Form.Group>
             <Form.Group controlId="formCity">
-              <Form.Label>City (optional)</Form.Label>
+              <Form.Label>City</Form.Label>
               <Form.Control
                 type="text"
-                name="city"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                placeholder="Enter city"
+                placeholder="Sarajevo"
               />
             </Form.Group>
             <Form.Group controlId="formStarRating">
@@ -146,7 +149,6 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
                     key={rating}
                     type="radio"
                     id={`star_rating_${rating}`}
-                    name="star_rating"
                     value={rating}
                     checked={starRating === rating}
                     onChange={(e) => setStarRating(Number(e.target.value))}
@@ -157,32 +159,30 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
             </Form.Group>
             <Button
               variant="secondary"
-              onClick={() => setStarRating("")}
+              onClick={() => 
+                setStarRating(0)}
               style={{ margin: "1rem" }}
             >
               Clear Selection
             </Button>
             <Form.Group controlId="formType">
-              <Form.Label>Restaurant Type (optional)</Form.Label>
+              <Form.Label>Restaurant Type</Form.Label>
               <Form.Control
                 as="select"
-                name="type"
                 value={type}
                 onChange={(e) => setType(e.target.value)}
               >
-                <option value="">Select a type</option>
-                {restaurantTypes.map((rt) => (
-                  <option key={rt.id} value={rt.name}>
-                    {rt.name}
+                {types.map((typeOption) => (
+                  <option key={typeOption.name} value={typeOption.name}>
+                    {typeOption.name}
                   </option>
                 ))}
               </Form.Control>
             </Form.Group>
             <Form.Group controlId="formRadiusOfDelivery">
-              <Form.Label>Radius of Delivery in km (optional)</Form.Label>
+              <Form.Label>Radius of Delivery in km</Form.Label>
               <Form.Control
                 type="range"
-                name="radius_of_delivery_km"
                 min="0"
                 max="10"
                 value={radiusOfDeliveryKm}
@@ -192,13 +192,14 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
                 {radiusOfDeliveryKm} km
               </Form.Text>
             </Form.Group>
-            <Form.Group controlId="formIsArchived">
-              <Form.Check
-                type="checkbox"
-                name="is_archived"
-                checked={isArchived}
-                onChange={(e) => setIsArchived(e.target.checked)}
-                label="Archived"
+            <Form.Group controlId="formOwnerId">
+              <Form.Label>Owner ID</Form.Label>
+              <Form.Control
+                type="number"
+                value={ownerId}
+                onChange={(e) => setOwnerId(Number(e.target.value))}
+                placeholder="Enter owner ID"
+                min="0"
               />
             </Form.Group>
             <Form.Group>
@@ -213,17 +214,17 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
             </Form.Group>
             <Button
               variant="primary"
-              onClick={handleUpdate}
+              onClick={handleAddRestaurant}
               style={{ margin: "1rem" }}
             >
-              Update Restaurant
+              Add Restaurant
             </Button>
           </Form>
         </Card.Body>
       </Card>
       {message && (
         <Alert
-          variant={message.includes("error") ? "danger" : "success"}
+          variant={message.includes("Error") ? "danger" : "success"}
           className="mt-3"
         >
           {message}
@@ -233,4 +234,4 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
   );
 };
 
-export default UpdateRestaurantForm;
+export default AddRestaurantForm;

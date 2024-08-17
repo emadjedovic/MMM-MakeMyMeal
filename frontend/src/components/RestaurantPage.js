@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Col, Row } from "react-bootstrap";
 import RestaurantCard from "./RestaurantCard";
-import ItemsTable from "./ItemsTable";
+import ItemsTable from "./tables/ItemsTable";
 import {
   handleFetchItemsByFoodType,
   handleFetchFoodTypes,

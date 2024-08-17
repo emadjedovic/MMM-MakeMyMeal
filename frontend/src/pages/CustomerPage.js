@@ -3,12 +3,12 @@ import { UserContext } from "../UserContext";
 import { Container, Tab, Nav, Row, Col } from "react-bootstrap";
 import "../css/App.css";
 
-import CustomerRestaurantsTable from "../components/customer/CustomerRestaurantsTable";
-import RecommendedRestaurants from "../components/customer/RecommendedRestaurants";
-import PromotionsTable from "../components/PromotionsTable";
-import RecommendedItems from "../components/customer/RecommendedItems";
+import CustomerRestaurantsTable from "../components/tables/CustomerRestaurantsTable";
+import RecommendedRestaurants from "../components/RecommendedRestaurants";
+import PromotionsTable from "../components/tables/PromotionsTable";
+import RecommendedItems from "../components/RecommendedItems";
 import RestaurantPage from "../components/RestaurantPage";
-import OrdersTable from "../components/OrdersTable";
+import OrdersTable from "../components/tables/OrdersTable";
 
 import {
   handleFetchPromotionData,

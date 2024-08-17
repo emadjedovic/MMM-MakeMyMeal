@@ -36,6 +36,7 @@ def crud_create_order(db: Session, order: OrderCreate, customer_id: int):
         restaurant_id=order.restaurant_id,
         status=OrderStatus.UNASSIGNED,
         payment_method=order.payment_method,
+        total_price = order.total_price,
         preferred_arrival_time=order.preferred_arrival_time,
         created_at=datetime.now(local_tz)
     )
@@ -51,22 +52,6 @@ def crud_create_order(db: Session, order: OrderCreate, customer_id: int):
     db.commit()
     db.refresh(db_order)
 
-    # Add items to the order
-    total_price = 0.0
-    for item_id in order.items_ids:
-        db_item = db.query(DBItem).filter(DBItem.id == item_id).first()
-        if not db_item:
-            raise HTTPException(
-                status_code=404, detail=f"Item with id {item_id} not found"
-            )
-
-        db_order_item = DBOrderItem(order_id=db_order.id, item_id=item_id)
-        db.add(db_order_item)
-        print("db_item.price: ", db_item.price)
-        total_price += db_item.price
-
-    # Update total price
-    db_order.total_price = total_price
     db.commit()
     db.refresh(db_order)
 

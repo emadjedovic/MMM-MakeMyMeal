@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { fetchOrderById } from "../api/ordersApi";
-import { handleFetchRestaurantName } from "../handlers/RestaurantPageHandlers";
-import { formatCreatedAt } from "../calculations";
+import { fetchOrderById } from "../../api/ordersApi";
+import { handleFetchRestaurantName } from "../../handlers/RestaurantPageHandlers";
+import { formatCreatedAt } from "../../calculations";
 import { Modal, ListGroup } from "react-bootstrap";
 
 const OrderModal = ({ orderId, showModal, handleClose }) => {

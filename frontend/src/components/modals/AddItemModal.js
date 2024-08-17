@@ -30,7 +30,7 @@ const AddItemModal = ({
     };
 
     try {
-      await createItem(newItem, token);
+      await createItem(token, newItem);
       refreshItems();
       handleClose();
       clearStates();

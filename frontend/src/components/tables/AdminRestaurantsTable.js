@@ -8,7 +8,7 @@ import {
   Form,
 } from "react-bootstrap";
 import RestaurantTypesList from "../RestaurantTypesList";
-import DeleteRestaurant from "./DeleteRestaurant";
+import DeleteRestaurant from "../modals/DeleteRestaurantModal";
 
 const AdminRestaurantsTable = ({
   restaurants,
