@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
 import { Container, Row, Col, Pagination, Form, Button } from "react-bootstrap";
-import "../css/App.css";
-import ItemCard from "./ItemCard.js";
-import ItemTypesList from "./ItemTypesList.js";
-import { UserContext } from "../UserContext.js";
-import AddItemModal from "./restaurantadmin/AddItemModal.js";
-import { placeOrder } from "../api/ordersApi.js";
-import PlaceOrderModal from "./customer/PlaceOrderModal.js";
+import "../../css/App.css";
+import ItemCard from "../ItemCard.js";
+import ItemTypesList from "../ItemTypesList.js";
+import { UserContext } from "../../UserContext.js";
+import AddItemModal from "../modals/AddItemModal.js";
+import { placeOrder } from "../../api/ordersApi.js";
+import PlaceOrderModal from "../modals/PlaceOrderModal.js";
 
 const ItemsTable = ({
   items,
@@ -59,13 +59,13 @@ const ItemsTable = ({
   const [orderItems, setOrderItems] = useState([]);
   const [showPlaceOrderModal, setShowPlaceOrderModal] = useState(false); // for customers
 
-  const addItemToOrder = (itemId, itemName, quantity) => {
+  const addItemToOrder = (itemId, itemName, itemPrice, quantity) => {
     setOrderItems((prevItems) => [
       ...prevItems,
-      { itemId, itemName, quantity },
+      { itemId, itemName, itemPrice, quantity },
     ]);
     console.log(
-      `Item ${itemName} with ID ${itemId} added to order in quantity ${quantity}.`
+      `Item ${itemName} with ID ${itemId} of price ${itemPrice} added to order in quantity ${quantity}.`
     );
   };
 

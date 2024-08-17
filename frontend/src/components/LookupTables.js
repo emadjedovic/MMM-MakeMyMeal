@@ -1,7 +1,7 @@
 // src/components/LookupTables.js
 import React from "react";
-import RestaurantTypeForm from "./RestaurantTypeForm";
-import FoodTypeForm from "./FoodTypeForm";
+import RestaurantTypeForm from "./forms/RestaurantTypeForm";
+import FoodTypeForm from "./forms/FoodTypeForm";
 import { Container, Col, Row } from "react-bootstrap";
 
 const LookupTables = ({

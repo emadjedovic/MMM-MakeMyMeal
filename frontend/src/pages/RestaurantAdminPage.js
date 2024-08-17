@@ -3,11 +3,11 @@ import { UserContext } from "../UserContext";
 import { Container, Tab, Nav, Pagination, Row, Col, Modal, Button } from "react-bootstrap";
 import "../css/App.css";
 
-import CreatePersonnelForm from "../components/restaurantadmin/CreatePersonnelForm";
-import RAdminRestaurantsTable from "../components/restaurantadmin/RAdminRestaurantsTable";
+import CreatePersonnelForm from "../components/forms/CreatePersonnelForm";
+import RAdminRestaurantsTable from "../components/tables/RAdminRestaurantsTable";
 import RestaurantPage from "../components/RestaurantPage";
-import RAdminOrdersTable from "../components/restaurantadmin/RAdminOrdersTable";
-import OrderModal from "../components/OrderModal";
+import RAdminOrdersTable from "../components/tables/RAdminOrdersTable";
+import OrderModal from "../components/modals/OrderModal";
 
 import {
   handleFetchRestaurantsByOwner,

@@ -19,7 +19,6 @@ class OrderStatus(enum.Enum):
     ASSIGNED = "ASSIGNED"
     IN_PROGRESS = "IN PROGRESS"
     COMPLETED = "COMPLETED"
-    CANCELLED = "CANCELLED"
 
 
 class PaymentMethod(enum.Enum):

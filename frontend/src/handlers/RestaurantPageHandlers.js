@@ -82,9 +82,9 @@ export const handleFetchRestaurantTypes = async (setRestaurantTypes) => {
 };
 
 export const handleUpdateRestaurant = async (
+  token,
   updateId,
   requestData,
-  token,
   onUpdate,
   setMessage
 ) => {
@@ -93,7 +93,10 @@ export const handleUpdateRestaurant = async (
     return;
   }
   try {
-    const data = await updateRestaurant(updateId, requestData, token);
+    console.log("token: ", token)
+    console.log("updateID: ", updateId)
+    console.log("requestData: ", requestData)
+    const data = await updateRestaurant(token, updateId, requestData);
     onUpdate(data);
     setMessage("Restaurant updated successfully!");
   } catch (error) {

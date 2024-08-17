@@ -9,10 +9,10 @@ import {
   Form,
   Modal,
 } from "react-bootstrap";
-import { formatCreatedAt } from "../calculations";
-import { handleFetchRestaurantNamesFromOrders } from "../handlers/RestaurantPageHandlers";
-import { handleUpdateOrderStatus } from "../handlers/DeliveryPageHandlers";
-import { UserContext } from "../UserContext";
+import { formatCreatedAt } from "../../calculations";
+import { handleFetchRestaurantNamesFromOrders } from "../../handlers/RestaurantPageHandlers";
+import { handleUpdateOrderStatus } from "../../handlers/DeliveryPageHandlers";
+import { UserContext } from "../../UserContext";
 
 const OrdersTable = ({
   orders,

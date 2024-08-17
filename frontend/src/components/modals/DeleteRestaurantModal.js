@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 
-const DeleteRestaurant = ({ restaurantId, onDelete }) => {
+const DeleteRestaurantModal = ({ restaurantId, onDelete }) => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const handleConfirmDelete = () => {
@@ -39,4 +39,4 @@ const DeleteRestaurant = ({ restaurantId, onDelete }) => {
   );
 };
 
-export default DeleteRestaurant;
+export default DeleteRestaurantModal;

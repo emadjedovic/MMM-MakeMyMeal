@@ -27,8 +27,9 @@ body {
 
 .App-content {
   flex: 1;
-  padding: 1rem; /* Adjust margin to create spacing around content */
+  padding-top: 3rem; /* Adjust margin to create spacing around content */
   padding-left: 10rem; /* Adjust to the width of the sidebar */
+  padding-right: 2rem;
 }
 
 /* Additional styles for headings and other elements */
@@ -111,6 +112,7 @@ p {
 }
 
 /* CARDS */
+
 
 .hover-card {
   transition: transform 0.2s, box-shadow 0.2s;

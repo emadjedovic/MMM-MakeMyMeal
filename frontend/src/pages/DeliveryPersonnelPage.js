@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
 import { Container, Tab, Nav, Row, Col } from "react-bootstrap";
 import "../css/App.css";
-import OrdersTable from "../components/OrdersTable";
+import OrdersTable from "../components/tables/OrdersTable";
 
 import { handleFetchDeliveriesToday } from "../handlers/DeliveryPageHandlers";
 

@@ -10,6 +10,7 @@ class OrderBase(BaseModel):
     restaurant_id: int
     payment_method: str = "CASH"
     preferred_arrival_time: Optional[datetime] = None
+    total_price: float = 0.0
 
 class OrderCreate(OrderBase):
     items_ids: List[int] = []
@@ -20,7 +21,6 @@ class Order(OrderBase):
     customer_id: int
     created_at: datetime = datetime.now(local_tz)
     status: OrderStatus = "UNASSIGNED" #updated later
-    total_price: float = 0.0 # calculated after creation
     delivery_id: Optional[int] = None # assigned later by the restaurant admin
     latitude: Optional[float] = None
     longitude: Optional[float] = None

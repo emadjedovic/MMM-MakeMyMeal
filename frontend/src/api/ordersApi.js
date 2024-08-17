@@ -70,7 +70,7 @@ export const fetchOrdersAll = async (token) => {
   }
 };
 
-export const fetchOrderById = async (id, token) => {
+export const fetchOrderById = async (token, id) => {
   try {
     const response = await axios.get(`${API_URL}/orders/${id}`);
     return response.data;
@@ -115,6 +115,7 @@ export const assignOrder = async (token, orderId, deliveryId) => {
 
 export const placeOrder = async (token, customer_id, orderData) => {
   try {
+    console.log("orderData: ", orderData)
     const response = await axios.post(
       `${API_URL}/orders/new/${customer_id}`,
       orderData,

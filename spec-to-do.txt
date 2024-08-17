@@ -1,38 +1,104 @@
-------------------------------------------------------------------------------------------
+----------------------------------------------------------------------
+TO DO
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
 PART II
-------------------------------------------------------------------------------------------
+----------------------------------------------------------------------
+
+
+MAP FOR ADMIN AND RESTAURANT ADMIN
+
+- Prikaz narudžbi za određeni dan na mapi. Različitim markerima se prikazuju različiti statusi.
+... Napraviti Nav.Item "Map" gdje će biti prikazane sve narudžbe koje se onda mogu filtrirati po specificiranom danu. Kada se izabere određeni dan koji nije danas - prikazuju se samo "NOT ASSIGNED", i "ASSIGNED" narudžbe sa preferred_arrival_time u tom danu. Ako je izabran današnji dan onda se dodatno prikazuju i "IN PROGRESS" i "COMPLETED", orders sa preferred_arrival_time koje može biti i u prošlosti a status im nije "COMPLETED".
+... Potrebni checkboxes s opcijama "NOT ASSIGNED", "ASSIGNED", "IN PROGRESS", "COMPLETED" koji također filtriraju mapu.
+
+- Mogućnost filtriranja mape po dostavljačima.
+.. U Orders model dodati delivery_personnel_id i onda dodati u "Map" opciju filtriranja orders po tom ID-u
+
+MAP FOR DELIVERY PERSONNEL
+
+- pojedinačne orders samo (modal popup ili kao restaurantPage? možda onaj OrderModal preurediti u OrderPage koji sadrži mapu?)
+
+CHAT
 
 - chat sa glavnim administratorom ili administratorom restorana.
 
-- Notifikacije administratoru restorana kada stigne nova narudžba i kada dostavljač promijeni status narudžbe (sa ASSIGNED na IN PROGRESS, COMPLETED ili CANCELLED)
+New Tables:
+    Chat: Stores chat sessions, with attributes like id, user_id, admin_id, restaurant_id, and created_at.
+    ChatMessage: Stores individual messages, with attributes like id, chat_id, sender_id, message, and timestamp.
 
-- Prikaz narudžbi za neki dan na mapi. Različitim markerima se prikazuju različiti statusi.
 
-- Mogućnost filtriranja mape po dostavljačima.
+NOTIFICATIONS
 
-- E-mail izvještaj administratoru i administratoru restorana.
+- Notifikacije (ili email) administratoru restorana kada stigne nova narudžba i kada dostavljač promijeni status narudžbe (sa ASSIGNED na IN PROGRESS ili COMPLETED)
 
-- Administrator restorana dobija izvještaj o broju narudžbi za svaki dan, te zbirni
-broj narudžbi za taj mjesec, kao i izvještaj o radu svakog dostavljača.
+New Table:
+    Notification: Stores notifications, with attributes like id, user_id, restaurant_id, order_id, type (e.g., NEW_ORDER, STATUS_CHANGE), message, read_status, and timestamp
 
-- Administrator dobija podatak o broju narudžbi za svaki restoran, te ostvarenom
-profitu po restoranu.
+Updates to Existing Models:
+    Order: You may add a last_notified_at field to track when the last notification was sent.
+
+STATS AND EMAIL REPORTS
+
+- Administrator restorana dobija email izvještaj o broju narudžbi za svaki dan, te zbirni
+broj narudžbi za taj mjesec, kao i izvještaj o radu svakog dostavljača. (dnevno? sedmično? mjesečno?)
+
+- RESTAURANT ADMIN dobija restaurant stats za svoje restorane
+- ADMIN dobiva restaurant stats za svaki restoran - email izvještaj dnevno, sedmično i mjesečno
+
+New Tables
+    RestaurantStats: fields like daily_order_count, weekly_order_count, monthly_order_count, total_profit, customer_rating
+ili nove tabele napravit?
+
+Scheduled Jobs (Backend Feature):
+    You might want to create scheduled jobs for generating and sending reports.
+
+
+OTHER
 
 - Ocjenjivanje usluge restorana (korisnik popunjava anketu pri isporuci).
+New Table:
+    OrderRating: Stores ratings and feedback, with attributes like id, order_id, user_id, delivery_personnel_id, delivery_personnel_rating, restaurant_rating
+
+AUTOMATIC ORDER ASSIGNMENT
 
 - Kreirati automatsko dodjeljivanje narudžbi dostavljaču! Osmisliti “mudar” algoritam za
 dodjelu narudžbi.
 
-- Jedan dostavljač može raditi za više restorana.
+create a new table with delivery personnel information
+calculate suitability_score for each delivery personnel
 
-------------------------------------------------------------------------------------------
+CREATE TABLE DeliveryPersonnelStats (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES DBUser(id),
+// only assign delivery_personnel who are located in the customer's city
+// create lookup table for cities and assign them to created customers and delivery personnel
+    number_of_assigned_deliveries INTEGER DEFAULT 0,
+    orders_completed_today INTEGER DEFAULT 0,
+    total_orders_completed INTEGER DEFAULT 0,
+    customer_feedback_score DECIMAL(3, 2)
+);
+
+----------------------------------------------------------------------
 DODATNI ELEMENTI (barem tri)
-------------------------------------------------------------------------------------------
+----------------------------------------------------------------------
 
+scheduled jobs?
 reset passowrd
 muzika u pozadini
 dark mode toggle
 customize profile (avatars?)
+- add default avatars: blue for dp, red for admin, yellow for radmin, white for user (za chat)
 archiements/badges
 fetched location automatically
+register map: fetch actual users location, search by city
+
+
+Loyalty Program:
+    Consider adding a LoyaltyProgram model, which tracks user rewards points, tiers, and redemption history.
+
+
+
+
 
