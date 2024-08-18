@@ -14,7 +14,7 @@ from crud.notification import (
 
 router = APIRouter(prefix="/notifications")
 
-@router.post("/new", response_model=Notification)
+@router.post("/new/", response_model=Notification)
 def create_notification_endpoint(notification: NotificationCreate, db: Session = Depends(get_db)):
     return crud_create_notification(db=db, notification=notification)
 

@@ -115,7 +115,6 @@ export const assignOrder = async (token, orderId, deliveryId) => {
 
 export const placeOrder = async (token, customer_id, orderData) => {
   try {
-    console.log("orderData: ", orderData)
     const response = await axios.post(
       `${API_URL}/orders/new/${customer_id}`,
       orderData,

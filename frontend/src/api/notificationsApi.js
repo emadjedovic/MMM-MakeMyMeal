@@ -2,20 +2,24 @@ import axios from "axios";
 const API_URL = "http://localhost:8000/api";
 
 export const createNotification = async (token, notificationData) => {
-  const response = await axios.post(
-    `${API_URL}/notifications/new`,
-    notificationData,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  return response.data;
+  try {
+    const response = await axios.post(
+      `${API_URL}/notifications/new/`,
+      notificationData, //notificationCreate
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("error in createNotification: ", error)
+  }
 };
 
-export const getNotification = async (token, notificationId) => {
+export const fetchNotification = async (token, notificationId) => {
   const response = await axios.get(
     `${API_URL}/notifications/${notificationId}`,
     {
@@ -28,7 +32,7 @@ export const getNotification = async (token, notificationId) => {
   return response.data;
 };
 
-export const getAllNotifications = async (token) => {
+export const fetchAllNotifications = async (token) => {
   try {
     const response = await axios.get(`${API_URL}/notifications/all/`, {
       headers: {

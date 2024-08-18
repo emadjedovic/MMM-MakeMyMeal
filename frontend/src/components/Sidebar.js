@@ -14,7 +14,7 @@ import icon from "../assets/icon.png";
 import { UserContext } from "../UserContext";
 
 function Sidebar() {
-  const { handleLogout } = useContext(UserContext);
+  const { handleLogout, userRole } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleLogoutButton = () => {
@@ -43,14 +43,16 @@ function Sidebar() {
         </Link>
       </OverlayTrigger>
 
-      <OverlayTrigger
-        placement="right"
-        overlay={<Tooltip id="tooltip-notifications">Notifications</Tooltip>}
-      >
-        <Link to="/notifications" className="sidebar-item">
-        <FontAwesomeIcon icon={faBell} />
-        </Link>
-      </OverlayTrigger>
+      {userRole === 'RESTAURANT ADMIN' && (
+        <OverlayTrigger
+          placement="right"
+          overlay={<Tooltip id="tooltip-notifications">Notifications</Tooltip>}
+        >
+          <Link to="/notifications" className="sidebar-item">
+            <FontAwesomeIcon icon={faBell} />
+          </Link>
+        </OverlayTrigger>
+      )}
 
       <OverlayTrigger
         placement="right"
