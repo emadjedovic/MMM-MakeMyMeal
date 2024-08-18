@@ -8,7 +8,7 @@ import AddItemModal from "../modals/AddItemModal.js";
 import { placeOrder } from "../../api/ordersApi.js";
 import PlaceOrderModal from "../modals/PlaceOrderModal.js";
 import { createNotification } from "../../api/notificationsApi.js";
-import { ToastContainer, toast } from "react-toastify"; // Import ToastContainer and toast
+import { toast } from "react-toastify"; // Import ToastContainer and toast
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for react-toastify
 
 const ItemsTable = ({
@@ -91,7 +91,7 @@ const ItemsTable = ({
         restaurant_id: restaurantId, // Set to current restaurant ID
         order_id: orderResponse.id, // Use the order ID returned from the API
         type: "NEW_ORDER",
-        message: `A new order has been placed. Total price: €${orderData.total_price.toFixed(
+        message: `A new order has been placed.\nTotal price: €${orderData.total_price.toFixed(
           2
         )}`
       };

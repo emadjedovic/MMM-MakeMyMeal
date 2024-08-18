@@ -82,6 +82,10 @@ export const fetchOrderById = async (token, id) => {
 
 export const updateOrderStatus = async (token, order_id, newStatus) => {
   try {
+    if (newStatus === "IN PROGRESS") {
+      newStatus = "IN_PROGRESS"
+    }
+
     await axios.put(
       `${API_URL}/orders/status/${order_id}/${newStatus}`,
       {},
