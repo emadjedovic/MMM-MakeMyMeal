@@ -21,7 +21,7 @@ const ItemsTable = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [showOnPromotion, setShowOnPromotion] = useState(false);
   const { userRole, token, user } = useContext(UserContext);
-  const [showModal, setShowModal] = useState(false); // for restaurant admins adding items
+  const [showModal, setShowModal] = useState(false);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -54,10 +54,8 @@ const ItemsTable = ({
     setCurrentPage(1);
   };
 
-  // new for orders
-
   const [orderItems, setOrderItems] = useState([]);
-  const [showPlaceOrderModal, setShowPlaceOrderModal] = useState(false); // for customers
+  const [showPlaceOrderModal, setShowPlaceOrderModal] = useState(false);
 
   const addItemToOrder = (itemId, itemName, itemPrice, quantity) => {
     setOrderItems((prevItems) => [
@@ -82,11 +80,15 @@ const ItemsTable = ({
         ...orderData,
         restaurant_id: restaurantId,
       });
+
+
       console.log("Order placed successfully.");
     } catch (error) {
       console.error("Error in handlePlaceOrder (ItemsTable.js).");
     }
   };
+
+
 
   return (
     <Container className="my-4">

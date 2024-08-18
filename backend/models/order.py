@@ -63,6 +63,8 @@ class DBOrder(Base):
         passive_deletes=True,
     )
 
+    notifications = relationship("DBNotification", back_populates="order")
+
 
 # An association table to manage the many-to-many relationship between DBOrder and DBItem, including the quantity of each item.
 class DBOrderItem(Base):

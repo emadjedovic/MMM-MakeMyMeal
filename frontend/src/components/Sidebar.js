@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faBell, faCommentDots } from "@fortawesome/free-solid-svg-icons";
 import {
   faMedium,
   faGithub,
@@ -24,6 +24,7 @@ function Sidebar() {
 
   return (
     <div className="sidebar">
+
       <OverlayTrigger
         placement="right"
         overlay={<Tooltip id="tooltip-home">Home</Tooltip>}
@@ -32,12 +33,31 @@ function Sidebar() {
           <img src={icon} alt="MMM" />
         </Link>
       </OverlayTrigger>
+
       <OverlayTrigger
         placement="right"
         overlay={<Tooltip id="tooltip-profile">Profile</Tooltip>}
       >
         <Link to="/profile" className="sidebar-item">
           <FontAwesomeIcon icon={faUser} />
+        </Link>
+      </OverlayTrigger>
+
+      <OverlayTrigger
+        placement="right"
+        overlay={<Tooltip id="tooltip-notifications">Notifications</Tooltip>}
+      >
+        <Link to="/notifications" className="sidebar-item">
+        <FontAwesomeIcon icon={faBell} />
+        </Link>
+      </OverlayTrigger>
+
+      <OverlayTrigger
+        placement="right"
+        overlay={<Tooltip id="tooltip-chat">Chat</Tooltip>}
+      >
+        <Link to="/chat" className="sidebar-item">
+        <FontAwesomeIcon icon={faCommentDots} />
         </Link>
       </OverlayTrigger>
 

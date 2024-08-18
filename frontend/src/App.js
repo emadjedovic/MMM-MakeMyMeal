@@ -16,6 +16,8 @@ import AdminPage from "./pages/AdminPage";
 import RestaurantAdminPage from "./pages/RestaurantAdminPage";
 import CustomerPage from "./pages/CustomerPage";
 import DeliveryPersonnelPage from "./pages/DeliveryPersonnelPage";
+import NotificationsPage from "./pages/NotificationsPage"
+import ChatPage from "./pages/ChatPage";
 
 import "./css/App.css";
 
@@ -68,6 +70,14 @@ function App() {
           <Route
             path="/profile"
             element={<ProtectedRoute element={<ProfilePage />} />}
+          />
+          <Route
+            path="/notifications"
+            element={<ProtectedRoute element={<NotificationsPage />} />}
+          />
+          <Route
+            path="/chat"
+            element={<ProtectedRoute element={<ChatPage />} />}
           />
           <Route
             path="/"
