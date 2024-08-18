@@ -70,7 +70,7 @@ export const fetchOrdersAll = async (token) => {
   }
 };
 
-export const fetchOrderById = async (token, id) => {
+export const fetchOrderById = async (id) => {
   try {
     const response = await axios.get(`${API_URL}/orders/${id}`);
     return response.data;
