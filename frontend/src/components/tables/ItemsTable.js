@@ -7,6 +7,9 @@ import { UserContext } from "../../UserContext.js";
 import AddItemModal from "../modals/AddItemModal.js";
 import { placeOrder } from "../../api/ordersApi.js";
 import PlaceOrderModal from "../modals/PlaceOrderModal.js";
+import { createNotification } from "../../api/notificationsApi.js";
+import { toast } from "react-toastify"; // Import ToastContainer and toast
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for react-toastify
 
 const ItemsTable = ({
   items,
@@ -21,7 +24,7 @@ const ItemsTable = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [showOnPromotion, setShowOnPromotion] = useState(false);
   const { userRole, token, user } = useContext(UserContext);
-  const [showModal, setShowModal] = useState(false); // for restaurant admins adding items
+  const [showModal, setShowModal] = useState(false);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -54,10 +57,8 @@ const ItemsTable = ({
     setCurrentPage(1);
   };
 
-  // new for orders
-
   const [orderItems, setOrderItems] = useState([]);
-  const [showPlaceOrderModal, setShowPlaceOrderModal] = useState(false); // for customers
+  const [showPlaceOrderModal, setShowPlaceOrderModal] = useState(false);
 
   const addItemToOrder = (itemId, itemName, itemPrice, quantity) => {
     setOrderItems((prevItems) => [
@@ -78,13 +79,30 @@ const ItemsTable = ({
 
   const handlePlaceOrder = async (orderData) => {
     try {
-      await placeOrder(token, user.id, {
+      const orderResponse = await placeOrder(token, user.id, {
         ...orderData,
         restaurant_id: restaurantId,
       });
+
       console.log("Order placed successfully.");
+      // Create a notification
+      const notificationData = {
+        user_id: user.id, // Set to current user ID
+        restaurant_id: restaurantId, // Set to current restaurant ID
+        order_id: orderResponse.id, // Use the order ID returned from the API
+        type: "NEW_ORDER",
+        message: `A new order has been placed.\nTotal price: €${orderData.total_price.toFixed(
+          2
+        )}`
+      };
+
+      await createNotification(token, notificationData);
+
+      // Display toast notification
+      toast.success("Order placed successfully!");
     } catch (error) {
-      console.error("Error in handlePlaceOrder (ItemsTable.js).");
+      console.error("Error in handlePlaceOrder (ItemsTable.js).", error);
+      toast.error("Failed to place order.");
     }
   };
 

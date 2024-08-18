@@ -28,14 +28,6 @@ New Tables:
     Chat: Stores chat sessions, with attributes like id, user_id, admin_id, restaurant_id, and created_at.
     ChatMessage: Stores individual messages, with attributes like id, chat_id, sender_id, message, and timestamp.
 
-
-NOTIFICATIONS
-
-- Notifikacije (ili email) administratoru restorana kada stigne nova narudžba i kada dostavljač promijeni status narudžbe (sa ASSIGNED na IN PROGRESS ili COMPLETED)
-
-New Table:
-    Notification: Stores notifications, with attributes like id, user_id, restaurant_id, order_id, type (e.g., NEW_ORDER, STATUS_CHANGE), message, read_status, and timestamp
-
 Updates to Existing Models:
     Order: You may add a last_notified_at field to track when the last notification was sent.
 

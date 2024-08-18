@@ -10,6 +10,7 @@ const OrderModal = ({ orderId, showModal, handleClose }) => {
 
   const handleFetchOrderById = async () => {
     try {
+      console.log("sending orderID:", orderId)
       const order = await fetchOrderById(orderId);
       setOrderDetails(order);
     } catch (error) {

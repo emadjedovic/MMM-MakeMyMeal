@@ -16,7 +16,12 @@ import AdminPage from "./pages/AdminPage";
 import RestaurantAdminPage from "./pages/RestaurantAdminPage";
 import CustomerPage from "./pages/CustomerPage";
 import DeliveryPersonnelPage from "./pages/DeliveryPersonnelPage";
+import NotificationsPage from "./pages/NotificationsPage"
+import ChatPage from "./pages/ChatPage";
 
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for react-toastify
 import "./css/App.css";
 
 function App() {
@@ -60,6 +65,7 @@ function App() {
 
   return (
     <div className="App">
+      <ToastContainer/>
       {user && <Sidebar />}
       <div className="App-content">
         <Routes>
@@ -68,6 +74,14 @@ function App() {
           <Route
             path="/profile"
             element={<ProtectedRoute element={<ProfilePage />} />}
+          />
+          <Route
+            path="/notifications"
+            element={<ProtectedRoute element={<NotificationsPage />} />}
+          />
+          <Route
+            path="/chat"
+            element={<ProtectedRoute element={<ChatPage />} />}
           />
           <Route
             path="/"
