@@ -85,13 +85,16 @@ const Chat = () => {
   return (
     <Container>
       <Row>
-      <Col>
+      <Col md={4} lg={2}>
           <Button variant="outline-dark" className="back-button" onClick={() => navigate('/chats')}>
             Back to Chats
           </Button>
         </Col>
+        <Col md={8} lg={10}>
+        <h4><i>CHAT WITH {chatName}</i></h4></Col>
+        <Col md={0} lg={2}></Col>
       </Row>
-      <Row className="m-3 p-4" style={{border: "1px solid #ccc", borderRadius: "3rem"}}>
+      <Row className="chat-row">
         <div className="chat">
           {Array.isArray(messages) && messages.map((message, index) => (
             <div

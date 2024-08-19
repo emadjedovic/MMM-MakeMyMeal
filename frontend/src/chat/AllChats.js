@@ -4,6 +4,8 @@ import { ListGroup, Container, Row, Col } from 'react-bootstrap';
 import { UserContext } from '../UserContext';
 import { fetchChats, fetchNameFromChat } from './chatApi';
 
+import './chat.css'; // Import the CSS file
+
 const AllChats = () => {
   const { token, user } = useContext(UserContext);
   const [chats, setChats] = useState([]);
@@ -35,11 +37,13 @@ const AllChats = () => {
     <Container>
       <Row>
         <Col>
-          <h3>Your Chats</h3>
-          <ListGroup>
+        <h1>INBOX</h1><br></br>
+          <ListGroup className="custom-list-group">
             {chats.map(chat => (
-              <ListGroup.Item key={chat.id}>
-                <Link to={`/chats/${chat.id}/${chat.name}`}>{chat.name || 'Loading...'}</Link>
+              <ListGroup.Item key={chat.id} className="custom-list-group-item">
+                <Link to={`/chats/${chat.id}/${chat.name}`} className="custom-link">
+                  {chat.name || 'Loading...'}
+                </Link>
               </ListGroup.Item>
             ))}
           </ListGroup>
