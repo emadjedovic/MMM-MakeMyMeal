@@ -58,7 +58,7 @@ function Sidebar() {
         placement="right"
         overlay={<Tooltip id="tooltip-chat">Chat</Tooltip>}
       >
-        <Link to="/chat" className="sidebar-item">
+        <Link to="/chats" className="sidebar-item">
         <FontAwesomeIcon icon={faCommentDots} />
         </Link>
       </OverlayTrigger>

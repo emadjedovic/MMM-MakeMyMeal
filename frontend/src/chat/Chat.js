@@ -1,11 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react';
+// src/components/Chat.js
+
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { Form, Button, InputGroup, Container, Row, Col } from 'react-bootstrap';
 import Message from './Message';
-import { useParams } from 'react-router-dom';
+import { UserContext } from '../UserContext';
+import { fetchMessagesFromChat } from './chatApi';
 import axios from 'axios';
 
-const ChatPage = ({ user }) => {
-  const { chatId } = useParams();  // Assuming chatId is passed as a URL parameter
+const Chat = ({ chatId }) => {
+  const { user, token } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [ws, setWs] = useState(null);
@@ -13,13 +16,8 @@ const ChatPage = ({ user }) => {
 
   useEffect(() => {
     // Fetch existing messages from the API
-    axios.get(`/api/chats/${chatId}/messages/`)
-      .then(response => {
-        setMessages(response.data);
-      })
-      .catch(error => {
-        console.error("Error fetching messages:", error);
-      });
+    const messages = fetchMessagesFromChat(token, chatId)
+    setMessages(messages);
 
     // Establish WebSocket connection
     const ws = new WebSocket(`ws://localhost:8000/ws/chat/${chatId}`);
@@ -47,7 +45,7 @@ const ChatPage = ({ user }) => {
       };
 
       // Send message to the API
-      axios.post(`/api/chats/${chatId}/messages/`, messageData)
+      axios.post(`http://localhost:8000/api/chats/${chatId}/messages/`, messageData)
         .then(response => {
           // Send message over WebSocket to notify other clients
           if (ws) {
@@ -107,4 +105,4 @@ const ChatPage = ({ user }) => {
   );
 };
 
-export default ChatPage;
+export default Chat;
