@@ -33,7 +33,7 @@ export const fetchNameFromChat = async (token, userId, chatId) => {
 
   export const fetchMessagesFromChat = async (token, chatId) => {
     try {
-        const response = await axios.get(`${API_URL}/${chatId}/messages`, {
+        const response = await axios.get(`${API_URL}/chats/${chatId}/messages/`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,

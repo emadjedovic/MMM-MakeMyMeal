@@ -1,13 +1,15 @@
-// src/components/Chat.js
-
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import { Form, Button, InputGroup, Container, Row, Col } from 'react-bootstrap';
+import { useParams, useNavigate } from 'react-router-dom';
 import Message from './Message';
 import { UserContext } from '../UserContext';
 import { fetchMessagesFromChat } from './chatApi';
 import axios from 'axios';
+import './chat.css'; // Import the CSS file
 
-const Chat = ({ chatId }) => {
+const Chat = () => {
+  const { chatId, chatName } = useParams(); // Extract chatId from URL parameters
+  const navigate = useNavigate(); // Initialize the navigate function
   const { user, token } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -16,8 +18,17 @@ const Chat = ({ chatId }) => {
 
   useEffect(() => {
     // Fetch existing messages from the API
-    const messages = fetchMessagesFromChat(token, chatId)
-    setMessages(messages);
+    const fetchMessages = async () => {
+      try {
+        const fetchedMessages = await fetchMessagesFromChat(token, chatId);
+        setMessages(fetchedMessages || []); // Ensure messages is an array
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+        setMessages([]); // Set to an empty array on error
+      }
+    };
+
+    fetchMessages(); // Call the async function
 
     // Establish WebSocket connection
     const ws = new WebSocket(`ws://localhost:8000/ws/chat/${chatId}`);
@@ -35,7 +46,7 @@ const Chat = ({ chatId }) => {
     return () => {
       ws.close();
     };
-  }, [chatId]);
+  }, [chatId, token]);
 
   const sendMessage = () => {
     if (newMessage.trim()) {
@@ -72,34 +83,38 @@ const Chat = ({ chatId }) => {
   }, [messages]);
 
   return (
-    <Container className="d-flex flex-column" style={{ height: '100vh' }}>
-      <Row className="flex-grow-1 overflow-auto">
-        <Col>
-          {messages.map((message, index) => (
-            <Message
-              key={index}
-              message={message}
-              isOwnMessage={message.sender_id === user.id}
-            />
-          ))}
-          <div ref={messageEndRef} />
+    <Container>
+      <Row>
+      <Col>
+          <Button variant="outline-dark" className="back-button" onClick={() => navigate('/chats')}>
+            Back to Chats
+          </Button>
         </Col>
       </Row>
-      <Row>
-        <Col>
-          <InputGroup>
-            <Form.Control
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Type your message..."
-            />
-            <Button onClick={sendMessage} variant="primary">
-              Send
-            </Button>
-          </InputGroup>
-        </Col>
+      <Row className="m-3 p-4" style={{border: "1px solid #ccc", borderRadius: "3rem"}}>
+        <div className="chat">
+          {Array.isArray(messages) && messages.map((message, index) => (
+            <div
+              key={index}
+              className={`message-card ${message.sender_id === user.id ? 'own' : 'others'}`}
+            >
+              <p className="message-content">{message.content}</p>
+            </div>
+          ))}
+          <div ref={messageEndRef} />
+        </div>
+        <div className="message-input-group">
+          <Form.Control
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Type your message..."
+          />
+          <Button onClick={sendMessage} variant="primary">
+            Send
+          </Button>
+        </div>
       </Row>
     </Container>
   );

@@ -1,16 +1,17 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
+import './chat.css'; // Import the CSS file
+import { formatCreatedAt}  from "../calculations"
 
 const Message = ({ message, isOwnMessage }) => {
   return (
     <Card
-      className={`my-2 ${isOwnMessage ? 'align-self-end bg-primary text-white' : 'align-self-start bg-light text-dark'}`}
-      style={{ maxWidth: '75%' }}
+      className={`message-card ${isOwnMessage ? 'own' : 'others'}`}
     >
-      <Card.Body>
+      <Card.Body className="message-content">
         <Card.Text>{message.content}</Card.Text>
-        <Card.Subtitle className="text-muted small">
-          {message.timestamp} - {message.sender}
+        <Card.Subtitle className={`mt-1 message-timestamp ${isOwnMessage ? 'own' : 'others'}`}>
+        {formatCreatedAt(message.timestamp)}
         </Card.Subtitle>
       </Card.Body>
     </Card>
