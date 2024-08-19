@@ -4,7 +4,7 @@
 from fastapi import Depends, HTTPException, status, Request
 from database import SessionLocal
 from sqlalchemy.orm import Session
-from auth.security import decode_jwt, extract_token
+from security import decode_jwt, extract_token
 from schemas.user import User
 from models.user import UserRole
 from crud.user import crud_get_user_by_email

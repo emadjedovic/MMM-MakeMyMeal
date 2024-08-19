@@ -1,6 +1,6 @@
 from database import SessionLocal
 from models.user import DBUser, UserRole
-from auth.security import get_password_hash
+from security import get_password_hash
 from schemas.user import UserCreate
 
 

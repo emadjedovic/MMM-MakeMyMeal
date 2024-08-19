@@ -15,6 +15,7 @@ from routers import (
     notifications
 )
 from database import engine, Base
+from chat import chat_router
 
 
 def create_application():
@@ -63,3 +64,5 @@ app.include_router(items.router, prefix="/api", tags=["Items"])
 app.include_router(promotions.router, prefix="/api", tags=["Promotions"])
 app.include_router(orders.router, prefix="/api", tags=["Orders"])
 app.include_router(notifications.router, prefix="/api", tags=["Notifications"])
+
+app.include_router(chat_router.router, prefix="/api", tags=["Chat"])

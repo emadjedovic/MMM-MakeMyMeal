@@ -2,12 +2,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from dependencies import get_db
 from datetime import timedelta
-from auth.security import authenticate_user, create_access_token
+from security import authenticate_user, create_access_token
 from schemas.token import Token
 from sqlalchemy.orm import Session
 from schemas.user import UserCreate, UserLogin
 from crud.user import crud_create_customer, crud_get_user_by_email
-from auth.config import ACCESS_TOKEN_EXPIRE_MINUTES
+from config import ACCESS_TOKEN_EXPIRE_MINUTES
 
 router = APIRouter(prefix="/auth")
 

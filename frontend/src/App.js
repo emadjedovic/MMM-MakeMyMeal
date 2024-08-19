@@ -17,11 +17,11 @@ import RestaurantAdminPage from "./pages/RestaurantAdminPage";
 import CustomerPage from "./pages/CustomerPage";
 import DeliveryPersonnelPage from "./pages/DeliveryPersonnelPage";
 import NotificationsPage from "./pages/NotificationsPage"
-import ChatPage from "./pages/ChatPage";
+import ChatPage from "./chat/ChatPage";
 
 
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import CSS for react-toastify
+import "react-toastify/dist/ReactToastify.css";
 import "./css/App.css";
 
 function App() {
@@ -81,7 +81,7 @@ function App() {
           />
           <Route
             path="/chat"
-            element={<ProtectedRoute element={<ChatPage />} />}
+            element={<ProtectedRoute element={<ChatPage receiverId={user.id}/>} />}
           />
           <Route
             path="/"

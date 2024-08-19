@@ -3,7 +3,7 @@
 from sqlalchemy.orm import Session
 from models.user import DBUser, UserRole
 from schemas.user import UserCreate
-from auth.security import pwd_context
+from security import pwd_context
 from fastapi import HTTPException, status
 
 
