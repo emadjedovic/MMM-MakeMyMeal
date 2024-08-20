@@ -7,7 +7,7 @@ from models.restaurant import DBRestaurant
 from schemas.order import OrderCreate
 from datetime import datetime, timedelta, timezone
 from fastapi import HTTPException, BackgroundTasks
-from helpers.email import send_email
+from helpers.sending_email import send_email
 from crud.user import crud_get_user_by_id, crud_get_customer_location
 from crud.restaurant import crud_get_restaurant_by_id
 from typing import List

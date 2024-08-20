@@ -98,9 +98,10 @@
 }
 
 .custom-list-group-item {
-  padding: 1rem; /* Adjust padding to reduce width */
+  padding: 0.5rem; /* Adjust padding to reduce width */
   padding-left: 2rem;
-  border: 1px solid #ddd; /* Optional: border for better visibility */
+  border: 2px solid rgb(229, 229, 229); /* Optional: border for better visibility */
+  box-shadow: 10px 10px #59423b;
   margin-bottom: 1rem; /* Optional: space between items */
 }
 
@@ -110,7 +111,7 @@
 }
 
 .custom-link {
-  font-size: x-large; /* Larger font size */
+  font-size: large; /* Larger font size */
   color: black; /* Black text color */
   text-decoration: none; /* No underline */
 }

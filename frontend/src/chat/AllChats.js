@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { ListGroup, Container, Row, Col } from 'react-bootstrap';
-import { UserContext } from '../UserContext';
-import { fetchChats, fetchNameFromChat } from './chatApi';
+import React, { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import { ListGroup, Container, Row, Col } from "react-bootstrap";
+import { UserContext } from "../UserContext";
+import { fetchChats, fetchNameFromChat } from "./chatApi";
 
-import './chat.css'; // Import the CSS file
+import "./chat.css"; // Import the CSS file
 
 const AllChats = () => {
   const { token, user } = useContext(UserContext);
@@ -37,14 +37,22 @@ const AllChats = () => {
     <Container>
       <Row>
         <Col>
-        <h1>INBOX</h1><br></br>
+          <h1>INBOX</h1>
+          <br></br>
           <ListGroup className="custom-list-group">
-            {chats.map(chat => (
-              <ListGroup.Item key={chat.id} className="custom-list-group-item">
-                <Link to={`/chats/${chat.id}/${chat.name}`} className="custom-link">
-                  {chat.name || 'Loading...'}
-                </Link>
-              </ListGroup.Item>
+            {chats.map((chat) => (
+              <Link
+              key={chat.id}
+                to={`/chats/${chat.id}/${chat.name}`}
+                className="custom-link"
+              >
+                <ListGroup.Item
+                  key={chat.id}
+                  className="custom-list-group-item"
+                >
+                  {chat.name || "Loading..."}
+                </ListGroup.Item>
+              </Link>
             ))}
           </ListGroup>
         </Col>

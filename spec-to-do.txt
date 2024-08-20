@@ -75,7 +75,6 @@ customize profile (avatars?)
 archiements/badges
 fetched location automatically
 register map: fetch actual users location, search by city
-popraviti notifikacije
 
 
 Loyalty Program:
