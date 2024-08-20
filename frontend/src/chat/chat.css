@@ -4,17 +4,19 @@
   padding: 1rem;
   padding-top: 0rem;
   padding-bottom: 0rem;
-  max-width: 80%;
-  margin: 8rem;
+  max-width: 90%;
   margin-top: 0;
   margin-bottom: 2rem;
+  margin-left: 5rem;
+  margin-right: 4rem;
   border: 1px solid #ccc;
-  border-radius: 2rem;
+  border-radius: 1rem;
 }
 
 
 .chat {
-  padding: 10px;
+  padding: 0px;
+  padding-bottom: 10px;
   width: 100%;
   height: 63vh;
   display: flex;
@@ -37,18 +39,6 @@
 .message-input-group .form-control {
   border-radius: 1rem;
   border: 1px solid #ccc;
-}
-
-.message-input-group .btn {
-  border-color: #ccc;
-  border-radius: 20px;
-  background-color: #f3693c; /* Button color */
-  color: white;
-  margin-left: 5px;
-}
-
-.message-input-group .btn:hover {
-  background-color: #f38462; /* Lighter button color on hover */
 }
 
 /* Message card styles */
@@ -79,7 +69,6 @@
 
 .message-content {
   padding: 5px;
-  font-size: small;
   
 }
 

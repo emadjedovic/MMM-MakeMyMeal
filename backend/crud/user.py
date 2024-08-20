@@ -14,6 +14,9 @@ def crud_get_user_by_id(db: Session, id: int) -> DBUser:
 def crud_get_user_by_email(db: Session, email: str) -> DBUser:
     return db.query(DBUser).filter(DBUser.email == email).first()
 
+def crud_get_users_by_role(db: Session, role: UserRole):
+    return db.query(DBUser).filter(DBUser.role == role).all()
+
 
 def crud_delete_user(db: Session, id: int):
     user = db.query(DBUser).filter(DBUser.id == id).first()

@@ -45,3 +45,19 @@ export const fetchNameFromChat = async (token, userId, chatId) => {
       throw error;
     }
   };
+
+  export const createChat = async (token, chatData) => {
+    try {
+      const response = await axios.post(`${API_URL}/chats/`, chatData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      return response.data;
+    } catch (error) {
+      console.error("Error creating chat:", error);
+      throw error;
+    }
+  };

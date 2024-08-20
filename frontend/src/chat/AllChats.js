@@ -1,14 +1,15 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { ListGroup, Container, Row, Col } from "react-bootstrap";
+import { ListGroup, Container, Row, Col, Button } from "react-bootstrap";
 import { UserContext } from "../UserContext";
 import { fetchChats, fetchNameFromChat } from "./chatApi";
-
+import CreateChatModal from "./CreateChatModal.js";
 import "./chat.css"; // Import the CSS file
 
 const AllChats = () => {
   const { token, user } = useContext(UserContext);
   const [chats, setChats] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     // Fetch list of chats connected to the current user
@@ -33,12 +34,18 @@ const AllChats = () => {
     fetchChatsData(); // Call the async function
   }, [token, user.id]);
 
+  const handleChatCreated = () => {
+    setShowModal(false);
+    window.location.reload(); // Reload to show the new chat
+  };
+
   return (
     <Container>
       <Row>
         <Col>
-          <h1>INBOX</h1>
-          <br></br>
+        <h1>INBOX</h1>
+          <Button variant="outline-dark" onClick={() => setShowModal(true)}>Create New Chat</Button>
+          <br /><br />
           <ListGroup className="custom-list-group">
             {chats.map((chat) => (
               <Link
@@ -57,6 +64,14 @@ const AllChats = () => {
           </ListGroup>
         </Col>
       </Row>
+
+      <CreateChatModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        token={token}
+        userId={user.id}
+        onChatCreated={handleChatCreated}
+      />
     </Container>
   );
 };

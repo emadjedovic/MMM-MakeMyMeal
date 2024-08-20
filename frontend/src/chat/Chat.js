@@ -16,6 +16,7 @@ const Chat = () => {
 
   const messageEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
+  const [shouldScroll, setShouldScroll] = useState(true); // Control auto-scrolling
 
   useEffect(() => {
     // Fetch existing messages from the API
@@ -95,15 +96,30 @@ const Chat = () => {
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
+      setShouldScroll(true)
       sendMessage();
     }
   };
 
   useEffect(() => {
     if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      if (shouldScroll) {
+        messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      }
     }
-  }, [messages]);
+  }, [messages, shouldScroll]);
+
+  const handleScroll = () => {
+    if (messagesContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
+      // Check if user has scrolled up
+      if (scrollHeight - scrollTop === clientHeight) {
+        setShouldScroll(true); // Auto-scroll if at the bottom
+      } else {
+        setShouldScroll(false); // Stop auto-scroll if user scrolled up
+      }
+    }
+  };
 
   return (
     <Container>
@@ -125,7 +141,9 @@ const Chat = () => {
         <Col md={0} lg={2}></Col>
       </Row>
       <Row className="chat-row">
-        <div className="chat" ref={messagesContainerRef}>
+        <div className="chat"
+          ref={messagesContainerRef}
+          onScroll={handleScroll}>
           {Array.isArray(messages) &&
             messages.map((message, index) => (
               <div
@@ -147,7 +165,7 @@ const Chat = () => {
             onKeyPress={handleKeyPress}
             placeholder="Type your message..."
           />
-          <Button onClick={sendMessage} variant="primary">
+          <Button onClick={sendMessage} variant="danger" style={{marginLeft: "1rem"}}>
             Send
           </Button>
         </div>
