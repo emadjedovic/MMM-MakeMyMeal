@@ -184,11 +184,17 @@ async def websocket_endpoint(
                     # Create a new message entry in the database
                     message_data = MessageCreate(sender_id=message_data['sender_id'], content=message_data['content'])
                     print("message_data (MessageCreate): ", message_data)
-                    create_message(db=db, chat_id=chat_id, message=message_data)
+                    db_message = create_message(db=db, chat_id=chat_id, message=message_data)
                     
-                    # Broadcast the message to all connected clients
-                    await manager.broadcast(f"{message_data['sender_id']}: {message_data['content']}")
-                    print("data: ", data)
+                    response_message = {
+                        "id": db_message.id,
+                        "content": db_message.content,
+                        "sender_id": db_message.sender_id,
+                        "created_at": db_message.timestamp,
+                    }
+                    
+                    await manager.broadcast(json.dumps(response_message))
+                    print("Message broadcasted: ", response_message)
                 else:
                     print("Message already exists, not saving to database.")
 

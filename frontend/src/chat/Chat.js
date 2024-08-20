@@ -13,7 +13,9 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [ws, setWs] = useState(null);
+
   const messageEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
 
   useEffect(() => {
     // Fetch existing messages from the API
@@ -26,8 +28,12 @@ const Chat = () => {
         setMessages([]); // Set to an empty array on error
       }
     };
-
+  
     fetchMessages(); // Call the async function
+    /* messages refreshing constantly */
+  }, [chatId, token, messages]);
+
+  useEffect(() => {
 
     // Establish WebSocket connection
     const ws = new WebSocket(`ws://localhost:8000/ws/chat/${chatId}?token=${token}`);
@@ -94,32 +100,32 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    if (messageEndRef.current) {
-      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
   }, [messages]);
 
   return (
     <Container>
       <Row>
-        <Col md={4} lg={2}>
+        <Col md={4} lg={4}>
           <Button
             variant="outline-dark"
             className="back-button"
             onClick={() => navigate("/chats")}
           >
-            Back to Chats
+            BACK TO ALL CHATS
           </Button>
         </Col>
-        <Col md={8} lg={10}>
+        <Col md={8} lg={8}>
           <h4>
-            <i>CHAT WITH {chatName}</i>
+            CHAT WITH {chatName}
           </h4>
         </Col>
         <Col md={0} lg={2}></Col>
       </Row>
       <Row className="chat-row">
-        <div className="chat">
+        <div className="chat" ref={messagesContainerRef}>
           {Array.isArray(messages) &&
             messages.map((message, index) => (
               <div
