@@ -1,9 +1,13 @@
 // src/components/Sidebar.js
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Button, OverlayTrigger, Tooltip, Badge, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faBell, faCommentDots } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUser,
+  faBell,
+  faCommentDots,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   faMedium,
   faGithub,
@@ -12,19 +16,24 @@ import {
 import "../css/App.css";
 import icon from "../assets/icon.png";
 import { UserContext } from "../UserContext";
+import { NotificationsContext } from "../NotificationsContext";
 
 function Sidebar() {
-  const { handleLogout, userRole } = useContext(UserContext);
+  const { handleLogout, userRole, token } = useContext(UserContext);
   const navigate = useNavigate();
+  const { newNotification } = useContext(NotificationsContext);
 
   const handleLogoutButton = () => {
     handleLogout();
     navigate("/login");
   };
 
+  useEffect(() => {
+    console.log("New Notification Status:", newNotification);
+  }, [newNotification]);
+
   return (
     <div className="sidebar">
-
       <OverlayTrigger
         placement="right"
         overlay={<Tooltip id="tooltip-home">Home</Tooltip>}
@@ -43,13 +52,18 @@ function Sidebar() {
         </Link>
       </OverlayTrigger>
 
-      {userRole === 'RESTAURANT ADMIN' && (
+      {userRole === "RESTAURANT ADMIN" && (
         <OverlayTrigger
-          placement="right"
+          placement="top"
           overlay={<Tooltip id="tooltip-notifications">Notifications</Tooltip>}
         >
           <Link to="/notifications" className="sidebar-item">
             <FontAwesomeIcon icon={faBell} />
+            {newNotification && (
+              <Badge pill bg="danger" className="ms-2">
+                <small>NEW</small>
+              </Badge>
+            )}
           </Link>
         </OverlayTrigger>
       )}
@@ -59,7 +73,7 @@ function Sidebar() {
         overlay={<Tooltip id="tooltip-chat">Chat</Tooltip>}
       >
         <Link to="/chats" className="sidebar-item">
-        <FontAwesomeIcon icon={faCommentDots} />
+          <FontAwesomeIcon icon={faCommentDots} />
         </Link>
       </OverlayTrigger>
 

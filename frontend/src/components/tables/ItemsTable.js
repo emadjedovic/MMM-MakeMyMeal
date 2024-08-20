@@ -10,6 +10,7 @@ import PlaceOrderModal from "../modals/PlaceOrderModal.js";
 import { createNotification } from "../../api/notificationsApi.js";
 import { toast } from "react-toastify"; // Import ToastContainer and toast
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for react-toastify
+import { NotificationsContext } from "../../NotificationsContext.js";
 
 const ItemsTable = ({
   items,
@@ -25,6 +26,8 @@ const ItemsTable = ({
   const [showOnPromotion, setShowOnPromotion] = useState(false);
   const { userRole, token, user } = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
+  
+  const { setNewNotification } = useContext(NotificationsContext);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -97,7 +100,7 @@ const ItemsTable = ({
       };
 
       await createNotification(token, notificationData);
-
+      setNewNotification(true);
       // Display toast notification
       toast.success("Order placed successfully!");
     } catch (error) {

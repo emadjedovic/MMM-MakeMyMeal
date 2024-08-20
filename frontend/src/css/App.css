@@ -62,6 +62,7 @@ p {
   margin: 12px 0; /* Increase margin between sidebar items */
   color: #e75019;
   text-decoration: none;
+  
 }
 
 .sidebar-item:hover {

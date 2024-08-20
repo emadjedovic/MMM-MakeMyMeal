@@ -21,6 +21,8 @@ def crud_get_orders_owner_id(owner_id: int, db: Session) -> List[DBOrder]:
     ).scalars().all()
 
 
+
+
 def crud_get_orders_all(db: Session) -> List[DBOrder]:
     orders = db.query(DBOrder).all()
     return orders
@@ -28,6 +30,7 @@ def crud_get_orders_all(db: Session) -> List[DBOrder]:
 def crud_get_order_by_id(db: Session, id: int) -> DBOrder:
     db_order = db.query(DBOrder).filter(DBOrder.id == id).first()
     return db_order
+
 
 local_tz = timezone(timedelta(hours=2))
 def crud_create_order(db: Session, order: OrderCreate, customer_id: int):

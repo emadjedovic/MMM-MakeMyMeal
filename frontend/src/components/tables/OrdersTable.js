@@ -15,6 +15,7 @@ import { UserContext } from "../../UserContext";
 import { createNotification } from "../../api/notificationsApi.js";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { NotificationsContext } from "../../NotificationsContext.js";
 
 const OrdersTable = ({
   orders,
@@ -24,6 +25,7 @@ const OrdersTable = ({
 }) => {
   const { user, token } = useContext(UserContext);
   const [selectedOrderStatuses, setSelectedOrderStatuses] = useState({});
+  const { setNewNotification } = useContext(NotificationsContext);
 
   const handleStatusChange = (orderId, status) => {
     setSelectedOrderStatuses((prevStatuses) => ({
@@ -31,6 +33,7 @@ const OrdersTable = ({
       [orderId]: status,
     }));
   };
+
 
   const handleSaveStatus = async (orderId) => {
     const status = selectedOrderStatuses[orderId];
@@ -50,6 +53,8 @@ const OrdersTable = ({
       };
 
       await createNotification(token, notificationData);
+      setNewNotification(true);
+      
       toast.success("Status updated successfully!");
     } catch (error) {
       console.error("Error updating order status:", error);
