@@ -54,3 +54,19 @@ export const fetchUsersByRole = async (token, role) => {
     throw error;
   }
 };
+
+export const fetchUsers = async (token) => {
+  try {
+    const response = await axios.get(`${API_URL}/users/all`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users by role:", error);
+    throw error;
+  }
+};

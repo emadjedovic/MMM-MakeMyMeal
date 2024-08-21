@@ -7,7 +7,7 @@ import { fetchMessagesFromChat } from "./chatApi";
 import "./chat.css"; // Import the CSS file
 
 const Chat = () => {
-  const { chatId, chatName } = useParams(); // Extract chatId from URL parameters
+  const { chatId, chatFirstName } = useParams(); // Extract chatId from URL parameters
   const navigate = useNavigate(); // Initialize the navigate function
   const { user, token } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
@@ -135,7 +135,7 @@ const Chat = () => {
         </Col>
         <Col md={8} lg={8}>
           <h4>
-            CHAT WITH {chatName}
+            Chat with {chatFirstName}
           </h4>
         </Col>
         <Col md={0} lg={2}></Col>
@@ -165,7 +165,7 @@ const Chat = () => {
             onKeyPress={handleKeyPress}
             placeholder="Type your message..."
           />
-          <Button onClick={sendMessage} variant="danger" style={{marginLeft: "1rem"}}>
+          <Button onClick={sendMessage} variant="outline-secondary" style={{marginLeft: "1rem"}}>
             Send
           </Button>
         </div>

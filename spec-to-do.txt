@@ -2,8 +2,11 @@
 TO DO
 ----------------------------------------------------------------------
 - chat sa glavnim administratorom ili administratorom restorana.
-- chat admin + restoran admin za svakog restoran admina?
-- chat delivery personnel + restoran admin za svakog delivery personnela?
+CHAT
+- admin: all except customer
+- customer: all except admin
+- delivery: all
+- restaurant admin: all
 ----------------------------------------------------------------------
 PART II
 ----------------------------------------------------------------------

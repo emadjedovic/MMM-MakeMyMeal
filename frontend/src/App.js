@@ -80,7 +80,7 @@ function App() {
             element={<ProtectedRoute element={<NotificationsPage />} />}
           />
           <Route
-            path="/chats/:chatId/:chatName"
+            path="/chats/:chatId/:chatFirstName"
             element={<ProtectedRoute element={<Chat />} />}
           />
           <Route

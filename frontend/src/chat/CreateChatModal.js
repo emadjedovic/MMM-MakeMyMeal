@@ -1,25 +1,53 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import { createChat } from "./chatApi";
-import { fetchUsersByRole } from "../api/usersApi"
+import { fetchUsers } from "../api/usersApi"
 
-const CreateChatModal = ({ show, onHide, token, userId, onChatCreated }) => {
-  const [userRole, setUserRole] = useState("ADMIN");
+const CreateChatModal = ({ show, onHide, token, userId, userRole, onChatCreated, existingChatUsers }) => {
   const [selectedUser, setSelectedUser] = useState("");
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const handleFetchUsers = async () => {
       try {
-        const usersByRole = await fetchUsersByRole(token, userRole);
-        setUsers(usersByRole);
+        const allUsers = await fetchUsers(token);
+        console.log("existingChatUsers: ", existingChatUsers)
+        let availableUsers = allUsers.filter(user => !existingChatUsers.includes(user.id));
+
+        // Filter users based on the current user's role
+        switch (userRole) {
+          case "RESTAURANT ADMIN":
+            availableUsers = availableUsers.filter(user => 
+              ["ADMIN", "DELIVERY PERSONNEL", "CUSTOMER"].includes(user.role)
+            );
+            break;
+          case "ADMIN":
+            availableUsers = availableUsers.filter(user => 
+              ["RESTAURANT ADMIN", "DELIVERY PERSONNEL"].includes(user.role)
+            );
+            break;
+          case "DELIVERY PERSONNEL":
+            availableUsers = availableUsers.filter(user => 
+              ["ADMIN", "RESTAURANT ADMIN", "CUSTOMER"].includes(user.role)
+            );
+            break;
+          case "CUSTOMER":
+            availableUsers = availableUsers.filter(user => 
+              ["RESTAURANT ADMIN", "DELIVERY PERSONNEL"].includes(user.role)
+            );
+            break;
+          default:
+            availableUsers = []; // No users available if the role doesn't match any case
+        }
+
+        setUsers(availableUsers);
       } catch (error) {
-        console.error("Error fetching users by role:", error);
+        console.error("Error fetching users:", error);
       }
     };
 
-    fetchUsers();
-  }, [userRole, token]);
+    handleFetchUsers();
+  }, [token, existingChatUsers, userRole]);
 
   const handleCreateChat = async () => {
     try {
@@ -31,6 +59,8 @@ const CreateChatModal = ({ show, onHide, token, userId, onChatCreated }) => {
     }
   };
 
+  
+
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
@@ -38,20 +68,11 @@ const CreateChatModal = ({ show, onHide, token, userId, onChatCreated }) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="userRole">
-            <Form.Label>Select User Role</Form.Label>
-            <Form.Control as="select" value={userRole} onChange={(e) => setUserRole(e.target.value)}>
-              <option value="ADMIN">ADMIN</option>
-              <option value="RESTAURANT ADMIN">RESTAURANT ADMIN</option>
-              <option value="DELIVERY PERSONNEL">DELIVERY PERSONNEL</option>
-            </Form.Control>
-          </Form.Group>
-
           <Form.Group controlId="selectedUser">
             <Form.Label>Select User</Form.Label>
             <Form.Control as="select" value={selectedUser} onChange={(e) => setSelectedUser(e.target.value)}>
               {users.map((user) => (
-                <option key={user.id} value={user.id}>{user.name}</option>
+                <option key={user.id} value={user.id}>{user.first_name} {user.last_name} ({user.role})</option>
               ))}
             </Form.Control>
           </Form.Group>

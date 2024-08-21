@@ -39,6 +39,9 @@ def crud_get_customer_location(db: Session, id: int):
 def crud_get_users_by_role(db: Session, role: UserRole, skip: int = 0, limit: int = 10):
     return db.query(DBUser).filter(DBUser.role == role).offset(skip).limit(limit).all()
 
+def crud_get_users_all(db: Session):
+    return db.query(DBUser).all()
+
 
 def crud_create_customer(db: Session, user: UserCreate) -> DBUser:
     hashed_password = pwd_context.hash(user.password)

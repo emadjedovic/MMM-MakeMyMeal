@@ -31,6 +31,22 @@ export const fetchNameFromChat = async (token, userId, chatId) => {
     }
   };
 
+export const fetchUserInfoFromChat = async (token, userId, chatId) => {
+  try {
+    const response = await axios.get(`${API_URL}/chats/${chatId}/${userId}/user-info`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in fetchUserInfoFromChat.");
+    throw error;
+  }
+};
+  
+
   export const fetchMessagesFromChat = async (token, chatId) => {
     try {
         const response = await axios.get(`${API_URL}/chats/${chatId}/messages/`, {

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { ListGroup, Container, Row, Col, Button } from "react-bootstrap";
 import { UserContext } from "../UserContext";
-import { fetchChats, fetchNameFromChat } from "./chatApi";
+import { fetchChats, fetchUserInfoFromChat } from "./chatApi";
 import CreateChatModal from "./CreateChatModal.js";
 import "./chat.css"; // Import the CSS file
 
@@ -17,17 +17,23 @@ const AllChats = () => {
       try {
         const fetchedChats = await fetchChats(token, user.id); // Wait for the API call to resolve
 
-        // Fetch the names for each chat and update the chat objects
-        const chatsWithNames = await Promise.all(
+        // Fetch the user info for each chat and update the chat objects
+        const chatsWithInfo = await Promise.all(
           fetchedChats.map(async (chat) => {
-            const name = await fetchNameFromChat(token, user.id, chat.id);
-            return { ...chat, name }; // Add the name to each chat object
+            const userInfo = await fetchUserInfoFromChat(token, user.id, chat.id);
+            return { 
+              ...chat, 
+              firstName: userInfo.first_name, 
+              lastName: userInfo.last_name, 
+              role: userInfo.role,
+              userId: userInfo.id // Store the user ID
+            }; // Add the firstName, lastName, and userRole to each chat object
           })
         );
 
-        setChats(chatsWithNames); // Set the resolved data to chats state
+        setChats(chatsWithInfo); // Set the resolved data to chats state
       } catch (error) {
-        console.error("Error fetching chats or names:", error);
+        console.error("Error fetching chats or user info:", error);
       }
     };
 
@@ -38,6 +44,8 @@ const AllChats = () => {
     setShowModal(false);
     window.location.reload(); // Reload to show the new chat
   };
+
+  const existingChatUsers = chats.map(chat => chat.userId);
 
   return (
     <Container>
@@ -50,16 +58,16 @@ const AllChats = () => {
             {chats.map((chat) => (
               <Link
               key={chat.id}
-                to={`/chats/${chat.id}/${chat.name}`}
-                className="custom-link"
+              to={`/chats/${chat.id}/${chat.firstName}`}
+              className="custom-link"
+            >
+              <ListGroup.Item
+                key={chat.id}
+                className="custom-list-group-item"
               >
-                <ListGroup.Item
-                  key={chat.id}
-                  className="custom-list-group-item"
-                >
-                  {chat.name || "Loading..."}
-                </ListGroup.Item>
-              </Link>
+                {chat.firstName} {chat.lastName} ({chat.role || "Loading..."})
+              </ListGroup.Item>
+            </Link>
             ))}
           </ListGroup>
         </Col>
@@ -70,7 +78,9 @@ const AllChats = () => {
         onHide={() => setShowModal(false)}
         token={token}
         userId={user.id}
+        userRole={user.role}
         onChatCreated={handleChatCreated}
+        existingChatUsers={existingChatUsers} // Pass user IDs already in chats
       />
     </Container>
   );

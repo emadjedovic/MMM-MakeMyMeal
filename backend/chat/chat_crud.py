@@ -35,5 +35,20 @@ def get_name_from_chat(user_id: int, chat_id, db: Session):
     else:
         another_name = crud_get_user_by_id(db=db, id=chat.first_user_id).first_name
         return another_name
+    
+def get_user_info_from_chat(user_id: int, chat_id, db: Session):
+    chat = db.query(DBChat).filter(DBChat.id == chat_id).first()
+    if chat.first_user_id == user_id:
+        user = crud_get_user_by_id(db=db, id=chat.second_user_id)
+    else:
+        user = crud_get_user_by_id(db=db, id=chat.first_user_id)
+
+    return {
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "role": user.role,
+        "id": user.id
+    }
+
 
 
