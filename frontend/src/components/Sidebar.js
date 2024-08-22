@@ -1,7 +1,6 @@
-// src/components/Sidebar.js
 import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { OverlayTrigger, Tooltip, Badge, Button } from "react-bootstrap";
+import { OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ThemedButton from "./ThemedButton";
 import {

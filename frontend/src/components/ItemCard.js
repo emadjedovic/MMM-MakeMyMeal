@@ -1,4 +1,3 @@
-// src/components/ItemCard.js
 import React, { useState, useEffect, useContext } from "react";
 import {
   Card,

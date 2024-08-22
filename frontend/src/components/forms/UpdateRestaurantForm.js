@@ -1,4 +1,3 @@
-// src/components/UpdateRestaurantForm.js
 import React, { useContext, useState, useEffect } from "react";
 import {
   Form,

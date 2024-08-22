@@ -7,7 +7,6 @@ import RAdminRestaurantsTable from "../components/tables/RAdminRestaurantsTable"
 import RestaurantPage from "../components/RestaurantPage";
 import RAdminOrdersTable from "../components/tables/RAdminOrdersTable";
 import OrderModal from "../components/modals/OrderModal";
-
 import {
   handleFetchRestaurantsByOwner,
   handleFetchRestaurantTypes,

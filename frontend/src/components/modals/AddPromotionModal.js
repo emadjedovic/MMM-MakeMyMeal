@@ -1,4 +1,3 @@
-// src/components/AddPromotionModal.js
 import React, { useState, useContext } from "react";
 import { Modal, Form, Alert } from "react-bootstrap";
 import { createPromotion } from "../../api/promotionsApi";

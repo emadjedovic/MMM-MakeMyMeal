@@ -1,4 +1,3 @@
-// services/customerHandlers.js
 import {
   fetchNearbyRestaurants,
   fetchRecommendedRestaurants,

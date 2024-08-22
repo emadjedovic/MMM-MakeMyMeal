@@ -1,4 +1,3 @@
-// src/components/ThemedButton.js
 import React, { useContext } from "react";
 import { Button } from "react-bootstrap";
 import { ThemeContext } from "../contexts/ThemeContext";

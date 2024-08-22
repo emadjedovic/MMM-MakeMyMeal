@@ -1,4 +1,3 @@
-// src/components/AddRestaurantForm.js
 import React, { useContext, useState, useEffect } from "react";
 import { createRestaurant } from "../../api/restaurantsApi";
 import { fetchRestaurantTypes } from "../../api/restaurantTypesApi";

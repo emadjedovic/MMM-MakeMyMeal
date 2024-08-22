@@ -1,14 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { Container, Tab, Nav, Row, Col } from "react-bootstrap";
-
 import CustomerRestaurantsTable from "../components/tables/CustomerRestaurantsTable";
 import RecommendedRestaurants from "../components/RecommendedRestaurants";
 import PromotionsTable from "../components/tables/PromotionsTable";
 import RecommendedItems from "../components/RecommendedItems";
 import RestaurantPage from "../components/RestaurantPage";
 import OrdersTable from "../components/tables/OrdersTable";
-
 import {
   handleFetchPromotionData,
   handleFetchRecommended,

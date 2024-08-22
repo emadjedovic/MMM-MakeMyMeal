@@ -1,4 +1,3 @@
-// src/components/Header.js
 import React, { useContext } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
 import ThemedButton from "./ThemedButton";

@@ -19,7 +19,7 @@ import {
   FaExclamationCircle,
   FaCheckCircle,
   FaQuestionCircle,
-} from "react-icons/fa"; // Import FontAwesome icons
+} from "react-icons/fa";
 import { NotificationsContext } from "../contexts/NotificationsContext.js";
 
 const NotificationsPage = () => {

@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useContext, useEffect } from "react";
 import {
   Routes,
@@ -19,7 +18,6 @@ import DeliveryPersonnelPage from "./pages/DeliveryPersonnelPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import AllChats from "./chat/AllChats";
 import Chat from "./chat/Chat";
-import Header from "./components/Header";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./css/App.css"

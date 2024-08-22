@@ -1,4 +1,3 @@
-// src/components/LookupTables.js
 import React from "react";
 import RestaurantTypeForm from "./forms/RestaurantTypeForm";
 import FoodTypeForm from "./forms/FoodTypeForm";

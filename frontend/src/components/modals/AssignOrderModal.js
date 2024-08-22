@@ -1,4 +1,3 @@
-// src/components/AssignOrderModal.js
 import React, { useState } from "react";
 import { Modal, Form, Alert } from "react-bootstrap";
 import { assignOrder } from "../../api/ordersApi";
@@ -7,7 +6,7 @@ import ThemedButton from "../ThemedButton";
 const AssignOrderModal = ({ show, closeModal, refreshOrdersParent, orderId, token }) => {
   const [deliveryId, setDeliveryId] = useState("");
   const [message, setMessage] = useState("");
-  const [messageVariant, setMessageVariant] = useState(""); // 'success' or 'danger'
+  const [messageVariant, setMessageVariant] = useState("");
 
   const handleAssign = () => {
     assignOrder(token, orderId, deliveryId)

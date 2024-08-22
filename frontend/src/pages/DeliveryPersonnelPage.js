@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { Container, Tab, Nav, Row, Col } from "react-bootstrap";
 import OrdersTable from "../components/tables/OrdersTable";
-
 import { handleFetchDeliveriesToday } from "../handlers/DeliveryPageHandlers";
 
 const DeliveryPersonnelPage = () => {
