@@ -3,14 +3,14 @@ import { Container, Row, Col, Pagination, Form, Button } from "react-bootstrap";
 import "../../css/App.css";
 import ItemCard from "../ItemCard.js";
 import ItemTypesList from "../ItemTypesList.js";
-import { UserContext } from "../../UserContext.js";
+import { UserContext } from "../../contexts/UserContext.js";
 import AddItemModal from "../modals/AddItemModal.js";
 import { placeOrder } from "../../api/ordersApi.js";
 import PlaceOrderModal from "../modals/PlaceOrderModal.js";
 import { createNotification } from "../../api/notificationsApi.js";
 import { toast } from "react-toastify"; // Import ToastContainer and toast
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for react-toastify
-import { NotificationsContext } from "../../NotificationsContext.js";
+import { NotificationsContext } from "../../contexts/NotificationsContext.js";
 
 const ItemsTable = ({
   items,

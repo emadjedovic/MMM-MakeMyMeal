@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from "../UserContext.js";
+import { UserContext } from "../contexts/UserContext.js";
 import {
   handleFetchNotificationsOwner,
   handleDeleteNotification,
@@ -20,7 +20,7 @@ import {
   FaCheckCircle,
   FaQuestionCircle,
 } from "react-icons/fa"; // Import FontAwesome icons
-import { NotificationsContext } from "../NotificationsContext.js";
+import { NotificationsContext } from "../contexts/NotificationsContext.js";
 
 const NotificationsPage = () => {
   const { token, user } = useContext(UserContext);

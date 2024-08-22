@@ -15,7 +15,7 @@ from .chat_schemas import MessageCreate, ChatCreate, Message, Chat
 router = APIRouter()
 
 
-@router.post("/chats/", response_model=ChatCreate)
+@router.post("/chats/new/", response_model=ChatCreate)
 def create_chat_endpoint(chat: ChatCreate, db: Session = Depends(get_db)):
     return create_chat(db=db, chat=chat)
 

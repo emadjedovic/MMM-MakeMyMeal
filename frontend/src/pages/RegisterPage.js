@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Map from "../components/Map";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import "../css/RegisterPage.css";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../contexts/UserContext";
 import { registerUser } from "../api/authApi";
 
 const RegisterPage = () => {

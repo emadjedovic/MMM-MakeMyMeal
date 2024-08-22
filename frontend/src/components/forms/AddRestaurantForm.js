@@ -11,7 +11,7 @@ import {
   Card,
   Alert,
 } from "react-bootstrap";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../../contexts/UserContext";
 
 const AddRestaurantForm = ({ onAdd }) => {
   const { token } = useContext(UserContext);

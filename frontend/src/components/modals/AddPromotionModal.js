@@ -2,7 +2,7 @@
 import React, { useState, useContext } from "react";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
 import { createPromotion } from "../../api/promotionsApi";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../../contexts/UserContext";
 import { PercentageToFraction } from "../../calculations";
 
 const AddPromotionModal = ({ show, handleClose, itemId, refreshItems }) => {

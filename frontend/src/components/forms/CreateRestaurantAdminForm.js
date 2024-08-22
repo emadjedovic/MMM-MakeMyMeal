@@ -1,7 +1,7 @@
 // src/components/CreateRestaurantAdminForm.js
 import React, { useState, useContext } from "react";
 import { Form, Button, Row, Col, Alert, Card } from "react-bootstrap";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../../contexts/UserContext";
 import { createAdmin } from "../../api/usersApi";
 
 const CreateRestaurantAdminForm = () => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { ListGroup, Container, Row, Col, Button } from "react-bootstrap";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../contexts/UserContext.js";
 import { fetchChats, fetchUserInfoFromChat } from "./chatApi";
 import CreateChatModal from "./CreateChatModal.js";
 import "./chat.css"; // Import the CSS file
@@ -12,12 +12,10 @@ const AllChats = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    // Fetch list of chats connected to the current user
-    const fetchChatsData = async () => {
+    const handleFetchChats = async () => {
       try {
-        const fetchedChats = await fetchChats(token, user.id); // Wait for the API call to resolve
+        const fetchedChats = await fetchChats(token, user.id);
 
-        // Fetch the user info for each chat and update the chat objects
         const chatsWithInfo = await Promise.all(
           fetchedChats.map(async (chat) => {
             const userInfo = await fetchUserInfoFromChat(token, user.id, chat.id);
@@ -26,23 +24,22 @@ const AllChats = () => {
               firstName: userInfo.first_name, 
               lastName: userInfo.last_name, 
               role: userInfo.role,
-              userId: userInfo.id // Store the user ID
-            }; // Add the firstName, lastName, and userRole to each chat object
+              userId: userInfo.id
+            };
           })
         );
 
-        setChats(chatsWithInfo); // Set the resolved data to chats state
+        setChats(chatsWithInfo);
       } catch (error) {
         console.error("Error fetching chats or user info:", error);
       }
     };
 
-    fetchChatsData(); // Call the async function
-  }, [token, user.id]);
+    handleFetchChats();
+  }, [token, user.id, showModal, setChats]);
 
   const handleChatCreated = () => {
     setShowModal(false);
-    window.location.reload(); // Reload to show the new chat
   };
 
   const existingChatUsers = chats.map(chat => chat.userId);
@@ -80,7 +77,7 @@ const AllChats = () => {
         userId={user.id}
         userRole={user.role}
         onChatCreated={handleChatCreated}
-        existingChatUsers={existingChatUsers} // Pass user IDs already in chats
+        existingChatUsers={existingChatUsers}
       />
     </Container>
   );

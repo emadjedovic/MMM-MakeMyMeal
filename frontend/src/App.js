@@ -7,7 +7,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { UserContext } from "./UserContext";
+import { UserContext } from "./contexts/UserContext";
 import Sidebar from "./components/Sidebar";
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";

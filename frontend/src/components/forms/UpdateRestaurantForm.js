@@ -9,7 +9,7 @@ import {
   Card,
   Alert,
 } from "react-bootstrap";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../../contexts/UserContext";
 import { handleFetchRestaurantTypes } from "../../handlers/RestaurantPageHandlers";
 import { handleUpdateRestaurant } from "../../handlers/RestaurantPageHandlers";
 

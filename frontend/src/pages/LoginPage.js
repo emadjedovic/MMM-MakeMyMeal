@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/LoginPage.css";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../contexts/UserContext";
 import { loginUser } from "../api/authApi";
 
 const LoginPage = () => {

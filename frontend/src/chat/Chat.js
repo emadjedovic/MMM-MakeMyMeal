@@ -2,13 +2,13 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../contexts/UserContext";
 import { fetchMessagesFromChat } from "./chatApi";
-import "./chat.css"; // Import the CSS file
+import "./chat.css";
 
 const Chat = () => {
-  const { chatId, chatFirstName } = useParams(); // Extract chatId from URL parameters
-  const navigate = useNavigate(); // Initialize the navigate function
+  const { chatId, chatFirstName } = useParams();
+  const navigate = useNavigate();
   const { user, token } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -16,27 +16,25 @@ const Chat = () => {
 
   const messageEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
-  const [shouldScroll, setShouldScroll] = useState(true); // Control auto-scrolling
+  const [shouldScroll, setShouldScroll] = useState(true);
+
 
   useEffect(() => {
-    // Fetch existing messages from the API
     const fetchMessages = async () => {
       try {
         const fetchedMessages = await fetchMessagesFromChat(token, chatId);
-        setMessages(fetchedMessages || []); // Ensure messages is an array
+        setMessages(fetchedMessages || []);
       } catch (error) {
         console.error("Error fetching messages:", error);
-        setMessages([]); // Set to an empty array on error
+        setMessages([]);
       }
     };
   
-    fetchMessages(); // Call the async function
-    /* messages refreshing constantly */
+    fetchMessages();
   }, [chatId, token, messages]);
 
   useEffect(() => {
 
-    // Establish WebSocket connection
     const ws = new WebSocket(`ws://localhost:8000/ws/chat/${chatId}?token=${token}`);
 
     ws.onopen = () => {
@@ -47,7 +45,6 @@ const Chat = () => {
       console.log("Received message: ", event.data);
       const message = JSON.parse(event.data);
       setMessages((prevMessages) => {
-        // Check if message already exists in state
         if (!prevMessages.some((msg) => msg.id === message.id)) {
           return [...prevMessages, message];
         }
@@ -76,11 +73,9 @@ const Chat = () => {
         sender_id: user.id,
       };
 
-      // Send message to the API
       axios
         .post(`http://localhost:8000/api/chats/${chatId}/create-message/`, messageData)
         .then((response) => {
-          // Send message over WebSocket to notify other clients
           if (ws) {
             ws.send(JSON.stringify(response.data.content));
             console.log("Message sent over WebSocket:", response.data.content);
@@ -112,11 +107,10 @@ const Chat = () => {
   const handleScroll = () => {
     if (messagesContainerRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
-      // Check if user has scrolled up
       if (scrollHeight - scrollTop === clientHeight) {
-        setShouldScroll(true); // Auto-scroll if at the bottom
+        setShouldScroll(true);
       } else {
-        setShouldScroll(false); // Stop auto-scroll if user scrolled up
+        setShouldScroll(false);
       }
     }
   };
@@ -165,7 +159,7 @@ const Chat = () => {
             onKeyPress={handleKeyPress}
             placeholder="Type your message..."
           />
-          <Button onClick={sendMessage} variant="outline-secondary" style={{marginLeft: "1rem"}}>
+          <Button onClick={sendMessage} variant="outline-dark" style={{marginLeft: "1rem"}}>
             Send
           </Button>
         </div>

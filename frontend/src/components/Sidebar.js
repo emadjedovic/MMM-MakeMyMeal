@@ -1,7 +1,7 @@
 // src/components/Sidebar.js
 import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, OverlayTrigger, Tooltip, Badge, Row, Col } from "react-bootstrap";
+import { Button, OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -15,11 +15,11 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import "../css/App.css";
 import icon from "../assets/icon.png";
-import { UserContext } from "../UserContext";
-import { NotificationsContext } from "../NotificationsContext";
+import { UserContext } from "../contexts/UserContext";
+import { NotificationsContext } from "../contexts/NotificationsContext";
 
 function Sidebar() {
-  const { handleLogout, userRole, token } = useContext(UserContext);
+  const { handleLogout, userRole } = useContext(UserContext);
   const navigate = useNavigate();
   const { newNotification } = useContext(NotificationsContext);
 

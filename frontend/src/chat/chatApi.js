@@ -64,7 +64,8 @@ export const fetchUserInfoFromChat = async (token, userId, chatId) => {
 
   export const createChat = async (token, chatData) => {
     try {
-      const response = await axios.post(`${API_URL}/chats/`, chatData, {
+      console.log("sending chatData: ", chatData)
+      const response = await axios.post(`${API_URL}/chats/new/`, chatData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -73,7 +74,7 @@ export const fetchUserInfoFromChat = async (token, userId, chatId) => {
   
       return response.data;
     } catch (error) {
-      console.error("Error creating chat:", error);
+      console.error("Error in createChat.")
       throw error;
     }
   };
