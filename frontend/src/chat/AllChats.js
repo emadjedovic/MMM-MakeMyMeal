@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { ListGroup, Container, Row, Col, Button } from "react-bootstrap";
+import { ListGroup, Container, Row, Col } from "react-bootstrap";
 import { UserContext } from "../contexts/UserContext.js";
 import { fetchChats, fetchUserInfoFromChat } from "./chatApi";
 import CreateChatModal from "./CreateChatModal.js";
 import "./chat.css"; // Import the CSS file
+import ThemedButton from "../components/ThemedButton.js";
 
 const AllChats = () => {
   const { token, user } = useContext(UserContext);
@@ -49,7 +50,7 @@ const AllChats = () => {
       <Row>
         <Col>
         <h1>INBOX</h1>
-          <Button variant="outline-dark" onClick={() => setShowModal(true)}>Create New Chat</Button>
+          <ThemedButton variant="outline-dark" onClick={() => setShowModal(true)}>Create New Chat</ThemedButton>
           <br /><br />
           <ListGroup className="custom-list-group">
             {chats.map((chat) => (

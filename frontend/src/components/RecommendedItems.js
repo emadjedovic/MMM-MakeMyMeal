@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Container, Button, Row, Col, Card, ListGroup } from "react-bootstrap";
+import { Container, Row, Col, Card, ListGroup } from "react-bootstrap";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { handleFetchRestaurantNamesFromItems } from "../handlers/RestaurantPageHandlers";
+import ThemedButton from "./ThemedButton";
 
 const RecommendedItems = ({ recommended, handleRestaurantSelectParent }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -76,7 +77,7 @@ const RecommendedItems = ({ recommended, handleRestaurantSelectParent }) => {
           ))}
         </Col>
         <Col xs="auto" className="d-flex flex-column align-items-center">
-          <Button
+          <ThemedButton
             variant="light"
             onClick={handlePrev}
             disabled={currentIndex === 0}
@@ -84,15 +85,15 @@ const RecommendedItems = ({ recommended, handleRestaurantSelectParent }) => {
             style={{ marginBottom: "10px" }}
           >
             <FaArrowUp />
-          </Button>
-          <Button
+          </ThemedButton>
+          <ThemedButton
             variant="light"
             onClick={handleNext}
             disabled={currentIndex === totalPages - 1}
             aria-label="Next"
           >
             <FaArrowDown />
-          </Button>
+          </ThemedButton>
         </Col>
       </Row>
     </Container>

@@ -1,127 +1,92 @@
-/* src/app.css */
-
-/* Global styles */
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: whitesmoke; /* Background color for the whole app */
-  color: #333; /* Default text color */
-}
-
 #root {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* App layout */
 .App {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .App-content {
-  flex: 1;
-  padding-top: 3rem; /* Adjust margin to create spacing around content */
-  padding-left: 10rem; /* Adjust to the width of the sidebar */
-  padding-right: 2rem;
+    flex: 1;
+    padding-top: 1rem;
+    /* Adjust margin to create spacing around content */
+    padding-left: 10rem;
+    /* Adjust to the width of the sidebar */
+    padding-right: 2rem;
 }
 
 /* Additional styles for headings and other elements */
-h1, h2, h3, h4, h5, h6 {
-  margin: 1rem;
-  margin-bottom: 2rem;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 1rem;
+    margin-bottom: 2rem;
 }
 
 p {
-  margin: 0;
+    margin: 0;
 }
 
-
-/* Sidebar styles */
-.sidebar {
-  height: 100vh;
-  width: 8rem; /* Increase width for better content fit */
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: linear-gradient(to right, lightgray, whitesmoke);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem 0; /* Adjust padding for better spacing inside sidebar */
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1); /* Increase shadow for better separation */
-}
-
-.sidebar-item {
-  margin: 12px 0; /* Increase margin between sidebar items */
-  color: #e75019;
-  text-decoration: none;
-  
-}
-
-.sidebar-item:hover {
-  color: #f47c4d;
-}
 
 .sidebar-item svg {
-  display: block;
-  width: 1.5rem; /* Adjust width as needed */
-  height: 1.5rem; /* Adjust height to maintain aspect ratio */
+    display: block;
+    width: 1.5rem;
+    /* Adjust width as needed */
+    height: 1.5rem;
+    /* Adjust height to maintain aspect ratio */
 }
 
 .sidebar-item img {
-  display: block;
-  width: 4rem; /* Adjust width as needed */
-  height: 4rem; /* Adjust height to maintain aspect ratio */
-  margin: 1rem;
+    display: block;
+    width: 4rem;
+    /* Adjust width as needed */
+    height: 4rem;
+    /* Adjust height to maintain aspect ratio */
+    margin: 1rem;
 }
 
-/* Footer styles within the sidebar */
-.sidebar-footer {
-  margin-top: auto; /* Pushes footer to the bottom of the sidebar */
-  padding: 1rem;
-  text-align: center;
-}
 
 .social-links {
-  display: flex;
-  flex-direction: column; /* Arrange icons vertically */
-  align-items: center; /* Center icons horizontally */
-  margin-bottom: 1rem;
-}
-
-.social-links a {
-  color: black;
-  margin: 0.5rem 0; /* Adjust margin to space icons vertically */
-  text-decoration: none;
-  font-size: 1.5rem; /* Adjust font size for icons */
-}
-
-.social-links a:hover {
-  color: #f47c4d;
-}
-
-.footer-text {
-  color: #666;
-  font-size: 0.75rem; /* Adjust font size */
+    display: flex;
+    flex-direction: column;
+    /* Arrange icons vertically */
+    align-items: center;
+    /* Center icons horizontally */
+    margin-bottom: 1rem;
 }
 
 /* CARDS */
-
-
 .hover-card {
-  transition: transform 0.2s, box-shadow 0.2s;
-  cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
 }
 
 .hover-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
+
+/* HEADER */
+
+.header {
+    background-color: var(--header-background);
+    /* Adjust according to theme */
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.theme-toggle-button {
+    margin: 0;
+    /* Adjust margin if needed */
+}

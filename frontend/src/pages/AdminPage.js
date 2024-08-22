@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container, Row, Col, Tab, Nav, Alert, Modal, Button } from "react-bootstrap";
+import { Container, Row, Col, Tab, Nav, Alert, Modal } from "react-bootstrap";
 import { UserContext } from "../contexts/UserContext";
 import AddRestaurantForm from "../components/forms/AddRestaurantForm";
 import UpdateRestaurantForm from "../components/forms/UpdateRestaurantForm";
@@ -10,7 +10,7 @@ import PromotionsTable from "../components/tables/PromotionsTable";
 import RestaurantPage from "../components/RestaurantPage";
 import OrdersTable from "../components/tables/OrdersTable";
 import OrderModal from "../components/modals/OrderModal";
-import "../css/App.css";
+import ThemedButton from "../components/ThemedButton";
 import {
   handleToggleArchiveRestaurant,
   handleDeleteRestaurant,
@@ -266,9 +266,9 @@ const AdminPage = () => {
                     />
                   </Modal.Body>
                   <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseOrderModal}>
+                    <ThemedButton variant="secondary" onClick={handleCloseOrderModal}>
                       Close
-                    </Button>
+                    </ThemedButton>
                   </Modal.Footer>
                 </Modal>
               )}

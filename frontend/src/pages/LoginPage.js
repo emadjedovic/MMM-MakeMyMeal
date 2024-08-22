@@ -1,7 +1,7 @@
 // src/pages/Login.js
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import { Container, Row, Col, Form, Alert, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/LoginPage.css";
 import { UserContext } from "../contexts/UserContext";
@@ -36,7 +36,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="background-wrapper">
+    <div className="background-wrapper" data-bs-theme="light">
       <Container fluid className="p-0 h-100">
         <Row className="h-100 m-0">
           <Col

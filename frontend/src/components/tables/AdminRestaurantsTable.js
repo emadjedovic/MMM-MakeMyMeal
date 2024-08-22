@@ -1,14 +1,8 @@
 import React, { useState } from "react";
-import {
-  Table,
-  Button,
-  Pagination,
-  Row,
-  Col,
-  Form,
-} from "react-bootstrap";
+import { Table, Pagination, Row, Col, Form } from "react-bootstrap";
 import RestaurantTypesList from "../RestaurantTypesList";
 import DeleteRestaurant from "../modals/DeleteRestaurantModal";
+import ThemedButton from "../ThemedButton";
 
 const AdminRestaurantsTable = ({
   restaurants,
@@ -48,7 +42,6 @@ const AdminRestaurantsTable = ({
     indexOfLastRestaurant
   );
 
-
   const handleSearchNameChange = (e) => {
     setSearchName(e.target.value);
     setCurrentPage(1);
@@ -59,8 +52,6 @@ const AdminRestaurantsTable = ({
     setCurrentPage(1);
   };
 
-
-
   const totalPages = Math.ceil(filteredRestaurants.length / itemsPerPage);
   const paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {
@@ -68,8 +59,7 @@ const AdminRestaurantsTable = ({
       <Pagination.Item
         key={number}
         active={number === currentPage}
-        onClick={(pageNumber) => 
-          setCurrentPage(pageNumber)}
+        onClick={(pageNumber) => setCurrentPage(pageNumber)}
       >
         {number}
       </Pagination.Item>
@@ -109,15 +99,13 @@ const AdminRestaurantsTable = ({
                 type="checkbox"
                 label="Archived"
                 checked={showArchived}
-                onChange={(e) => 
-                  setShowArchived(e.target.checked)}
+                onChange={(e) => setShowArchived(e.target.checked)}
               />
               <Form.Check
                 type="checkbox"
                 label="Not Archived"
                 checked={showNotArchived}
-                onChange={(e) => 
-                  setShowNotArchived(e.target.checked)}
+                onChange={(e) => setShowNotArchived(e.target.checked)}
               />
             </Form.Group>
           </Col>
@@ -141,12 +129,12 @@ const AdminRestaurantsTable = ({
               <tr key={restaurant.id}>
                 <td>{restaurant.id}</td>
                 <td>
-                  <Button
+                  <ThemedButton
                     variant="link"
                     onClick={() => handleRestaurantSelectParent(restaurant.id)}
                   >
                     {restaurant.name}
-                  </Button>
+                  </ThemedButton>
                 </td>
                 <td>{restaurant.latitude.toFixed(5)}</td>
                 <td>{restaurant.longitude.toFixed(5)}</td>
@@ -155,13 +143,13 @@ const AdminRestaurantsTable = ({
                 <td>{restaurant.star_rating}</td>
                 <td>{restaurant.type_name}</td>
                 <td>
-                  <Button
+                  <ThemedButton
                     variant={restaurant.is_archived ? "secondary" : "warning"}
                     onClick={() => onToggleArchive(restaurant.id)}
                     style={{ margin: "0.3rem" }}
                   >
                     {restaurant.is_archived ? "Unarchive" : "Archive"}
-                  </Button>
+                  </ThemedButton>
                   <DeleteRestaurant
                     restaurantId={restaurant.id}
                     onDelete={onDelete}

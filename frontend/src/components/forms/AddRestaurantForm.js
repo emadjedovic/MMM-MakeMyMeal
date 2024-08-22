@@ -4,7 +4,6 @@ import { createRestaurant } from "../../api/restaurantsApi";
 import { fetchRestaurantTypes } from "../../api/restaurantTypesApi";
 import {
   Form,
-  Button,
   Container,
   Row,
   Col,
@@ -12,6 +11,7 @@ import {
   Alert,
 } from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext";
+import ThemedButton from "../ThemedButton";
 
 const AddRestaurantForm = ({ onAdd }) => {
   const { token } = useContext(UserContext);
@@ -157,14 +157,14 @@ const AddRestaurantForm = ({ onAdd }) => {
                 ))}
               </div>
             </Form.Group>
-            <Button
+            <ThemedButton
               variant="secondary"
               onClick={() => 
                 setStarRating(0)}
               style={{ margin: "1rem" }}
             >
               Clear Selection
-            </Button>
+            </ThemedButton>
             <Form.Group controlId="formType">
               <Form.Label>Restaurant Type</Form.Label>
               <Form.Control
@@ -212,13 +212,13 @@ const AddRestaurantForm = ({ onAdd }) => {
                 placeholder="for example 'my_image.jpg'"
               />
             </Form.Group>
-            <Button
+            <ThemedButton
               variant="primary"
               onClick={handleAddRestaurant}
               style={{ margin: "1rem" }}
             >
               Add Restaurant
-            </Button>
+            </ThemedButton>
           </Form>
         </Card.Body>
       </Card>

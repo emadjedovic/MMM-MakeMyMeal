@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Form } from "react-bootstrap";
+import ThemedButton from "../ThemedButton";
 
 const PlaceOrderModal = ({ show, handleClose, handlePlaceOrder, orderItems }) => {
   const [paymentMethod, setPaymentMethod] = useState("CASH");
@@ -78,12 +79,12 @@ const PlaceOrderModal = ({ show, handleClose, handlePlaceOrder, orderItems }) =>
 </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <ThemedButton variant="secondary" onClick={handleClose}>
           Cancel
-        </Button>
-        <Button variant="success" onClick={handleConfirmOrder} disabled={aggregatedItems.length===0}>
+        </ThemedButton>
+        <ThemedButton variant="success" onClick={handleConfirmOrder} disabled={aggregatedItems.length===0}>
           Confirm Order
-        </Button>
+        </ThemedButton>
       </Modal.Footer>
     </Modal>
   );

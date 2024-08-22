@@ -90,7 +90,7 @@
 .custom-list-group-item {
   padding: 0.5rem; /* Adjust padding to reduce width */
   padding-left: 2rem;
-  border: 2px solid rgb(229, 229, 229); /* Optional: border for better visibility */
+  border: 1px solid rgb(229, 229, 229); /* Optional: border for better visibility */
   box-shadow: 10px 10px #dd6d4b;
   margin-bottom: 1rem; /* Optional: space between items */
 }

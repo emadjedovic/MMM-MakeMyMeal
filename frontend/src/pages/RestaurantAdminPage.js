@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { Container, Tab, Nav, Pagination, Row, Col, Modal, Button } from "react-bootstrap";
-import "../css/App.css";
-
+import { Container, Tab, Nav, Pagination, Row, Col, Modal } from "react-bootstrap";
+import ThemedButton from "../components/ThemedButton";
 import CreatePersonnelForm from "../components/forms/CreatePersonnelForm";
 import RAdminRestaurantsTable from "../components/tables/RAdminRestaurantsTable";
 import RestaurantPage from "../components/RestaurantPage";
@@ -171,9 +170,9 @@ const RestaurantAdminPage = () => {
                     />
                   </Modal.Body>
                   <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseOrderModal}>
+                    <ThemedButton variant="secondary" onClick={handleCloseOrderModal}>
                       Close
-                    </Button>
+                    </ThemedButton>
                   </Modal.Footer>
                 </Modal>
               )}

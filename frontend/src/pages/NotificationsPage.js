@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../contexts/UserContext.js";
+import ThemedButton from "../components/ThemedButton.js";
 import {
   handleFetchNotificationsOwner,
   handleDeleteNotification,
@@ -9,7 +10,6 @@ import {
   Container,
   Row,
   Col,
-  Button,
   Alert,
   Toast,
   CloseButton,
@@ -115,7 +115,7 @@ const NotificationsPage = () => {
             </h2>
           </Row>
           <Row>
-            <Button
+            <ThemedButton
               variant="danger"
               onClick={() =>
                 handleDeleteAllNotifications(token, setNotifications)
@@ -123,7 +123,7 @@ const NotificationsPage = () => {
               style={{ width: "80%", fontSize: "large", marginLeft: "1rem" }}
             >
               DELETE ALL
-            </Button>
+            </ThemedButton>
           </Row>
         </Col>
       </Row>
