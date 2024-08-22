@@ -4,6 +4,9 @@ from schemas.notification import NotificationCreate, Notification
 from typing import List
 from models.order import DBOrder
 from models.restaurant import DBRestaurant
+from datetime import datetime, timedelta, timezone
+
+local_tz = timezone(timedelta(hours=2))
 
 def crud_create_notification(db: Session, notification: NotificationCreate):
 
@@ -12,6 +15,7 @@ def crud_create_notification(db: Session, notification: NotificationCreate):
         type = notification.type,
         message = notification.message
     )
+    db_notification.timestamp = datetime.now(local_tz)
     db.add(db_notification)
     db.commit()
     db.refresh(db_notification)

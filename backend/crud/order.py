@@ -2,7 +2,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from models.order import DBOrder, DBOrderItem, OrderStatus
-from models.item import DBItem
 from models.restaurant import DBRestaurant
 from schemas.order import OrderCreate
 from datetime import datetime, timedelta, timezone
@@ -19,8 +18,6 @@ def crud_get_orders_owner_id(owner_id: int, db: Session) -> List[DBOrder]:
         .join(DBRestaurant, DBOrder.restaurant_id == DBRestaurant.id)
         .where(DBRestaurant.owner_id == owner_id)
     ).scalars().all()
-
-
 
 
 def crud_get_orders_all(db: Session) -> List[DBOrder]:
