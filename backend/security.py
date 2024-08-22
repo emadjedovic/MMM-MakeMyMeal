@@ -1,6 +1,6 @@
 from passlib.context import CryptContext
 from datetime import datetime, timezone, timedelta
-from auth.config import SECRET_KEY, ALGORITHM
+from config import SECRET_KEY, ALGORITHM
 import time
 import jwt
 from models.user import DBUser

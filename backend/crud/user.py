@@ -3,7 +3,7 @@
 from sqlalchemy.orm import Session
 from models.user import DBUser, UserRole
 from schemas.user import UserCreate
-from auth.security import pwd_context
+from security import pwd_context
 from fastapi import HTTPException, status
 
 
@@ -13,6 +13,9 @@ def crud_get_user_by_id(db: Session, id: int) -> DBUser:
 
 def crud_get_user_by_email(db: Session, email: str) -> DBUser:
     return db.query(DBUser).filter(DBUser.email == email).first()
+
+def crud_get_users_by_role(db: Session, role: UserRole):
+    return db.query(DBUser).filter(DBUser.role == role).all()
 
 
 def crud_delete_user(db: Session, id: int):
@@ -35,6 +38,9 @@ def crud_get_customer_location(db: Session, id: int):
 
 def crud_get_users_by_role(db: Session, role: UserRole, skip: int = 0, limit: int = 10):
     return db.query(DBUser).filter(DBUser.role == role).offset(skip).limit(limit).all()
+
+def crud_get_users_all(db: Session):
+    return db.query(DBUser).all()
 
 
 def crud_create_customer(db: Session, user: UserCreate) -> DBUser:

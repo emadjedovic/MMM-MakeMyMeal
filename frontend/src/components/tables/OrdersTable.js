@@ -11,10 +11,11 @@ import {
 import { formatCreatedAt } from "../../calculations";
 import { handleFetchRestaurantNamesFromOrders } from "../../handlers/RestaurantPageHandlers";
 import { handleUpdateOrderStatus } from "../../handlers/DeliveryPageHandlers";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../../contexts/UserContext";
 import { createNotification } from "../../api/notificationsApi.js";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { NotificationsContext } from "../../contexts/NotificationsContext.js";
 
 const OrdersTable = ({
   orders,
@@ -24,6 +25,7 @@ const OrdersTable = ({
 }) => {
   const { user, token } = useContext(UserContext);
   const [selectedOrderStatuses, setSelectedOrderStatuses] = useState({});
+  const { setNewNotification } = useContext(NotificationsContext);
 
   const handleStatusChange = (orderId, status) => {
     setSelectedOrderStatuses((prevStatuses) => ({
@@ -35,8 +37,8 @@ const OrdersTable = ({
   const handleSaveStatus = async (orderId) => {
     const status = selectedOrderStatuses[orderId];
     try {
-      console.log("sending orderId via handler: ", orderId)
-      console.log("sending status via handler: ", status)
+      console.log("sending orderId via handler: ", orderId);
+      console.log("sending status via handler: ", status);
       await handleUpdateOrderStatus(token, orderId, status);
       refreshOrdersParent();
 
@@ -50,6 +52,8 @@ const OrdersTable = ({
       };
 
       await createNotification(token, notificationData);
+      setNewNotification(true);
+
       toast.success("Status updated successfully!");
     } catch (error) {
       console.error("Error updating order status:", error);
@@ -140,9 +144,7 @@ const OrdersTable = ({
                       name={`status-${order.id}`}
                       id={`assigned-${order.id}`}
                       checked={selectedOrderStatuses[order.id] === "ASSIGNED"}
-                      onChange={() =>
-                        handleStatusChange(order.id, "ASSIGNED")
-                      }
+                      onChange={() => handleStatusChange(order.id, "ASSIGNED")}
                     />
                     <Form.Check
                       type="radio"
@@ -162,9 +164,7 @@ const OrdersTable = ({
                       name={`status-${order.id}`}
                       id={`completed-${order.id}`}
                       checked={selectedOrderStatuses[order.id] === "COMPLETED"}
-                      onChange={() =>
-                        handleStatusChange(order.id, "COMPLETED")
-                      }
+                      onChange={() => handleStatusChange(order.id, "COMPLETED")}
                     />
                   </td>
                   <td>{order.payment_method}</td>

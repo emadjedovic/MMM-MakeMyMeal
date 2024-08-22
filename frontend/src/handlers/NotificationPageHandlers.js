@@ -1,12 +1,12 @@
 import { toast } from "react-toastify";
-import { fetchAllNotifications, deleteNotification, deleteAllNotifications } from "../api/notificationsApi.js"; 
+import {  deleteNotification, deleteAllNotifications, fetchNotificationsOwner } from "../api/notificationsApi.js"; 
 
-export const handleFetchNotifications = async (token, setNotifications) => {
+export const handleFetchNotificationsOwner = async (token, setNotifications, ownerId) => {
   try {
-    const data = await fetchAllNotifications(token);
+    const data = await fetchNotificationsOwner(token, ownerId);
     setNotifications(data);
   } catch (error) {
-    toast.error("Failed to fetch notifications");
+    toast.error("Failed in handleFetchNotificationsOwner");
   }
 };
 

@@ -9,7 +9,7 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../contexts/UserContext";
 import AddPromotionModal from "./modals/AddPromotionModal";
 import Restaurant from "./RestaurantPage";
 import { handleFetchRestaurantName } from "../handlers/RestaurantPageHandlers";

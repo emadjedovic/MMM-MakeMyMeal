@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Container, Row, Col, Tab, Nav, Alert, Modal, Button } from "react-bootstrap";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../contexts/UserContext";
 import AddRestaurantForm from "../components/forms/AddRestaurantForm";
 import UpdateRestaurantForm from "../components/forms/UpdateRestaurantForm";
 import AdminRestaurantsTable from "../components/tables/AdminRestaurantsTable";

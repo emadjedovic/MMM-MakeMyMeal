@@ -1,6 +1,6 @@
 # routers/users.py
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from dependencies import (
     get_current_user,
@@ -14,7 +14,11 @@ from crud.user import (
     crud_create_restaurant_admin,
     crud_create_delivery_personnel,
     crud_delete_user,
+    crud_get_users_by_role,
+    crud_get_users_all
 )
+from typing import List
+from models.user import UserRole
 
 router = APIRouter(prefix="/users")
 
@@ -51,3 +55,13 @@ async def create_delivery_personnel_user(
     #admins: User = Depends(get_admin_or_restaurant_admin),
 ):
     return crud_create_delivery_personnel(db=db, user=user)
+
+@router.get("/role/{role}", response_model=List[User])
+def read_users_by_role(role: UserRole, db: Session = Depends(get_db)):
+    users = crud_get_users_by_role(db, role)
+    return users
+
+@router.get("/all", response_model=List[User])
+def read_users_all(db: Session = Depends(get_db)):
+    users = crud_get_users_all(db)
+    return users

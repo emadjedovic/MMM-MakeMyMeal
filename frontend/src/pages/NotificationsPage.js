@@ -1,25 +1,41 @@
 import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from "../UserContext.js";
+import { UserContext } from "../contexts/UserContext.js";
 import {
-  handleFetchNotifications,
+  handleFetchNotificationsOwner,
   handleDeleteNotification,
   handleDeleteAllNotifications,
 } from "../handlers/NotificationPageHandlers.js";
-import { Container, Row, Col, Button, Alert, Toast, CloseButton } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Alert,
+  Toast,
+  CloseButton,
+} from "react-bootstrap";
 import {
   FaInfoCircle,
   FaExclamationCircle,
   FaCheckCircle,
   FaQuestionCircle,
 } from "react-icons/fa"; // Import FontAwesome icons
+import { NotificationsContext } from "../contexts/NotificationsContext.js";
 
 const NotificationsPage = () => {
-  const { token } = useContext(UserContext);
+  const { token, user } = useContext(UserContext);
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    handleFetchNotifications(token, setNotifications);
+    handleFetchNotificationsOwner(token, setNotifications, user.id);
   }, [token]);
+
+  const { markNotificationsAsRead } = useContext(NotificationsContext);
+
+  
+  useEffect(() => {
+    markNotificationsAsRead(); // Reset the notification state
+  }, []);
 
   // Function to determine the color based on notification type
   const getNotificationColor = (type) => {
@@ -34,7 +50,6 @@ const NotificationsPage = () => {
         return "#f8f9fa"; // Light Grey (for default/other types)
     }
   };
-  
 
   // Function to determine the icon based on notification type
   const getNotificationIcon = (type) => {
@@ -71,9 +86,18 @@ const NotificationsPage = () => {
                 >
                   <Toast.Header closeButton={false}>
                     {getNotificationIcon(notification.type)}&nbsp;
-                    <strong className="me-auto">{new Date(notification.timestamp).toLocaleTimeString()}</strong>
+                    <strong className="me-auto">
+                      {new Date(notification.timestamp).toLocaleTimeString()}
+                    </strong>
                     <CloseButton
-                      onClick={() => handleDeleteNotification(token, notification.id, notifications, setNotifications)}
+                      onClick={() =>
+                        handleDeleteNotification(
+                          token,
+                          notification.id,
+                          notifications,
+                          setNotifications
+                        )
+                      }
                     />
                   </Toast.Header>
                   <Toast.Body>

@@ -2,8 +2,6 @@
 #cc5434
 #d3633b
 #f3693c
-#f38462
-#f4946c
 #fcb49c
 #f8e9e3
 whitesmoke

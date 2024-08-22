@@ -2,6 +2,8 @@ from sqlalchemy.orm import Session
 from models.notification import DBNotification
 from schemas.notification import NotificationCreate, Notification
 from typing import List
+from models.order import DBOrder
+from models.restaurant import DBRestaurant
 
 def crud_create_notification(db: Session, notification: NotificationCreate):
 
@@ -21,6 +23,16 @@ def crud_get_notification(db: Session, notification_id: int):
 def crud_get_all_notifications(db: Session) -> List[Notification]:
     notifs = db.query(DBNotification).all()
     return notifs
+
+def crud_get_notifications_by_owner_id(db: Session, owner_id: int):
+    notifications = (
+        db.query(DBNotification)
+        .join(DBOrder, DBNotification.order_id == DBOrder.id)
+        .join(DBRestaurant, DBOrder.restaurant_id == DBRestaurant.id)
+        .filter(DBRestaurant.owner_id == owner_id)
+        .all()
+    )
+    return notifications
 
 def crud_delete_notification(db: Session, notification_id: int):
     db_notification = db.query(DBNotification).filter(DBNotification.id == notification_id).first()

@@ -7,14 +7,14 @@ from sqlalchemy import (
     DateTime,
     Enum as sqlEnum,
     Boolean,
-    Float,
-    ForeignKey,
+    Float
 )
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from database import Base
 import enum
 from sqlalchemy.orm import relationship
 
+local_tz = timezone(timedelta(hours=2))
 
 class UserRole(enum.Enum):
     ADMIN = "ADMIN"
@@ -32,7 +32,7 @@ class DBUser(Base):
     last_name = Column(String, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow())
+    created_at = Column(DateTime, default=datetime.now(local_tz))
     disabled = Column(Boolean, default=False)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)

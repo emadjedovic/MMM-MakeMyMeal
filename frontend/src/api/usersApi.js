@@ -38,3 +38,35 @@ export const createDeliveryPersonnel = async (token, personnelData) => {
     throw error;
   }
 };
+
+export const fetchUsersByRole = async (token, role) => {
+  try {
+    const response = await axios.get(`${API_URL}/users/role/${role}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users by role:", error);
+    throw error;
+  }
+};
+
+export const fetchUsers = async (token) => {
+  try {
+    const response = await axios.get(`${API_URL}/users/all`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users by role:", error);
+    throw error;
+  }
+};

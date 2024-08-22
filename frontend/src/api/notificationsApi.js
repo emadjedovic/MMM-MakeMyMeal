@@ -47,6 +47,21 @@ export const fetchAllNotifications = async (token) => {
   }
 };
 
+export const fetchNotificationsOwner = async (token, ownerId) => {
+  try {
+    const response = await axios.get(`${API_URL}/notifications/owner/${ownerId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in fetchNotificationsOwner:", error);
+    throw error;
+  }
+};
+
 export const deleteNotification = async (token, notificationId) => {
   const response = await axios.delete(
     `${API_URL}/notifications/delete/${notificationId}`,

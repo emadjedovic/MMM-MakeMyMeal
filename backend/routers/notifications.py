@@ -10,6 +10,7 @@ from crud.notification import (
     crud_get_all_notifications,
     crud_delete_notification,
     crud_delete_all_notifications,
+    crud_get_notifications_by_owner_id
 )
 
 router = APIRouter(prefix="/notifications")
@@ -28,6 +29,10 @@ def read_notification(notification_id: int, db: Session = Depends(get_db)):
 @router.get("/all/", response_model=List[Notification])
 def read_all_notifications(db: Session = Depends(get_db)):
     return crud_get_all_notifications(db=db)
+
+@router.get("/owner/{owner_id}", response_model=List[Notification])
+def read_owner_notifications(owner_id: int, db: Session = Depends(get_db)):
+    return crud_get_notifications_by_owner_id(owner_id=owner_id, db=db)
 
 @router.delete("/delete/{notification_id}")
 def delete_notification_endpoint(notification_id: int, db: Session = Depends(get_db)):

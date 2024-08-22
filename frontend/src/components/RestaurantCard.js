@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Card, ListGroup, Container } from "react-bootstrap";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../contexts/UserContext";
 import { calculateDistance } from "../calculations";
 import { handleFetchRestaurantById } from "../handlers/RestaurantPageHandlers";
 

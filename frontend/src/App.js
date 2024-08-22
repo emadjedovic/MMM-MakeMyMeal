@@ -7,7 +7,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { UserContext } from "./UserContext";
+import { UserContext } from "./contexts/UserContext";
 import Sidebar from "./components/Sidebar";
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
@@ -16,12 +16,12 @@ import AdminPage from "./pages/AdminPage";
 import RestaurantAdminPage from "./pages/RestaurantAdminPage";
 import CustomerPage from "./pages/CustomerPage";
 import DeliveryPersonnelPage from "./pages/DeliveryPersonnelPage";
-import NotificationsPage from "./pages/NotificationsPage"
-import ChatPage from "./pages/ChatPage";
-
+import NotificationsPage from "./pages/NotificationsPage";
+import AllChats from "./chat/AllChats";
+import Chat from "./chat/Chat";
 
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import CSS for react-toastify
+import "react-toastify/dist/ReactToastify.css";
 import "./css/App.css";
 
 function App() {
@@ -65,7 +65,7 @@ function App() {
 
   return (
     <div className="App">
-      <ToastContainer/>
+      <ToastContainer />
       {user && <Sidebar />}
       <div className="App-content">
         <Routes>
@@ -80,8 +80,12 @@ function App() {
             element={<ProtectedRoute element={<NotificationsPage />} />}
           />
           <Route
-            path="/chat"
-            element={<ProtectedRoute element={<ChatPage />} />}
+            path="/chats/:chatId/:chatFirstName"
+            element={<ProtectedRoute element={<Chat />} />}
+          />
+          <Route
+            path="/chats"
+            element={<ProtectedRoute element={<AllChats />} />}
           />
           <Route
             path="/"

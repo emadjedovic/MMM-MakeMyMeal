@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 import { formatCreatedAt } from "../../calculations";
 import { handleFetchRestaurantNamesFromOrders } from "../../handlers/RestaurantPageHandlers";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../../contexts/UserContext";
 import AssignOrderModal from "../modals/AssignOrderModal";
 
 const RAdminsOrdersTable = ({

@@ -1,11 +1,15 @@
 ----------------------------------------------------------------------
 TO DO
 ----------------------------------------------------------------------
-
+- chat sa glavnim administratorom ili administratorom restorana.
+CHAT
+- admin: all except customer
+- customer: all except admin
+- delivery: all
+- restaurant admin: all
 ----------------------------------------------------------------------
 PART II
 ----------------------------------------------------------------------
-
 
 MAP FOR ADMIN AND RESTAURANT ADMIN
 
@@ -19,17 +23,6 @@ MAP FOR ADMIN AND RESTAURANT ADMIN
 MAP FOR DELIVERY PERSONNEL
 
 - pojedinačne orders samo (modal popup ili kao restaurantPage? možda onaj OrderModal preurediti u OrderPage koji sadrži mapu?)
-
-CHAT
-
-- chat sa glavnim administratorom ili administratorom restorana.
-
-New Tables:
-    Chat: Stores chat sessions, with attributes like id, user_id, admin_id, restaurant_id, and created_at.
-    ChatMessage: Stores individual messages, with attributes like id, chat_id, sender_id, message, and timestamp.
-
-Updates to Existing Models:
-    Order: You may add a last_notified_at field to track when the last notification was sent.
 
 STATS AND EMAIL REPORTS
 
