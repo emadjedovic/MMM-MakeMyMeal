@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Form, Button } from "react-bootstrap";
+import { Modal, Form } from "react-bootstrap";
 import { createChat } from "./chatApi";
 import { fetchUsers } from "../api/usersApi";
+import ThemedButton from "../components/ThemedButton";
 
 const CreateChatModal = ({
   show,
@@ -103,16 +104,16 @@ const CreateChatModal = ({
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>
+        <ThemedButton variant="secondary" onClick={onHide}>
           Cancel
-        </Button>
-        <Button 
+        </ThemedButton>
+        <ThemedButton 
           variant="primary" 
           onClick={handleCreateChat}
           disabled={!selectedUserId}  // Disable the button if no user is selected
         >
           Create Chat
-        </Button>
+        </ThemedButton>
       </Modal.Footer>
     </Modal>
   );

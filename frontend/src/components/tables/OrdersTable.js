@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
   Table,
-  Button,
   Container,
   Pagination,
   Row,
@@ -16,6 +15,7 @@ import { createNotification } from "../../api/notificationsApi.js";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NotificationsContext } from "../../contexts/NotificationsContext.js";
+import ThemedButton from "../ThemedButton.js";
 
 const OrdersTable = ({
   orders,
@@ -120,22 +120,22 @@ const OrdersTable = ({
               {currentItems.map((order) => (
                 <tr key={order.id}>
                   <td>
-                    <Button
+                    <ThemedButton
                       variant="link"
                       onClick={() => handleOrderSelectParent(order.id)}
                     >
                       #{order.id}
-                    </Button>
+                    </ThemedButton>
                   </td>
                   <td>
-                    <Button
+                    <ThemedButton
                       variant="link"
                       onClick={() =>
                         handleRestaurantSelectParent(order.restaurant_id)
                       }
                     >
                       {restaurantNames[order.restaurant_id] || "Loading..."}
-                    </Button>
+                    </ThemedButton>
                   </td>
                   <td>
                     <Form.Check
@@ -174,7 +174,7 @@ const OrdersTable = ({
                   <td>€{order.total_price}</td>
                   <td>{formatCreatedAt(order.created_at)}</td>
                   <td>
-                    <Button
+                    <ThemedButton
                       variant="primary"
                       onClick={() => handleSaveStatus(order.id)}
                       disabled={
@@ -182,7 +182,7 @@ const OrdersTable = ({
                       }
                     >
                       Save
-                    </Button>
+                    </ThemedButton>
                   </td>
                 </tr>
               ))}

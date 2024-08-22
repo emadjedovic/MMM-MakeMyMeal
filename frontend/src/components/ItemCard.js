@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext } from "react";
 import {
   Card,
   ListGroup,
-  Button,
   Container,
   Form,
   Row,
@@ -13,6 +12,7 @@ import { UserContext } from "../contexts/UserContext";
 import AddPromotionModal from "./modals/AddPromotionModal";
 import Restaurant from "./RestaurantPage";
 import { handleFetchRestaurantName } from "../handlers/RestaurantPageHandlers";
+import ThemedButton from "./ThemedButton";
 
 function ItemCard({
   item,
@@ -102,7 +102,7 @@ function ItemCard({
                             />
                           </Col>
                           <Col>
-                            <Button
+                            <ThemedButton
                               variant="outline-danger"
                               onClick={() =>
                                 addItemToOrder(item.id, item.name, item.price, quantity)
@@ -110,30 +110,30 @@ function ItemCard({
                               className="m-1"
                             >
                               ADD
-                            </Button>
+                            </ThemedButton>
                           </Col>
                           <Col>
-                            <Button
+                            <ThemedButton
                               variant="outline-secondary"
                               className="m-1"
                               onClick={() => removeItemFromOrder(item.id)}
                             >
                               Cancel
-                            </Button>
+                            </ThemedButton>
                           </Col>
                         </Form.Group>
                       </ListGroup.Item>
                     )}
                   </ListGroup>
                   {userRole === "RESTAURANT ADMIN" && (
-                    <Button
+                    <ThemedButton
                       variant="outline-dark"
                       size="sm"
                       onClick={() => setShowModal(true)}
                       className="mt-3"
                     >
                       Edit Discount
-                    </Button>
+                    </ThemedButton>
                   )}
                 </Card.Body>
               </Col>

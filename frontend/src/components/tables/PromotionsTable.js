@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { originalPrice, formatDiscount } from "../../calculations";
 import {
   Table,
-  Button,
   Container,
   Pagination,
   Row,
   Col,
   Form,
 } from "react-bootstrap";
+import ThemedButton from "../ThemedButton";
 
 const PromotionsTable = ({
   items,
@@ -106,14 +106,14 @@ const PromotionsTable = ({
                   <tr key={item.id}>
                     <td>{item.id}</td>
                     <td>
-                      <Button
+                      <ThemedButton
                         variant="link"
                         onClick={() =>
                           handleRestaurantSelectParent(item.restaurant_id)
                         }
                       >
                         {item.name}
-                      </Button>
+                      </ThemedButton>
                     </td>
                     <td>{item.price}</td>
                     <td>{original}</td>

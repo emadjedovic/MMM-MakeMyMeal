@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Container, Button, Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import RestaurantCard from "./RestaurantCard";
+import ThemedButton from "./ThemedButton";
 
 const RecommendedRestaurants = ({
   recommended,
@@ -40,7 +41,7 @@ const RecommendedRestaurants = ({
       </Row>
       <Row className="justify-content-center">
         <Col className="text-center m-3">
-          <Button
+          <ThemedButton
             variant="light"
             onClick={handlePrev}
             disabled={currentIndex === 0}
@@ -48,15 +49,15 @@ const RecommendedRestaurants = ({
             style={{ marginRight: "10px" }}
           >
             <FaArrowLeft />
-          </Button>
-          <Button
+          </ThemedButton>
+          <ThemedButton
             variant="light"
             onClick={handleNext}
             disabled={currentIndex === recommended.length - 1}
             aria-label="Next"
           >
             <FaArrowRight />
-          </Button>
+          </ThemedButton>
         </Col>
       </Row>
     </Container>

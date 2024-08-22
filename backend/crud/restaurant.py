@@ -195,3 +195,9 @@ def crud_get_recommended_restaurants(db: Session) -> List[DBRestaurant]:
         db.query(DBRestaurant).filter(DBRestaurant.is_recommended == True).all()
     )
     return recommended_restaurants
+
+def crud_get_owner_id_by_restaurant_id(db: Session, restaurant_id: int):
+    restaurant = db.query(DBRestaurant).filter(DBRestaurant.id == restaurant_id).first()
+    if restaurant:
+        return restaurant.owner_id
+    return None

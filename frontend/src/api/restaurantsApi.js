@@ -19,6 +19,16 @@ export const toggleArchiveRestaurant = async (token, id) => {
   }
 };
 
+export const fetchOwnerId = async (restaurantId) => {
+  try {
+    const response = await axios.get(`${API_URL}/restaurants/${restaurantId}/owner_id`);
+    return response.data.owner_id;
+  } catch (error) {
+    console.error('Error fetching owner_id:', error);
+    throw error;
+  }
+};
+
 export const deleteRestaurant = async (token, id) => {
   try {
     await axios.delete(`${API_URL}/restaurants/${id}`, {

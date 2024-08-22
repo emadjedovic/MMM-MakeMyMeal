@@ -24,6 +24,7 @@ from crud.restaurant import (
     crud_get_recommended_restaurants,
     crud_toggle_recommend_restaurant,
     crud_get_recommended_restaurants_within_radius,
+    crud_get_owner_id_by_restaurant_id
 )
 from schemas.user import User
 
@@ -79,6 +80,12 @@ def toggle_archive_restaurant(
 ):
     return crud_toggle_archive_restaurant(db=db, id=id)
 
+@router.get("/{restaurant_id}/owner_id")
+def read_owner_id(restaurant_id: int, db: Session = Depends(get_db)):
+    owner_id = crud_get_owner_id_by_restaurant_id(db, restaurant_id)
+    if owner_id is None:
+        raise HTTPException(status_code=404, detail="Restaurant not found")
+    return {"owner_id": owner_id}
 
 # admin
 @router.get("/all", response_model=List[Restaurant])

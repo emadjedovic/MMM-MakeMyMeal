@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Container, Row, Col } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../contexts/UserContext";
 import { fetchMessagesFromChat } from "./chatApi";
 import "./chat.css";
+import ThemedButton from "../components/ThemedButton";
 
 const Chat = () => {
   const { chatId, chatFirstName } = useParams();
@@ -119,13 +120,13 @@ const Chat = () => {
     <Container>
       <Row>
         <Col md={4} lg={4}>
-          <Button
+          <ThemedButton
             variant="outline-dark"
             className="back-button"
             onClick={() => navigate("/chats")}
           >
             BACK TO ALL CHATS
-          </Button>
+          </ThemedButton>
         </Col>
         <Col md={8} lg={8}>
           <h4>
@@ -159,9 +160,9 @@ const Chat = () => {
             onKeyPress={handleKeyPress}
             placeholder="Type your message..."
           />
-          <Button onClick={sendMessage} variant="outline-dark" style={{marginLeft: "1rem"}}>
+          <ThemedButton onClick={sendMessage} variant="outline-dark" style={{marginLeft: "1rem"}}>
             Send
-          </Button>
+          </ThemedButton>
         </div>
       </Row>
     </Container>

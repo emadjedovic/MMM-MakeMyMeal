@@ -1,8 +1,9 @@
 // src/components/Sidebar.js
 import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
+import { OverlayTrigger, Tooltip, Badge, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ThemedButton from "./ThemedButton";
 import {
   faUser,
   faBell,
@@ -13,15 +14,17 @@ import {
   faGithub,
   faLinkedinIn,
 } from "@fortawesome/free-brands-svg-icons";
-import "../css/App.css";
 import icon from "../assets/icon.png";
 import { UserContext } from "../contexts/UserContext";
 import { NotificationsContext } from "../contexts/NotificationsContext";
+import { ThemeContext } from "../contexts/ThemeContext";
+import Header from "./Header";
 
 function Sidebar() {
   const { handleLogout, userRole } = useContext(UserContext);
   const navigate = useNavigate();
   const { newNotification } = useContext(NotificationsContext);
+  const { theme } = useContext(ThemeContext); // Access the current theme
 
   const handleLogoutButton = () => {
     handleLogout();
@@ -33,12 +36,13 @@ function Sidebar() {
   }, [newNotification]);
 
   return (
-    <div className="sidebar">
+    <><Header/>
+    <div className={`sidebar ${theme}`}>
       <OverlayTrigger
         placement="right"
         overlay={<Tooltip id="tooltip-home">Home</Tooltip>}
       >
-        <Link to="/" className="sidebar-item">
+        <Link to="/" className={`sidebar-item ${theme}`}>
           <img src={icon} alt="MMM" />
         </Link>
       </OverlayTrigger>
@@ -47,7 +51,7 @@ function Sidebar() {
         placement="right"
         overlay={<Tooltip id="tooltip-profile">Profile</Tooltip>}
       >
-        <Link to="/profile" className="sidebar-item">
+        <Link to="/profile" className={`sidebar-item ${theme}`}>
           <FontAwesomeIcon icon={faUser} />
         </Link>
       </OverlayTrigger>
@@ -57,7 +61,7 @@ function Sidebar() {
           placement="top"
           overlay={<Tooltip id="tooltip-notifications">Notifications</Tooltip>}
         >
-          <Link to="/notifications" className="sidebar-item">
+          <Link to="/notifications" className={`sidebar-item ${theme}`}>
             <FontAwesomeIcon icon={faBell} />
             {newNotification && (
               <Badge pill bg="danger" className="ms-2">
@@ -72,20 +76,21 @@ function Sidebar() {
         placement="right"
         overlay={<Tooltip id="tooltip-chat">Chat</Tooltip>}
       >
-        <Link to="/chats" className="sidebar-item">
+        <Link to="/chats" className={`sidebar-item ${theme}`}>
           <FontAwesomeIcon icon={faCommentDots} />
         </Link>
       </OverlayTrigger>
 
-      <div className="sidebar-footer">
-        <Button
+      <div className={`sidebar-footer ${theme}`}>
+        <ThemedButton
           variant="outline-dark"
           className="m-4"
           onClick={handleLogoutButton}
         >
           Logout
-        </Button>
-        <div className="social-links">
+        </ThemedButton>
+
+        <div className={`social-links ${theme}`}>
           <a
             href="https://github.com/emadjedovic"
             target="_blank"
@@ -108,13 +113,13 @@ function Sidebar() {
             <FontAwesomeIcon icon={faMedium} />
           </a>
         </div>
-        <div className="footer-text">
+        <div className={`footer-text ${theme}`}>
           &copy; 2024 MMM. <br></br>
           All rights reserved.<br></br>
           by Ema Djedović
         </div>
       </div>
-    </div>
+    </div></>
   );
 }
 

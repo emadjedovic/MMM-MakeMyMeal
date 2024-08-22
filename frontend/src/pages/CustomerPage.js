@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { Container, Tab, Nav, Row, Col } from "react-bootstrap";
-import "../css/App.css";
 
 import CustomerRestaurantsTable from "../components/tables/CustomerRestaurantsTable";
 import RecommendedRestaurants from "../components/RecommendedRestaurants";

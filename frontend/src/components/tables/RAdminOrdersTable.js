@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
   Table,
-  Button,
   Container,
   Pagination,
   Row,
@@ -11,6 +10,7 @@ import { formatCreatedAt } from "../../calculations";
 import { handleFetchRestaurantNamesFromOrders } from "../../handlers/RestaurantPageHandlers";
 import { UserContext } from "../../contexts/UserContext";
 import AssignOrderModal from "../modals/AssignOrderModal";
+import ThemedButton from "../ThemedButton";
 
 const RAdminsOrdersTable = ({
   orders,
@@ -80,31 +80,31 @@ const RAdminsOrdersTable = ({
                 return (
                   <tr key={order.id}>
                     <td>
-                      <Button
+                      <ThemedButton
                         variant="link"
                         onClick={() => handleOrderSelectParent(order.id)}
                       >
                         #{order.id}
-                      </Button>
+                      </ThemedButton>
                     </td>
                     <td>
-                      <Button
+                      <ThemedButton
                         variant="link"
                         onClick={() =>
                           handleRestaurantSelectParent(order.restaurant_id)
                         }
                       >
                         {restaurantNames[order.restaurant_id] || "Loading..."}
-                      </Button>
+                      </ThemedButton>
                     </td>
                     <td>
                       {isUnassigned ? (
-                        <Button
+                        <ThemedButton
                           variant="link"
                           onClick={() => handleOpenModal(order.id)}
                         >
                           {order.status}
-                        </Button>
+                        </ThemedButton>
                       ) : (
                         order.status
                       )}

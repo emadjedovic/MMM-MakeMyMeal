@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Pagination, Form } from "react-bootstrap";
 import RestaurantTypesList from "../RestaurantTypesList.js";
-import "../../css/App.css";
 import RestaurantCard from "../RestaurantCard.js";
 
 const CustomerRestaurantsTable = ({

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import ThemedButton from "../ThemedButton";
 
 const DeleteRestaurantModal = ({ restaurantId, onDelete }) => {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -11,13 +12,13 @@ const DeleteRestaurantModal = ({ restaurantId, onDelete }) => {
 
   return (
     <>
-      <Button
+      <ThemedButton
         variant="danger"
         onClick={() => setShowConfirm(true)}
         style={{ margin: "0.3rem" }}
       >
         Delete
-      </Button>
+      </ThemedButton>
 
       <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
         <Modal.Header closeButton>
@@ -27,12 +28,12 @@ const DeleteRestaurantModal = ({ restaurantId, onDelete }) => {
           Are you sure you want to delete the restaurant with ID {restaurantId}?
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowConfirm(false)}>
+          <ThemedButton variant="secondary" onClick={() => setShowConfirm(false)}>
             Cancel
-          </Button>
-          <Button variant="danger" onClick={handleConfirmDelete}>
+          </ThemedButton>
+          <ThemedButton variant="danger" onClick={handleConfirmDelete}>
             Confirm
-          </Button>
+          </ThemedButton>
         </Modal.Footer>
       </Modal>
     </>

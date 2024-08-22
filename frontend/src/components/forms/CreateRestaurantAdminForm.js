@@ -1,8 +1,9 @@
 // src/components/CreateRestaurantAdminForm.js
 import React, { useState, useContext } from "react";
-import { Form, Button, Row, Col, Alert, Card } from "react-bootstrap";
+import { Form, Row, Col, Alert, Card } from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext";
 import { createAdmin } from "../../api/usersApi";
+import ThemedButton from "../ThemedButton";
 
 const CreateRestaurantAdminForm = () => {
   const { token } = useContext(UserContext);
@@ -104,13 +105,13 @@ const CreateRestaurantAdminForm = () => {
                   style={{ width: "100%" }}
                 />
               </Form.Group>
-              <Button
+              <ThemedButton
                 variant="primary"
                 type="submit"
                 style={{ margin: "1rem" }}
               >
                 Submit
-              </Button>
+              </ThemedButton>
             </Form>
           </Card.Body>
         </Card>

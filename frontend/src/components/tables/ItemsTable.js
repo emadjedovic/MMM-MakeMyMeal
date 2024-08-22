@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { Container, Row, Col, Pagination, Form, Button } from "react-bootstrap";
-import "../../css/App.css";
 import ItemCard from "../ItemCard.js";
 import ItemTypesList from "../ItemTypesList.js";
 import { UserContext } from "../../contexts/UserContext.js";
@@ -8,9 +7,10 @@ import AddItemModal from "../modals/AddItemModal.js";
 import { placeOrder } from "../../api/ordersApi.js";
 import PlaceOrderModal from "../modals/PlaceOrderModal.js";
 import { createNotification } from "../../api/notificationsApi.js";
-import { toast } from "react-toastify"; // Import ToastContainer and toast
-import "react-toastify/dist/ReactToastify.css"; // Import CSS for react-toastify
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { NotificationsContext } from "../../contexts/NotificationsContext.js";
+import ThemedButton from "../ThemedButton.js";
 
 const ItemsTable = ({
   items,
@@ -26,7 +26,7 @@ const ItemsTable = ({
   const [showOnPromotion, setShowOnPromotion] = useState(false);
   const { userRole, token, user } = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
-  
+
   const { setNewNotification } = useContext(NotificationsContext);
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -96,7 +96,7 @@ const ItemsTable = ({
         type: "NEW_ORDER",
         message: `A new order has been placed.\nTotal price: €${orderData.total_price.toFixed(
           2
-        )}`
+        )}`,
       };
 
       await createNotification(token, notificationData);
@@ -168,13 +168,13 @@ const ItemsTable = ({
             </Col>
             {userRole === "RESTAURANT ADMIN" && (
               <Col>
-                <Button
+                <ThemedButton
                   variant="outline-dark"
                   size="sm"
                   onClick={() => setShowModal(true)}
                 >
                   Add Item
-                </Button>
+                </ThemedButton>
               </Col>
             )}
           </Row>

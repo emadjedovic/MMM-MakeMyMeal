@@ -1,12 +1,7 @@
 ----------------------------------------------------------------------
 TO DO
 ----------------------------------------------------------------------
-- chat sa glavnim administratorom ili administratorom restorana.
-CHAT
-- admin: all except customer
-- customer: all except admin
-- delivery: all
-- restaurant admin: all
+
 ----------------------------------------------------------------------
 PART II
 ----------------------------------------------------------------------
@@ -69,10 +64,11 @@ CREATE TABLE DeliveryPersonnelStats (
 DODATNI ELEMENTI (barem tri)
 ----------------------------------------------------------------------
 
+1. toggle theme (dark mode)
+
 scheduled jobs?
 reset passowrd
 muzika u pozadini
-dark mode toggle
 customize profile (avatars?)
 - add default avatars: blue for dp, red for admin, yellow for radmin, white for user (za chat)
 archiements/badges
