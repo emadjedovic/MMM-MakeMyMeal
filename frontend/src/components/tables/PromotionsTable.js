@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import { originalPrice, formatDiscount } from "../../calculations";
-import {
-  Table,
-  Container,
-  Pagination,
-  Row,
-  Col,
-  Form,
-} from "react-bootstrap";
+import { Table, Container, Pagination, Row, Col, Form } from "react-bootstrap";
 import ThemedButton from "../ThemedButton";
 
 const PromotionsTable = ({

@@ -4,7 +4,6 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 from dependencies import get_db, get_restaurant_admin_user
-from schemas.user import User
 from schemas.promotion import Promotion, PromotionCreate, PromotionUpdate
 from crud.promotion import (
     crud_create_promotion,

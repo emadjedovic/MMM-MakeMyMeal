@@ -1,14 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { createRestaurant } from "../../api/restaurantsApi";
 import { fetchRestaurantTypes } from "../../api/restaurantTypesApi";
-import {
-  Form,
-  Container,
-  Row,
-  Col,
-  Card,
-  Alert,
-} from "react-bootstrap";
+import { Form, Container, Row, Col, Card, Alert } from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext";
 import ThemedButton from "../ThemedButton";
 
@@ -80,7 +73,6 @@ const AddRestaurantForm = ({ onAdd }) => {
       clear();
     }
   };
-
 
   return (
     <Container className="my-4" style={{ maxWidth: "400px" }}>
@@ -158,8 +150,7 @@ const AddRestaurantForm = ({ onAdd }) => {
             </Form.Group>
             <ThemedButton
               variant="secondary"
-              onClick={() => 
-                setStarRating(0)}
+              onClick={() => setStarRating(0)}
               style={{ margin: "1rem" }}
             >
               Clear Selection

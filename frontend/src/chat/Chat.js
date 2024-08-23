@@ -19,7 +19,6 @@ const Chat = () => {
   const messagesContainerRef = useRef(null);
   const [shouldScroll, setShouldScroll] = useState(true);
 
-
   useEffect(() => {
     const fetchMessages = async () => {
       try {
@@ -30,13 +29,14 @@ const Chat = () => {
         setMessages([]);
       }
     };
-  
+
     fetchMessages();
   }, [chatId, token, messages]);
 
   useEffect(() => {
-
-    const ws = new WebSocket(`ws://localhost:8000/ws/chat/${chatId}?token=${token}`);
+    const ws = new WebSocket(
+      `ws://localhost:8000/ws/chat/${chatId}?token=${token}`
+    );
 
     ws.onopen = () => {
       console.log("WebSocket connection established");
@@ -61,10 +61,13 @@ const Chat = () => {
 
     return () => {
       if (ws.readyState === WebSocket.OPEN) {
-        console.log("ws.readyState before closing (useEffect return): ", ws.readyState)
-          ws.close();
+        console.log(
+          "ws.readyState before closing (useEffect return): ",
+          ws.readyState
+        );
+        ws.close();
       }
-  };
+    };
   }, [chatId, token]);
 
   const sendMessage = () => {
@@ -75,12 +78,15 @@ const Chat = () => {
       };
 
       axios
-        .post(`http://localhost:8000/api/chats/${chatId}/create-message/`, messageData)
+        .post(
+          `http://localhost:8000/api/chats/${chatId}/create-message/`,
+          messageData
+        )
         .then((response) => {
           if (ws) {
             ws.send(JSON.stringify(response.data.content));
             console.log("Message sent over WebSocket:", response.data.content);
-            console.log("ws.readyState after ws.send: ", ws.readyState)
+            console.log("ws.readyState after ws.send: ", ws.readyState);
           }
           setNewMessage("");
         })
@@ -92,7 +98,7 @@ const Chat = () => {
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      setShouldScroll(true)
+      setShouldScroll(true);
       sendMessage();
     }
   };
@@ -100,14 +106,16 @@ const Chat = () => {
   useEffect(() => {
     if (messagesContainerRef.current) {
       if (shouldScroll) {
-        messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+        messagesContainerRef.current.scrollTop =
+          messagesContainerRef.current.scrollHeight;
       }
     }
   }, [messages, shouldScroll]);
 
   const handleScroll = () => {
     if (messagesContainerRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
+      const { scrollTop, scrollHeight, clientHeight } =
+        messagesContainerRef.current;
       if (scrollHeight - scrollTop === clientHeight) {
         setShouldScroll(true);
       } else {
@@ -129,16 +137,16 @@ const Chat = () => {
           </ThemedButton>
         </Col>
         <Col md={8} lg={8}>
-          <h4>
-            Chat with {chatFirstName}
-          </h4>
+          <h4>Chat with {chatFirstName}</h4>
         </Col>
         <Col md={0} lg={2}></Col>
       </Row>
       <Row className="chat-row">
-        <div className="chat"
+        <div
+          className="chat"
           ref={messagesContainerRef}
-          onScroll={handleScroll}>
+          onScroll={handleScroll}
+        >
           {Array.isArray(messages) &&
             messages.map((message, index) => (
               <div
@@ -160,7 +168,11 @@ const Chat = () => {
             onKeyPress={handleKeyPress}
             placeholder="Type your message..."
           />
-          <ThemedButton onClick={sendMessage} variant="outline-dark" style={{marginLeft: "1rem"}}>
+          <ThemedButton
+            onClick={sendMessage}
+            variant="outline-dark"
+            style={{ marginLeft: "1rem" }}
+          >
             Send
           </ThemedButton>
         </div>

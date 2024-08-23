@@ -20,8 +20,8 @@ class Order(OrderBase):
     id: int
     customer_id: int
     created_at: datetime = datetime.now(local_tz)
-    status: OrderStatus = "UNASSIGNED" #updated later
-    delivery_id: Optional[int] = None # assigned later by the restaurant admin
+    status: OrderStatus = "UNASSIGNED"
+    delivery_id: Optional[int] = None
     latitude: Optional[float] = None
     longitude: Optional[float] = None
 

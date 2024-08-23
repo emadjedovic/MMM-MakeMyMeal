@@ -1,11 +1,5 @@
 import React, { useState, useContext } from "react";
-import {
-  Form,
-  Alert,
-  Card,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Form, Alert, Card, Row, Col } from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext.js";
 import { createDeliveryPersonnel } from "../../api/usersApi.js";
 import ThemedButton from "../ThemedButton.js";

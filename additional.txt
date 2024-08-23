@@ -1,0 +1,5 @@
+1. DARK MODE: Users can to switch between light and dark themes for the app.
+
+2. BACKGROUND MUSIC: Integrates an online radio stream, playing background music that can be muted by choice.
+
+3. RESET PASSWORD: A mechanism for users to reset their passwords through a secure link sent to their registered email address.

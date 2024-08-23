@@ -23,7 +23,7 @@ function Sidebar() {
   const { handleLogout, userRole } = useContext(UserContext);
   const navigate = useNavigate();
   const { newNotification } = useContext(NotificationsContext);
-  const { theme } = useContext(ThemeContext); // Access the current theme
+  const { theme } = useContext(ThemeContext);
 
   const handleLogoutButton = () => {
     handleLogout();
@@ -35,90 +35,94 @@ function Sidebar() {
   }, [newNotification]);
 
   return (
-    <><Header/>
-    <div className={`sidebar ${theme}`}>
-      <OverlayTrigger
-        placement="right"
-        overlay={<Tooltip id="tooltip-home">Home</Tooltip>}
-      >
-        <Link to="/" className={`sidebar-item ${theme}`}>
-          <img src={icon} alt="MMM" />
-        </Link>
-      </OverlayTrigger>
-
-      <OverlayTrigger
-        placement="right"
-        overlay={<Tooltip id="tooltip-profile">Profile</Tooltip>}
-      >
-        <Link to="/profile" className={`sidebar-item ${theme}`}>
-          <FontAwesomeIcon icon={faUser} />
-        </Link>
-      </OverlayTrigger>
-
-      {userRole === "RESTAURANT ADMIN" && (
+    <>
+      <Header />
+      <div className={`sidebar ${theme}`}>
         <OverlayTrigger
-          placement="top"
-          overlay={<Tooltip id="tooltip-notifications">Notifications</Tooltip>}
+          placement="right"
+          overlay={<Tooltip id="tooltip-home">Home</Tooltip>}
         >
-          <Link to="/notifications" className={`sidebar-item ${theme}`}>
-            <FontAwesomeIcon icon={faBell} />
-            {newNotification && (
-              <Badge pill bg="danger" className="ms-2">
-                <small>NEW</small>
-              </Badge>
-            )}
+          <Link to="/" className={`sidebar-item ${theme}`}>
+            <img src={icon} alt="MMM" />
           </Link>
         </OverlayTrigger>
-      )}
 
-      <OverlayTrigger
-        placement="right"
-        overlay={<Tooltip id="tooltip-chat">Chat</Tooltip>}
-      >
-        <Link to="/chats" className={`sidebar-item ${theme}`}>
-          <FontAwesomeIcon icon={faCommentDots} />
-        </Link>
-      </OverlayTrigger>
-
-      <div className={`sidebar-footer ${theme}`}>
-        <ThemedButton
-          variant="outline-dark"
-          className="m-4"
-          onClick={handleLogoutButton}
+        <OverlayTrigger
+          placement="right"
+          overlay={<Tooltip id="tooltip-profile">Profile</Tooltip>}
         >
-          Logout
-        </ThemedButton>
+          <Link to="/profile" className={`sidebar-item ${theme}`}>
+            <FontAwesomeIcon icon={faUser} />
+          </Link>
+        </OverlayTrigger>
 
-        <div className={`social-links ${theme}`}>
-          <a
-            href="https://github.com/emadjedovic"
-            target="_blank"
-            rel="noopener noreferrer"
+        {userRole === "RESTAURANT ADMIN" && (
+          <OverlayTrigger
+            placement="top"
+            overlay={
+              <Tooltip id="tooltip-notifications">Notifications</Tooltip>
+            }
           >
-            <FontAwesomeIcon icon={faGithub} />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/ema-djedovic/"
-            target="_blank"
-            rel="noopener noreferrer"
+            <Link to="/notifications" className={`sidebar-item ${theme}`}>
+              <FontAwesomeIcon icon={faBell} />
+              {newNotification && (
+                <Badge pill bg="danger" className="ms-2">
+                  <small>NEW</small>
+                </Badge>
+              )}
+            </Link>
+          </OverlayTrigger>
+        )}
+
+        <OverlayTrigger
+          placement="right"
+          overlay={<Tooltip id="tooltip-chat">Chat</Tooltip>}
+        >
+          <Link to="/chats" className={`sidebar-item ${theme}`}>
+            <FontAwesomeIcon icon={faCommentDots} />
+          </Link>
+        </OverlayTrigger>
+
+        <div className={`sidebar-footer ${theme}`}>
+          <ThemedButton
+            variant="outline-dark"
+            className="m-4"
+            onClick={handleLogoutButton}
           >
-            <FontAwesomeIcon icon={faLinkedinIn} />
-          </a>
-          <a
-            href="https://medium.com/@emadjedovic"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FontAwesomeIcon icon={faMedium} />
-          </a>
-        </div>
-        <div className={`footer-text ${theme}`}>
-          &copy; 2024 MMM. <br></br>
-          All rights reserved.<br></br>
-          by Ema Djedović
+            Logout
+          </ThemedButton>
+
+          <div className={`social-links ${theme}`}>
+            <a
+              href="https://github.com/emadjedovic"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FontAwesomeIcon icon={faGithub} />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/ema-djedovic/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FontAwesomeIcon icon={faLinkedinIn} />
+            </a>
+            <a
+              href="https://medium.com/@emadjedovic"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FontAwesomeIcon icon={faMedium} />
+            </a>
+          </div>
+          <div className={`footer-text ${theme}`}>
+            &copy; 2024 MMM. <br></br>
+            All rights reserved.<br></br>
+            by Ema Djedović
+          </div>
         </div>
       </div>
-    </div></>
+    </>
   );
 }
 

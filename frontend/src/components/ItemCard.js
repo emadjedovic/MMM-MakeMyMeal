@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  Card,
-  ListGroup,
-  Container,
-  Form,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Card, ListGroup, Container, Form, Row, Col } from "react-bootstrap";
 import { UserContext } from "../contexts/UserContext";
 import AddPromotionModal from "./modals/AddPromotionModal";
 import Restaurant from "./RestaurantPage";
@@ -104,7 +97,12 @@ function ItemCard({
                             <ThemedButton
                               variant="outline-danger"
                               onClick={() =>
-                                addItemToOrder(item.id, item.name, item.price, quantity)
+                                addItemToOrder(
+                                  item.id,
+                                  item.name,
+                                  item.price,
+                                  quantity
+                                )
                               }
                               className="m-1"
                             >

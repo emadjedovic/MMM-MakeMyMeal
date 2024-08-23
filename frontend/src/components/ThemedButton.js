@@ -28,7 +28,7 @@ function ThemedButton({
       size={size}
       aria-label={ariaLabel}
       type={type}
-      {...rest} // Spread rest of the props to Button
+      {...rest}
     >
       {children}
     </Button>

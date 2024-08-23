@@ -1,12 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import {
-  Form,
-  Container,
-  Row,
-  Col,
-  Card,
-  Alert,
-} from "react-bootstrap";
+import { Form, Container, Row, Col, Card, Alert } from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext";
 import { handleFetchRestaurantTypes } from "../../handlers/RestaurantPageHandlers";
 import { handleUpdateRestaurant } from "../../handlers/RestaurantPageHandlers";
@@ -62,7 +55,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
   const handleUpdate = async () => {
     handleUpdateRestaurant(token, updateId, requestData, onUpdate, setMessage);
     clear();
-  }
+  };
 
   return (
     <Container className="my-4" style={{ maxWidth: "400px" }}>

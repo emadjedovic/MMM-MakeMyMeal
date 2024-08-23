@@ -60,7 +60,9 @@ const AdminPage = () => {
   useEffect(() => {
     window.addEventListener("popstate", () => setSelectedRestaurantId(null));
     return () => {
-      window.removeEventListener("popstate", () => setSelectedRestaurantId(null));
+      window.removeEventListener("popstate", () =>
+        setSelectedRestaurantId(null)
+      );
     };
   }, [selectedRestaurantId]);
 
@@ -234,45 +236,46 @@ const AdminPage = () => {
                 <RestaurantPage restaurantId={selectedRestaurantId} />
               ) : (
                 <>
-                <Row>
-                <Col>
-                  <OrdersTable
-                    orders={ordersAll}
-                    handleOrderSelectParent={(orderId) =>
-                      handleShowOrderModal(orderId)
-                    }
-                    handleRestaurantSelectParent={(restaurantId) =>
-                      setSelectedRestaurantId(restaurantId)
-                    }
-                    refreshOrdersParent={() =>
-                      handleFetchOrdersAll(
-                        token,
-                        setOrdersAll
-                      )}
-                  />
-                </Col>
-              </Row>
-              {showOrderModal && (
-                <Modal show={showOrderModal} onHide={handleCloseOrderModal}>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Order Details</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <OrderModal
-                      orderId={selectedOrderId}
-                      showModal={showOrderModal}
-                      handleClose={handleCloseOrderModal}
-                      
-                    />
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <ThemedButton variant="secondary" onClick={handleCloseOrderModal}>
-                      Close
-                    </ThemedButton>
-                  </Modal.Footer>
-                </Modal>
+                  <Row>
+                    <Col>
+                      <OrdersTable
+                        orders={ordersAll}
+                        handleOrderSelectParent={(orderId) =>
+                          handleShowOrderModal(orderId)
+                        }
+                        handleRestaurantSelectParent={(restaurantId) =>
+                          setSelectedRestaurantId(restaurantId)
+                        }
+                        refreshOrdersParent={() =>
+                          handleFetchOrdersAll(token, setOrdersAll)
+                        }
+                      />
+                    </Col>
+                  </Row>
+                  {showOrderModal && (
+                    <Modal show={showOrderModal} onHide={handleCloseOrderModal}>
+                      <Modal.Header closeButton>
+                        <Modal.Title>Order Details</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <OrderModal
+                          orderId={selectedOrderId}
+                          showModal={showOrderModal}
+                          handleClose={handleCloseOrderModal}
+                        />
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <ThemedButton
+                          variant="secondary"
+                          onClick={handleCloseOrderModal}
+                        >
+                          Close
+                        </ThemedButton>
+                      </Modal.Footer>
+                    </Modal>
+                  )}
+                </>
               )}
-                </>)}
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>

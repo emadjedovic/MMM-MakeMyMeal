@@ -5,9 +5,13 @@ import {
 import { fetchRestaurantTypes } from "../api/restaurantTypesApi";
 import { fetchPromotions } from "../api/promotionsApi";
 import { fetchRecommendedItems, fetchPromotedItems } from "../api/itemsApi";
-import { fetchOrdersCustomerHistory} from "../api/ordersApi"
+import { fetchOrdersCustomerHistory } from "../api/ordersApi";
 
-export const handleFetchOrdersHistory = async (token, customer_id, setOrdersCustomerHistory) => {
+export const handleFetchOrdersHistory = async (
+  token,
+  customer_id,
+  setOrdersCustomerHistory
+) => {
   try {
     const orders = await fetchOrdersCustomerHistory(token, customer_id);
 
@@ -23,7 +27,8 @@ export const handleFetchNearbyRestaurants = async (
   setNearbyRestaurants
 ) => {
   try {
-    const fetchedNearbyRestaurants = await fetchNearbyRestaurants(token, 
+    const fetchedNearbyRestaurants = await fetchNearbyRestaurants(
+      token,
       selectedType
     );
     setNearbyRestaurants(fetchedNearbyRestaurants);

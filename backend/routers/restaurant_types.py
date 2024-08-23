@@ -11,7 +11,6 @@ from crud.restaurant_type import (
 )
 from schemas.restaurant_type import RestaurantTypeResponse, RestaurantTypeCreate
 from dependencies import get_db, get_admin_user
-from schemas.user import User
 
 router = APIRouter(prefix="/restaurant_types")
 

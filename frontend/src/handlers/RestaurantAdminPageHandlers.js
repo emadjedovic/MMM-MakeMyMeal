@@ -1,6 +1,6 @@
 import {
   fetchRestaurantsByOwner,
-  updateRestaurant
+  updateRestaurant,
 } from "../api/restaurantsApi";
 import { fetchOrdersOwner } from "../api/ordersApi";
 import { fetchRestaurantTypes } from "../api/restaurantTypesApi";

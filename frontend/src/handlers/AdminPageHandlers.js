@@ -35,7 +35,8 @@ export const handleFetchRestaurantsByType = async (
   setRestaurants
 ) => {
   try {
-    const fetchedRestaurants = await fetchRestaurantsByType(token,
+    const fetchedRestaurants = await fetchRestaurantsByType(
+      token,
       selectedType
     );
     setRestaurants(fetchedRestaurants);
@@ -77,7 +78,6 @@ export const handleFetchPromotionData = async (
   }
 };
 
-
 export const handleToggleArchiveRestaurant = async (
   id,
   token,
@@ -98,8 +98,6 @@ export const handleToggleArchiveRestaurant = async (
   }
 };
 
-
-
 export const handleDeleteRestaurant = async (
   id,
   token,
@@ -116,7 +114,6 @@ export const handleDeleteRestaurant = async (
     console.error("Error in handleDeleteRestaurant.");
   }
 };
-
 
 export const handleAddRestaurantType = async (
   newTypeName,
@@ -167,7 +164,6 @@ export const handleDeleteRestaurantType = async (
   }
 };
 
-
 export const handleAddFoodType = async (
   newTypeName,
   token,
@@ -213,13 +209,14 @@ export const handleDeleteFoodType = async (
   }
 };
 
-export const handleUpdateRestaurant = (updatedRestaurant, restaurants, setRestaurants) => {
+export const handleUpdateRestaurant = (
+  updatedRestaurant,
+  restaurants,
+  setRestaurants
+) => {
   setRestaurants(
     restaurants.map((restaurant) =>
       restaurant.id === updatedRestaurant.id ? updatedRestaurant : restaurant
     )
   );
 };
-
-
-

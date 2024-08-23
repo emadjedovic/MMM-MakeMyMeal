@@ -1,6 +1,3 @@
-/* src/css/AppDark.css */
-
-/* Global styles for dark mode */
 body.dark {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -9,74 +6,53 @@ body.dark {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: rgb(39, 39, 39);
-  /* Dark background color for the whole app */
   color: #e0e0e0;
-  /* Light text color */
 }
 
-/* Sidebar styles */
 .sidebar.dark {
   height: 100vh;
   width: 8rem;
-  /* Increase width for better content fit */
   position: fixed;
   top: 0;
   left: 0;
   background: linear-gradient(to right, #181818, rgb(36, 36, 36));
-  /* Dark gradient */
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0;
-  /* Adjust padding for better spacing inside sidebar */
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.5);
-  /* Increase shadow for better separation */
 }
 
 .sidebar-item.dark {
   margin: 10px 0;
-  /* Increase margin between sidebar items */
   color: #e0e0e0;
-  /* Light color for sidebar items */
   text-decoration: none;
 }
 
 .sidebar-item.dark:hover {
   color: #f47c4d;
-  /* Highlight color on hover */
 }
 
-/* Footer styles within the sidebar */
 .sidebar-footer.dark {
   margin-top: auto;
-  /* Pushes footer to the bottom of the sidebar */
   padding: 1rem;
   text-align: center;
   color: #e0e0e0;
-  /* Light color for footer text */
 }
 
 
 .social-links.dark a {
   color: #e0e0e0;
-  /* Light color for social icons */
   margin: 5px 0;
-  /* Adjust margin to space icons vertically */
   text-decoration: none;
   font-size: 1.5rem;
-  /* Adjust font size for icons */
 }
 
 .social-links.dark a:hover {
   color: #f47c4d;
-  /* Highlight color on hover */
 }
 
 .footer-text.dark {
   color: #888;
-  /* Light gray color for footer text */
   font-size: 0.75rem;
-  /* Adjust font size */
 }
-
-

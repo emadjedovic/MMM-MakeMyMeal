@@ -159,7 +159,8 @@ const CustomerPage = () => {
                         token,
                         userId,
                         setOrdersCustomerHistory
-                      )}
+                      )
+                    }
                   />
                 </Col>
               </Row>

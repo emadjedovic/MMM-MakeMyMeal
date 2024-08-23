@@ -13,13 +13,13 @@ export const ThemeProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    document.body.className = theme; // Apply the theme class to the body
+    document.body.className = theme;
     localStorage.setItem("theme", theme);
   }, [theme]);
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-bs-theme', theme);
-    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute("data-bs-theme", theme);
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {

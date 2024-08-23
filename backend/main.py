@@ -1,6 +1,13 @@
 # main.py
 
-from fastapi import FastAPI, Cookie, WebSocket, WebSocketDisconnect, Depends, status, HTTPException
+from fastapi import (
+    FastAPI,
+    WebSocket,
+    WebSocketDisconnect,
+    Depends,
+    status,
+    HTTPException,
+)
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import json
@@ -22,7 +29,6 @@ from dependencies import get_current_user, get_db
 from sqlalchemy.orm import Session
 from chat.chat_crud import create_message, get_chat
 from chat.chat_schemas import MessageCreate
-from schemas.user import User
 from starlette.datastructures import Headers
 from chat.chat_models import DBMessage
 
@@ -99,13 +105,7 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
-"""
-WebSocket connections might not always provide the same context as HTTP requests. 
-Extract the token from a WebSocket request instead of an HTTP request.
-"""
 
-# Function to extract token from WebSocket query parameters
-# Function to extract token from WebSocket query parameters
 def extract_token_from_ws(ws: WebSocket):
     token = ws.query_params.get("token")
     if not token:
@@ -116,10 +116,11 @@ def extract_token_from_ws(ws: WebSocket):
         )
     return token
 
-# Custom class to mock Request
+
 class MockRequest:
     def __init__(self, headers: Headers):
         self.headers = headers
+
 
 @app.websocket("/ws/chat/{chat_id}")
 async def websocket_endpoint(
@@ -128,34 +129,28 @@ async def websocket_endpoint(
     db: Session = Depends(get_db),
 ):
     print("Attempting to accept WebSocket connection...")
-    
+
     try:
-        # Extract token from query parameters
         token = extract_token_from_ws(websocket)
-        
-        # Create a mock request object with the token in headers
+
         headers = Headers({"Authorization": f"Bearer {token}"})
         mock_request = MockRequest(headers=headers)
 
-        # Retrieve current user based on the mock request
         current_user = await get_current_user(mock_request, db)
         if not current_user:
             print("Invalid token")
             await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
             return
 
-        # Accept the WebSocket connection
         await websocket.accept()
         print(f"WebSocket connection accepted for chat_id: {chat_id}")
 
-        # Fetch chat from the database
         chat = get_chat(db, chat_id)
         if not chat:
             print(f"Chat with ID {chat_id} not found.")
             await websocket.close()
             return
 
-        # Add connection to manager
         print("Connecting WebSocket to manager...")
         manager.connect(websocket)
         print("WebSocket connection added to manager")
@@ -165,34 +160,40 @@ async def websocket_endpoint(
                 data = await websocket.receive_text()
                 print(f"Received message: {data} (a bug could be hidden here)")
 
-                # Assuming the message data contains the full message object
                 message_data = {
-                        'content': data.strip('"'),  # Remove surrounding quotes
-                        'sender_id': current_user.id,
-                        'chat_id': chat_id
-                    }
+                    "content": data.strip('"'),
+                    "sender_id": current_user.id,
+                    "chat_id": chat_id,
+                }
                 print("message_data: ", message_data)
-                
-                # Check if message is already in the database before saving
-                existing_message = db.query(DBMessage).filter(
-                    DBMessage.content == message_data['content'],
-                    DBMessage.sender_id == message_data['sender_id'],
-                    DBMessage.chat_id == chat_id
-                ).first()
+
+                existing_message = (
+                    db.query(DBMessage)
+                    .filter(
+                        DBMessage.content == message_data["content"],
+                        DBMessage.sender_id == message_data["sender_id"],
+                        DBMessage.chat_id == chat_id,
+                    )
+                    .first()
+                )
 
                 if existing_message is None:
-                    # Create a new message entry in the database
-                    message_data = MessageCreate(sender_id=message_data['sender_id'], content=message_data['content'])
+                    message_data = MessageCreate(
+                        sender_id=message_data["sender_id"],
+                        content=message_data["content"],
+                    )
                     print("message_data (MessageCreate): ", message_data)
-                    db_message = create_message(db=db, chat_id=chat_id, message=message_data)
-                    
+                    db_message = create_message(
+                        db=db, chat_id=chat_id, message=message_data
+                    )
+
                     response_message = {
                         "id": db_message.id,
                         "content": db_message.content,
                         "sender_id": db_message.sender_id,
                         "created_at": db_message.timestamp,
                     }
-                    
+
                     await manager.broadcast(json.dumps(response_message))
                     print("Message broadcasted: ", response_message)
                 else:
@@ -203,7 +204,6 @@ async def websocket_endpoint(
             manager.disconnect(websocket)
             await manager.broadcast(f"{current_user.first_name} left the chat")
 
-            # theres a bug here
         except Exception as e:
             print(f"An error occurred: {e}")
             await websocket.close()

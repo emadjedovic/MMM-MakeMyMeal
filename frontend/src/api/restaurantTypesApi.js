@@ -13,7 +13,7 @@ export const fetchRestaurantTypes = async () => {
 
 export const addRestaurantType = async (token, newTypeName) => {
   try {
-    console.log("type name: ", newTypeName)
+    console.log("type name: ", newTypeName);
     const response = await axios.post(
       `${API_URL}/restaurant_types/add/${newTypeName}`,
       {
@@ -34,7 +34,7 @@ export const renameRestaurantType = async (token, oldName, newName) => {
   try {
     const response = await axios.put(
       `${API_URL}/restaurant_types/rename/${oldName}`,
-      { name: newName }, // RestaurantTypeCreate
+      { name: newName },
       {
         headers: {
           "Content-Type": "application/json",

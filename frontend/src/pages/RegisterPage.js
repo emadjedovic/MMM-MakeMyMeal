@@ -141,23 +141,6 @@ const RegisterPage = () => {
                   required
                 />
               </Form.Group>
-              {/* 
-              <Form.Group controlId="formLatitude" className="mb-3">
-                <Form.Control
-                  type="text"
-                  placeholder="Enter Latitude"
-                  value={latitude}
-                  onChange={(e) => setLatitude(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Group controlId="formLongitude" className="mb-3">
-                <Form.Control
-                  type="text"
-                  placeholder="Enter Longitude"
-                  value={longitude}
-                  onChange={(e) => setLongitude(e.target.value)}
-                />
-              </Form.Group>*/}
               <Button variant="danger" type="submit" className="w-50 mb-3">
                 Register
               </Button>

@@ -1,6 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { Container, Tab, Nav, Pagination, Row, Col, Modal } from "react-bootstrap";
+import {
+  Container,
+  Tab,
+  Nav,
+  Pagination,
+  Row,
+  Col,
+  Modal,
+} from "react-bootstrap";
 import ThemedButton from "../components/ThemedButton";
 import CreatePersonnelForm from "../components/forms/CreatePersonnelForm";
 import RAdminRestaurantsTable from "../components/tables/RAdminRestaurantsTable";
@@ -13,7 +21,7 @@ import {
   handleEditClick,
   handleSave,
   handleChange,
-  handleFetchOrdersOwner
+  handleFetchOrdersOwner,
 } from "../handlers/RestaurantAdminPageHandlers";
 
 const RestaurantAdminPage = () => {
@@ -73,7 +81,11 @@ const RestaurantAdminPage = () => {
 
   useEffect(() => {
     window.addEventListener("popstate", () => setSelectedRestaurantId(null));
-    return () => {window.removeEventListener("popstate", () => setSelectedRestaurantId(null));};
+    return () => {
+      window.removeEventListener("popstate", () =>
+        setSelectedRestaurantId(null)
+      );
+    };
   }, [selectedRestaurantId]);
 
   return (
@@ -84,7 +96,6 @@ const RestaurantAdminPage = () => {
           className="mb-3"
           onSelect={() => setSelectedRestaurantId(null)}
         >
-
           <Nav.Item>
             <Nav.Link eventKey="my-restaurants">My Restaurants</Nav.Link>
           </Nav.Item>
@@ -94,11 +105,9 @@ const RestaurantAdminPage = () => {
           <Nav.Item>
             <Nav.Link eventKey="orders-table">Orders</Nav.Link>
           </Nav.Item>
-
         </Nav>
 
         <Tab.Content>
-
           <Tab.Pane eventKey="my-restaurants">
             {selectedRestaurantId ? (
               <RestaurantPage restaurantId={selectedRestaurantId} />
@@ -137,47 +146,51 @@ const RestaurantAdminPage = () => {
             <CreatePersonnelForm />
           </Tab.Pane>
           <Tab.Pane eventKey="orders-table">
-              {selectedRestaurantId ? (
-                <RestaurantPage restaurantId={selectedRestaurantId} />
-              ) : (
-                <>
+            {selectedRestaurantId ? (
+              <RestaurantPage restaurantId={selectedRestaurantId} />
+            ) : (
+              <>
                 <Row>
-                <Col>
-                  <RAdminOrdersTable
-                    orders={ordersOwner}
-                    handleOrderSelectParent={(orderId) =>
-                      handleShowOrderModal(orderId)
-                    }
-                    handleRestaurantSelectParent={(restaurantId) =>
-                      setSelectedRestaurantId(restaurantId)
-                    }
-                    refreshOrdersParent={() =>
-                      handleFetchOrdersOwner(token, userId, setOrdersOwner)}
-                  />
-                </Col>
-              </Row>
-              {showOrderModal && (
-                <Modal show={showOrderModal} onHide={handleCloseOrderModal}>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Order Details</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <OrderModal
-                      orderId={selectedOrderId}
-                      showModal={showOrderModal}
-                      handleClose={handleCloseOrderModal}
+                  <Col>
+                    <RAdminOrdersTable
+                      orders={ordersOwner}
+                      handleOrderSelectParent={(orderId) =>
+                        handleShowOrderModal(orderId)
+                      }
+                      handleRestaurantSelectParent={(restaurantId) =>
+                        setSelectedRestaurantId(restaurantId)
+                      }
+                      refreshOrdersParent={() =>
+                        handleFetchOrdersOwner(token, userId, setOrdersOwner)
+                      }
                     />
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <ThemedButton variant="secondary" onClick={handleCloseOrderModal}>
-                      Close
-                    </ThemedButton>
-                  </Modal.Footer>
-                </Modal>
-              )}
-                </>)}
-            </Tab.Pane>
-
+                  </Col>
+                </Row>
+                {showOrderModal && (
+                  <Modal show={showOrderModal} onHide={handleCloseOrderModal}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Order Details</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <OrderModal
+                        orderId={selectedOrderId}
+                        showModal={showOrderModal}
+                        handleClose={handleCloseOrderModal}
+                      />
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <ThemedButton
+                        variant="secondary"
+                        onClick={handleCloseOrderModal}
+                      >
+                        Close
+                      </ThemedButton>
+                    </Modal.Footer>
+                  </Modal>
+                )}
+              </>
+            )}
+          </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
     </Container>

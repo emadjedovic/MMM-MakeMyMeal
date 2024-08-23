@@ -1,7 +1,7 @@
 ----------------------------------------------------------------------
 TO DO
 ----------------------------------------------------------------------
-
+- delete comments + format files
 ----------------------------------------------------------------------
 PART II
 ----------------------------------------------------------------------
@@ -59,26 +59,6 @@ CREATE TABLE DeliveryPersonnelStats (
     total_orders_completed INTEGER DEFAULT 0,
     customer_feedback_score DECIMAL(3, 2)
 );
-
-----------------------------------------------------------------------
-DODATNI ELEMENTI (barem tri)
-----------------------------------------------------------------------
-
-1. toggle theme (dark mode)
-2. background radio
-3. ??
-
-- reset passowrd
-- scheduled jobs?
-- customize profile (avatars?)
-- add default avatars: blue for dp, red for admin, yellow for radmin, white for user (za chat)
-- archiements/badges
-- register map: search by city
-
-Loyalty Program:
-    Consider adding a LoyaltyProgram model, which tracks user rewards points, tiers, and redemption history.
-
-
 
 
 

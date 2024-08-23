@@ -1,11 +1,7 @@
 # schemas/item.py
 
 from pydantic import BaseModel
-from typing import Optional, List, TYPE_CHECKING
-from schemas.promotion import Promotion
-
-if TYPE_CHECKING:
-    from schemas.order import Order
+from typing import Optional
 
 
 class ItemBase(BaseModel):
@@ -32,7 +28,7 @@ class ItemUpdate(BaseModel):
 
 class Item(ItemBase):
     id: int
-    is_promoted: bool = False  # default is False
+    is_promoted: bool = False
     restaurant_id: int
 
     class Config:

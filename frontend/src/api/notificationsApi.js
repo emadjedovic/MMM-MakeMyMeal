@@ -5,7 +5,7 @@ export const createNotification = async (token, notificationData) => {
   try {
     const response = await axios.post(
       `${API_URL}/notifications/new/`,
-      notificationData, //notificationCreate
+      notificationData,
       {
         headers: {
           "Content-Type": "application/json",
@@ -15,7 +15,7 @@ export const createNotification = async (token, notificationData) => {
     );
     return response.data;
   } catch (error) {
-    console.error("error in createNotification: ", error)
+    console.error("error in createNotification: ", error);
   }
 };
 
@@ -49,12 +49,15 @@ export const fetchAllNotifications = async (token) => {
 
 export const fetchNotificationsOwner = async (token, ownerId) => {
   try {
-    const response = await axios.get(`${API_URL}/notifications/owner/${ownerId}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      `${API_URL}/notifications/owner/${ownerId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error in fetchNotificationsOwner:", error);

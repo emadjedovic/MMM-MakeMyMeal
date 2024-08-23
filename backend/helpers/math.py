@@ -1,13 +1,16 @@
 # helpers/math.py
 
 import math
+from geopy.distance import geodesic
 
 
 def to_radians(degrees):
     return degrees * (math.pi / 180)
 
 
-def calculate_distance_manual(rest_latitude, rest_longitude, user_latitude, user_longitude):
+def calculate_distance_manual(
+    rest_latitude, rest_longitude, user_latitude, user_longitude
+):
     R = 6371
 
     d_lat = to_radians(rest_latitude - user_latitude)
@@ -28,15 +31,13 @@ def round_up(number: float, decimals: int) -> float:
     factor = 10**decimals
     return math.ceil(number * factor) / factor
 
-def original_price (price_on_discount: float, old_discount: float, new_discount: float):
+
+def original_price(price_on_discount: float, old_discount: float, new_discount: float):
     original_price = price_on_discount / (1 - old_discount)
     new_price = original_price * (1 - new_discount)
 
-    return round_up(new_price,2)
+    return round_up(new_price, 2)
 
-from geopy.distance import geodesic
 
 def calculate_distance(lat1, lon1, lat2, lon2):
-    # Dummy implementation of distance calculation, replace with actual logic
-    
     return geodesic((lat1, lon1), (lat2, lon2)).km

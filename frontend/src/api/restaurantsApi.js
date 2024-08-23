@@ -21,10 +21,12 @@ export const toggleArchiveRestaurant = async (token, id) => {
 
 export const fetchOwnerId = async (restaurantId) => {
   try {
-    const response = await axios.get(`${API_URL}/restaurants/${restaurantId}/owner_id`);
+    const response = await axios.get(
+      `${API_URL}/restaurants/${restaurantId}/owner_id`
+    );
     return response.data.owner_id;
   } catch (error) {
-    console.error('Error fetching owner_id:', error);
+    console.error("Error fetching owner_id:", error);
     throw error;
   }
 };
