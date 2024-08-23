@@ -8,6 +8,10 @@ from sqlalchemy.orm import Session
 from schemas.user import UserCreate, UserLogin
 from crud.user import crud_create_customer, crud_get_user_by_email
 from config import ACCESS_TOKEN_EXPIRE_MINUTES
+from helpers.sending_email import send_email
+from pydantic import BaseModel
+from models.user import DBUser
+from security import decode_jwt, get_password_hash, create_reset_token
 
 router = APIRouter(prefix="/auth")
 
@@ -39,3 +43,53 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     )
 
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+class ForgotPasswordRequest(BaseModel):
+    email: str
+
+
+class ResetPasswordRequest(BaseModel):
+    email: str
+    new_password: str
+    token: str
+
+
+@router.post("/forgot-password")
+async def forgot_password(
+    request: ForgotPasswordRequest, db: Session = Depends(get_db)
+):
+    user = db.query(DBUser).filter(DBUser.email == request.email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Generate a token and send email (for simplicity, assume token is generated and validated elsewhere)
+    token = create_reset_token(user.email)
+    reset_link = (
+        f"http://localhost:3000/reset-password?token={token}&email={user.email}"
+    )
+    send_email(
+        "Password Reset Request",
+        f"Click here to reset your password: {reset_link}",
+        request.email,
+    )
+
+    return {"message": "Password reset email sent"}
+
+
+@router.post("/reset-password")
+async def reset_password(request: ResetPasswordRequest, db: Session = Depends(get_db)):
+    user = db.query(DBUser).filter(DBUser.email == request.email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    decoded_token = decode_jwt(request.token)
+    print("decoded_token.get('sub') is ", decoded_token.get("sub"))
+    print("request.email is ", request.email)
+    if decoded_token.get("sub") != request.email:
+        raise HTTPException(status_code=400, detail="Invalid token")
+
+    user.hashed_password = get_password_hash(request.new_password)
+    db.commit()
+
+    return {"message": "Password has been updated"}

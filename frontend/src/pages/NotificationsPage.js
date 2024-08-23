@@ -32,26 +32,23 @@ const NotificationsPage = () => {
 
   const { markNotificationsAsRead } = useContext(NotificationsContext);
 
-  
   useEffect(() => {
-    markNotificationsAsRead(); // Reset the notification state
+    markNotificationsAsRead();
   }, []);
 
-  // Function to determine the color based on notification type
   const getNotificationColor = (type) => {
     switch (type) {
       case "IN PROGRESS":
-        return "#a3c9e5"; // Pastel Blue
+        return "#a3c9e5";
       case "NEW_ORDER":
-        return "#fdfd96"; // Pastel Yellow
+        return "#fdfd96";
       case "COMPLETED":
-        return "#b2e5a8"; // Pastel Green
+        return "#b2e5a8";
       default:
-        return "#f8f9fa"; // Light Grey (for default/other types)
+        return "#f8f9fa";
     }
   };
 
-  // Function to determine the icon based on notification type
   const getNotificationIcon = (type) => {
     switch (type) {
       case "IN PROGRESS":

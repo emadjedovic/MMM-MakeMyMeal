@@ -34,7 +34,7 @@ export const renameFoodType = async (token, oldName, newName) => {
   try {
     const response = await axios.put(
       `${API_URL}/food_types/rename/${oldName}`,
-      { name: newName }, // FoodTypeCreate
+      { name: newName },
       {
         headers: {
           "Content-Type": "application/json",

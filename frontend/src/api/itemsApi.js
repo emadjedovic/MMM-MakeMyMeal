@@ -42,10 +42,7 @@ export const fetchRecommendedItems = async (token) => {
   }
 };
 
-export const fetchItemsByFoodType = async (
-  restaurant_id,
-  selectedFoodType
-) => {
+export const fetchItemsByFoodType = async (restaurant_id, selectedFoodType) => {
   try {
     const url =
       selectedFoodType === "All"

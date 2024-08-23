@@ -4,7 +4,7 @@ import { ListGroup, Container, Row, Col } from "react-bootstrap";
 import { UserContext } from "../contexts/UserContext.js";
 import { fetchChats, fetchUserInfoFromChat } from "./chatApi";
 import CreateChatModal from "./CreateChatModal.js";
-import "./chat.css"; // Import the CSS file
+import "./chat.css";
 import ThemedButton from "../components/ThemedButton.js";
 
 const AllChats = () => {
@@ -19,13 +19,17 @@ const AllChats = () => {
 
         const chatsWithInfo = await Promise.all(
           fetchedChats.map(async (chat) => {
-            const userInfo = await fetchUserInfoFromChat(token, user.id, chat.id);
-            return { 
-              ...chat, 
-              firstName: userInfo.first_name, 
-              lastName: userInfo.last_name, 
+            const userInfo = await fetchUserInfoFromChat(
+              token,
+              user.id,
+              chat.id
+            );
+            return {
+              ...chat,
+              firstName: userInfo.first_name,
+              lastName: userInfo.last_name,
               role: userInfo.role,
-              userId: userInfo.id
+              userId: userInfo.id,
             };
           })
         );
@@ -43,29 +47,35 @@ const AllChats = () => {
     setShowModal(false);
   };
 
-  const existingChatUsers = chats.map(chat => chat.userId);
+  const existingChatUsers = chats.map((chat) => chat.userId);
 
   return (
     <Container>
       <Row>
         <Col>
-        <h1>INBOX</h1>
-          <ThemedButton variant="outline-dark" onClick={() => setShowModal(true)}>Create New Chat</ThemedButton>
-          <br /><br />
+          <h1>INBOX</h1>
+          <ThemedButton
+            variant="outline-dark"
+            onClick={() => setShowModal(true)}
+          >
+            Create New Chat
+          </ThemedButton>
+          <br />
+          <br />
           <ListGroup className="custom-list-group">
             {chats.map((chat) => (
               <Link
-              key={chat.id}
-              to={`/chats/${chat.id}/${chat.firstName}`}
-              className="custom-link"
-            >
-              <ListGroup.Item
                 key={chat.id}
-                className="custom-list-group-item"
+                to={`/chats/${chat.id}/${chat.firstName}`}
+                className="custom-link"
               >
-                {chat.firstName} {chat.lastName} ({chat.role || "Loading..."})
-              </ListGroup.Item>
-            </Link>
+                <ListGroup.Item
+                  key={chat.id}
+                  className="custom-list-group-item"
+                >
+                  {chat.firstName} {chat.lastName} ({chat.role || "Loading..."})
+                </ListGroup.Item>
+              </Link>
             ))}
           </ListGroup>
         </Col>

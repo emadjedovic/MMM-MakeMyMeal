@@ -17,10 +17,11 @@ import CustomerPage from "./pages/CustomerPage";
 import DeliveryPersonnelPage from "./pages/DeliveryPersonnelPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import AllChats from "./chat/AllChats";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import Chat from "./chat/Chat";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./css/App.css"
+import "./css/App.css";
 import "./css/AppLight.css";
 import "./css/AppDark.css";
 
@@ -87,6 +88,7 @@ function App() {
             path="/chats"
             element={<ProtectedRoute element={<AllChats />} />}
           />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route
             path="/"
             element={<ProtectedRoute element={renderComponentByRole()} />}

@@ -2,9 +2,7 @@
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
 from typing import List
-from datetime import datetime, timezone
 from schemas.order import Order, OrderCreate
-from models.order import OrderStatus
 from crud.order import (
     crud_create_order,
     crud_get_orders_by_customer,
@@ -76,9 +74,7 @@ def get_assigned_orders(
     db: Session = Depends(get_db),
     # delivery_personnel: User = Depends(get_delivery_personnel_user),
 ):
-    return crud_get_deliveries_today(
-        db, delivery_personnel_id
-    )
+    return crud_get_deliveries_today(db, delivery_personnel_id)
 
 
 # Restaurant Admin - Assign order to delivery personnel
@@ -101,10 +97,5 @@ def assign_order(
 
 # Restaurant Admin and Delivery Personnel (maybe others as well)
 @router.put("/status/{order_id}/{status}", response_model=Order)
-def change_status(
-    order_id: int,
-    status: str,
-    db: Session = Depends(get_db)
-):
-
+def change_status(order_id: int, status: str, db: Session = Depends(get_db)):
     return crud_change_status(db, order_id, status)

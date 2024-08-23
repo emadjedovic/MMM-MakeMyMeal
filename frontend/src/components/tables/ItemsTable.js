@@ -88,11 +88,10 @@ const ItemsTable = ({
       });
 
       console.log("Order placed successfully.");
-      // Create a notification
       const notificationData = {
-        user_id: user.id, // Set to current user ID
-        restaurant_id: restaurantId, // Set to current restaurant ID
-        order_id: orderResponse.id, // Use the order ID returned from the API
+        user_id: user.id,
+        restaurant_id: restaurantId,
+        order_id: orderResponse.id,
         type: "NEW_ORDER",
         message: `A new order has been placed.\nTotal price: €${orderData.total_price.toFixed(
           2
@@ -101,7 +100,6 @@ const ItemsTable = ({
 
       await createNotification(token, notificationData);
       setNewNotification(true);
-      // Display toast notification
       toast.success("Order placed successfully!");
     } catch (error) {
       console.error("Error in handlePlaceOrder (ItemsTable.js).", error);
@@ -129,7 +127,7 @@ const ItemsTable = ({
                   fontSize: "1.5rem",
                   padding: "0.5rem 1.5rem",
                   borderRadius: "10rem",
-                  color: "#ffffff", // Text color for contrast
+                  color: "#ffffff",
                 }}
               >
                 ORDER

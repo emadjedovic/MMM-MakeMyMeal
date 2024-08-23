@@ -3,7 +3,7 @@ from datetime import datetime
 
 class NotificationBase(BaseModel):
     order_id: int
-    type: str  # 'NEW_ORDER' or 'STATUS_CHANGE'
+    type: str
     message: str
 
 class NotificationCreate(NotificationBase):

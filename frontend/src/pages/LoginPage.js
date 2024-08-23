@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/LoginPage.css";
 import { UserContext } from "../contexts/UserContext";
 import { loginUser } from "../api/authApi";
+import ForgotPasswordModal from "../components/modals/ForgotPasswordModal";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +13,7 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const { handleLogin } = useContext(UserContext);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   const requestData = {
     email: email,
@@ -111,13 +113,24 @@ const LoginPage = () => {
               >
                 Register
               </Button>
-              <p className="m-1">Forgot your password?</p>
-              <p>Reset Password</p>
-              
+              <p className="m-1">
+                <Button
+                  variant="link"
+                  onClick={() => setShowModal(true)}
+                  className="text-white"
+                >
+                  Forgot your password?
+                </Button>
+              </p>
             </Form>
           </Col>
         </Row>
       </Container>
+
+      <ForgotPasswordModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+      />
     </div>
   );
 };

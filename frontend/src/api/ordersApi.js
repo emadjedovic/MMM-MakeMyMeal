@@ -83,7 +83,7 @@ export const fetchOrderById = async (id) => {
 export const updateOrderStatus = async (token, order_id, newStatus) => {
   try {
     if (newStatus === "IN PROGRESS") {
-      newStatus = "IN_PROGRESS"
+      newStatus = "IN_PROGRESS";
     }
 
     await axios.put(

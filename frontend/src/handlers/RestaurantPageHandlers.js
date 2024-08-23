@@ -3,7 +3,11 @@ import { fetchRestaurantTypes } from "../api/restaurantTypesApi";
 import { fetchItemsByFoodType } from "../api/itemsApi";
 import { fetchFoodTypes } from "../api/foodTypesApi";
 
-export const handleFetchItemsByFoodType = async (setItems, restaurantId, selectedFoodType) => {
+export const handleFetchItemsByFoodType = async (
+  setItems,
+  restaurantId,
+  selectedFoodType
+) => {
   try {
     const items = await fetchItemsByFoodType(restaurantId, selectedFoodType);
     setItems(items);
@@ -57,8 +61,12 @@ export const handleFetchRestaurantNamesFromItems = async (
   setRestaurantNames(names);
 };
 
-export const handleFetchRestaurantNamesFromOrders = async (orders, setRestaurantNames, restaurantNames) => {
-  const names = { ...restaurantNames }; // Clone the current state to avoid overwriting
+export const handleFetchRestaurantNamesFromOrders = async (
+  orders,
+  setRestaurantNames,
+  restaurantNames
+) => {
+  const names = { ...restaurantNames };
   for (const order of orders) {
     if (!names[order.restaurant_id]) {
       try {
@@ -93,9 +101,9 @@ export const handleUpdateRestaurant = async (
     return;
   }
   try {
-    console.log("token: ", token)
-    console.log("updateID: ", updateId)
-    console.log("requestData: ", requestData)
+    console.log("token: ", token);
+    console.log("updateID: ", updateId);
+    console.log("requestData: ", requestData);
     const data = await updateRestaurant(token, updateId, requestData);
     onUpdate(data);
     setMessage("Restaurant updated successfully!");

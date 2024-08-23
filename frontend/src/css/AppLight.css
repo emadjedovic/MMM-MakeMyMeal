@@ -1,6 +1,3 @@
-/* src/app.css */
-
-/* Global styles */
 body.light {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -9,17 +6,13 @@ body.light {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: whitesmoke;
-  /* Background color for the whole app */
   color: #333;
-  /* Default text color */
 }
 
 
-/* Sidebar styles */
 .sidebar.light {
   height: 100vh;
   width: 8rem;
-  /* Increase width for better content fit */
   position: fixed;
   top: 0;
   left: 0;
@@ -28,14 +21,11 @@ body.light {
   flex-direction: column;
   align-items: center;
   padding: 0;
-  /* Adjust padding for better spacing inside sidebar */
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-  /* Increase shadow for better separation */
 }
 
 .sidebar-item.light {
   margin: 10px 0;
-  /* Increase margin between sidebar items */
   color: #e75019;
   text-decoration: none;
 
@@ -45,23 +35,18 @@ body.light {
   color: #f47c4d;
 }
 
-/* Footer styles within the sidebar */
 .sidebar-footer.light {
   margin-top: auto;
-  /* Pushes footer to the bottom of the sidebar */
   padding: 1rem;
   text-align: center;
   color: #e0e0e0;
-  /* Light color for footer text */
 }
 
 .social-links.light a {
   color: black;
   margin: 5px 0;
-  /* Adjust margin to space icons vertically */
   text-decoration: none;
   font-size: 1.5rem;
-  /* Adjust font size for icons */
 }
 
 .social-links.light a:hover {
@@ -71,5 +56,4 @@ body.light {
 .footer-text.light {
   color: #666;
   font-size: 0.75rem;
-  /* Adjust font size */
 }

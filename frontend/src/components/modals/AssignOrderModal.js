@@ -3,7 +3,13 @@ import { Modal, Form, Alert } from "react-bootstrap";
 import { assignOrder } from "../../api/ordersApi";
 import ThemedButton from "../ThemedButton";
 
-const AssignOrderModal = ({ show, closeModal, refreshOrdersParent, orderId, token }) => {
+const AssignOrderModal = ({
+  show,
+  closeModal,
+  refreshOrdersParent,
+  orderId,
+  token,
+}) => {
   const [deliveryId, setDeliveryId] = useState("");
   const [message, setMessage] = useState("");
   const [messageVariant, setMessageVariant] = useState("");
@@ -26,12 +32,12 @@ const AssignOrderModal = ({ show, closeModal, refreshOrdersParent, orderId, toke
     setDeliveryId("");
     setMessage("");
     setMessageVariant("");
-  }
+  };
 
   const handleClose = () => {
     clear();
     closeModal();
-  }
+  };
 
   return (
     <Modal show={show} onHide={handleClose}>

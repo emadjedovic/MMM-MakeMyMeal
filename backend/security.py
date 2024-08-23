@@ -39,6 +39,21 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
     return encoded_jwt
 
 
+def create_reset_token(email: str, expires_delta: timedelta | None = None) -> str:
+    to_encode = {"sub": email}
+
+    if expires_delta:
+        expire = datetime.now(timezone.utc) + expires_delta
+    else:
+        expire = datetime.now(timezone.utc) + timedelta(hours=1)
+
+    to_encode.update({"exp": expire})
+
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
+    return encoded_jwt
+
+
 def extract_token(request: Request) -> str:
     authorization: str = request.headers.get("Authorization")
     if authorization is None or not authorization.startswith("Bearer "):

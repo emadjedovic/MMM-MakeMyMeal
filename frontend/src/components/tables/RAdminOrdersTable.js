@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  Table,
-  Container,
-  Pagination,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Table, Container, Pagination, Row, Col } from "react-bootstrap";
 import { formatCreatedAt } from "../../calculations";
 import { handleFetchRestaurantNamesFromOrders } from "../../handlers/RestaurantPageHandlers";
 import { UserContext } from "../../contexts/UserContext";
@@ -34,7 +28,10 @@ const RAdminsOrdersTable = ({
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  const currentItems = orders.slice(indexOfFirstItem, indexOfLastItem);
+  const sortedOrders = [...orders].sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
+  const currentItems = sortedOrders.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(orders.length / itemsPerPage);
   const paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {
@@ -75,7 +72,7 @@ const RAdminsOrdersTable = ({
             </thead>
             <tbody>
               {currentItems.map((order) => {
-                const isUnassigned = order.status === "UNASSIGNED"; // For restaurant admin
+                const isUnassigned = order.status === "UNASSIGNED";
 
                 return (
                   <tr key={order.id}>
@@ -110,7 +107,10 @@ const RAdminsOrdersTable = ({
                       )}
                     </td>
                     <td>{order.payment_method}</td>
-                    <td>({order.latitude.toFixed(5)}, {order.longitude.toFixed(5)})</td>
+                    <td>
+                      ({order.latitude.toFixed(5)}, {order.longitude.toFixed(5)}
+                      )
+                    </td>
                     <td>€{order.total_price}</td>
                     <td>{formatCreatedAt(order.created_at)}</td>
                   </tr>

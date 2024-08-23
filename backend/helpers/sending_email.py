@@ -8,11 +8,10 @@ from config import email_settings
 
 def send_email(subject: str, body: str, recipient: str):
     msg = MIMEMultipart()
-    msg["From"] = email_settings.MAIL_FROM # issue
+    msg["From"] = email_settings.MAIL_FROM
     msg["To"] = recipient
     msg["Subject"] = subject
 
-    # Attach the body text
     msg.attach(MIMEText(body, "plain"))
 
     try:

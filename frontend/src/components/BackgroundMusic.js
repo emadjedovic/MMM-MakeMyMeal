@@ -1,12 +1,14 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
 import { ThemeContext } from "../contexts/ThemeContext";
-import { Row, Col } from "react-bootstrap"; // Importing Bootstrap components
+import { Row, Col } from "react-bootstrap";
 
 const BackgroundMusic = () => {
   const audioRef = useRef(null);
   const [isMuted, setIsMuted] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false); // New state for play/pause
+  const [isPlaying, setIsPlaying] = useState(false);
   const { theme } = useContext(ThemeContext);
+
+  const musicVolume = 0.1;
 
   const toggleVolume = () => {
     setIsMuted(!isMuted);
@@ -23,25 +25,29 @@ const BackgroundMusic = () => {
     }
   };
 
-  // Function to handle play/pause based on user interaction
   const handleUserInteraction = () => {
     if (audioRef.current) {
       if (!isPlaying) {
-        audioRef.current.play().then(() => {
-          setIsPlaying(true);
-        }).catch(error => {
-          console.log("Play attempt failed:", error);
-        });
+        audioRef.current
+          .play()
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch((error) => {
+            console.log("Play attempt failed:", error);
+          });
       }
     }
   };
 
   useEffect(() => {
-    // Add event listener for user interaction
-    document.addEventListener('click', handleUserInteraction);
+    if (audioRef.current) {
+      audioRef.current.volume = musicVolume;
+    }
+
+    document.addEventListener("click", handleUserInteraction);
     return () => {
-      // Cleanup event listener
-      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener("click", handleUserInteraction);
     };
   }, [isPlaying]);
 
@@ -60,7 +66,12 @@ const BackgroundMusic = () => {
         </button>
       </Col>
       <Col>
-        <audio ref={audioRef} loop muted={isMuted} src="http://channels.fluxfm.de/chillhop/stream.mp3">
+        <audio
+          ref={audioRef}
+          loop
+          muted={isMuted}
+          src="http://channels.fluxfm.de/chillhop/stream.mp3"
+        >
           Your browser does not support the audio element.
         </audio>
       </Col>

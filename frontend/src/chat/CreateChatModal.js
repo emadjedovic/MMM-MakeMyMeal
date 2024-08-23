@@ -107,10 +107,10 @@ const CreateChatModal = ({
         <ThemedButton variant="secondary" onClick={onHide}>
           Cancel
         </ThemedButton>
-        <ThemedButton 
-          variant="primary" 
+        <ThemedButton
+          variant="primary"
           onClick={handleCreateChat}
-          disabled={!selectedUserId}  // Disable the button if no user is selected
+          disabled={!selectedUserId}
         >
           Create Chat
         </ThemedButton>

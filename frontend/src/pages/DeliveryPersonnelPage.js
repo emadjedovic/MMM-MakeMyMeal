@@ -35,7 +35,8 @@ const DeliveryPersonnelPage = () => {
                       token,
                       userId,
                       setDeliveriesToday
-                    )}
+                    )
+                  }
                 />
               </Col>
             </Row>

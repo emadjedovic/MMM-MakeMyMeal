@@ -15,7 +15,7 @@ from crud.user import (
     crud_create_delivery_personnel,
     crud_delete_user,
     crud_get_users_by_role,
-    crud_get_users_all
+    crud_get_users_all,
 )
 from typing import List
 from models.user import UserRole
@@ -42,7 +42,7 @@ def delete_current_user(
 async def create_restaurant_admin_user(
     user: UserCreate,
     db: Session = Depends(get_db),
-    #admin: User = Depends(get_admin_user),
+    # admin: User = Depends(get_admin_user),
 ):
     return crud_create_restaurant_admin(db=db, user=user)
 
@@ -52,14 +52,16 @@ async def create_restaurant_admin_user(
 async def create_delivery_personnel_user(
     user: UserCreate,
     db: Session = Depends(get_db),
-    #admins: User = Depends(get_admin_or_restaurant_admin),
+    # admins: User = Depends(get_admin_or_restaurant_admin),
 ):
     return crud_create_delivery_personnel(db=db, user=user)
+
 
 @router.get("/role/{role}", response_model=List[User])
 def read_users_by_role(role: UserRole, db: Session = Depends(get_db)):
     users = crud_get_users_by_role(db, role)
     return users
+
 
 @router.get("/all", response_model=List[User])
 def read_users_all(db: Session = Depends(get_db)):

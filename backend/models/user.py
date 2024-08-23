@@ -7,7 +7,7 @@ from sqlalchemy import (
     DateTime,
     Enum as sqlEnum,
     Boolean,
-    Float
+    Float,
 )
 from datetime import datetime, timedelta, timezone
 from database import Base
@@ -15,6 +15,7 @@ import enum
 from sqlalchemy.orm import relationship
 
 local_tz = timezone(timedelta(hours=2))
+
 
 class UserRole(enum.Enum):
     ADMIN = "ADMIN"

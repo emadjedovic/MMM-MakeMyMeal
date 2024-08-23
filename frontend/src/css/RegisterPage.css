@@ -11,39 +11,37 @@
 }
 
 .overlay-left-side {
-    height: 100vh; /* Full viewport height */
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
 .overlay-right-side {
-    background: rgba(0, 0, 0, 0.8); /* Black see-through background */
+    background: rgba(0, 0, 0, 0.8);
     text-align: center;
     padding: 2rem;
 }
 
-/* Map container styling */
 .map-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 90%; /* Relative width to take most of the available space */
-    margin: 1rem auto 0; /* Center the map horizontally */
-    border-radius: 1rem; /* Rounded corners on all sides */
-    overflow: hidden; /* Ensure the content respects the border-radius */
-    border: 2px solid rgb(57, 57, 57); /* Thicker border around the edges */
+    width: 90%;
+    margin: 1rem auto 0;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 2px solid rgb(57, 57, 57);
     position: relative;
 }
 
 .map-container iframe {
     width: 100%;
     height: 100%;
-    border: none; /* Remove default border */
+    border: none;
 }
 
-/* Form container styling */
 .form-container {
-    background: rgba(0, 0, 0, 0.8); /* Black see-through background */
+    background: rgba(0, 0, 0, 0.8);
     padding: 2rem;
     border-radius: 0.5rem;
     max-width: 400px;
@@ -72,7 +70,7 @@
 }
 
 .form-container button:hover {
-    background-color: #d84e21; /* Darker shade on hover */
+    background-color: #d84e21;
 }
 
 .form-container p {
@@ -81,24 +79,24 @@
 }
 
 .footer-links {
-  text-align: center;
-  color: lightgray;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    color: lightgray;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .footer-links a.footer-link {
-  color: #f15a29; /* Adjust color as needed */
-  text-decoration: none;
-  margin: 0 5px;
-  font-size: 1rem; /* Adjust font size as needed */
+    color: #f15a29;
+    text-decoration: none;
+    margin: 0 5px;
+    font-size: 1rem;
 }
 
 .footer-links a.footer-link:hover {
-  text-decoration: underline;
-  color: #d44a1a; /* Darker shade on hover */
+    text-decoration: underline;
+    color: #d44a1a;
 }
 
 .footer-links .mt-4 {
-  margin-top: 1.5rem; /* Adjust margin as needed */
-  font-size: 1rem; /* Smaller font size for the copyright text */
+    margin-top: 1.5rem;
+    font-size: 1rem;
 }

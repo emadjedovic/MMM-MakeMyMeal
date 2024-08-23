@@ -52,7 +52,7 @@ class Restaurant(RestaurantBase):
     owner_id: int
     is_archived: bool
     items: List[Item] = []
-    orders: List[Order] = []  # Added relationship
+    orders: List[Order] = []
 
     class Config:
         from_attributes = True

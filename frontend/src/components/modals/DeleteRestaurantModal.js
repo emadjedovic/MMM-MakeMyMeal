@@ -28,7 +28,10 @@ const DeleteRestaurantModal = ({ restaurantId, onDelete }) => {
           Are you sure you want to delete the restaurant with ID {restaurantId}?
         </Modal.Body>
         <Modal.Footer>
-          <ThemedButton variant="secondary" onClick={() => setShowConfirm(false)}>
+          <ThemedButton
+            variant="secondary"
+            onClick={() => setShowConfirm(false)}
+          >
             Cancel
           </ThemedButton>
           <ThemedButton variant="danger" onClick={handleConfirmDelete}>

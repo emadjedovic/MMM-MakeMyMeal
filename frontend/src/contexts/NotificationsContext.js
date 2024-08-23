@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState } from "react";
 
 export const NotificationsContext = createContext();
 
@@ -10,7 +10,9 @@ export const NotificationsProvider = ({ children }) => {
   };
 
   return (
-    <NotificationsContext.Provider value={{ newNotification, setNewNotification, markNotificationsAsRead }}>
+    <NotificationsContext.Provider
+      value={{ newNotification, setNewNotification, markNotificationsAsRead }}
+    >
       {children}
     </NotificationsContext.Provider>
   );

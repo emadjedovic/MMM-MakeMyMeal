@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  Table,
-  Container,
-  Pagination,
-  Row,
-  Col,
-  Form,
-} from "react-bootstrap";
+import { Table, Container, Pagination, Row, Col, Form } from "react-bootstrap";
 import { formatCreatedAt } from "../../calculations";
 import { handleFetchRestaurantNamesFromOrders } from "../../handlers/RestaurantPageHandlers";
 import { handleUpdateOrderStatus } from "../../handlers/DeliveryPageHandlers";
@@ -65,7 +58,7 @@ const OrdersTable = ({
       acc[order.id] = order.status;
       return acc;
     }, {});
-    console.log("Initial statuses: ", initialStatuses); // Debugging line
+    console.log("Initial statuses: ", initialStatuses);
     setSelectedOrderStatuses(initialStatuses);
   }, [orders]);
 
@@ -76,7 +69,10 @@ const OrdersTable = ({
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  const currentItems = orders.slice(indexOfFirstItem, indexOfLastItem);
+  const sortedOrders = [...orders].sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
+  const currentItems = sortedOrders.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(orders.length / itemsPerPage);
   const paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {

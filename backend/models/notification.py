@@ -10,7 +10,7 @@ class DBNotification(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     order_id = Column(Integer, ForeignKey("orders.id"), nullable=False)
-    type = Column(String, nullable=False)  # 'NEW_ORDER' or 'STATUS_CHANGE'
+    type = Column(String, nullable=False)
     message = Column(String, nullable=False)
     timestamp = Column(DateTime, nullable=True, default=datetime.now(local_tz))
 

@@ -10,7 +10,7 @@ const OrderModal = ({ orderId, showModal, handleClose }) => {
 
   const handleFetchOrderById = async () => {
     try {
-      console.log("sending orderID:", orderId)
+      console.log("sending orderID:", orderId);
       const order = await fetchOrderById(orderId);
       setOrderDetails(order);
     } catch (error) {
@@ -32,23 +32,48 @@ const OrderModal = ({ orderId, showModal, handleClose }) => {
 
   return (
     <Modal show={showModal} onHide={handleClose}>
-  <Modal.Header closeButton>
-    <Modal.Title><strong>ORDER #{orderDetails.id}</strong></Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <ListGroup>
-      <ListGroup.Item><strong>Customer ID:</strong> {orderDetails.customer_id}</ListGroup.Item>
-      <ListGroup.Item><strong>Restaurant:</strong> {restaurantName}</ListGroup.Item>
-      <ListGroup.Item><strong>Status:</strong> {orderDetails.status}</ListGroup.Item>
-      <ListGroup.Item><strong>Delivery ID:</strong> {orderDetails.delivery_id || "NONE"}</ListGroup.Item>
-      <ListGroup.Item><strong>Payment Method:</strong> {orderDetails.payment_method}</ListGroup.Item>
-      <ListGroup.Item><strong>Total Price:</strong> €{orderDetails.total_price}</ListGroup.Item>
-      <ListGroup.Item><strong>Preferred Arrival Time:</strong> {formatCreatedAt(orderDetails.preferred_arrival_time)}</ListGroup.Item>
-      <ListGroup.Item><strong>Created At:</strong> {formatCreatedAt(orderDetails.created_at)}</ListGroup.Item>
-      <ListGroup.Item><strong>Location: ({orderDetails.latitude.toFixed(5)}, {orderDetails.longitude.toFixed(5)})</strong></ListGroup.Item>
-    </ListGroup>
-  </Modal.Body>
-</Modal>
+      <Modal.Header closeButton>
+        <Modal.Title>
+          <strong>ORDER #{orderDetails.id}</strong>
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <ListGroup>
+          <ListGroup.Item>
+            <strong>Customer ID:</strong> {orderDetails.customer_id}
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <strong>Restaurant:</strong> {restaurantName}
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <strong>Status:</strong> {orderDetails.status}
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <strong>Delivery ID:</strong> {orderDetails.delivery_id || "NONE"}
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <strong>Payment Method:</strong> {orderDetails.payment_method}
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <strong>Total Price:</strong> €{orderDetails.total_price}
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <strong>Preferred Arrival Time:</strong>{" "}
+            {formatCreatedAt(orderDetails.preferred_arrival_time)}
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <strong>Created At:</strong>{" "}
+            {formatCreatedAt(orderDetails.created_at)}
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <strong>
+              Location: ({orderDetails.latitude.toFixed(5)},{" "}
+              {orderDetails.longitude.toFixed(5)})
+            </strong>
+          </ListGroup.Item>
+        </ListGroup>
+      </Modal.Body>
+    </Modal>
   );
 };
 

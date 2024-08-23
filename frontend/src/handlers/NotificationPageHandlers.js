@@ -1,7 +1,15 @@
 import { toast } from "react-toastify";
-import {  deleteNotification, deleteAllNotifications, fetchNotificationsOwner } from "../api/notificationsApi.js"; 
+import {
+  deleteNotification,
+  deleteAllNotifications,
+  fetchNotificationsOwner,
+} from "../api/notificationsApi.js";
 
-export const handleFetchNotificationsOwner = async (token, setNotifications, ownerId) => {
+export const handleFetchNotificationsOwner = async (
+  token,
+  setNotifications,
+  ownerId
+) => {
   try {
     const data = await fetchNotificationsOwner(token, ownerId);
     setNotifications(data);
@@ -10,10 +18,15 @@ export const handleFetchNotificationsOwner = async (token, setNotifications, own
   }
 };
 
-export const handleDeleteNotification = async (token, notificationId, notifications, setNotifications) => {
+export const handleDeleteNotification = async (
+  token,
+  notificationId,
+  notifications,
+  setNotifications
+) => {
   try {
     await deleteNotification(token, notificationId);
-    setNotifications(notifications.filter(n => n.id !== notificationId));
+    setNotifications(notifications.filter((n) => n.id !== notificationId));
     toast.success("Notification deleted successfully");
   } catch (error) {
     toast.error("Failed to delete notification");

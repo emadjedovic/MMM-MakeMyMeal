@@ -8,7 +8,7 @@ from .chat_crud import (
     get_chat_messages,
     get_chats_of_user,
     get_name_from_chat,
-    get_user_info_from_chat
+    get_user_info_from_chat,
 )
 from .chat_schemas import MessageCreate, ChatCreate, Message, Chat
 
@@ -30,6 +30,7 @@ def get_name_from_chat_endpoint(
     user_id: int, chat_id: int, db: Session = Depends(get_db)
 ):
     return get_name_from_chat(user_id=user_id, chat_id=chat_id, db=db)
+
 
 @router.get("/chats/{chat_id}/{user_id}/user-info")
 def get_user_info_from_chat_endpoint(
