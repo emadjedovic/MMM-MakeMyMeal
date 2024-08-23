@@ -65,11 +65,10 @@ DODATNI ELEMENTI (barem tri)
 ----------------------------------------------------------------------
 
 1. toggle theme (dark mode)
-2. ??
+2. background radio
 3. ??
 
 - reset passowrd
-- muzika u pozadini
 - scheduled jobs?
 - customize profile (avatars?)
 - add default avatars: blue for dp, red for admin, yellow for radmin, white for user (za chat)
