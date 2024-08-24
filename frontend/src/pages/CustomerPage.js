@@ -85,7 +85,7 @@ const CustomerPage = () => {
             <Nav.Link eventKey="promotions-table">Promotions</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link eventKey="orders-table">Orders</Nav.Link>
+            <Nav.Link eventKey="orders-table">Order History</Nav.Link>
           </Nav.Item>
         </Nav>
 

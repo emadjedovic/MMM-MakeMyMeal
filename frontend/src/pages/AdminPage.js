@@ -8,7 +8,7 @@ import CreateRestaurantAdminForm from "../components/forms/CreateRestaurantAdmin
 import LookupTables from "../components/LookupTables";
 import PromotionsTable from "../components/tables/PromotionsTable";
 import RestaurantPage from "../components/RestaurantPage";
-import OrdersTable from "../components/tables/OrdersTable";
+import RAOrdersTable from "../components/tables/RAOrdersTable";
 import OrderModal from "../components/modals/OrderModal";
 import ThemedButton from "../components/ThemedButton";
 import {
@@ -238,7 +238,7 @@ const AdminPage = () => {
                 <>
                   <Row>
                     <Col>
-                      <OrdersTable
+                      <RAOrdersTable
                         orders={ordersAll}
                         handleOrderSelectParent={(orderId) =>
                           handleShowOrderModal(orderId)

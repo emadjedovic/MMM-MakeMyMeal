@@ -2,7 +2,7 @@ import React from "react";
 import { Table, Pagination } from "react-bootstrap";
 import ThemedButton from "../ThemedButton";
 
-const RAdminRestaurantsTable = ({
+const RARestaurantsTable = ({
   restaurants,
   editId,
   editableData,
@@ -161,4 +161,4 @@ const RAdminRestaurantsTable = ({
   );
 };
 
-export default RAdminRestaurantsTable;
+export default RARestaurantsTable;

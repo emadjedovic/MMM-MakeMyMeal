@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { Container, Tab, Nav, Row, Col } from "react-bootstrap";
-import OrdersTable from "../components/tables/OrdersTable";
+import DPOrdersTable from "../components/tables/DPOrdersTable";
 import { handleFetchDeliveriesToday } from "../handlers/DeliveryPageHandlers";
 
 const DeliveryPersonnelPage = () => {
@@ -26,7 +26,7 @@ const DeliveryPersonnelPage = () => {
           <Tab.Pane eventKey="orders-table">
             <Row>
               <Col>
-                <OrdersTable
+                <DPOrdersTable
                   orders={deliveriesToday}
                   handleOrderSelectParent={() => {}}
                   handleRestaurantSelectParent={() => {}}

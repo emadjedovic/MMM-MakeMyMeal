@@ -11,9 +11,9 @@ import {
 } from "react-bootstrap";
 import ThemedButton from "../components/ThemedButton";
 import CreatePersonnelForm from "../components/forms/CreatePersonnelForm";
-import RAdminRestaurantsTable from "../components/tables/RAdminRestaurantsTable";
+import RARestaurantsTable from "../components/tables/RARestaurantsTable";
 import RestaurantPage from "../components/RestaurantPage";
-import RAdminOrdersTable from "../components/tables/RAdminOrdersTable";
+import RAOrdersTable from "../components/tables/RAOrdersTable";
 import OrderModal from "../components/modals/OrderModal";
 import {
   handleFetchRestaurantsByOwner,
@@ -112,7 +112,7 @@ const RestaurantAdminPage = () => {
             {selectedRestaurantId ? (
               <RestaurantPage restaurantId={selectedRestaurantId} />
             ) : (
-              <RAdminRestaurantsTable
+              <RARestaurantsTable
                 restaurants={currentRestaurants}
                 editId={editId}
                 editableData={editableData}
@@ -152,7 +152,7 @@ const RestaurantAdminPage = () => {
               <>
                 <Row>
                   <Col>
-                    <RAdminOrdersTable
+                    <RAOrdersTable
                       orders={ordersOwner}
                       handleOrderSelectParent={(orderId) =>
                         handleShowOrderModal(orderId)

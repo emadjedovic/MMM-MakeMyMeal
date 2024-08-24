@@ -103,9 +103,9 @@ const RegisterPage = () => {
             xs={4}
             className="d-flex flex-column justify-content-center align-items-center text-white overlay-right-side"
           >
-            <h1 className="mb-5">REGISTER</h1>
+            <h1 className="mb-4 mt-0">REGISTER</h1>
             <Form onSubmit={handleRegisterSubmit} className="w-75">
-              <Form.Group controlId="formFirstName" className="mb-3">
+              <Form.Group controlId="formFirstName" className="mb-2">
                 <Form.Control
                   type="text"
                   placeholder="Enter First Name"
@@ -114,7 +114,7 @@ const RegisterPage = () => {
                   required
                 />
               </Form.Group>
-              <Form.Group controlId="formLastName" className="mb-3">
+              <Form.Group controlId="formLastName" className="mb-2">
                 <Form.Control
                   type="text"
                   placeholder="Enter Last Name"
@@ -123,7 +123,7 @@ const RegisterPage = () => {
                   required
                 />
               </Form.Group>
-              <Form.Group controlId="formEmail" className="mb-3">
+              <Form.Group controlId="formEmail" className="mb-2">
                 <Form.Control
                   type="email"
                   placeholder="Enter Email"
@@ -132,7 +132,7 @@ const RegisterPage = () => {
                   required
                 />
               </Form.Group>
-              <Form.Group controlId="formPassword" className="mb-3">
+              <Form.Group controlId="formPassword" className="mb-2">
                 <Form.Control
                   type="password"
                   placeholder="Enter Password"
@@ -141,18 +141,34 @@ const RegisterPage = () => {
                   required
                 />
               </Form.Group>
-              <Button variant="danger" type="submit" className="w-50 mb-3">
+              <Form.Group controlId="formLatitude" className="mb-2">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Latitude"
+                  value={latitude}
+                  onChange={(e) => setLatitude(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="formLongitude" className="mb-2">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Longitude"
+                  value={longitude}
+                  onChange={(e) => setLongitude(e.target.value)}
+                />
+              </Form.Group>
+              <Button variant="danger" type="submit" className="w-50 m-3">
                 Register
               </Button>
               {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
-              <p className="m-1">Already have an account?</p>
+              <p className="mb-0">Already have an account?
               <Button
                 variant="link"
                 onClick={handleLoginRedirect}
-                className="text-white"
+                className="text-white pt-0 pb-2"
               >
                 Login
-              </Button>
+              </Button></p>
             </Form>
           </Col>
         </Row>
