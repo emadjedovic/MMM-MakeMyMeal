@@ -9,20 +9,26 @@ from fastapi import HTTPException, BackgroundTasks
 from helpers.sending_email import send_email
 from crud.user import crud_get_user_by_id, crud_get_customer_location
 from crud.restaurant import crud_get_restaurant_by_id
-from typing import List
+from typing import List, Optional
+
 
 # .scalars().all() extracts the results into a list of DBOrder objects
 def crud_get_orders_owner_id(owner_id: int, db: Session) -> List[DBOrder]:
-    return db.execute(
-        select(DBOrder)
-        .join(DBRestaurant, DBOrder.restaurant_id == DBRestaurant.id)
-        .where(DBRestaurant.owner_id == owner_id)
-    ).scalars().all()
+    return (
+        db.execute(
+            select(DBOrder)
+            .join(DBRestaurant, DBOrder.restaurant_id == DBRestaurant.id)
+            .where(DBRestaurant.owner_id == owner_id)
+        )
+        .scalars()
+        .all()
+    )
 
 
 def crud_get_orders_all(db: Session) -> List[DBOrder]:
     orders = db.query(DBOrder).all()
     return orders
+
 
 def crud_get_order_by_id(db: Session, id: int) -> DBOrder:
     db_order = db.query(DBOrder).filter(DBOrder.id == id).first()
@@ -30,18 +36,23 @@ def crud_get_order_by_id(db: Session, id: int) -> DBOrder:
 
 
 local_tz = timezone(timedelta(hours=2))
+
+
 def crud_create_order(db: Session, order: OrderCreate, customer_id: int):
     db_order = DBOrder(
         customer_id=customer_id,
         restaurant_id=order.restaurant_id,
         status=OrderStatus.UNASSIGNED,
         payment_method=order.payment_method,
-        total_price = order.total_price,
+        total_price=order.total_price,
         preferred_arrival_time=order.preferred_arrival_time,
-        created_at=datetime.now(local_tz)
+        created_at=datetime.now(local_tz),
     )
-    
-    if not db_order.preferred_arrival_time or db_order.preferred_arrival_time < db_order.created_at:
+
+    if (
+        not db_order.preferred_arrival_time
+        or db_order.preferred_arrival_time < db_order.created_at
+    ):
         db_order.preferred_arrival_time = db_order.created_at
 
     location = crud_get_customer_location(db, customer_id)
@@ -57,12 +68,16 @@ def crud_create_order(db: Session, order: OrderCreate, customer_id: int):
 
     return db_order
 
+
 def crud_delete_order_items(db: Session, order_id: int):
-    db_order_items = db.query(DBOrderItem).filter(DBOrderItem.order_id == order_id).all() # a list
+    db_order_items = (
+        db.query(DBOrderItem).filter(DBOrderItem.order_id == order_id).all()
+    )  # a list
     for order_item in db_order_items:
         db.delete(order_item)
-    
+
     db.commit()
+
 
 # for testing purposes only
 def crud_delete_order(db: Session, order_id: int):
@@ -73,7 +88,7 @@ def crud_delete_order(db: Session, order_id: int):
     crud_delete_order_items(db, order_id)
     db.delete(db_order)
     db.commit()
-    
+
     return {"detail": "Order deleted successfully"}
 
 
@@ -82,7 +97,7 @@ def crud_change_status(db: Session, order_id: int, status: str):
 
     if not db_order:
         raise HTTPException(status_code=404, detail="Order not found")
-    
+
     if status is not None:
         # Convert the status string to the corresponding OrderStatus enum
         try:
@@ -102,7 +117,9 @@ def crud_get_orders_by_customer(db: Session, customer_id: int):
 
 def crud_get_deliveries_today(db: Session, delivery_id: int):
     current_time = datetime.now(timezone.utc)
-    start_of_day = datetime(current_time.year, current_time.month, current_time.day, tzinfo=timezone.utc)
+    start_of_day = datetime(
+        current_time.year, current_time.month, current_time.day, tzinfo=timezone.utc
+    )
     end_of_day = start_of_day + timedelta(days=1)
 
     return (
@@ -110,10 +127,40 @@ def crud_get_deliveries_today(db: Session, delivery_id: int):
         .filter(
             DBOrder.delivery_id == delivery_id,
             DBOrder.preferred_arrival_time < end_of_day,
-            DBOrder.status.in_([OrderStatus.ASSIGNED, OrderStatus.IN_PROGRESS])
+            DBOrder.status.in_([OrderStatus.ASSIGNED, OrderStatus.IN_PROGRESS]),
         )
         .all()
     )
+
+
+def crud_get_orders_by_date_and_status(
+    db: Session,
+    restaurant_id: int,
+    delivery_id: Optional[int],
+    date: datetime,
+    statuses: Optional[List[str]] = None,
+):
+    start_date = datetime(date.year, date.month, date.day)
+    end_date = start_date + timedelta(days=1)
+
+    # Query orders with date and status filtering
+    query = db.query(DBOrder).filter(
+        DBOrder.preferred_arrival_time >= start_date,
+        DBOrder.preferred_arrival_time < end_date,
+        DBOrder.restaurant_id == restaurant_id,
+    )
+
+    if delivery_id:
+        query = query.filter(DBOrder.delivery_id == delivery_id)
+
+    # Exclude completed orders for today
+    if date.date() == datetime.now().date():
+        query = query.filter(DBOrder.status != "COMPLETED")
+
+    if statuses:
+        query = query.filter(DBOrder.status.in_(statuses))
+
+    return query.all()
 
 
 def crud_assign_order_to_delivery(
@@ -129,7 +176,6 @@ def crud_assign_order_to_delivery(
     db.commit()
     db.refresh(db_order)
 
-    
     customer = crud_get_user_by_id(db, db_order.customer_id)
     restaurant = crud_get_restaurant_by_id(db, db_order.restaurant_id)
     payment_method = db_order.payment_method
@@ -137,8 +183,8 @@ def crud_assign_order_to_delivery(
     order_details = {
         "total_price": db_order.total_price,
         "payment_method": payment_method.value,
-        "restaurant_name": restaurant.name if restaurant else "Unknown"}
-
+        "restaurant_name": restaurant.name if restaurant else "Unknown",
+    }
 
     # Send email in the background
     background_tasks.add_task(
@@ -151,23 +197,25 @@ def crud_assign_order_to_delivery(
     return db_order
 
 
-def crud_send_order_assigned_email(recipient: str, customer_name: str, order_details: dict):
+def crud_send_order_assigned_email(
+    recipient: str, customer_name: str, order_details: dict
+):
     subject = "MMM - Make My Meal"
-    body = (f"Dear {customer_name},\n\n"
-            f"Your order has been assigned to our delivery staff.\n\n"
-            f"Total Price: ${order_details['total_price']}\n"
-            f"Payment Method: {order_details['payment_method']}\n"
-            f"Restaurant: {order_details['restaurant_name']}\n\n"
-            "Best regards, Ema.")
+    body = (
+        f"Dear {customer_name},\n\n"
+        f"Your order has been assigned to our delivery staff.\n\n"
+        f"Total Price: ${order_details['total_price']}\n"
+        f"Payment Method: {order_details['payment_method']}\n"
+        f"Restaurant: {order_details['restaurant_name']}\n\n"
+        "Best regards, Ema."
+    )
 
     send_email(subject, body, recipient)
 
-'''
+
+"""
 def crud_send_order_assigned_email(recipient: str, customer_name: str, order_details: dict):
     subject = "MMM - Make My Meal"
     body = ("špašiošamtemišumali <333333333")
 
-    send_email(subject, body, recipient)'''
-
-
-
+    send_email(subject, body, recipient)"""

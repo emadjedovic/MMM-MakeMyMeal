@@ -19,6 +19,24 @@ export const fetchOrdersCustomerHistory = async (token, customer_id) => {
   }
 };
 
+export const fetchMapOrders = async (token, restaurantName, date, deliveryId) => {
+  try {
+    const response = await axios.get(`${API_URL}/orders/map/`,  {
+        restaurant_name: restaurantName,
+        date: date,
+        delivery_id: deliveryId},  {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          }
+      });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching map orders:', error);
+    throw error; // Rethrow the error to be handled by the caller
+  }
+};
+
 export const fetchOrdersOwner = async (token, owner_id) => {
   try {
     console.log("token: ", token);

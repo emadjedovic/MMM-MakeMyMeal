@@ -25,7 +25,9 @@ import {
   handleFetchRestaurantsByType,
   handleFetchOrdersAll,
   handleUpdateRestaurant,
+  handleFetchMapOrders
 } from "../handlers/AdminPageHandlers";
+import OrdersMapA from "../components/OrdersMapA";
 
 const AdminPage = () => {
   const { token } = useContext(UserContext);
@@ -56,6 +58,18 @@ const AdminPage = () => {
   useEffect(() => {
     handleFetchOrdersAll(token, setOrdersAll);
   }, [token]);
+
+  const [selectedRestaurantName, setSelectedRestaurantName] = useState('');
+  const [deliveryId, setDeliveryId] = useState('');
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [ordersMap, setOrdersMap] = useState([]);
+
+  useEffect(() => {
+    if (selectedRestaurantName && date) {
+      console.log("Fetching orders for:", { selectedRestaurantName, date, deliveryId });
+      handleFetchMapOrders(token, selectedRestaurantName, date, deliveryId, setOrdersMap); // Assuming it can be reused for specific fetch
+    }
+  }, [selectedRestaurantName, date, deliveryId, token]);
 
   useEffect(() => {
     window.addEventListener("popstate", () => setSelectedRestaurantId(null));
@@ -251,6 +265,18 @@ const AdminPage = () => {
                         }
                       />
                     </Col>
+                  </Row>
+                  <Row>
+                    <OrdersMapA
+                      restaurants={restaurants}
+                      selectedRestaurantName={selectedRestaurantName}
+                      deliveryId={deliveryId}
+                      date={date}
+                      orders={ordersMap}
+                      setSelectedRestaurantName={setSelectedRestaurantName}
+                      setDeliveryId={setDeliveryId}
+                      setDate={setDate}
+                    />
                   </Row>
                   {showOrderModal && (
                     <Modal show={showOrderModal} onHide={handleCloseOrderModal}>

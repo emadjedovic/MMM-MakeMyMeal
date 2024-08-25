@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
 
-const Map = ({ onLocationSelect }) => {
+const RegisterMap = ({ onLocationSelect }) => {
   const [position, setPosition] = useState(null);
 
   const LocationMarker = () => {
@@ -34,4 +34,4 @@ const Map = ({ onLocationSelect }) => {
   );
 };
 
-export default Map;
+export default RegisterMap;

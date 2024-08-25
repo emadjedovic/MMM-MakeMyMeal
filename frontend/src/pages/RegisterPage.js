@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import Map from "../components/Map";
+import RegisterMap from "../components/RegisterMap";
 import { Container, Row, Col, Form, Alert, Button } from "react-bootstrap";
 import "../css/RegisterPage.css";
 import { UserContext } from "../contexts/UserContext";
@@ -67,7 +67,7 @@ const RegisterPage = () => {
             className="d-flex flex-column justify-content-center align-items-center text-white overlay-left-side"
           >
             <div className="map-container">
-              <Map onLocationSelect={handleLocationSelect} />
+              <RegisterMap onLocationSelect={handleLocationSelect} />
             </div>
             <div className="footer-links mt-5">
               <div>
