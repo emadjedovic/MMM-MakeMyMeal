@@ -32,8 +32,8 @@ export const fetchMapOrders = async (token, restaurantName, date, deliveryId) =>
       });
     return response.data;
   } catch (error) {
-    console.error('Error fetching map orders:', error);
-    throw error; // Rethrow the error to be handled by the caller
+    console.error('Error in fetchMap Orders (ordersApi axios)', error);
+    throw error;
   }
 };
 

@@ -8,7 +8,7 @@ import CreateRestaurantAdminForm from "../components/forms/CreateRestaurantAdmin
 import LookupTables from "../components/LookupTables";
 import PromotionsTable from "../components/tables/PromotionsTable";
 import RestaurantPage from "../components/RestaurantPage";
-import RAOrdersTable from "../components/tables/RAOrdersTable";
+import AdminOrdersTable from "../components/tables/AdminOrdersTable";
 import OrderModal from "../components/modals/OrderModal";
 import ThemedButton from "../components/ThemedButton";
 import {
@@ -27,7 +27,7 @@ import {
   handleUpdateRestaurant,
   handleFetchMapOrders,
 } from "../handlers/AdminPageHandlers";
-import OrdersMapA from "../components/OrdersMapA";
+import OrdersMap from "../components/OrdersMap";
 
 const AdminPage = () => {
   const { token } = useContext(UserContext);
@@ -39,7 +39,6 @@ const AdminPage = () => {
   const [promotedItems, setPromotedItems] = useState([]);
   const [promotions, setPromotions] = useState([]);
   const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
-
   const [selectedMap, setSelectedMap] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [ordersAll, setOrdersAll] = useState([]);
@@ -51,14 +50,8 @@ const AdminPage = () => {
 
   useEffect(() => {
     handleFetchTypes(token, setRestaurantTypes, setFoodTypes);
-  }, [token]);
-
-  useEffect(() => {
-    handleFetchPromotionData(token, setPromotedItems, setPromotions);
-  }, [token]);
-
-  useEffect(() => {
     handleFetchOrdersAll(token, setOrdersAll);
+    handleFetchPromotionData(token, setPromotedItems, setPromotions);
   }, [token]);
 
   const [selectedRestaurantName, setSelectedRestaurantName] = useState("");
@@ -78,8 +71,7 @@ const AdminPage = () => {
         selectedRestaurantName,
         date,
         deliveryId,
-        setOrdersMap
-      ); // Assuming it can be reused for specific fetch
+        setOrdersMap)
     }
   }, [selectedRestaurantName, date, deliveryId, token]);
 
@@ -107,7 +99,7 @@ const AdminPage = () => {
   };
 
   return (
-    <Container className="my-4">
+    <Container>
       <>
         <Tab.Container defaultActiveKey="restaurants">
           <Nav variant="underline" className="mb-3">
@@ -284,7 +276,7 @@ const AdminPage = () => {
               {selectedRestaurantId ? (
                 <RestaurantPage restaurantId={selectedRestaurantId} />
               ) : selectedMap ? (
-                <OrdersMapA
+                <OrdersMap
                   restaurants={restaurants}
                   selectedRestaurantName={selectedRestaurantName}
                   deliveryId={deliveryId}
@@ -298,7 +290,7 @@ const AdminPage = () => {
                 <>
                   <Row>
                     <Col>
-                      <RAOrdersTable
+                      <AdminOrdersTable
                         orders={ordersAll}
                         handleOrderSelectParent={(orderId) =>
                           handleShowOrderModal(orderId)

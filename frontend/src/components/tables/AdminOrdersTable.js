@@ -6,7 +6,7 @@ import { UserContext } from "../../contexts/UserContext";
 import AssignOrderModal from "../modals/AssignOrderModal";
 import ThemedButton from "../ThemedButton";
 
-const RAOrdersTable = ({
+const AdminOrdersTable = ({
   orders,
   handleOrderSelectParent,
   handleRestaurantSelectParent,
@@ -62,12 +62,12 @@ const RAOrdersTable = ({
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Order ID</th>
+                <th>ID</th>
                 <th>Restaurant</th>
                 <th>Status</th>
                 <th>Payment</th>
                 <th>Location</th>
-                <th>Total Price</th>
+                <th>Price</th>
                 <th>Created At</th>
               </tr>
             </thead>
@@ -138,7 +138,7 @@ const RAOrdersTable = ({
         style={{
           position: "fixed",
           top: "6rem",
-          right: "30px",
+          right: "40px",
           width: "4rem",
           height: "4rem",
           cursor: "pointer",
@@ -161,4 +161,4 @@ const RAOrdersTable = ({
   );
 };
 
-export default RAOrdersTable;
+export default AdminOrdersTable;

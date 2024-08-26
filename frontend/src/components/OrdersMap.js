@@ -4,7 +4,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Form, Container, Col, Row } from "react-bootstrap";
 
-const OrdersMapA = ({
+const OrdersMap = ({
   restaurants,
   selectedRestaurantName,
   deliveryId,
@@ -65,11 +65,11 @@ const OrdersMapA = ({
         </Col>
       </Row>
 
-      <div style={{ height: "500px", width: "100%" }}>
+      <div style={{ height: "400px", width: "100%"}}>
         <MapContainer
           center={[43.8486, 18.3564]}
           zoom={13}
-          style={{ height: "100%", width: "100%" }}
+          style={{ height: "100%", width: "100%", borderRadius: "1rem"}}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -98,4 +98,4 @@ const OrdersMapA = ({
   );
 };
 
-export default OrdersMapA;
+export default OrdersMap;

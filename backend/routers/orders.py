@@ -2,7 +2,7 @@
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, Query
 from sqlalchemy.orm import Session
 from typing import List, Optional
-from datetime import date as date_type
+from datetime import datetime, date as date_type
 from schemas.order import Order, OrderCreate, OrderStatus
 from crud.order import (
     crud_create_order,
@@ -114,9 +114,12 @@ def get_orders_for_map(
     restaurant = crud_get_restaurant_by_name(db, restaurant_name)
     if not restaurant:
         raise HTTPException(status_code=404, detail="Restaurant not found")
+    
+    # Convert date to datetime for CRUD function
+    date_datetime = datetime(date.year, date.month, date.day)
 
     # Fetch orders with the given conditions
     orders = crud_get_orders_by_date_and_status(
-        db=db, restaurant_id=restaurant.id, delivery_id=delivery_id, date=date
+        db=db, restaurant_id=restaurant.id, delivery_id=delivery_id, date=date_datetime
     )
     return orders
