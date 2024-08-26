@@ -25,7 +25,7 @@ import {
   handleFetchRestaurantsByType,
   handleFetchOrdersAll,
   handleUpdateRestaurant,
-  handleFetchMapOrders
+  handleFetchMapOrders,
 } from "../handlers/AdminPageHandlers";
 import OrdersMapA from "../components/OrdersMapA";
 
@@ -39,6 +39,8 @@ const AdminPage = () => {
   const [promotedItems, setPromotedItems] = useState([]);
   const [promotions, setPromotions] = useState([]);
   const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
+
+  const [selectedMap, setSelectedMap] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [ordersAll, setOrdersAll] = useState([]);
   const [showOrderModal, setShowOrderModal] = useState(false);
@@ -59,26 +61,40 @@ const AdminPage = () => {
     handleFetchOrdersAll(token, setOrdersAll);
   }, [token]);
 
-  const [selectedRestaurantName, setSelectedRestaurantName] = useState('');
-  const [deliveryId, setDeliveryId] = useState('');
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedRestaurantName, setSelectedRestaurantName] = useState("");
+  const [deliveryId, setDeliveryId] = useState("");
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [ordersMap, setOrdersMap] = useState([]);
 
   useEffect(() => {
     if (selectedRestaurantName && date) {
-      console.log("Fetching orders for:", { selectedRestaurantName, date, deliveryId });
-      handleFetchMapOrders(token, selectedRestaurantName, date, deliveryId, setOrdersMap); // Assuming it can be reused for specific fetch
+      console.log("Fetching orders for:", {
+        selectedRestaurantName,
+        date,
+        deliveryId,
+      });
+      handleFetchMapOrders(
+        token,
+        selectedRestaurantName,
+        date,
+        deliveryId,
+        setOrdersMap
+      ); // Assuming it can be reused for specific fetch
     }
   }, [selectedRestaurantName, date, deliveryId, token]);
 
   useEffect(() => {
-    window.addEventListener("popstate", () => setSelectedRestaurantId(null));
+    window.addEventListener("popstate", () => {
+      setSelectedRestaurantId(null);
+      setSelectedMap(false);
+    });
     return () => {
-      window.removeEventListener("popstate", () =>
-        setSelectedRestaurantId(null)
-      );
+      window.removeEventListener("popstate", () => {
+        setSelectedRestaurantId(null);
+        setSelectedMap(false);
+      });
     };
-  }, [selectedRestaurantId]);
+  }, [selectedRestaurantId, selectedMap]);
 
   const handleShowOrderModal = (orderId) => {
     setSelectedOrderId(orderId);
@@ -94,26 +110,45 @@ const AdminPage = () => {
     <Container className="my-4">
       <>
         <Tab.Container defaultActiveKey="restaurants">
-          <Nav
-            variant="underline"
-            className="mb-3"
-            onClick={() => {
-              setSelectedRestaurantId(null);
-            }}
-          >
-            <Nav.Item>
+          <Nav variant="underline" className="mb-3">
+            <Nav.Item
+              onClick={() => {
+                setSelectedRestaurantId(null);
+                setSelectedMap(false);
+              }}
+            >
               <Nav.Link eventKey="restaurants">Restaurants</Nav.Link>
             </Nav.Item>
-            <Nav.Item>
+            <Nav.Item
+              onClick={() => {
+                setSelectedRestaurantId(null);
+                setSelectedMap(false);
+              }}
+            >
               <Nav.Link eventKey="manage-users">Users</Nav.Link>
             </Nav.Item>
-            <Nav.Item>
+            <Nav.Item
+              onClick={() => {
+                setSelectedRestaurantId(null);
+                setSelectedMap(false);
+              }}
+            >
               <Nav.Link eventKey="lookup-tables">Lookup Tables</Nav.Link>
             </Nav.Item>
-            <Nav.Item>
+            <Nav.Item
+              onClick={() => {
+                setSelectedRestaurantId(null);
+                setSelectedMap(false);
+              }}
+            >
               <Nav.Link eventKey="promotions-table">Promotions</Nav.Link>
             </Nav.Item>
-            <Nav.Item>
+            <Nav.Item
+              onClick={() => {
+                setSelectedRestaurantId(null);
+                setSelectedMap(false);
+              }}
+            >
               <Nav.Link eventKey="orders-table">Orders</Nav.Link>
             </Nav.Item>
           </Nav>
@@ -248,6 +283,17 @@ const AdminPage = () => {
             <Tab.Pane eventKey="orders-table">
               {selectedRestaurantId ? (
                 <RestaurantPage restaurantId={selectedRestaurantId} />
+              ) : selectedMap ? (
+                <OrdersMapA
+                  restaurants={restaurants}
+                  selectedRestaurantName={selectedRestaurantName}
+                  deliveryId={deliveryId}
+                  date={date}
+                  orders={ordersMap}
+                  setSelectedRestaurantName={setSelectedRestaurantName}
+                  setDeliveryId={setDeliveryId}
+                  setDate={setDate}
+                />
               ) : (
                 <>
                   <Row>
@@ -260,23 +306,12 @@ const AdminPage = () => {
                         handleRestaurantSelectParent={(restaurantId) =>
                           setSelectedRestaurantId(restaurantId)
                         }
+                        handleMapSelectParent={() => setSelectedMap(true)}
                         refreshOrdersParent={() =>
                           handleFetchOrdersAll(token, setOrdersAll)
                         }
                       />
                     </Col>
-                  </Row>
-                  <Row>
-                    <OrdersMapA
-                      restaurants={restaurants}
-                      selectedRestaurantName={selectedRestaurantName}
-                      deliveryId={deliveryId}
-                      date={date}
-                      orders={ordersMap}
-                      setSelectedRestaurantName={setSelectedRestaurantName}
-                      setDeliveryId={setDeliveryId}
-                      setDate={setDate}
-                    />
                   </Row>
                   {showOrderModal && (
                     <Modal show={showOrderModal} onHide={handleCloseOrderModal}>

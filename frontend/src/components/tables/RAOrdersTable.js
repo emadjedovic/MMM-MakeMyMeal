@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Table, Container, Pagination, Row, Col } from "react-bootstrap";
+import { Table, Container, Pagination, Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { formatCreatedAt } from "../../calculations";
 import { handleFetchRestaurantNamesFromOrders } from "../../handlers/RestaurantPageHandlers";
 import { UserContext } from "../../contexts/UserContext";
 import AssignOrderModal from "../modals/AssignOrderModal";
 import ThemedButton from "../ThemedButton";
 
-const RAdminsOrdersTable = ({
+const RAOrdersTable = ({
   orders,
   handleOrderSelectParent,
   handleRestaurantSelectParent,
+  handleMapSelectParent,
   refreshOrdersParent,
 }) => {
   const { user } = useContext(UserContext);
@@ -57,7 +58,7 @@ const RAdminsOrdersTable = ({
   return (
     <Container className="my-4">
       <Row>
-        <Col md={9} lg={9} xl={10}>
+        <Col md={10} lg={11} xl={11}>
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -120,6 +121,32 @@ const RAdminsOrdersTable = ({
           </Table>
           <Pagination>{paginationItems}</Pagination>
         </Col>
+        <Col
+    md={2}
+    lg={1}
+    xl={1}
+    className="d-flex align-items-center justify-content-center"
+  >
+    <OverlayTrigger
+      placement="top"
+      overlay={<Tooltip id="map-tooltip">View Map of Orders</Tooltip>}
+    >
+      <img
+        src="./globe.png"
+        alt="Map of Orders"
+        onClick={() => handleMapSelectParent()}
+        style={{
+          position: "fixed",
+          top: "6rem",
+          right: "30px",
+          width: "4rem",
+          height: "4rem",
+          cursor: "pointer",
+          zIndex: 1000,
+        }}
+      />
+    </OverlayTrigger>
+  </Col>
       </Row>
 
       {/* Assign Order Modal */}
@@ -134,4 +161,4 @@ const RAdminsOrdersTable = ({
   );
 };
 
-export default RAdminsOrdersTable;
+export default RAOrdersTable;

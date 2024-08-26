@@ -91,18 +91,14 @@ const RestaurantAdminPage = () => {
   return (
     <Container>
       <Tab.Container defaultActiveKey="my-restaurants">
-        <Nav
-          variant="underline"
-          className="mb-3"
-          onSelect={() => setSelectedRestaurantId(null)}
-        >
-          <Nav.Item>
+        <Nav variant="underline" className="mb-3">
+          <Nav.Item onSelect={() => setSelectedRestaurantId(null)}>
             <Nav.Link eventKey="my-restaurants">My Restaurants</Nav.Link>
           </Nav.Item>
-          <Nav.Item>
+          <Nav.Item onSelect={() => setSelectedRestaurantId(null)}>
             <Nav.Link eventKey="personnel">Personnel</Nav.Link>
           </Nav.Item>
-          <Nav.Item>
+          <Nav.Item onSelect={() => setSelectedRestaurantId(null)}>
             <Nav.Link eventKey="orders-table">Orders</Nav.Link>
           </Nav.Item>
         </Nav>
