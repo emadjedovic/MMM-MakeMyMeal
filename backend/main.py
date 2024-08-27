@@ -21,6 +21,10 @@ from routers import (
     promotions,
     orders,
     notifications,
+    restaurant_stats,
+    delivery_personnel_stats,
+    customer_feedback,
+    order_assignments,
 )
 from database import engine, Base
 from chat import chat_router
@@ -81,6 +85,12 @@ app.include_router(promotions.router, prefix="/api", tags=["Promotions"])
 app.include_router(orders.router, prefix="/api", tags=["Orders"])
 app.include_router(notifications.router, prefix="/api", tags=["Notifications"])
 app.include_router(chat_router.router, prefix="/api", tags=["Chat"])
+app.include_router(restaurant_stats.router, prefix="/api", tags=["Restaurant Stats"])
+app.include_router(
+    delivery_personnel_stats.router, prefix="/api", tags=["Delivery Personnel Stats"]
+)
+app.include_router(customer_feedback.router, prefix="/api", tags=["Customer Feedback"])
+app.include_router(order_assignments.router, prefix="/api", tags=["Order Assignments"])
 
 
 class ConnectionManager:

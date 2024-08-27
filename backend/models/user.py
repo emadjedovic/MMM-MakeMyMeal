@@ -54,3 +54,10 @@ class DBUser(Base):
     orders = relationship(
         "DBOrder", back_populates="customer", foreign_keys="DBOrder.customer_id"
     )
+
+    stats = relationship(
+        "DBDeliveryPersonnelStats", back_populates="delivery_personnel", uselist=False
+    )
+    assignments = relationship(
+        "DBOrderAssignments", back_populates="delivery_personnel"
+    )

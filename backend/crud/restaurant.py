@@ -7,6 +7,7 @@ from typing import List
 from fastapi import HTTPException
 from models.user import UserRole
 from helpers.math import calculate_distance
+from crud.restaurant_stats import crud_create_restaurant_stats
 
 
 def crud_get_restaurant_by_id(db: Session, id: int) -> DBRestaurant:
@@ -35,6 +36,10 @@ def crud_create_restaurant(db: Session, restaurant: RestaurantCreate) -> DBResta
     db.add(db_restaurant)
     db.commit()
     db.refresh(db_restaurant)
+
+    # Automatically create RestaurantStats
+    crud_create_restaurant_stats(db, db_restaurant.id)
+
     return db_restaurant
 
 
