@@ -21,18 +21,22 @@ export const fetchOrdersCustomerHistory = async (token, customer_id) => {
 
 export const fetchMapOrders = async (token, restaurantName, date, deliveryId) => {
   try {
-    const response = await axios.get(`${API_URL}/orders/map/`,  {
+    console.log("sending data: ", restaurantName, date, deliveryId);
+    const response = await axios.get(`${API_URL}/orders/map/`, {
+      params: {
         restaurant_name: restaurantName,
         date: date,
-        delivery_id: deliveryId},  {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          }
-      });
+        delivery_id: deliveryId || undefined  // Sending undefined if deliveryId is empty
+      },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("response data: ", response.data)
     return response.data;
   } catch (error) {
-    console.error('Error in fetchMap Orders (ordersApi axios)', error);
+    console.error('Error in fetchMapOrders (ordersApi axios)', error);
     throw error;
   }
 };

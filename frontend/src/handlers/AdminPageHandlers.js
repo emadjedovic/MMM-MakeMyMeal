@@ -33,6 +33,7 @@ export const handleFetchMapOrders = async (token, restaurantName, date, delivery
   try {
     const orders = await fetchMapOrders(token, restaurantName, date, deliveryId);
     setOrders(orders);
+    console.log("orders from handler: ", orders)
   } catch (error) {
     console.error('Error in handleFetchMapOrders: ', error);
   }

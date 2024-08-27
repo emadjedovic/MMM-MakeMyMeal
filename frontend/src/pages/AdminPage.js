@@ -73,6 +73,7 @@ const AdminPage = () => {
         deliveryId,
         setOrdersMap)
     }
+    console.log("AdminPage fetched orders: ", ordersMap)
   }, [selectedRestaurantName, date, deliveryId, token]);
 
   useEffect(() => {

@@ -16,15 +16,15 @@ const OrdersMap = ({
 }) => {
   const STATUS_MARKERS = {
     "NOT ASSIGNED": "./pin-yellow.png",
-    ASSIGNED: "./pin-red.png",
+    "ASSIGNED": "./pin-red.png",
     "IN PROGRESS": "./pin-blue.png",
-    COMPLETED: "./pin-green.png",
+    "COMPLETED": "./pin-green.png",
   };
 
   const markerIcon = (status) =>
     L.icon({
       iconUrl: STATUS_MARKERS[status] || STATUS_MARKERS["NOT ASSIGNED"],
-      iconSize: [25, 41],
+      iconSize: [34, 34],
       iconAnchor: [12, 41],
       popupAnchor: [1, -34],
     });
@@ -76,7 +76,7 @@ const OrdersMap = ({
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           {orders.map((order) => {
-            const { latitude, longitude, status, id } = order;
+            const { latitude, longitude, status, id, deliveryId } = order;
             return (
               <Marker
                 key={id}
@@ -85,7 +85,7 @@ const OrdersMap = ({
               >
                 <Popup>
                   <div>
-                    <h3>Order ID: {id}</h3>
+                    <strong>Order ID: {id}</strong>
                     <p>Status: {status}</p>
                   </div>
                 </Popup>
