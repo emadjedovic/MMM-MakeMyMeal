@@ -10,7 +10,6 @@ import PromotionsTable from "../components/tables/PromotionsTable";
 import RestaurantPage from "../components/RestaurantPage";
 import AdminOrdersTable from "../components/tables/AdminOrdersTable";
 import OrderModal from "../components/modals/OrderModal";
-import ThemedButton from "../components/ThemedButton";
 import {
   handleToggleArchiveRestaurant,
   handleDeleteRestaurant,

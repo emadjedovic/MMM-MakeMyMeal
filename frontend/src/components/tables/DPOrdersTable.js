@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Table, Container, Pagination, Row, Col, Form, Button } from "react-bootstrap";
+import {
+  Table,
+  Container,
+  Pagination,
+  Row,
+  Col,
+  Form,
+  Button,
+} from "react-bootstrap";
 import { formatCreatedAt } from "../../calculations.js";
 import { handleFetchRestaurantNamesFromOrders } from "../../handlers/RestaurantPageHandlers.js";
 import { handleUpdateOrderStatus } from "../../handlers/DeliveryPageHandlers.js";
@@ -8,6 +16,7 @@ import { createNotification } from "../../api/notificationsApi.js";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NotificationsContext } from "../../contexts/NotificationsContext.js";
+import DeliveryMap from "../DeliveryMap.js";
 
 const DPOrdersTable = ({
   orders,
@@ -69,7 +78,8 @@ const DPOrdersTable = ({
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   const sortedOrders = [...orders].sort(
-    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    (a, b) =>
+      new Date(b.preferred_arrival_time) - new Date(a.preferred_arrival_time)
   );
   const currentItems = sortedOrders.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(orders.length / itemsPerPage);
@@ -94,10 +104,20 @@ const DPOrdersTable = ({
     );
   }, [orders]);
 
+  // for map modal
+
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleLocationClick = (order) => {
+    setSelectedOrder(order);
+    setShowModal(true);
+  };
+
   return (
     <Container className="my-4">
       <Row>
-        <Col md={9} lg={9} xl={10}>
+        <Col>
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -107,7 +127,7 @@ const DPOrdersTable = ({
                 <th>Payment</th>
                 <th>Location</th>
                 <th>Total Price</th>
-                <th>Created At</th>
+                <th>Arrival Time</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -163,11 +183,32 @@ const DPOrdersTable = ({
                     />
                   </td>
                   <td>{order.payment_method}</td>
-                  <td>
-                    ({order.latitude.toFixed(5)}, {order.longitude.toFixed(5)})
+                  <td
+                    onClick={() => handleLocationClick(order)}
+                    style={{ cursor: "pointer"}}
+                  >
+                    <Row>
+                      <Col>
+                        {order.latitude.toFixed(5)}
+                        <br></br>
+                        {order.longitude.toFixed(5)}
+                      </Col>
+                      <Col>
+                        <img
+                          src="./globe.png"
+                          alt="Map of Orders"
+                          style={{
+                            width: "2rem",
+                            height: "2rem",
+                            marginTop: "0.5rem",
+                            cursor: "pointer",
+                          }}
+                        />
+                      </Col>
+                    </Row>
                   </td>
                   <td>€{order.total_price}</td>
-                  <td>{formatCreatedAt(order.created_at)}</td>
+                  <td>{formatCreatedAt(order.preferred_arrival_time)}</td>
                   <td>
                     <Button
                       variant="primary"
@@ -183,6 +224,13 @@ const DPOrdersTable = ({
               ))}
             </tbody>
           </Table>
+          {selectedOrder && (
+            <DeliveryMap
+              show={showModal}
+              onHide={() => setShowModal(false)}
+              order={selectedOrder}
+            />
+          )}
           <Pagination>{paginationItems}</Pagination>
         </Col>
       </Row>
