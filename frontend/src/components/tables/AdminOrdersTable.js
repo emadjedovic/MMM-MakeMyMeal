@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Table, Container, Pagination, Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Table, Container, Pagination, Row, Col, OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import { formatCreatedAt } from "../../calculations";
 import { handleFetchRestaurantNamesFromOrders } from "../../handlers/RestaurantPageHandlers";
 import { UserContext } from "../../contexts/UserContext";
 import AssignOrderModal from "../modals/AssignOrderModal";
-import ThemedButton from "../ThemedButton";
 
 const AdminOrdersTable = ({
   orders,
@@ -13,7 +12,7 @@ const AdminOrdersTable = ({
   handleMapSelectParent,
   refreshOrdersParent,
 }) => {
-  const { user } = useContext(UserContext);
+  const { user, userRole } = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
@@ -78,31 +77,31 @@ const AdminOrdersTable = ({
                 return (
                   <tr key={order.id}>
                     <td>
-                      <ThemedButton
+                      <Button
                         variant="link"
                         onClick={() => handleOrderSelectParent(order.id)}
                       >
                         #{order.id}
-                      </ThemedButton>
+                      </Button>
                     </td>
                     <td>
-                      <ThemedButton
+                      <Button
                         variant="link"
                         onClick={() =>
                           handleRestaurantSelectParent(order.restaurant_id)
                         }
                       >
                         {restaurantNames[order.restaurant_id] || "Loading..."}
-                      </ThemedButton>
+                      </Button>
                     </td>
                     <td>
-                      {isUnassigned ? (
-                        <ThemedButton
+                      {userRole === "RESTAURANT ADMIN" && isUnassigned ? (
+                        <Button
                           variant="link"
                           onClick={() => handleOpenModal(order.id)}
                         >
                           {order.status}
-                        </ThemedButton>
+                        </Button>
                       ) : (
                         order.status
                       )}

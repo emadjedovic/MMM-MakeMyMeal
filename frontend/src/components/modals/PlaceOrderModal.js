@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Form } from "react-bootstrap";
-import ThemedButton from "../ThemedButton";
+import { Modal, Form, Button } from "react-bootstrap";
 
 const PlaceOrderModal = ({
   show,
@@ -86,16 +85,16 @@ const PlaceOrderModal = ({
       </Modal.Body>
 
       <Modal.Footer>
-        <ThemedButton variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleClose}>
           Cancel
-        </ThemedButton>
-        <ThemedButton
+        </Button>
+        <Button
           variant="success"
           onClick={handleConfirmOrder}
           disabled={aggregatedItems.length === 0}
         >
           Confirm Order
-        </ThemedButton>
+        </Button>
       </Modal.Footer>
     </Modal>
   );

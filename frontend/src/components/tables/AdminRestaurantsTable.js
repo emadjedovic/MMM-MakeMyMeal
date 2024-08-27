@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Table, Pagination, Row, Col, Form } from "react-bootstrap";
+import { Table, Pagination, Row, Col, Form, Button } from "react-bootstrap";
 import RestaurantTypesList from "../RestaurantTypesList";
 import DeleteRestaurant from "../modals/DeleteRestaurantModal";
-import ThemedButton from "../ThemedButton";
 
 const AdminRestaurantsTable = ({
   restaurants,
@@ -129,12 +128,12 @@ const AdminRestaurantsTable = ({
               <tr key={restaurant.id}>
                 <td>{restaurant.id}</td>
                 <td>
-                  <ThemedButton
+                  <Button
                     variant="link"
                     onClick={() => handleRestaurantSelectParent(restaurant.id)}
                   >
                     {restaurant.name}
-                  </ThemedButton>
+                  </Button>
                 </td>
                 <td>{restaurant.latitude.toFixed(5)}</td>
                 <td>{restaurant.longitude.toFixed(5)}</td>
@@ -143,13 +142,13 @@ const AdminRestaurantsTable = ({
                 <td>{restaurant.star_rating}</td>
                 <td>{restaurant.type_name}</td>
                 <td>
-                  <ThemedButton
+                  <Button
                     variant={restaurant.is_archived ? "secondary" : "warning"}
                     onClick={() => onToggleArchive(restaurant.id)}
                     style={{ margin: "0.3rem" }}
                   >
                     {restaurant.is_archived ? "Unarchive" : "Archive"}
-                  </ThemedButton>
+                  </Button>
                   <DeleteRestaurant
                     restaurantId={restaurant.id}
                     onDelete={onDelete}

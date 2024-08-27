@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container, Row, Col, Tab, Nav, Alert, Modal } from "react-bootstrap";
+import { Button, Container, Row, Col, Tab, Nav, Alert, Modal } from "react-bootstrap";
 import { UserContext } from "../contexts/UserContext";
 import AddRestaurantForm from "../components/forms/AddRestaurantForm";
 import UpdateRestaurantForm from "../components/forms/UpdateRestaurantForm";
@@ -50,7 +50,13 @@ const AdminPage = () => {
 
   useEffect(() => {
     handleFetchTypes(token, setRestaurantTypes, setFoodTypes);
+  }, [token]);
+
+  useEffect(() => {
     handleFetchOrdersAll(token, setOrdersAll);
+  }, [token]);
+
+  useEffect(() => {
     handleFetchPromotionData(token, setPromotedItems, setPromotions);
   }, [token]);
 
@@ -319,12 +325,12 @@ const AdminPage = () => {
                         />
                       </Modal.Body>
                       <Modal.Footer>
-                        <ThemedButton
+                        <Button
                           variant="secondary"
                           onClick={handleCloseOrderModal}
                         >
                           Close
-                        </ThemedButton>
+                        </Button>
                       </Modal.Footer>
                     </Modal>
                   )}

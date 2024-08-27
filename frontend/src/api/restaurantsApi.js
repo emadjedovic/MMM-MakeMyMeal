@@ -66,6 +66,7 @@ export const updateRestaurant = async (token, id, data) => {
 
 export const createRestaurant = async (token, restaurantData) => {
   try {
+    console.log("sending data: ", restaurantData)
     const response = await axios.post(
       `${API_URL}/restaurants/new`,
       restaurantData,
@@ -74,11 +75,16 @@ export const createRestaurant = async (token, restaurantData) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        timeout: 10000,
       }
     );
     return response.data;
   } catch (error) {
-    console.error("Error in createRestaurant.");
+    if (error.code === 'ECONNABORTED') {
+      console.error('Request timeout:', error.message);
+    } else {
+    console.error("Error in createRestaurant: ", error);
+    }
     throw error;
   }
 };

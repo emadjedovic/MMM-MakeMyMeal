@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../contexts/UserContext.js";
-import ThemedButton from "../components/ThemedButton.js";
 import {
   handleFetchNotificationsOwner,
   handleDeleteNotification,
@@ -13,6 +12,7 @@ import {
   Alert,
   Toast,
   CloseButton,
+  Button
 } from "react-bootstrap";
 import {
   FaInfoCircle,
@@ -112,7 +112,7 @@ const NotificationsPage = () => {
             </h2>
           </Row>
           <Row>
-            <ThemedButton
+            <Button
               variant="danger"
               onClick={() =>
                 handleDeleteAllNotifications(token, setNotifications)
@@ -120,7 +120,7 @@ const NotificationsPage = () => {
               style={{ width: "80%", fontSize: "large", marginLeft: "1rem" }}
             >
               DELETE ALL
-            </ThemedButton>
+            </Button>
           </Row>
         </Col>
       </Row>

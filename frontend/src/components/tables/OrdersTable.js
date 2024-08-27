@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Table, Container, Pagination, Row, Col } from "react-bootstrap";
+import { Table, Container, Pagination, Row, Col, Button } from "react-bootstrap";
 import { formatCreatedAt } from "../../calculations";
 import { handleFetchRestaurantNamesFromOrders } from "../../handlers/RestaurantPageHandlers";
 import { UserContext } from "../../contexts/UserContext";
-import ThemedButton from "../ThemedButton";
 
 const OrdersTable = ({
   orders,
@@ -70,22 +69,22 @@ const OrdersTable = ({
                 return (
                   <tr key={order.id}>
                     <td>
-                      <ThemedButton
+                      <Button
                         variant="link"
                         onClick={() => handleOrderSelectParent(order.id)}
                       >
                         #{order.id}
-                      </ThemedButton>
+                      </Button>
                     </td>
                     <td>
-                      <ThemedButton
+                      <Button
                         variant="link"
                         onClick={() =>
                           handleRestaurantSelectParent(order.restaurant_id)
                         }
                       >
                         {restaurantNames[order.restaurant_id] || "Loading..."}
-                      </ThemedButton>
+                      </Button>
                     </td>
                     <td>{order.status}</td>
                     <td>{order.payment_method}</td>

@@ -1,6 +1,5 @@
 import React from "react";
-import { Table, Pagination } from "react-bootstrap";
-import ThemedButton from "../ThemedButton";
+import { Table, Pagination, Button } from "react-bootstrap";
 
 const RARestaurantsTable = ({
   restaurants,
@@ -43,12 +42,12 @@ const RARestaurantsTable = ({
                     onChange={handleChange}
                   />
                 ) : (
-                  <ThemedButton
+                  <Button
                     variant="link"
                     onClick={() => handleRestaurantSelectParent(restaurant.id)}
                   >
                     {restaurant.name}
-                  </ThemedButton>
+                  </Button>
                 )}
               </td>
 
@@ -140,16 +139,16 @@ const RARestaurantsTable = ({
               </td>
               <td>
                 {editId === restaurant.id ? (
-                  <ThemedButton onClick={() => handleSave(restaurant.id)}>
+                  <Button onClick={() => handleSave(restaurant.id)}>
                     Save
-                  </ThemedButton>
+                  </Button>
                 ) : (
-                  <ThemedButton
+                  <Button
                     variant="primary"
                     onClick={() => handleEditClick(restaurant.id, restaurant)}
                   >
                     Edit
-                  </ThemedButton>
+                  </Button>
                 )}
               </td>
             </tr>

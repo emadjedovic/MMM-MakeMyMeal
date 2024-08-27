@@ -8,8 +8,8 @@ import {
   Row,
   Col,
   Modal,
+  Button
 } from "react-bootstrap";
-import ThemedButton from "../components/ThemedButton";
 import CreatePersonnelForm from "../components/forms/CreatePersonnelForm";
 import RARestaurantsTable from "../components/tables/RARestaurantsTable";
 import RestaurantPage from "../components/RestaurantPage";
@@ -224,12 +224,12 @@ const RestaurantAdminPage = () => {
                       />
                     </Modal.Body>
                     <Modal.Footer>
-                      <ThemedButton
+                      <Button
                         variant="secondary"
                         onClick={handleCloseOrderModal}
                       >
                         Close
-                      </ThemedButton>
+                      </Button>
                     </Modal.Footer>
                   </Modal>
                 )}

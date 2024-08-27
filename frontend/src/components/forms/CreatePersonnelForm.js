@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react";
-import { Form, Alert, Card, Row, Col } from "react-bootstrap";
+import { Form, Alert, Card, Row, Col, Button } from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext.js";
 import { createDeliveryPersonnel } from "../../api/usersApi.js";
-import ThemedButton from "../ThemedButton.js";
 
 const CreatePersonnelForm = () => {
   const { token } = useContext(UserContext);
@@ -103,13 +102,13 @@ const CreatePersonnelForm = () => {
                   style={{ width: "100%" }}
                 />
               </Form.Group>
-              <ThemedButton
+              <Button
                 variant="primary"
                 type="submit"
                 style={{ margin: "1rem" }}
               >
                 Submit
-              </ThemedButton>
+              </Button>
             </Form>
           </Card.Body>
         </Card>

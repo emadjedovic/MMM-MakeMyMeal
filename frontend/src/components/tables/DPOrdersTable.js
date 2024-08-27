@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Table, Container, Pagination, Row, Col, Form } from "react-bootstrap";
+import { Table, Container, Pagination, Row, Col, Form, Button } from "react-bootstrap";
 import { formatCreatedAt } from "../../calculations.js";
 import { handleFetchRestaurantNamesFromOrders } from "../../handlers/RestaurantPageHandlers.js";
 import { handleUpdateOrderStatus } from "../../handlers/DeliveryPageHandlers.js";
@@ -8,7 +8,6 @@ import { createNotification } from "../../api/notificationsApi.js";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NotificationsContext } from "../../contexts/NotificationsContext.js";
-import ThemedButton from "../ThemedButton.js";
 
 const DPOrdersTable = ({
   orders,
@@ -116,22 +115,22 @@ const DPOrdersTable = ({
               {currentItems.map((order) => (
                 <tr key={order.id}>
                   <td>
-                    <ThemedButton
+                    <Button
                       variant="link"
                       onClick={() => handleOrderSelectParent(order.id)}
                     >
                       #{order.id}
-                    </ThemedButton>
+                    </Button>
                   </td>
                   <td>
-                    <ThemedButton
+                    <Button
                       variant="link"
                       onClick={() =>
                         handleRestaurantSelectParent(order.restaurant_id)
                       }
                     >
                       {restaurantNames[order.restaurant_id] || "Loading..."}
-                    </ThemedButton>
+                    </Button>
                   </td>
                   <td>
                     <Form.Check
@@ -170,7 +169,7 @@ const DPOrdersTable = ({
                   <td>€{order.total_price}</td>
                   <td>{formatCreatedAt(order.created_at)}</td>
                   <td>
-                    <ThemedButton
+                    <Button
                       variant="primary"
                       onClick={() => handleSaveStatus(order.id)}
                       disabled={
@@ -178,7 +177,7 @@ const DPOrdersTable = ({
                       }
                     >
                       Save
-                    </ThemedButton>
+                    </Button>
                   </td>
                 </tr>
               ))}

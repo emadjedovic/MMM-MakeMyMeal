@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
-import { Alert, Card } from "react-bootstrap";
+import { Alert, Card, Button } from "react-bootstrap";
 import axios from "axios";
-import ThemedButton from "../components/ThemedButton";
 
 function ProfilePage() {
   const { token, handleLogout } = useContext(UserContext);
@@ -74,13 +73,13 @@ function ProfilePage() {
             </Card.Text>
           )}
 
-          <ThemedButton
+          <Button
             variant="danger"
             onClick={handleDeleteButton}
             className="mt-3"
           >
             Delete Account
-          </ThemedButton>
+          </Button>
           {errorMessage && (
             <Alert variant="danger" className="mt-3">
               {errorMessage}

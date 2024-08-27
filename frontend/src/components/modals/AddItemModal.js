@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Modal, Form } from "react-bootstrap";
+import { Modal, Form, Button } from "react-bootstrap";
 import { createItem } from "../../api/itemsApi";
-import ThemedButton from "../ThemedButton";
 
 const AddItemModal = ({
   show,
@@ -123,9 +122,9 @@ const AddItemModal = ({
             />
           </Form.Group>
 
-          <ThemedButton variant="primary" onClick={handleAddItem}>
+          <Button variant="primary" onClick={handleAddItem}>
             Confirm
-          </ThemedButton>
+          </Button>
         </Form>
       </Modal.Body>
     </Modal>

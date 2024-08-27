@@ -1,9 +1,8 @@
 import React, { useState, useContext } from "react";
-import { Modal, Form, Alert } from "react-bootstrap";
+import { Modal, Form, Alert, Button } from "react-bootstrap";
 import { createPromotion } from "../../api/promotionsApi";
 import { UserContext } from "../../contexts/UserContext";
 import { PercentageToFraction } from "../../calculations";
-import ThemedButton from "../ThemedButton";
 
 const AddPromotionModal = ({ show, handleClose, itemId, refreshItems }) => {
   const { token } = useContext(UserContext);
@@ -85,12 +84,12 @@ const AddPromotionModal = ({ show, handleClose, itemId, refreshItems }) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <ThemedButton variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleClose}>
           Close
-        </ThemedButton>
-        <ThemedButton variant="primary" onClick={handlePromotionSubmit}>
+        </Button>
+        <Button variant="primary" onClick={handlePromotionSubmit}>
           Confirm
-        </ThemedButton>
+        </Button>
       </Modal.Footer>
     </Modal>
   );
