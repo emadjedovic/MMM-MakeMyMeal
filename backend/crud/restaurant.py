@@ -189,6 +189,10 @@ def crud_get_recommended_restaurants_within_radius(
 def crud_get_restaurants_by_owner(db: Session, owner_id: int) -> List[DBRestaurant]:
     return db.query(DBRestaurant).filter(DBRestaurant.owner_id == owner_id).all()
 
+def crud_get_restaurant_by_name(db: Session, name: str):
+    rest = db.query(DBRestaurant).filter(DBRestaurant.name == name).first()
+    return rest
+
 
 def crud_get_recommended_restaurants(db: Session) -> List[DBRestaurant]:
     recommended_restaurants = (

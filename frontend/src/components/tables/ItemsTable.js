@@ -10,7 +10,6 @@ import { createNotification } from "../../api/notificationsApi.js";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NotificationsContext } from "../../contexts/NotificationsContext.js";
-import ThemedButton from "../ThemedButton.js";
 
 const ItemsTable = ({
   items,
@@ -166,13 +165,13 @@ const ItemsTable = ({
             </Col>
             {userRole === "RESTAURANT ADMIN" && (
               <Col>
-                <ThemedButton
+                <Button
                   variant="outline-dark"
                   size="sm"
                   onClick={() => setShowModal(true)}
                 >
                   Add Item
-                </ThemedButton>
+                </Button>
               </Col>
             )}
           </Row>

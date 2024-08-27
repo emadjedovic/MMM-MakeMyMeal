@@ -73,18 +73,14 @@ const CustomerPage = () => {
   return (
     <Container>
       <Tab.Container defaultActiveKey="nearby-restaurants">
-        <Nav
-          variant="underline"
-          className="mb-3"
-          onClick={() => setSelectedRestaurantId(null)}
-        >
-          <Nav.Item>
+        <Nav variant="underline" className="mb-3">
+          <Nav.Item onClick={() => setSelectedRestaurantId(null)}>
             <Nav.Link eventKey="nearby-restaurants">Restaurants</Nav.Link>
           </Nav.Item>
-          <Nav.Item>
+          <Nav.Item onClick={() => setSelectedRestaurantId(null)}>
             <Nav.Link eventKey="promotions-table">Promotions</Nav.Link>
           </Nav.Item>
-          <Nav.Item>
+          <Nav.Item onClick={() => setSelectedRestaurantId(null)}>
             <Nav.Link eventKey="orders-table">Order History</Nav.Link>
           </Nav.Item>
         </Nav>

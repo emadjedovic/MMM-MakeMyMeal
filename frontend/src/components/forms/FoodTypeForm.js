@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Form, Card, Alert } from "react-bootstrap";
-import ThemedButton from "../ThemedButton";
+import { Form, Card, Alert, Button } from "react-bootstrap";
 
 const FoodTypeForm = ({ action, onSubmit, foodTypes }) => {
   const [oldName, setOldName] = useState("");
@@ -103,13 +102,13 @@ const FoodTypeForm = ({ action, onSubmit, foodTypes }) => {
               />
             </Form.Group>
           )}
-          <ThemedButton variant="primary" type="submit" className="my-3">
+          <Button variant="primary" type="submit" className="my-3">
             {action === "add"
               ? "Add"
               : action === "rename"
               ? "Rename"
               : "Delete"}
-          </ThemedButton>
+          </Button>
         </Form>
 
         {message && (

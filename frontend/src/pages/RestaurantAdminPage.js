@@ -8,12 +8,12 @@ import {
   Row,
   Col,
   Modal,
+  Button
 } from "react-bootstrap";
-import ThemedButton from "../components/ThemedButton";
 import CreatePersonnelForm from "../components/forms/CreatePersonnelForm";
 import RARestaurantsTable from "../components/tables/RARestaurantsTable";
 import RestaurantPage from "../components/RestaurantPage";
-import RAOrdersTable from "../components/tables/RAOrdersTable";
+import AdminOrdersTable from "../components/tables/AdminOrdersTable";
 import OrderModal from "../components/modals/OrderModal";
 import {
   handleFetchRestaurantsByOwner,
@@ -21,8 +21,10 @@ import {
   handleEditClick,
   handleSave,
   handleChange,
-  handleFetchOrdersOwner,
+  handleFetchOrdersOwner
 } from "../handlers/RestaurantAdminPageHandlers";
+import { handleFetchMapOrders } from "../handlers/AdminPageHandlers";
+import OrdersMap from "../components/OrdersMap";
 
 const RestaurantAdminPage = () => {
   const { token, user } = useContext(UserContext);
@@ -34,7 +36,7 @@ const RestaurantAdminPage = () => {
   const itemsPerPage = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
-
+  const [selectedMap, setSelectedMap] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [ordersOwner, setOrdersOwner] = useState([]);
   const [showOrderModal, setShowOrderModal] = useState(false);
@@ -79,30 +81,61 @@ const RestaurantAdminPage = () => {
     handleFetchRestaurantTypes(token, setRestaurantTypes);
   }, [userId, token]);
 
+  const [selectedRestaurantName, setSelectedRestaurantName] = useState("");
+  const [deliveryId, setDeliveryId] = useState("");
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [ordersMap, setOrdersMap] = useState([]);
+
   useEffect(() => {
-    window.addEventListener("popstate", () => setSelectedRestaurantId(null));
+    if (selectedRestaurantName && date) {
+      console.log("Fetching orders for:", {
+        selectedRestaurantName,
+        date,
+        deliveryId,
+      });
+      handleFetchMapOrders(
+        token,
+        selectedRestaurantName,
+        date,
+        deliveryId,
+        setOrdersMap
+      ); // Assuming it can be reused for specific fetch
+    }
+  }, [selectedRestaurantName, date, deliveryId, token]);
+
+  useEffect(() => {
+    window.addEventListener("popstate", () => {
+      setSelectedRestaurantId(null);
+      setSelectedMap(false);
+    });
     return () => {
-      window.removeEventListener("popstate", () =>
-        setSelectedRestaurantId(null)
-      );
+      window.removeEventListener("popstate", () => {
+        setSelectedRestaurantId(null);
+        setSelectedMap(false);
+      });
     };
-  }, [selectedRestaurantId]);
+  }, [selectedRestaurantId, selectedMap]);
 
   return (
     <Container>
       <Tab.Container defaultActiveKey="my-restaurants">
-        <Nav
-          variant="underline"
-          className="mb-3"
-          onSelect={() => setSelectedRestaurantId(null)}
-        >
-          <Nav.Item>
+        <Nav variant="underline" className="mb-3">
+          <Nav.Item onClick={() => {
+                setSelectedRestaurantId(null);
+                setSelectedMap(false);
+              }}>
             <Nav.Link eventKey="my-restaurants">My Restaurants</Nav.Link>
           </Nav.Item>
-          <Nav.Item>
+          <Nav.Item onClick={() => {
+                setSelectedRestaurantId(null);
+                setSelectedMap(false);
+              }}>
             <Nav.Link eventKey="personnel">Personnel</Nav.Link>
           </Nav.Item>
-          <Nav.Item>
+          <Nav.Item onClick={() => {
+                setSelectedRestaurantId(null);
+                setSelectedMap(false);
+              }}>
             <Nav.Link eventKey="orders-table">Orders</Nav.Link>
           </Nav.Item>
         </Nav>
@@ -148,11 +181,22 @@ const RestaurantAdminPage = () => {
           <Tab.Pane eventKey="orders-table">
             {selectedRestaurantId ? (
               <RestaurantPage restaurantId={selectedRestaurantId} />
+            ) : selectedMap ? (
+              <OrdersMap
+                restaurants={restaurants}
+                selectedRestaurantName={selectedRestaurantName}
+                deliveryId={deliveryId}
+                date={date}
+                orders={ordersMap}
+                setSelectedRestaurantName={setSelectedRestaurantName}
+                setDeliveryId={setDeliveryId}
+                setDate={setDate}
+              />
             ) : (
               <>
                 <Row>
                   <Col>
-                    <RAOrdersTable
+                    <AdminOrdersTable
                       orders={ordersOwner}
                       handleOrderSelectParent={(orderId) =>
                         handleShowOrderModal(orderId)
@@ -160,6 +204,7 @@ const RestaurantAdminPage = () => {
                       handleRestaurantSelectParent={(restaurantId) =>
                         setSelectedRestaurantId(restaurantId)
                       }
+                      handleMapSelectParent={() => setSelectedMap(true)}
                       refreshOrdersParent={() =>
                         handleFetchOrdersOwner(token, userId, setOrdersOwner)
                       }
@@ -179,12 +224,12 @@ const RestaurantAdminPage = () => {
                       />
                     </Modal.Body>
                     <Modal.Footer>
-                      <ThemedButton
+                      <Button
                         variant="secondary"
                         onClick={handleCloseOrderModal}
                       >
                         Close
-                      </ThemedButton>
+                      </Button>
                     </Modal.Footer>
                   </Modal>
                 )}

@@ -17,7 +17,7 @@ import {
 } from "../api/foodTypesApi";
 import { fetchPromotions } from "../api/promotionsApi";
 import { fetchPromotedItems } from "../api/itemsApi";
-import { fetchOrdersAll } from "../api/ordersApi";
+import { fetchOrdersAll, fetchMapOrders } from "../api/ordersApi";
 
 export const handleFetchOrdersAll = async (token, setOrdersAll) => {
   try {
@@ -28,6 +28,17 @@ export const handleFetchOrdersAll = async (token, setOrdersAll) => {
     console.error("Error in handleFetchOrdersAll.");
   }
 };
+
+export const handleFetchMapOrders = async (token, restaurantName, date, deliveryId, setOrders) => {
+  try {
+    const orders = await fetchMapOrders(token, restaurantName, date, deliveryId);
+    setOrders(orders);
+    console.log("orders from handler: ", orders)
+  } catch (error) {
+    console.error('Error in handleFetchMapOrders: ', error);
+  }
+};
+
 
 export const handleFetchRestaurantsByType = async (
   token,

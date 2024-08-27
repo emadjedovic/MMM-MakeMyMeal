@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Modal, Form, Alert } from "react-bootstrap";
+import { Modal, Form, Alert, Button } from "react-bootstrap";
 import { assignOrder } from "../../api/ordersApi";
-import ThemedButton from "../ThemedButton";
 
 const AssignOrderModal = ({
   show,
@@ -59,9 +58,9 @@ const AssignOrderModal = ({
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <ThemedButton variant="primary" onClick={handleAssign}>
+        <Button variant="primary" onClick={handleAssign}>
           Assign
-        </ThemedButton>
+        </Button>
       </Modal.Footer>
     </Modal>
   );

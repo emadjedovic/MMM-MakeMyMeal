@@ -1,9 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Form, Container, Row, Col, Card, Alert } from "react-bootstrap";
+import { Form, Container, Row, Col, Card, Alert, Button } from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext";
 import { handleFetchRestaurantTypes } from "../../handlers/RestaurantPageHandlers";
 import { handleUpdateRestaurant } from "../../handlers/RestaurantPageHandlers";
-import ThemedButton from "../ThemedButton";
 
 const UpdateRestaurantForm = ({ onUpdate }) => {
   const { token } = useContext(UserContext);
@@ -147,13 +146,13 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
                 ))}
               </div>
             </Form.Group>
-            <ThemedButton
+            <Button
               variant="secondary"
               onClick={() => setStarRating("")}
               style={{ margin: "1rem" }}
             >
               Clear Selection
-            </ThemedButton>
+            </Button>
             <Form.Group controlId="formType">
               <Form.Label>Restaurant Type (optional)</Form.Label>
               <Form.Control
@@ -203,13 +202,13 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
                 placeholder="for example 'my_image.jpg'"
               />
             </Form.Group>
-            <ThemedButton
+            <Button
               variant="primary"
               onClick={handleUpdate}
               style={{ margin: "1rem" }}
             >
               Update Restaurant
-            </ThemedButton>
+            </Button>
           </Form>
         </Card.Body>
       </Card>

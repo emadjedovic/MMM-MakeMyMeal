@@ -1,25 +1,9 @@
 ----------------------------------------------------------------------
 TO DO
 ----------------------------------------------------------------------
-
-- restaurant admin: Unos grupnih menija, unos slike u artikal
-
 ----------------------------------------------------------------------
 PART II
 ----------------------------------------------------------------------
-
-MAP FOR ADMIN AND RESTAURANT ADMIN
-
-- Prikaz narudžbi za određeni dan na mapi. Različitim markerima se prikazuju različiti statusi.
-... Napraviti Nav.Item "Map" gdje će biti prikazane sve narudžbe koje se onda mogu filtrirati po specificiranom danu. Kada se izabere određeni dan koji nije danas - prikazuju se samo "NOT ASSIGNED", i "ASSIGNED" narudžbe sa preferred_arrival_time u tom danu. Ako je izabran današnji dan onda se dodatno prikazuju i "IN PROGRESS" i "COMPLETED", orders sa preferred_arrival_time koje može biti i u prošlosti a status im nije "COMPLETED".
-... Potrebni checkboxes s opcijama "NOT ASSIGNED", "ASSIGNED", "IN PROGRESS", "COMPLETED" koji također filtriraju mapu.
-
-- Mogućnost filtriranja mape po dostavljačima.
-.. U Orders model dodati delivery_personnel_id i onda dodati u "Map" opciju filtriranja orders po tom ID-u
-
-MAP FOR DELIVERY PERSONNEL
-
-- pojedinačne orders samo (modal popup ili kao restaurantPage? možda onaj OrderModal preurediti u OrderPage koji sadrži mapu?)
 
 STATS AND EMAIL REPORTS
 
@@ -27,7 +11,8 @@ STATS AND EMAIL REPORTS
 broj narudžbi za taj mjesec, kao i izvještaj o radu svakog dostavljača. (dnevno? sedmično? mjesečno?)
 
 - RESTAURANT ADMIN dobija restaurant stats za svoje restorane
-- ADMIN dobiva restaurant stats za svaki restoran - email izvještaj dnevno, sedmično i mjesečno
+- Admin sam sebi šalje email sa restaurant stats za svaki restoran. Šalje se dnevni email i mjesečni email.
+- Admin šalje svakom adminu restorana restaurant stats za svaki restoran čiji su oni owneri. 
 
 New Tables
     RestaurantStats: fields like daily_order_count, weekly_order_count, monthly_order_count, total_profit, customer_rating
@@ -35,7 +20,6 @@ ili nove tabele napravit?
 
 Scheduled Jobs (Backend Feature):
     You might want to create scheduled jobs for generating and sending reports.
-
 
 OTHER
 

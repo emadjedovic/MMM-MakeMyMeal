@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../contexts/UserContext.js";
-import ThemedButton from "../components/ThemedButton.js";
 import {
   handleFetchNotificationsOwner,
   handleDeleteNotification,
@@ -13,6 +12,7 @@ import {
   Alert,
   Toast,
   CloseButton,
+  Button
 } from "react-bootstrap";
 import {
   FaInfoCircle,
@@ -62,15 +62,21 @@ const NotificationsPage = () => {
     }
   };
 
+  const sortedNotifications = [...notifications].sort(
+    (a, b) =>
+      // sort by timestamp (earlier notifications should be on top)
+    new Date(b.timestamp) - new Date(a.timestamp)
+  );
+
   return (
     <Container>
-      <Row className="my-4">
+      <Row className="my-5">
         <Col sm={10} md={8}>
           {notifications.length === 0 ? (
             <Alert variant="info">No notifications available</Alert>
           ) : (
             <div>
-              {notifications.map((notification) => (
+              {sortedNotifications.map((notification) => (
                 <Toast
                   key={notification.id}
                   className="m-3"
@@ -84,7 +90,7 @@ const NotificationsPage = () => {
                   <Toast.Header closeButton={false}>
                     {getNotificationIcon(notification.type)}&nbsp;
                     <strong className="me-auto">
-                      {new Date(notification.timestamp).toLocaleTimeString()}
+                      {new Date(notification.timestamp).toLocaleString()}
                     </strong>
                     <CloseButton
                       onClick={() =>
@@ -112,7 +118,7 @@ const NotificationsPage = () => {
             </h2>
           </Row>
           <Row>
-            <ThemedButton
+            <Button
               variant="danger"
               onClick={() =>
                 handleDeleteAllNotifications(token, setNotifications)
@@ -120,7 +126,7 @@ const NotificationsPage = () => {
               style={{ width: "80%", fontSize: "large", marginLeft: "1rem" }}
             >
               DELETE ALL
-            </ThemedButton>
+            </Button>
           </Row>
         </Col>
       </Row>

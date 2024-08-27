@@ -1,8 +1,9 @@
 # routers/orders.py
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, Query
 from sqlalchemy.orm import Session
-from typing import List
-from schemas.order import Order, OrderCreate
+from typing import List, Optional
+from datetime import datetime, date as date_type
+from schemas.order import Order, OrderCreate, OrderStatus
 from crud.order import (
     crud_create_order,
     crud_get_orders_by_customer,
@@ -13,8 +14,10 @@ from crud.order import (
     crud_get_orders_all,
     crud_get_order_by_id,
     crud_get_orders_owner_id,
+    crud_get_orders_by_date_and_status
 )
 from dependencies import get_db, get_restaurant_admin_user, get_customer_user
+from crud.restaurant import crud_get_restaurant_by_name
 
 router = APIRouter(prefix="/orders")
 
@@ -99,3 +102,24 @@ def assign_order(
 @router.put("/status/{order_id}/{status}", response_model=Order)
 def change_status(order_id: int, status: str, db: Session = Depends(get_db)):
     return crud_change_status(db, order_id, status)
+
+
+@router.get("/map/", response_model=List[Order])
+def get_orders_for_map(
+    restaurant_name: str,
+    date: date_type,
+    delivery_id: Optional[int] = None,
+    db: Session = Depends(get_db),
+):
+    restaurant = crud_get_restaurant_by_name(db, restaurant_name)
+    if not restaurant:
+        raise HTTPException(status_code=404, detail="Restaurant not found")
+    
+    # Convert date to datetime for CRUD function
+    date_datetime = datetime(date.year, date.month, date.day)
+
+    # Fetch orders with the given conditions
+    orders = crud_get_orders_by_date_and_status(
+        db=db, restaurant_id=restaurant.id, delivery_id=delivery_id, date=date_datetime
+    )
+    return orders

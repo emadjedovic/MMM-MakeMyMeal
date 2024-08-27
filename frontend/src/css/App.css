@@ -71,10 +71,11 @@ p {
 .header {
     background-color: var(--header-background);
     padding: 1rem;
+    padding-left: 10rem;
+    padding-bottom: 0;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-left: 10rem;
 }
 
 .theme-toggle-button {

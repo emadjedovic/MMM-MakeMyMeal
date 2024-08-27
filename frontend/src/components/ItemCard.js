@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Card, ListGroup, Container, Form, Row, Col } from "react-bootstrap";
+import { Card, ListGroup, Container, Form, Row, Col, Button } from "react-bootstrap";
 import { UserContext } from "../contexts/UserContext";
 import AddPromotionModal from "./modals/AddPromotionModal";
 import Restaurant from "./RestaurantPage";
 import { handleFetchRestaurantName } from "../handlers/RestaurantPageHandlers";
-import ThemedButton from "./ThemedButton";
 
 function ItemCard({
   item,
@@ -94,7 +93,7 @@ function ItemCard({
                             />
                           </Col>
                           <Col>
-                            <ThemedButton
+                            <Button
                               variant="outline-danger"
                               onClick={() =>
                                 addItemToOrder(
@@ -107,30 +106,30 @@ function ItemCard({
                               className="m-1"
                             >
                               ADD
-                            </ThemedButton>
+                            </Button>
                           </Col>
                           <Col>
-                            <ThemedButton
+                            <Button
                               variant="outline-secondary"
                               className="m-1"
                               onClick={() => removeItemFromOrder(item.id)}
                             >
                               Cancel
-                            </ThemedButton>
+                            </Button>
                           </Col>
                         </Form.Group>
                       </ListGroup.Item>
                     )}
                   </ListGroup>
                   {userRole === "RESTAURANT ADMIN" && (
-                    <ThemedButton
+                    <Button
                       variant="outline-dark"
                       size="sm"
                       onClick={() => setShowModal(true)}
                       className="mt-3"
                     >
                       Edit Discount
-                    </ThemedButton>
+                    </Button>
                   )}
                 </Card.Body>
               </Col>
