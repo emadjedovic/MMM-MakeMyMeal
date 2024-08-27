@@ -3,7 +3,7 @@ import { Modal, Button, Row, Col, ListGroup } from "react-bootstrap";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-const DeliveryMap = ({ show, onHide, order }) => {
+const OrderLocationMap = ({ show, onHide, order }) => {
   const {
     id,
     latitude,
@@ -59,4 +59,4 @@ const DeliveryMap = ({ show, onHide, order }) => {
   );
 };
 
-export default DeliveryMap;
+export default OrderLocationMap;

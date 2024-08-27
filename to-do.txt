@@ -1,9 +1,6 @@
 ----------------------------------------------------------------------
 TO DO
 ----------------------------------------------------------------------
-Prikaz narudžbi za određeni dan na mapi. Za određeni dan se prikazuju samo narudžbe sa preferred_arrival_time u tom danu. Ako je izabran današnji dan tada preferred_arrival_time narudžbi može biti i u prošlosti, ali status tih narudžbi ne smije biti "COMPLETED".
-
-U DeliveryPersonnel.js također napraviti Nav.Item "Map of Orders" koji radi malo drukčije: prikazuju se samo narudžbe sa delivery_personnel_id od tog delivery usera. Nema opcija za određivanje željenog dana, nego se prikazuju samo narudžbe čiji je preferred_arrival_time u današnjem danu (bilo koji status) ili u prošlosti (čiji status nije COMPLETED).Različitim markerima se prikazuju različiti statusi (NOT ASSIGNED, ASSIGNED, IN PROGRESS, COMPLETED). Postaviti checkboxes za ove statuse čijom se selekcijom filtira mapa po selektovanim statusom.
 ----------------------------------------------------------------------
 PART II
 ----------------------------------------------------------------------
@@ -14,7 +11,8 @@ STATS AND EMAIL REPORTS
 broj narudžbi za taj mjesec, kao i izvještaj o radu svakog dostavljača. (dnevno? sedmično? mjesečno?)
 
 - RESTAURANT ADMIN dobija restaurant stats za svoje restorane
-- ADMIN dobiva restaurant stats za svaki restoran - email izvještaj dnevno, sedmično i mjesečno
+- Admin sam sebi šalje email sa restaurant stats za svaki restoran. Šalje se dnevni email i mjesečni email.
+- Admin šalje svakom adminu restorana restaurant stats za svaki restoran čiji su oni owneri. 
 
 New Tables
     RestaurantStats: fields like daily_order_count, weekly_order_count, monthly_order_count, total_profit, customer_rating
@@ -22,7 +20,6 @@ ili nove tabele napravit?
 
 Scheduled Jobs (Backend Feature):
     You might want to create scheduled jobs for generating and sending reports.
-
 
 OTHER
 

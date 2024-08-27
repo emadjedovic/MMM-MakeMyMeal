@@ -142,19 +142,41 @@ def crud_get_orders_by_date_and_status(
 ):
     start_date = datetime(date.year, date.month, date.day)
     end_date = start_date + timedelta(days=1)
+    today = datetime.now(local_tz).date()
 
     # filter by restaurant and date (mandatory)
     query = db.query(DBOrder).filter(
-        DBOrder.preferred_arrival_time >= start_date,
-        DBOrder.preferred_arrival_time < end_date,
-        DBOrder.restaurant_id == restaurant_id,
+        DBOrder.restaurant_id == restaurant_id
     )
+
+    if date.date() == today:
+        # Today's orders: include orders in the past, but exclude COMPLETED if in the past
+        query = query.filter(
+            DBOrder.preferred_arrival_time >= start_date,
+            DBOrder.preferred_arrival_time < end_date
+        ).filter(
+            (DBOrder.preferred_arrival_time >= datetime.now()) |
+            (DBOrder.status != "COMPLETED")
+        )
+    elif date.date() < today:
+        # Past orders: only include COMPLETED orders
+        query = query.filter(
+            DBOrder.preferred_arrival_time >= start_date,
+            DBOrder.preferred_arrival_time < end_date,
+            DBOrder.status == "COMPLETED"
+        )
+    else:
+        # Future orders: include all statuses
+        query = query.filter(
+            DBOrder.preferred_arrival_time >= start_date,
+            DBOrder.preferred_arrival_time < end_date
+        )
 
     # filter by delivery staff
     if delivery_id:
         query = query.filter(DBOrder.delivery_id == delivery_id)
 
-    # filter by status
+        
     if statuses:
         query = query.filter(DBOrder.status.in_(statuses))
 

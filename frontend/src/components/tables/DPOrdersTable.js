@@ -16,7 +16,7 @@ import { createNotification } from "../../api/notificationsApi.js";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { NotificationsContext } from "../../contexts/NotificationsContext.js";
-import DeliveryMap from "../DeliveryMap.js";
+import OrderLocationMap from "../OrderLocationMap.js";
 
 const DPOrdersTable = ({
   orders,
@@ -107,11 +107,11 @@ const DPOrdersTable = ({
   // for map modal
 
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [showOrderLocationModal, setShowOrderLocationModal] = useState(false);
 
   const handleLocationClick = (order) => {
     setSelectedOrder(order);
-    setShowModal(true);
+    setShowOrderLocationModal(true);
   };
 
   return (
@@ -225,9 +225,9 @@ const DPOrdersTable = ({
             </tbody>
           </Table>
           {selectedOrder && (
-            <DeliveryMap
-              show={showModal}
-              onHide={() => setShowModal(false)}
+            <OrderLocationMap
+              show={showOrderLocationModal}
+              onHide={() => setShowOrderLocationModal(false)}
               order={selectedOrder}
             />
           )}

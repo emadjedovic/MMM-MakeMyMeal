@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
-import { Alert, Card, Button } from "react-bootstrap";
+import { Alert, Card, Button, ListGroup, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 
 function ProfilePage() {
@@ -50,45 +50,41 @@ function ProfilePage() {
   };
 
   return (
-    <div>
-      <h1>PROFILE</h1>
-      <Card>
-        <Card.Body>
-          <Card.Text>
-            <strong>ROLE:</strong> {userData.role}
-          </Card.Text>
-          <Card.Text>
-            <strong>FIRST NAME:</strong> {userData.first_name}
-          </Card.Text>
-          <Card.Text>
-            <strong>LAST NAME:</strong> {userData.last_name}
-          </Card.Text>
-          <Card.Text>
-            <strong>EMAIL:</strong> {userData.email}
-          </Card.Text>
-          {userData.latitude !== null && (
-            <Card.Text>
-              <strong>ADDRESS:</strong> ({userData.latitude.toFixed(5)},{" "}
-              {userData.longitude.toFixed(5)})
-            </Card.Text>
-          )}
-
-          <Button
-            variant="danger"
-            onClick={handleDeleteButton}
-            className="mt-3"
-          >
-            Delete Account
-          </Button>
+    <Container className="my-2">
+      <Row className="justify-content-center">
+        <Col>
+          <h1 className="text-center">PROFILE</h1>
+          <ListGroup style={{ width: '100%', maxWidth: '600px', borderRadius: "50%"}} className="shadow-md text-center mx-auto">
+            <ListGroup.Item>
+              <h3 className="mb-2 p-3">
+                <strong>
+                  {userData.first_name} {userData.last_name}
+                </strong>
+              </h3>
+            </ListGroup.Item>
+            <ListGroup.Item className="p-3">{userData.role}</ListGroup.Item>
+            <ListGroup.Item className="p-3">{userData.email}</ListGroup.Item>
+            {userData.latitude !== null && (
+              <ListGroup.Item className="p-4">
+                <strong>Location:</strong> ({userData.latitude.toFixed(5)}, {userData.longitude.toFixed(5)})
+              </ListGroup.Item>
+            )}
+          </ListGroup>
+          <div className="text-center m-4">
+            <Button variant="danger" onClick={handleDeleteButton}>
+              Delete Account
+            </Button>
+          </div>
           {errorMessage && (
             <Alert variant="danger" className="mt-3">
               {errorMessage}
             </Alert>
           )}
-        </Card.Body>
-      </Card>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   );
+  
 }
 
 export default ProfilePage;
