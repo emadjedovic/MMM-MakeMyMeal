@@ -35,6 +35,8 @@ from chat.chat_crud import create_message, get_chat
 from chat.chat_schemas import MessageCreate
 from starlette.datastructures import Headers
 from chat.chat_models import DBMessage
+from helpers.create_users import create_admin
+# from helpers.create_users import create_customer, create_delivery_personnel, create_restaurant_admin
 
 
 def create_application():
@@ -52,13 +54,10 @@ def create_application():
 app = create_application()
 
 
-# from helpers.create_users import create_admin, create_customer, create_delivery_personnel, create_restaurant_admin
-
-
 def startup_event():
     Base.metadata.create_all(bind=engine)
-    """
     create_admin()
+    """
     create_customer()
     create_restaurant_admin()
     create_delivery_personnel()"""
