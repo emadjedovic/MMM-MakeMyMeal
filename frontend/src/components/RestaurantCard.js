@@ -37,8 +37,7 @@ function RestaurantCard({ restaurantId, handleRestaurantSelectParent }) {
         </Card.Body>
         <Card.Text style={{ margin: "1rem", marginTop: "0" }}>
           <i>
-            {restaurant.street_name}
-            <br></br>({restaurant.city})
+            {restaurant.street_name}&nbsp;({restaurant.city})
           </i>
         </Card.Text>
         {userRole === "CUSTOMER" && (

@@ -63,7 +63,7 @@ function ProfilePage() {
               </h3>
             </ListGroup.Item>
             <ListGroup.Item className="p-3">{userData.role}</ListGroup.Item>
-            <ListGroup.Item className="p-3">{userData.email}</ListGroup.Item>
+            <ListGroup.Item className="p-4">{userData.email}</ListGroup.Item>
             {userData.latitude !== null && (
               <ListGroup.Item className="p-4">
                 <strong>Location:</strong> ({userData.latitude.toFixed(5)}, {userData.longitude.toFixed(5)})
