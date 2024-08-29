@@ -48,14 +48,14 @@ const CustomerRestaurantsTable = ({
   return (
     <Container className="my-4">
       <Row>
-        <Col md={4} lg={3} xl={2} xxl={3}>
+        <Col md={4} lg={3} xl={2}>
           <RestaurantTypesList
             restaurantTypes={restaurantTypes}
             selectedType={selectedType}
             handleTypeSelect={onTypeSelect}
           />
         </Col>
-        <Col md={8} lg={9} xl={10} xxl={9}>
+        <Col md={8} lg={9} xl={10}>
           <Form.Control
             type="text"
             placeholder="Search by restaurant name"

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, ListGroup, Button } from "react-bootstrap";
-import { FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { handleFetchRestaurantNamesFromItems } from "../handlers/RestaurantPageHandlers";
 
 const RecommendedItems = ({ recommended, handleRestaurantSelectParent }) => {
@@ -29,16 +29,9 @@ const RecommendedItems = ({ recommended, handleRestaurantSelectParent }) => {
   return (
     <Container className="my-4">
       <Row className="justify-content-center">
-        <Col className="text-center">
-          <h4>
-            <i>Recommended items</i>
-          </h4>
-        </Col>
-      </Row>
-      <Row className="align-items-start">
         <Col>
           {currentItems.map((item) => (
-            <Row key={item.id} className="mb-3">
+            <Row key={item.id} className="mb-1">
               <Col>
                 <Card
                   style={{
@@ -62,7 +55,7 @@ const RecommendedItems = ({ recommended, handleRestaurantSelectParent }) => {
                       {restaurantNames[item.restaurant_id]})
                     </Card.Title>
                     <Card.Text>
-                      {item.food_type_name} {item.description}
+                      {item.food_type_name.toUpperCase()} // {item.description}
                     </Card.Text>
                     <ListGroup className="list-group-flush">
                       <ListGroup.Item>
@@ -75,15 +68,17 @@ const RecommendedItems = ({ recommended, handleRestaurantSelectParent }) => {
             </Row>
           ))}
         </Col>
-        <Col xs="auto" className="d-flex flex-column align-items-center">
+      </Row>
+      <Row className="justify-content-center">
+        <Col className="text-center m-3">
           <Button
             variant="light"
             onClick={handlePrev}
             disabled={currentIndex === 0}
             aria-label="Previous"
-            style={{ marginBottom: "10px" }}
+            style={{ marginRight: "10px" }}
           >
-            <FaArrowUp />
+            <FaArrowLeft />
           </Button>
           <Button
             variant="light"
@@ -91,7 +86,7 @@ const RecommendedItems = ({ recommended, handleRestaurantSelectParent }) => {
             disabled={currentIndex === totalPages - 1}
             aria-label="Next"
           >
-            <FaArrowDown />
+            <FaArrowRight />
           </Button>
         </Col>
       </Row>

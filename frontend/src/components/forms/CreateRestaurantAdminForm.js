@@ -104,7 +104,7 @@ const CreateRestaurantAdminForm = () => {
         </Card>
         
         {message ? (
-          <Alert variant={message.includes("Error") ? "danger" : "success"}>
+          <Alert variant={message.includes("Error") ? "danger" : "success"} className="mt-3" style={{width: "fit-content"}}>
             {message}
           </Alert>
         ) : (

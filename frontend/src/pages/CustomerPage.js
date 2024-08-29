@@ -100,6 +100,9 @@ const CustomerPage = () => {
                     setSelectedRestaurantId(restaurantId)
                   }
                 />
+                <Row className="text-center mt-5">
+                  <h2>RECOMMENDED ITEMS AND RESTAURANTS</h2>
+                </Row>
                 <Row>
                   <Col md={8} lg={8}>
                     <RecommendedItems

@@ -29,16 +29,17 @@ function ItemCard({
         <Restaurant restaurantId={item.restaurant_id} />
       ) : (
         <>
-          <Card onClick={() => setSelected(true)} className="hover-card">
-            <Row noGutters>
-              <Col xs={12} md={4}>
+          <Card onClick={() => setSelected(true)} className="hover-card" style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    cursor: "pointer",
+                  }}>
                 <Card.Img
+                variant="left"
                   src={`http://localhost:8000/assets/${item.imageUrl}`}
                   alt={item.name}
-                  style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                  style={{ width: "150px", height: "auto", objectFit: "cover" }}
                 />
-              </Col>
-              <Col xs={12} md={8}>
                 <Card.Body style={{fontSize: "small"}}>
                   <Row>
                     <Col>
@@ -131,8 +132,6 @@ function ItemCard({
                     </Button>
                   )}
                 </Card.Body>
-              </Col>
-            </Row>
           </Card>
 
           <AddPromotionModal
