@@ -3,17 +3,16 @@ import { Table, Container, Pagination, Row, Col, Button } from "react-bootstrap"
 import { formatCreatedAt } from "../../calculations";
 import { handleFetchRestaurantNamesFromOrders } from "../../handlers/RestaurantPageHandlers";
 import { UserContext } from "../../contexts/UserContext";
+import RateServiceModal from "../modals/RateServiceModal";
 
 const OrdersTable = ({
   orders,
   handleOrderSelectParent,
-  handleRestaurantSelectParent,
-  refreshOrdersParent
+  handleRestaurantSelectParent
 }) => {
-  const { user } = useContext(UserContext);
-  const [showModal, setShowModal] = useState(false);
+  const { user, token } = useContext(UserContext);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
-
+  const [showRateServiceModal, setShowRateServiceModal] = useState(false);
 
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,6 +47,12 @@ const OrdersTable = ({
     );
   }, [orders]);
 
+
+  const handleOpenRateServiceModal = (orderId) => {
+    setSelectedOrderId(orderId);
+    setShowRateServiceModal(true);
+  };
+
   return (
     <Container className="my-4">
       <Row>
@@ -61,6 +66,7 @@ const OrdersTable = ({
                 <th>Payment</th>
                 <th>Total Price</th>
                 <th>Created At</th>
+                <th>Feedback</th>
               </tr>
             </thead>
             <tbody>
@@ -90,6 +96,11 @@ const OrdersTable = ({
                     <td>{order.payment_method}</td>
                     <td>€{order.total_price}</td>
                     <td>{formatCreatedAt(order.created_at)}</td>
+                    <td><Button variant="primary"
+                          onClick={() => handleOpenRateServiceModal(order.id)}
+                          disabled={
+                            order.status !== "COMPLETED"
+                          }>Rate Service</Button></td>
                   </tr>
                 );
               })}
@@ -98,6 +109,12 @@ const OrdersTable = ({
           <Pagination>{paginationItems}</Pagination>
         </Col>
       </Row>
+      <RateServiceModal
+        show={showRateServiceModal}
+        closeModal={() => setShowRateServiceModal(false)}
+        orderId={selectedOrderId}
+        token={token}
+      />
     </Container>
   );
 };

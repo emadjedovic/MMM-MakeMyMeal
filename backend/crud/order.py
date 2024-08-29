@@ -155,7 +155,7 @@ def crud_get_orders_by_date_and_status(
             DBOrder.preferred_arrival_time >= start_date,
             DBOrder.preferred_arrival_time < end_date
         ).filter(
-            (DBOrder.preferred_arrival_time >= datetime.now()) |
+            (DBOrder.preferred_arrival_time >= start_date) |
             (DBOrder.status != "COMPLETED")
         )
     elif date.date() < today:

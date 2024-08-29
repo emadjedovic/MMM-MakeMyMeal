@@ -67,7 +67,8 @@ const OrdersMap = ({
 
       <div style={{ height: "400px", width: "100%"}}>
         <MapContainer
-          center={[43.8486, 18.3564]}
+          // Tuzla
+          center={[44.538, 18.67]}
           zoom={13}
           style={{ height: "100%", width: "100%", borderRadius: "1rem"}}
         >
