@@ -38,21 +38,10 @@ const CreateRestaurantAdminForm = () => {
   };
 
   return (
-    <Row>
+    <Row className="mx-4">
       <Col>
-        <h2>Create Restaurant Admin</h2>
-
-        <br></br>
-        {message ? (
-          <Alert variant={message.includes("Error") ? "danger" : "success"}>
-            {message}
-          </Alert>
-        ) : (
-          ""
-        )}
-      </Col>
-      <Col>
-        <Card>
+      <h2>Create Restaurant Admin</h2>
+        <Card style={{maxWidth: "400px"}}>
           <Card.Body>
             <Form onSubmit={handleCreateAdmin}>
               <Form.Group controlId="adminEmail">
@@ -113,9 +102,15 @@ const CreateRestaurantAdminForm = () => {
             </Form>
           </Card.Body>
         </Card>
+        
+        {message ? (
+          <Alert variant={message.includes("Error") ? "danger" : "success"}>
+            {message}
+          </Alert>
+        ) : (
+          ""
+        )}
       </Col>
-
-      <Col></Col>
     </Row>
   );
 };

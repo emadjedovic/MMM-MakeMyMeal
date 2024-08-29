@@ -37,21 +37,10 @@ const CreatePersonnelForm = () => {
   };
 
   return (
-    <Row>
+    <Row className="mx-4">
       <Col>
         <h2>Create Delivery Personnel</h2>
-
-        <br></br>
-        {message ? (
-          <Alert variant={message.includes("Error") ? "danger" : "success"}>
-            {message}
-          </Alert>
-        ) : (
-          ""
-        )}
-      </Col>
-      <Col>
-        <Card>
+        <Card style={{ maxWidth: "400px" }}>
           <Card.Body>
             <Form onSubmit={handleCreatePersonnel}>
               <Form.Group controlId="personnelEmail">
@@ -112,9 +101,15 @@ const CreatePersonnelForm = () => {
             </Form>
           </Card.Body>
         </Card>
-      </Col>
 
-      <Col></Col>
+        {message ? (
+          <Alert variant={message.includes("Error") ? "danger" : "success"}>
+            {message}
+          </Alert>
+        ) : (
+          ""
+        )}
+      </Col>
     </Row>
   );
 };

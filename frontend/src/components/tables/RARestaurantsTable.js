@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Table, Pagination, Button } from "react-bootstrap";
 
 const RARestaurantsTable = ({
@@ -8,10 +8,43 @@ const RARestaurantsTable = ({
   handleEditClick,
   handleChange,
   handleSave,
-  paginationItems,
   restaurantTypes,
   handleRestaurantSelectParent,
 }) => {
+
+  
+  const itemsPerPage = 8;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastRestaurant = currentPage * itemsPerPage;
+  const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
+
+  
+
+  const sortedRestaurants = [...restaurants].sort(
+    (a, b) => a.id - b.id
+  );
+
+  const currentRestaurants = sortedRestaurants.slice(
+    indexOfFirstRestaurant,
+    indexOfLastRestaurant
+  );
+
+  const totalPages = Math.ceil(restaurants.length / itemsPerPage);
+
+  const paginationItems = [];
+  for (let number = 1; number <= totalPages; number++) {
+    paginationItems.push(
+      <Pagination.Item
+        key={number}
+        active={number === currentPage}
+        onClick={() => setCurrentPage(number)}
+      >
+        {number}
+      </Pagination.Item>
+    );
+  }
+
   return (
     <>
       <Table striped bordered hover>
@@ -29,7 +62,7 @@ const RARestaurantsTable = ({
           </tr>
         </thead>
         <tbody>
-          {restaurants.map((restaurant) => (
+          {currentRestaurants.map((restaurant) => (
             <tr key={restaurant.id}>
               <td>{restaurant.id}</td>
               <td>

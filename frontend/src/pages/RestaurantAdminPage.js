@@ -4,7 +4,6 @@ import {
   Container,
   Tab,
   Nav,
-  Pagination,
   Row,
   Col,
   Modal,
@@ -33,8 +32,6 @@ const RestaurantAdminPage = () => {
   const [editId, setEditId] = useState(null);
   const [restaurantTypes, setRestaurantTypes] = useState([]);
   const userId = user.id;
-  const itemsPerPage = 8;
-  const [currentPage, setCurrentPage] = useState(1);
   const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
   const [selectedMap, setSelectedMap] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
@@ -55,26 +52,7 @@ const RestaurantAdminPage = () => {
     setSelectedOrderId(null);
   };
 
-  const indexOfLastRestaurant = currentPage * itemsPerPage;
-  const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
-  const currentRestaurants = restaurants.slice(
-    indexOfFirstRestaurant,
-    indexOfLastRestaurant
-  );
 
-  const totalPages = Math.ceil(restaurants.length / itemsPerPage);
-  const paginationItems = [];
-  for (let number = 1; number <= totalPages; number++) {
-    paginationItems.push(
-      <Pagination.Item
-        key={number}
-        active={number === currentPage}
-        onClick={(pageNumber) => setCurrentPage(pageNumber)}
-      >
-        {number}
-      </Pagination.Item>
-    );
-  }
 
   useEffect(() => {
     handleFetchRestaurantsByOwner(userId, token, setRestaurants);
@@ -146,7 +124,7 @@ const RestaurantAdminPage = () => {
               <RestaurantPage restaurantId={selectedRestaurantId} />
             ) : (
               <RARestaurantsTable
-                restaurants={currentRestaurants}
+                restaurants={restaurants}
                 editId={editId}
                 editableData={editableData}
                 handleEditClick={(id, data) =>
@@ -166,8 +144,6 @@ const RestaurantAdminPage = () => {
                     setRestaurants
                   )
                 }
-                paginationItems={paginationItems}
-                handlePageChange={(pageNumber) => setCurrentPage(pageNumber)}
                 restaurantTypes={restaurantTypes}
                 handleRestaurantSelectParent={(restaurantId) =>
                   setSelectedRestaurantId(restaurantId)

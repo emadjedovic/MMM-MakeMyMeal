@@ -11,7 +11,7 @@ const ItemTypesList = ({
   }
 
   return (
-    <ListGroup className="me-3">
+    <ListGroup>
       <ListGroup.Item
         action
         onClick={() => handleFoodTypeSelect("All")}

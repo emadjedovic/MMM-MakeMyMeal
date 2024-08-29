@@ -19,14 +19,16 @@ const ItemsTable = ({
   restaurantId,
   refreshItems,
 }) => {
-  const itemsPerPage = 4;
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [showOnPromotion, setShowOnPromotion] = useState(false);
   const { userRole, token, user } = useContext(UserContext);
   const [showModal, setShowModal] = useState(false);
 
   const { setNewNotification } = useContext(NotificationsContext);
+
+  
+  const itemsPerPage = 4;
+  const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -40,14 +42,16 @@ const ItemsTable = ({
   });
 
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+
   const paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {
     paginationItems.push(
       <Pagination.Item
         key={number}
         active={number === currentPage}
-        onClick={(pageNumber) => setCurrentPage(pageNumber)}
+        onClick={() => setCurrentPage(number)}
       >
         {number}
       </Pagination.Item>
@@ -175,9 +179,9 @@ const ItemsTable = ({
               </Col>
             )}
           </Row>
-          <Row className="mt-3">
+          <Row className="m-0 mt-3">
             {currentItems.map((item) => (
-              <Col md={12} lg={12} xxl={12} key={item.id} className="mb-3">
+              <Col md={12} lg={12} xxl={12} key={item.id} className="m-0 mb-3" style={{height: "100%"}}>
                 <ItemCard
                   item={item}
                   isInRestaurant={true}
