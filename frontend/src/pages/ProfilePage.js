@@ -54,9 +54,9 @@ function ProfilePage() {
       <Row className="justify-content-center">
         <Col>
           <h1 className="text-center">PROFILE</h1>
-          <ListGroup style={{ width: '100%', maxWidth: '600px', borderRadius: "50%"}} className="shadow-md text-center mx-auto">
+          <ListGroup style={{ width: '100%', maxWidth: '600px'}} className="shadow-md text-center mx-auto">
             <ListGroup.Item>
-              <h3 className="mb-2 p-3">
+              <h3 className="mb-2 p-2">
                 <strong>
                   {userData.first_name} {userData.last_name}
                 </strong>
@@ -65,7 +65,7 @@ function ProfilePage() {
             <ListGroup.Item className="p-3">{userData.role}</ListGroup.Item>
             <ListGroup.Item className="p-3">{userData.email}</ListGroup.Item>
             {userData.latitude !== null && (
-              <ListGroup.Item className="p-4">
+              <ListGroup.Item className="p-3">
                 <strong>Location:</strong> ({userData.latitude.toFixed(5)}, {userData.longitude.toFixed(5)})
               </ListGroup.Item>
             )}

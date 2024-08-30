@@ -1,50 +1,22 @@
-----------------------------------------------------------------------
-TO DO
-----------------------------------------------------------------------
-----------------------------------------------------------------------
-PART II
-----------------------------------------------------------------------
+- Ocjenjivanje usluge restorana (korisnik popunjava anketu pri isporuci).
 
-STATS AND EMAIL REPORTS
-
-- Administrator restorana dobija email izvještaj o broju narudžbi za svaki dan, te zbirni
-broj narudžbi za taj mjesec, kao i izvještaj o radu svakog dostavljača. (dnevno? sedmično? mjesečno?)
-
-- RESTAURANT ADMIN dobija restaurant stats za svoje restorane
-- Admin sam sebi šalje email sa restaurant stats za svaki restoran. Šalje se dnevni email i mjesečni email.
-- Admin šalje svakom adminu restorana restaurant stats za svaki restoran čiji su oni owneri. 
-
-New Tables
-    RestaurantStats: fields like daily_order_count, weekly_order_count, monthly_order_count, total_profit, customer_rating
-ili nove tabele napravit?
+- Administrator restorana dobija dnevni i mjesečni email izvještaj o svojim restoranima, kao i izvještaj o radu svakog dostavljača.
+- Admin sam sebi šalje dnevni i mjesečni email izvještaj o svim restoranima.
 
 Scheduled Jobs (Backend Feature):
     You might want to create scheduled jobs for generating and sending reports.
 
-OTHER
-
-- Ocjenjivanje usluge restorana (korisnik popunjava anketu pri isporuci).
-New Table:
-    OrderRating: Stores ratings and feedback, with attributes like id, order_id, user_id, delivery_personnel_id, delivery_personnel_rating, restaurant_rating
-
-AUTOMATIC ORDER ASSIGNMENT
 
 - Kreirati automatsko dodjeljivanje narudžbi dostavljaču! Osmisliti “mudar” algoritam za
 dodjelu narudžbi.
 
-create a new table with delivery personnel information
 calculate suitability_score for each delivery personnel
-
-CREATE TABLE DeliveryPersonnelStats (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES DBUser(id),
-// only assign delivery_personnel who are located in the customer's city
-// create lookup table for cities and assign them to created customers and delivery personnel
-    number_of_assigned_deliveries INTEGER DEFAULT 0,
-    orders_completed_today INTEGER DEFAULT 0,
-    total_orders_completed INTEGER DEFAULT 0,
-    customer_feedback_score DECIMAL(3, 2)
-);
-
-
-
+------------------------------------------------------------
+E-mail izvještaj administratoru i administratoru restorana.
+○ Administrator restorana dobija izvještaj o broju narudžbi za svaki dan, te zbirni
+broj narudžbi za taj mjesec, kao i izvještaj o radu svakog dostavljača.
+○ Administrator dobija podatak o broju narudžbi za svaki restoran, te ostvarenom
+profitu po restoranu.
+● Ocjenjivanje usluge restorana (korisnik popunjava anketu pri isporuci).
+● Kreirati automatsko dodjeljivanje narudžbi dostavljaču! Osmisliti “mudar” algoritam za
+dodjelu narudžbi.

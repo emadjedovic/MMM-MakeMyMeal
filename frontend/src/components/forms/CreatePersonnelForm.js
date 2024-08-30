@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Form, Alert, Card, Row, Col, Button } from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext.js";
 import { createDeliveryPersonnel } from "../../api/usersApi.js";
+import { cities } from "../../cities.js";
 
 const CreatePersonnelForm = () => {
   const { token } = useContext(UserContext);
@@ -10,23 +11,22 @@ const CreatePersonnelForm = () => {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-
-  const requestData = {
-    email: email,
-    first_name: firstName,
-    last_name: lastName,
-    password: password,
-  };
-
-  const clear = () => {
-    setEmail("");
-    setFirstName("");
-    setLastName("");
-    setPassword("");
-  };
+  const [selectedCity, setSelectedCity] = useState(cities[0].name);
 
   const handleCreatePersonnel = async (event) => {
     event.preventDefault();
+
+    const cityData = cities.find((city) => city.name === selectedCity);
+
+    const requestData = {
+      email: email,
+      first_name: firstName,
+      last_name: lastName,
+      password: password,
+      latitude: cityData.latitude,
+      longitude: cityData.longitude,
+    };
+
     try {
       await createDeliveryPersonnel(token, requestData);
       setMessage("User successfully created!");
@@ -36,22 +36,18 @@ const CreatePersonnelForm = () => {
     }
   };
 
+  const clear = () => {
+    setEmail("");
+    setFirstName("");
+    setLastName("");
+    setPassword("");
+  };
+
   return (
-    <Row>
+    <Row className="mx-4">
       <Col>
         <h2>Create Delivery Personnel</h2>
-
-        <br></br>
-        {message ? (
-          <Alert variant={message.includes("Error") ? "danger" : "success"}>
-            {message}
-          </Alert>
-        ) : (
-          ""
-        )}
-      </Col>
-      <Col>
-        <Card>
+        <Card style={{ maxWidth: "400px" }}>
           <Card.Body>
             <Form onSubmit={handleCreatePersonnel}>
               <Form.Group controlId="personnelEmail">
@@ -102,6 +98,22 @@ const CreatePersonnelForm = () => {
                   style={{ width: "100%" }}
                 />
               </Form.Group>
+              <Form.Group controlId="personnelCity">
+                <Form.Label>City</Form.Label>
+                <Form.Control
+                  as="select"
+                  value={selectedCity}
+                  onChange={(e) => setSelectedCity(e.target.value)}
+                  className="form-control-sm"
+                  style={{ width: "100%" }}
+                >
+                  {cities.map((city) => (
+                    <option key={city.name} value={city.name}>
+                      {city.name}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
               <Button
                 variant="primary"
                 type="submit"
@@ -112,9 +124,15 @@ const CreatePersonnelForm = () => {
             </Form>
           </Card.Body>
         </Card>
-      </Col>
 
-      <Col></Col>
+        {message ? (
+          <Alert variant={message.includes("Error") ? "danger" : "success"} className="mt-3"  style={{width: "fit-content"}}>
+            {message}
+          </Alert>
+        ) : (
+          ""
+        )}
+      </Col>
     </Row>
   );
 };

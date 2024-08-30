@@ -24,22 +24,23 @@ function ItemCard({
   }, [item.restaurant_id]);
 
   return (
-    <Container>
+    <Container className="p-0">
       {selected && !isInRestaurant ? (
         <Restaurant restaurantId={item.restaurant_id} />
       ) : (
         <>
-          <Card onClick={() => setSelected(true)} className="hover-card">
-            <Row noGutters>
-              <Col xs={12} md={4}>
+          <Card onClick={() => setSelected(true)} className="hover-card" style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    cursor: "pointer",
+                  }}>
                 <Card.Img
+                variant="left"
                   src={`http://localhost:8000/assets/${item.imageUrl}`}
                   alt={item.name}
-                  style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                  style={{ width: "150px", height: "auto", objectFit: "cover" }}
                 />
-              </Col>
-              <Col xs={12} md={8}>
-                <Card.Body>
+                <Card.Body style={{fontSize: "small"}}>
                   <Row>
                     <Col>
                       <Card.Title>
@@ -48,8 +49,8 @@ function ItemCard({
                       </Card.Title>
                     </Col>
                   </Row>
-                  <ListGroup className="list-group-flush">
-                    <ListGroup.Item>
+                  <ListGroup className="list-group-flush" >
+                    <ListGroup.Item className="p-0">
                       <p
                         style={{
                           overflow: "hidden",
@@ -61,7 +62,7 @@ function ItemCard({
                         {item.description}
                       </p>
                     </ListGroup.Item>
-                    <ListGroup.Item>
+                    <ListGroup.Item  className="pb-0">
                       <strong>PRICE:</strong>&nbsp;€{item.price}
                       {item.is_promoted && (
                         <span style={{ color: "red", fontSize: "0.8rem" }}>
@@ -123,7 +124,6 @@ function ItemCard({
                   </ListGroup>
                   {userRole === "RESTAURANT ADMIN" && (
                     <Button
-                      variant="outline-dark"
                       size="sm"
                       onClick={() => setShowModal(true)}
                       className="mt-3"
@@ -132,8 +132,6 @@ function ItemCard({
                     </Button>
                   )}
                 </Card.Body>
-              </Col>
-            </Row>
           </Card>
 
           <AddPromotionModal

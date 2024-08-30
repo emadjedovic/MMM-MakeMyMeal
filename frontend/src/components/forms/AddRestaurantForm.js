@@ -45,7 +45,7 @@ const AddRestaurantForm = ({ onAdd }) => {
     type_name: type,
     radius_of_delivery_km: radiusOfDeliveryKm || 0,
     owner_id: ownerId,
-    imageUrl: imageUrl || "restaurant-images/restDefault.png",
+    imageUrl: imageUrl ? "restaurant-images/" + imageUrl : "restaurant-images/restDefault.png",
   };
 
   const clear = () => {
@@ -70,7 +70,7 @@ const AddRestaurantForm = ({ onAdd }) => {
       clear();
     } catch (error) {
       setMessage("Error adding the restaurant.");
-      clear();
+      /*clear();*/
     }
   };
 

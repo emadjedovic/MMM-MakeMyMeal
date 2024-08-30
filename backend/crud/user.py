@@ -5,6 +5,7 @@ from models.user import DBUser, UserRole
 from schemas.user import UserCreate
 from security import pwd_context
 from fastapi import HTTPException, status
+from crud.delivery_personnel_stats import crud_create_delivery_personnel_stats
 
 
 def crud_get_user_by_id(db: Session, id: int) -> DBUser:
@@ -81,10 +82,16 @@ def crud_create_delivery_personnel(db: Session, user: UserCreate) -> DBUser:
         email=user.email,
         first_name=user.first_name,
         last_name=user.last_name,
-        hashed_password=hashed_password
+        hashed_password=hashed_password,
+        latitude=user.latitude,
+        longitude=user.longitude
     )
     db_user.role = UserRole.DELIVERY_PERSONNEL
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+
+    # Automatically create DeliveryPersonnelStats
+    crud_create_delivery_personnel_stats(db, db_user.id)
+
     return db_user

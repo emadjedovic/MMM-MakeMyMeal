@@ -66,6 +66,8 @@ class DBOrder(Base):
     )
 
     notifications = relationship("DBNotification", back_populates="order")
+    feedback = relationship("DBCustomerFeedback", back_populates="order", uselist=False)
+    assignments = relationship("DBOrderAssignments", back_populates="order")
 
 
 class DBOrderItem(Base):

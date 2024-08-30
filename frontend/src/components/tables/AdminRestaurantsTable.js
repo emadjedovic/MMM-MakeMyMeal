@@ -36,10 +36,30 @@ const AdminRestaurantsTable = ({
     return matchesName && matchesCity && matchesArchivedStatus;
   });
 
-  const currentRestaurants = filteredRestaurants.slice(
+  const sortedRestaurants = [...filteredRestaurants].sort(
+    (a, b) => a.id - b.id
+  );
+
+  const currentRestaurants = sortedRestaurants.slice(
     indexOfFirstRestaurant,
     indexOfLastRestaurant
   );
+
+  const totalPages = Math.ceil(filteredRestaurants.length / itemsPerPage);
+  
+
+  const paginationItems = [];
+  for (let number = 1; number <= totalPages; number++) {
+    paginationItems.push(
+      <Pagination.Item
+        key={number}
+        active={number === currentPage}
+        onClick={() => setCurrentPage(number)}
+      >
+        {number}
+      </Pagination.Item>
+    );
+  }
 
   const handleSearchNameChange = (e) => {
     setSearchName(e.target.value);
@@ -50,20 +70,6 @@ const AdminRestaurantsTable = ({
     setSearchCity(e.target.value);
     setCurrentPage(1);
   };
-
-  const totalPages = Math.ceil(filteredRestaurants.length / itemsPerPage);
-  const paginationItems = [];
-  for (let number = 1; number <= totalPages; number++) {
-    paginationItems.push(
-      <Pagination.Item
-        key={number}
-        active={number === currentPage}
-        onClick={(pageNumber) => setCurrentPage(pageNumber)}
-      >
-        {number}
-      </Pagination.Item>
-    );
-  }
 
   return (
     <Row>
@@ -98,13 +104,19 @@ const AdminRestaurantsTable = ({
                 type="checkbox"
                 label="Archived"
                 checked={showArchived}
-                onChange={(e) => setShowArchived(e.target.checked)}
+                onChange={(e) => {
+                  setShowArchived(e.target.checked);
+                  setCurrentPage(1); // Reset to first page on filter change
+                }}
               />
               <Form.Check
                 type="checkbox"
                 label="Not Archived"
                 checked={showNotArchived}
-                onChange={(e) => setShowNotArchived(e.target.checked)}
+                onChange={(e) => {
+                  setShowNotArchived(e.target.checked);
+                  setCurrentPage(1); // Reset to first page on filter change
+                }}
               />
             </Form.Group>
           </Col>

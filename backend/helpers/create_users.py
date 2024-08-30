@@ -106,6 +106,9 @@ def create_delivery_personnel():
             first_name=delivery_personnel_user.first_name,
             last_name=delivery_personnel_user.last_name,
             hashed_password=hashed_password,
+            # Tuzla
+            latitude=44.5384,
+            longitude=18.6671,
         )
         db_user.role = UserRole.DELIVERY_PERSONNEL
         db.add(db_user)

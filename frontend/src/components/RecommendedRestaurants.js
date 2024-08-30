@@ -20,16 +20,9 @@ const RecommendedRestaurants = ({
   };
 
   return (
-    <Container>
+    <Container className="my-4">
       <Row className="justify-content-center">
-        <Col className="text-center">
-          <h4>
-            <i>Recommended restaurants</i>
-          </h4>
-        </Col>
-      </Row>
-      <Row className="justify-content-center">
-        <Col md={8} lg={8}>
+        <Col>
           {recommended.length > 0 && (
             <RestaurantCard
               restaurantId={recommended[currentIndex].id}

@@ -23,7 +23,7 @@ function RestaurantCard({ restaurantId, handleRestaurantSelectParent }) {
           variant="top"
           src={`http://localhost:8000/assets/${restaurant.imageUrl}`}
           alt={restaurant.name}
-          style={{ width: "100%", objectFit: "cover" }}
+          style={{width: "100%", height: "150px", objectFit: "cover" }}
         />
         <Card.Body>
           <Card.Title>
@@ -37,8 +37,7 @@ function RestaurantCard({ restaurantId, handleRestaurantSelectParent }) {
         </Card.Body>
         <Card.Text style={{ margin: "1rem", marginTop: "0" }}>
           <i>
-            {restaurant.street_name}
-            <br></br>({restaurant.city})
+            {restaurant.street_name}&nbsp;({restaurant.city})
           </i>
         </Card.Text>
         {userRole === "CUSTOMER" && (
@@ -50,8 +49,7 @@ function RestaurantCard({ restaurantId, handleRestaurantSelectParent }) {
                   restaurant.longitude,
                   user.latitude,
                   user.longitude
-                )}{" "}
-                km from you
+                )}{" m from you"}
               </ListGroup.Item>
             </ListGroup>
           </>

@@ -34,7 +34,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
     type_name: type || undefined,
     radius_of_delivery_km: radiusOfDeliveryKm || undefined,
     is_archived: isArchived,
-    imageUrl: imageUrl || undefined,
+    imageUrl: imageUrl ? "restaurant-images/" + imageUrl : undefined
   };
 
   const clear = () => {
@@ -199,7 +199,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
                 value={imageUrl}
                 name="imageUrl"
                 onChange={(e) => setImageUrl(e.target.value)}
-                placeholder="for example 'my_image.jpg'"
+                placeholder="my_image.jpg"
               />
             </Form.Group>
             <Button

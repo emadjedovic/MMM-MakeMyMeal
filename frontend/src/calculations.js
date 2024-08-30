@@ -16,9 +16,9 @@ export const calculateDistance = (
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distance = R * c;
+  const distance = R * c * 1000; // in meters
 
-  return distance.toFixed(5);
+  return distance.toFixed(0);
 };
 
 export const originalPrice = (priceOnDiscount, discount) => {

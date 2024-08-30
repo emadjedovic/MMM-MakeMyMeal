@@ -4,7 +4,6 @@ import {
   Container,
   Tab,
   Nav,
-  Pagination,
   Row,
   Col,
   Modal,
@@ -21,10 +20,12 @@ import {
   handleEditClick,
   handleSave,
   handleChange,
-  handleFetchOrdersOwner
+  handleFetchOrdersOwner,
+  handleFetchFeedbacksOwner
 } from "../handlers/RestaurantAdminPageHandlers";
 import { handleFetchMapOrders } from "../handlers/AdminPageHandlers";
 import OrdersMap from "../components/OrdersMap";
+import Feedbacks from "../components/Feedbacks";
 
 const RestaurantAdminPage = () => {
   const { token, user } = useContext(UserContext);
@@ -33,17 +34,20 @@ const RestaurantAdminPage = () => {
   const [editId, setEditId] = useState(null);
   const [restaurantTypes, setRestaurantTypes] = useState([]);
   const userId = user.id;
-  const itemsPerPage = 8;
-  const [currentPage, setCurrentPage] = useState(1);
   const [selectedRestaurantId, setSelectedRestaurantId] = useState(null);
   const [selectedMap, setSelectedMap] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [ordersOwner, setOrdersOwner] = useState([]);
   const [showOrderModal, setShowOrderModal] = useState(false);
+  const [feedbacksOwner, setFeedbacksOwner] = useState([])
 
   useEffect(() => {
     handleFetchOrdersOwner(token, userId, setOrdersOwner);
   }, [token, userId]);
+
+  useEffect(() => {
+    handleFetchFeedbacksOwner(token, userId, setFeedbacksOwner);
+  }, [token, userId])
 
   const handleShowOrderModal = (orderId) => {
     setSelectedOrderId(orderId);
@@ -55,26 +59,7 @@ const RestaurantAdminPage = () => {
     setSelectedOrderId(null);
   };
 
-  const indexOfLastRestaurant = currentPage * itemsPerPage;
-  const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
-  const currentRestaurants = restaurants.slice(
-    indexOfFirstRestaurant,
-    indexOfLastRestaurant
-  );
 
-  const totalPages = Math.ceil(restaurants.length / itemsPerPage);
-  const paginationItems = [];
-  for (let number = 1; number <= totalPages; number++) {
-    paginationItems.push(
-      <Pagination.Item
-        key={number}
-        active={number === currentPage}
-        onClick={(pageNumber) => setCurrentPage(pageNumber)}
-      >
-        {number}
-      </Pagination.Item>
-    );
-  }
 
   useEffect(() => {
     handleFetchRestaurantsByOwner(userId, token, setRestaurants);
@@ -116,6 +101,7 @@ const RestaurantAdminPage = () => {
     };
   }, [selectedRestaurantId, selectedMap]);
 
+
   return (
     <Container>
       <Tab.Container defaultActiveKey="my-restaurants">
@@ -138,6 +124,12 @@ const RestaurantAdminPage = () => {
               }}>
             <Nav.Link eventKey="orders-table">Orders</Nav.Link>
           </Nav.Item>
+          <Nav.Item onClick={() => {
+                setSelectedRestaurantId(null);
+                setSelectedMap(false);
+              }}>
+            <Nav.Link eventKey="customer-feedback">Customer Feedback</Nav.Link>
+          </Nav.Item>
         </Nav>
 
         <Tab.Content>
@@ -146,7 +138,7 @@ const RestaurantAdminPage = () => {
               <RestaurantPage restaurantId={selectedRestaurantId} />
             ) : (
               <RARestaurantsTable
-                restaurants={currentRestaurants}
+                restaurants={restaurants}
                 editId={editId}
                 editableData={editableData}
                 handleEditClick={(id, data) =>
@@ -166,8 +158,6 @@ const RestaurantAdminPage = () => {
                     setRestaurants
                   )
                 }
-                paginationItems={paginationItems}
-                handlePageChange={(pageNumber) => setCurrentPage(pageNumber)}
                 restaurantTypes={restaurantTypes}
                 handleRestaurantSelectParent={(restaurantId) =>
                   setSelectedRestaurantId(restaurantId)
@@ -235,6 +225,10 @@ const RestaurantAdminPage = () => {
                 )}
               </>
             )}
+          </Tab.Pane>
+
+          <Tab.Pane eventKey="customer-feedback">
+            <Feedbacks feedbacks={feedbacksOwner}/>
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
