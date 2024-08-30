@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 from models.customer_feedback import DBCustomerFeedback
 from schemas.customer_feedback import CustomerFeedback, CustomerFeedbackCreate
+from models.order import DBOrder
+from models.restaurant import DBRestaurant
 
 def crud_create_customer_feedback(db: Session, feedback: CustomerFeedbackCreate):
     db_feedback = DBCustomerFeedback(
@@ -30,3 +32,12 @@ def crud_update_customer_feedback(db: Session, order_id: int, feedback: Customer
         db.commit()
         db.refresh(db_feedback)
     return db_feedback
+
+def crud_get_customer_feedbacks_by_owner_id(db: Session, owner_id: int):
+    return (
+        db.query(DBCustomerFeedback)
+        .join(DBOrder, DBCustomerFeedback.order_id == DBOrder.id)
+        .join(DBRestaurant, DBOrder.restaurant_id == DBRestaurant.id)
+        .filter(DBRestaurant.owner_id == owner_id)
+        .all()
+    )

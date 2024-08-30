@@ -4,6 +4,7 @@ import {
 } from "../api/restaurantsApi";
 import { fetchOrdersOwner } from "../api/ordersApi";
 import { fetchRestaurantTypes } from "../api/restaurantTypesApi";
+import { getCustomerFeedbacksByOwner } from "../api/customerFeedbackApi";
 
 export const handleFetchOrdersOwner = async (token, userId, setOrdersOwner) => {
   try {
@@ -12,6 +13,16 @@ export const handleFetchOrdersOwner = async (token, userId, setOrdersOwner) => {
     setOrdersOwner(ordersOwner);
   } catch (error) {
     console.error("Error in handleFetchOrdersOwner.");
+  }
+};
+
+export const handleFetchFeedbacksOwner = async (token, userId, setFeedbacksOwner) => {
+  try {
+      const feedbacksOwner = await getCustomerFeedbacksByOwner(userId, token);
+      setFeedbacksOwner(feedbacksOwner);
+  } catch (error) {
+      console.error("Error in handleFetchFeedbacksOwner: ", error);
+      // Optionally handle the error (e.g., show a message to the user)
   }
 };
 

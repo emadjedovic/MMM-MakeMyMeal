@@ -12,12 +12,26 @@ export const submitCustomerFeedback = async (feedbackData) => {
     }
 };
 
-const getCustomerFeedback = async (orderId) => {
+export const getCustomerFeedback = async (orderId) => {
     try {
         const response = await axios.get(`${API_URL}/customer-feedback/read/${orderId}`);
         return response.data;
     } catch (error) {
         console.error('Error in getCustomerFeedback:', error.response?.data?.detail || error.message);
+        throw error;
+    }
+};
+
+export const getCustomerFeedbacksByOwner = async (ownerId, token) => {
+    try {
+        const response = await axios.get(`${API_URL}/customer-feedback/owner/${ownerId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error in getCustomerFeedbacksByOwner:', error.response?.data?.detail || error.message);
         throw error;
     }
 };

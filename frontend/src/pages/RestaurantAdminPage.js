@@ -20,10 +20,12 @@ import {
   handleEditClick,
   handleSave,
   handleChange,
-  handleFetchOrdersOwner
+  handleFetchOrdersOwner,
+  handleFetchFeedbacksOwner
 } from "../handlers/RestaurantAdminPageHandlers";
 import { handleFetchMapOrders } from "../handlers/AdminPageHandlers";
 import OrdersMap from "../components/OrdersMap";
+import Feedbacks from "../components/Feedbacks";
 
 const RestaurantAdminPage = () => {
   const { token, user } = useContext(UserContext);
@@ -37,10 +39,15 @@ const RestaurantAdminPage = () => {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [ordersOwner, setOrdersOwner] = useState([]);
   const [showOrderModal, setShowOrderModal] = useState(false);
+  const [feedbacksOwner, setFeedbacksOwner] = useState([])
 
   useEffect(() => {
     handleFetchOrdersOwner(token, userId, setOrdersOwner);
   }, [token, userId]);
+
+  useEffect(() => {
+    handleFetchFeedbacksOwner(token, userId, setFeedbacksOwner);
+  }, [token, userId])
 
   const handleShowOrderModal = (orderId) => {
     setSelectedOrderId(orderId);
@@ -94,6 +101,7 @@ const RestaurantAdminPage = () => {
     };
   }, [selectedRestaurantId, selectedMap]);
 
+
   return (
     <Container>
       <Tab.Container defaultActiveKey="my-restaurants">
@@ -115,6 +123,12 @@ const RestaurantAdminPage = () => {
                 setSelectedMap(false);
               }}>
             <Nav.Link eventKey="orders-table">Orders</Nav.Link>
+          </Nav.Item>
+          <Nav.Item onClick={() => {
+                setSelectedRestaurantId(null);
+                setSelectedMap(false);
+              }}>
+            <Nav.Link eventKey="customer-feedback">Customer Feedback</Nav.Link>
           </Nav.Item>
         </Nav>
 
@@ -211,6 +225,10 @@ const RestaurantAdminPage = () => {
                 )}
               </>
             )}
+          </Tab.Pane>
+
+          <Tab.Pane eventKey="customer-feedback">
+            <Feedbacks feedbacks={feedbacksOwner}/>
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
