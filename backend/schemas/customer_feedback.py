@@ -1,9 +1,7 @@
 from pydantic import BaseModel, Field
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from uuid import UUID
-
-
-local_tz = timezone(timedelta(hours=2))
+from config import local_tz
 
 
 class CustomerFeedbackBase(BaseModel):

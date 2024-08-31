@@ -11,7 +11,8 @@ from sqlalchemy import (
 from sqlalchemy.orm import relationship
 from database import Base
 import enum
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
+from config import local_tz
 
 
 class OrderStatus(enum.Enum):
@@ -24,9 +25,6 @@ class OrderStatus(enum.Enum):
 class PaymentMethod(enum.Enum):
     CASH = "CASH"
     CARD = "CARD"
-
-
-local_tz = timezone(timedelta(hours=2))
 
 
 class DBOrder(Base):
@@ -67,7 +65,6 @@ class DBOrder(Base):
 
     notifications = relationship("DBNotification", back_populates="order")
     feedback = relationship("DBCustomerFeedback", back_populates="order", uselist=False)
-    assignments = relationship("DBOrderAssignments", back_populates="order")
 
 
 class DBOrderItem(Base):

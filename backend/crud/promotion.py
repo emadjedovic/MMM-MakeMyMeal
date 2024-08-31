@@ -1,4 +1,3 @@
-# crud/promotion.py
 from sqlalchemy.orm import Session
 from models.promotion import DBPromotion
 from schemas.promotion import PromotionCreate, PromotionUpdate

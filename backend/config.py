@@ -1,12 +1,12 @@
-# auth/config.py
-
 from decouple import config
 from pydantic import BaseModel, EmailStr
+from datetime import timezone, timedelta
 
 SECRET_KEY = config("SECRET_KEY")
 ALGORITHM = config("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = config("ACCESS_TOKEN_EXPIRE_MINUTES", cast=int)
 
+local_tz = timezone(timedelta(hours=2))
 
 class EmailSettings(BaseModel):
     MAIL_USERNAME: str

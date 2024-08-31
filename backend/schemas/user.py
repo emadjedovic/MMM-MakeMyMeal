@@ -1,5 +1,3 @@
-# schemas/user.py
-
 from pydantic import BaseModel, EmailStr
 from typing import Optional, List
 from datetime import datetime
@@ -16,8 +14,8 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
-    latitude: Optional[float] = None 
-    longitude: Optional[float] = None 
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
 
 class UserLogin(BaseModel):

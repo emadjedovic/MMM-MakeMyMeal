@@ -1,4 +1,4 @@
-# models/item.py
+
 
 from sqlalchemy import (
     Column,

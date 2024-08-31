@@ -1,4 +1,3 @@
-# crud/restaurant_type.py
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from models.restaurant_type import DBRestaurantType

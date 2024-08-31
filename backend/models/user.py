@@ -1,4 +1,4 @@
-# models/user.py
+
 
 from sqlalchemy import (
     Column,
@@ -9,12 +9,11 @@ from sqlalchemy import (
     Boolean,
     Float,
 )
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from database import Base
 import enum
 from sqlalchemy.orm import relationship
-
-local_tz = timezone(timedelta(hours=2))
+from config import local_tz
 
 
 class UserRole(enum.Enum):
@@ -53,11 +52,4 @@ class DBUser(Base):
     # for customers
     orders = relationship(
         "DBOrder", back_populates="customer", foreign_keys="DBOrder.customer_id"
-    )
-
-    stats = relationship(
-        "DBDeliveryPersonnelStats", back_populates="delivery_personnel", uselist=False
-    )
-    assignments = relationship(
-        "DBOrderAssignments", back_populates="delivery_personnel"
     )

@@ -1,4 +1,3 @@
-# crud/food_type.py
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from models.food_type import DBFoodType

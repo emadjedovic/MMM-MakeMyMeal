@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from models.customer_feedback import DBCustomerFeedback
-from schemas.customer_feedback import CustomerFeedback, CustomerFeedbackCreate
+from schemas.customer_feedback import CustomerFeedbackCreate
 from models.order import DBOrder
 from models.restaurant import DBRestaurant
 

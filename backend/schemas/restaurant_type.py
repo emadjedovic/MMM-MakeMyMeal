@@ -1,4 +1,3 @@
-# schemas/restaurant_type.py
 from pydantic import BaseModel
 
 

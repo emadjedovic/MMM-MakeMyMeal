@@ -1,4 +1,4 @@
-# schemas/food_type.py
+
 from pydantic import BaseModel
 
 

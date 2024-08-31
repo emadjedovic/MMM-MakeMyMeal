@@ -1,4 +1,3 @@
-# # crud/restaurant.py
 from sqlalchemy.orm import Session
 from models.restaurant import DBRestaurant
 from schemas.restaurant import RestaurantCreate, RestaurantUpdate
@@ -7,7 +6,6 @@ from typing import List
 from fastapi import HTTPException
 from models.user import UserRole
 from helpers.math import calculate_distance
-from crud.restaurant_stats import crud_create_restaurant_stats
 
 
 def crud_get_restaurant_by_id(db: Session, id: int) -> DBRestaurant:
@@ -36,9 +34,6 @@ def crud_create_restaurant(db: Session, restaurant: RestaurantCreate) -> DBResta
     db.add(db_restaurant)
     db.commit()
     db.refresh(db_restaurant)
-
-    # Automatically create RestaurantStats
-    crud_create_restaurant_stats(db, db_restaurant.id)
 
     return db_restaurant
 
@@ -194,6 +189,7 @@ def crud_get_recommended_restaurants_within_radius(
 def crud_get_restaurants_by_owner(db: Session, owner_id: int) -> List[DBRestaurant]:
     return db.query(DBRestaurant).filter(DBRestaurant.owner_id == owner_id).all()
 
+
 def crud_get_restaurant_by_name(db: Session, name: str):
     rest = db.query(DBRestaurant).filter(DBRestaurant.name == name).first()
     return rest
@@ -204,6 +200,7 @@ def crud_get_recommended_restaurants(db: Session) -> List[DBRestaurant]:
         db.query(DBRestaurant).filter(DBRestaurant.is_recommended == True).all()
     )
     return recommended_restaurants
+
 
 def crud_get_owner_id_by_restaurant_id(db: Session, restaurant_id: int):
     restaurant = db.query(DBRestaurant).filter(DBRestaurant.id == restaurant_id).first()

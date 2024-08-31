@@ -1,8 +1,9 @@
-# schemas/order.py
+
 
 from pydantic import BaseModel
 from typing import List, Optional
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
+from config import local_tz
 from models.order import OrderStatus
 
 
@@ -15,7 +16,6 @@ class OrderBase(BaseModel):
 class OrderCreate(OrderBase):
     items_ids: List[int] = []
 
-local_tz = timezone(timedelta(hours=2))
 class Order(OrderBase):
     id: int
     customer_id: int

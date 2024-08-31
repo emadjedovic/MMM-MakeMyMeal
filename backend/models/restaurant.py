@@ -1,4 +1,4 @@
-# models/restaurant.py
+
 
 from sqlalchemy import (
     Column,
@@ -47,5 +47,3 @@ class DBRestaurant(Base):
     orders = relationship(
         "DBOrder", back_populates="restaurant", foreign_keys="DBOrder.restaurant_id", cascade="all, delete-orphan"
     )
-
-    stats = relationship("DBRestaurantStats", back_populates="restaurant", uselist=False)

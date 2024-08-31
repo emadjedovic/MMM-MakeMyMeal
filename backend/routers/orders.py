@@ -1,9 +1,9 @@
-# routers/orders.py
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, Query
+
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from datetime import datetime, date as date_type
-from schemas.order import Order, OrderCreate, OrderStatus
+from schemas.order import Order, OrderCreate
 from crud.order import (
     crud_create_order,
     crud_get_orders_by_customer,

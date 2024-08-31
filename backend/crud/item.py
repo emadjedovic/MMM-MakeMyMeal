@@ -1,4 +1,3 @@
-# crud/item.py
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from models.item import DBItem

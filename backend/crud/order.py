@@ -10,6 +10,7 @@ from helpers.sending_email import send_email
 from crud.user import crud_get_user_by_id, crud_get_customer_location
 from crud.restaurant import crud_get_restaurant_by_id
 from typing import List, Optional
+from config import local_tz
 
 
 # .scalars().all() extracts the results into a list of DBOrder objects
@@ -33,9 +34,6 @@ def crud_get_orders_all(db: Session) -> List[DBOrder]:
 def crud_get_order_by_id(db: Session, id: int) -> DBOrder:
     db_order = db.query(DBOrder).filter(DBOrder.id == id).first()
     return db_order
-
-
-local_tz = timezone(timedelta(hours=2))
 
 
 def crud_create_order(db: Session, order: OrderCreate, customer_id: int):
@@ -72,14 +70,13 @@ def crud_create_order(db: Session, order: OrderCreate, customer_id: int):
 def crud_delete_order_items(db: Session, order_id: int):
     db_order_items = (
         db.query(DBOrderItem).filter(DBOrderItem.order_id == order_id).all()
-    )  # a list
+    )
     for order_item in db_order_items:
         db.delete(order_item)
 
     db.commit()
 
 
-# for testing purposes only
 def crud_delete_order(db: Session, order_id: int):
     db_order = db.query(DBOrder).filter(DBOrder.id == order_id).first()
     if not db_order:
@@ -99,7 +96,6 @@ def crud_change_status(db: Session, order_id: int, status: str):
         raise HTTPException(status_code=404, detail="Order not found")
 
     if status is not None:
-        # Convert the status string to the corresponding OrderStatus enum
         try:
             db_order.status = status
         except ValueError:
@@ -145,38 +141,35 @@ def crud_get_orders_by_date_and_status(
     today = datetime.now(local_tz).date()
 
     # filter by restaurant and date (mandatory)
-    query = db.query(DBOrder).filter(
-        DBOrder.restaurant_id == restaurant_id
-    )
+    query = db.query(DBOrder).filter(DBOrder.restaurant_id == restaurant_id)
 
     if date.date() == today:
         # Today's orders: include orders in the past, but exclude COMPLETED if in the past
         query = query.filter(
             DBOrder.preferred_arrival_time >= start_date,
-            DBOrder.preferred_arrival_time < end_date
+            DBOrder.preferred_arrival_time < end_date,
         ).filter(
-            (DBOrder.preferred_arrival_time >= start_date) |
-            (DBOrder.status != "COMPLETED")
+            (DBOrder.preferred_arrival_time >= start_date)
+            | (DBOrder.status != "COMPLETED")
         )
     elif date.date() < today:
         # Past orders: only include COMPLETED orders
         query = query.filter(
             DBOrder.preferred_arrival_time >= start_date,
             DBOrder.preferred_arrival_time < end_date,
-            DBOrder.status == "COMPLETED"
+            DBOrder.status == "COMPLETED",
         )
     else:
         # Future orders: include all statuses
         query = query.filter(
             DBOrder.preferred_arrival_time >= start_date,
-            DBOrder.preferred_arrival_time < end_date
+            DBOrder.preferred_arrival_time < end_date,
         )
 
     # filter by delivery staff
     if delivery_id:
         query = query.filter(DBOrder.delivery_id == delivery_id)
 
-        
     if statuses:
         query = query.filter(DBOrder.status.in_(statuses))
 
@@ -231,11 +224,3 @@ def crud_send_order_assigned_email(
     )
 
     send_email(subject, body, recipient)
-
-
-"""
-def crud_send_order_assigned_email(recipient: str, customer_name: str, order_details: dict):
-    subject = "MMM - Make My Meal"
-    body = ("špašiošamtemišumali <333333333")
-
-    send_email(subject, body, recipient)"""

@@ -1,6 +1,3 @@
-# dependencies.py
-# to handle database sessions and user authentication
-
 from fastapi import Depends, HTTPException, status, Request
 from database import SessionLocal
 from sqlalchemy.orm import Session

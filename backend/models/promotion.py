@@ -1,4 +1,4 @@
-# models/promotion.py
+
 
 from sqlalchemy import Column, Integer, Float, ForeignKey, Date
 from sqlalchemy.orm import relationship
