@@ -77,7 +77,7 @@ const OrdersMap = ({
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           {orders.map((order) => {
-            const { latitude, longitude, status, id, deliveryId } = order;
+            const { latitude, longitude, status, id} = order;
             return (
               <Marker
                 key={id}

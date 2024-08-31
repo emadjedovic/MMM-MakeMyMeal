@@ -1,5 +1,5 @@
 import React from "react";
-import { Accordion, Card, Row, Col, AccordionButton } from "react-bootstrap";
+import { Accordion, Col } from "react-bootstrap";
 import { formatCreatedAt } from "../calculations";
 
 const FeedbackAccordion = ({ feedback }) => {

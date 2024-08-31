@@ -17,7 +17,7 @@ const OrdersTable = ({
   handleOrderSelectParent,
   handleRestaurantSelectParent,
 }) => {
-  const { user, token } = useContext(UserContext);
+  const { token } = useContext(UserContext);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [showRateServiceModal, setShowRateServiceModal] = useState(false);
 

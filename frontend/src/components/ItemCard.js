@@ -70,7 +70,7 @@ function ItemCard({
                       whiteSpace: "nowrap",
                     }}
                   >
-                    {item.food_type_name.toUpperCase()} // {item.description}
+                    {item.food_type_name.toUpperCase()} {"//"} {item.description}
                   </p>
                 </ListGroup.Item>
                 <ListGroup.Item className="pb-0">
