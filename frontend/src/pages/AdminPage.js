@@ -1,5 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Container, Row, Col, Tab, Nav, Alert, Modal } from "react-bootstrap";
+import {
+  Button,
+  Container,
+  Row,
+  Col,
+  Tab,
+  Nav,
+  Alert,
+  Modal,
+} from "react-bootstrap";
 import { UserContext } from "../contexts/UserContext";
 import AddRestaurantForm from "../components/forms/AddRestaurantForm";
 import UpdateRestaurantForm from "../components/forms/UpdateRestaurantForm";
@@ -76,9 +85,10 @@ const AdminPage = () => {
         selectedRestaurantName,
         date,
         deliveryId,
-        setOrdersMap)
+        setOrdersMap
+      );
     }
-    console.log("AdminPage fetched orders: ", ordersMap)
+    console.log("AdminPage fetched orders: ", ordersMap);
   }, [selectedRestaurantName, date, deliveryId, token]);
 
   useEffect(() => {

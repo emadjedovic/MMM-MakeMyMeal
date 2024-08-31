@@ -1,5 +1,3 @@
-# helpers/math.py
-
 import math
 from geopy.distance import geodesic
 

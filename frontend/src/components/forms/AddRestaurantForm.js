@@ -1,7 +1,15 @@
 import React, { useContext, useState, useEffect } from "react";
 import { createRestaurant } from "../../api/restaurantsApi";
 import { fetchRestaurantTypes } from "../../api/restaurantTypesApi";
-import { Form, Container, Row, Col, Card, Alert, Button } from "react-bootstrap";
+import {
+  Form,
+  Container,
+  Row,
+  Col,
+  Card,
+  Alert,
+  Button,
+} from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext";
 
 const AddRestaurantForm = ({ onAdd }) => {
@@ -45,7 +53,9 @@ const AddRestaurantForm = ({ onAdd }) => {
     type_name: type,
     radius_of_delivery_km: radiusOfDeliveryKm || 0,
     owner_id: ownerId,
-    imageUrl: imageUrl ? "restaurant-images/" + imageUrl : "restaurant-images/restDefault.png",
+    imageUrl: imageUrl
+      ? "restaurant-images/" + imageUrl
+      : "restaurant-images/restDefault.png",
   };
 
   const clear = () => {
@@ -63,14 +73,13 @@ const AddRestaurantForm = ({ onAdd }) => {
 
   const handleAddRestaurant = async () => {
     try {
-      console.log("sending data: ", requestData)
+      console.log("sending data: ", requestData);
       const data = await createRestaurant(token, requestData);
       setMessage("Restaurant added successfully!");
       onAdd(data);
       clear();
     } catch (error) {
       setMessage("Error adding the restaurant.");
-      /*clear();*/
     }
   };
 

@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
 from typing import List, Optional
@@ -14,7 +13,7 @@ from crud.order import (
     crud_get_orders_all,
     crud_get_order_by_id,
     crud_get_orders_owner_id,
-    crud_get_orders_by_date_and_status
+    crud_get_orders_by_date_and_status,
 )
 from dependencies import get_db, get_restaurant_admin_user, get_customer_user
 from crud.restaurant import crud_get_restaurant_by_name
@@ -44,7 +43,6 @@ def get_orders_of_restaurants_by(
     return crud_get_orders_owner_id(owner_id=owner_id, db=db)
 
 
-# Customer - Create a new order
 @router.post("/new/{customer_id}", response_model=Order)
 def create_new_order(
     customer_id: int,
@@ -60,7 +58,6 @@ def delete_order(order_id: int, db: Session = Depends(get_db)):
     return crud_delete_order(db, order_id)
 
 
-# Customer - Get order history
 @router.get("/history/{customer_id}", response_model=List[Order])
 def get_order_history(
     customer_id: int,
@@ -70,7 +67,6 @@ def get_order_history(
     return crud_get_orders_by_customer(db, customer_id)
 
 
-# Delivery Personnel - Get assigned orders for the current day
 @router.get("/assigned/{delivery_personnel_id}", response_model=List[Order])
 def get_assigned_orders(
     delivery_personnel_id: int,
@@ -80,7 +76,6 @@ def get_assigned_orders(
     return crud_get_deliveries_today(db, delivery_personnel_id)
 
 
-# Restaurant Admin - Assign order to delivery personnel
 @router.put("/assign/{order_id}/{delivery_id}", response_model=Order)
 def assign_order(
     order_id: int,
@@ -98,7 +93,6 @@ def assign_order(
         raise HTTPException(status_code=e.status_code, detail=e.detail)
 
 
-# Restaurant Admin and Delivery Personnel (maybe others as well)
 @router.put("/status/{order_id}/{status}", response_model=Order)
 def change_status(order_id: int, status: str, db: Session = Depends(get_db)):
     return crud_change_status(db, order_id, status)
@@ -114,11 +108,9 @@ def get_orders_for_map(
     restaurant = crud_get_restaurant_by_name(db, restaurant_name)
     if not restaurant:
         raise HTTPException(status_code=404, detail="Restaurant not found")
-    
-    # Convert date to datetime for CRUD function
+
     date_datetime = datetime(date.year, date.month, date.day)
 
-    # Fetch orders with the given conditions
     orders = crud_get_orders_by_date_and_status(
         db=db, restaurant_id=restaurant.id, delivery_id=delivery_id, date=date_datetime
     )

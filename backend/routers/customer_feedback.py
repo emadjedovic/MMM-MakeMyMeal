@@ -7,7 +7,7 @@ from crud.customer_feedback import (
     crud_get_customer_feedback,
     crud_create_customer_feedback,
     crud_update_customer_feedback,
-    crud_get_customer_feedbacks_by_owner_id
+    crud_get_customer_feedbacks_by_owner_id,
 )
 
 router = APIRouter(prefix="/customer-feedback")
@@ -19,13 +19,14 @@ def create_customer_feedback(
 ):
     db_feedback = crud_get_customer_feedback(db, feedback.order_id)
     if db_feedback:
-        # If feedback exists, update it
-        updated_feedback = crud_update_customer_feedback(db, feedback.order_id, feedback)
+        # if feedback exists, update it
+        updated_feedback = crud_update_customer_feedback(
+            db, feedback.order_id, feedback
+        )
         if not updated_feedback:
             raise HTTPException(status_code=404, detail="Feedback not found")
         return updated_feedback
     else:
-        # If feedback does not exist, create a new one
         return crud_create_customer_feedback(db, feedback)
 
 
@@ -45,6 +46,7 @@ def update_customer_feedback(
     if not db_feedback:
         raise HTTPException(status_code=404, detail="Feedback not found")
     return db_feedback
+
 
 @router.get("/owner/{owner_id}", response_model=List[CustomerFeedback])
 def read_customer_feedbacks_by_owner(owner_id: int, db: Session = Depends(get_db)):

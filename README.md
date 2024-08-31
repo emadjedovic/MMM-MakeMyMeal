@@ -15,7 +15,6 @@ The application caters to multiple user roles including Administrators, Restaura
 
 ### Restaurant Administrator
 - **Menu Management:** Administer individual menu items including details, images, prices, and promotions.
-- **Group Menus:** Manage group menu offerings.
 - **Delivery Management:** Create invoices for delivery personnel.
 - **Order Management:** Approve orders and assign them to delivery personnel.
 - **Restaurant Details:** Edit restaurant data such as delivery distance.
@@ -27,7 +26,7 @@ The application caters to multiple user roles including Administrators, Restaura
 - **Single Restaurant Assignment:** Each delivery personnel works for a single restaurant.
 
 ### Customer
-- **User Registration:** Register with name, surname, address, and email. Address can be entered via map or as latitude/longitude.
+- **User Registration:** Register with name, surname, address, and email. Address can be entered via map or as latitude-longitude pair.
 - **Restaurant Search:** View restaurants within delivery range, search by name and item type.
 - **Offers and Recommendations:** Access special offers and recommendations.
 - **Order Creation:** Place orders specifying quantity, payment method, and other details. Receive an email confirmation upon successful order creation.
@@ -39,12 +38,10 @@ The application caters to multiple user roles including Administrators, Restaura
 - **Chat:** Communication with the main administrator or restaurant administrator.
 - **Notifications:** Notify restaurant administrators of new orders and delivery confirmations.
 - **Order Map:** Visualize orders on a map with different markers for statuses and filter by delivery personnel.
-- **Email Reports:** 
-  - Restaurant Administrators receive daily and monthly order reports and delivery personnel performance.
-  - Administrators receive data on the number of orders and profit per restaurant.
 - **Service Rating:** Users can rate restaurant services through a survey upon delivery.
-- **Order Assignment Algorithm:** Automatic order assignment to delivery personnel with a smart algorithm.
-- **Multi-Restaurant Delivery Personnel:** Allow delivery personnel to work for multiple restaurants.
+- **Dark Mode:** Users can switch between light and dark theme.
+- **Background Music:** An online radio stream with background music that can be muted by choice.
+- **Reset Password:** A mechanism for users to reset their passwords through a link sent to their email address.
 
 ## Getting Started
 
@@ -84,8 +81,7 @@ This will start the React development server and open the application in your de
 
 ## Credits and License
 
-**Author:** Ema Djedović  
-**Mentor:** doc. dr. Sead Delalić  
-**Institution:** Department of Mathematics and Computer Science, Faculty of Science, University of Sarajevo
+**Author:** Ema Djedović 
+**University of Sarajevo:** Department of Mathematics and Computer Science, Faculty of Science
 
 This project is licensed under the MIT License - see the LICENSE file for details.

@@ -16,9 +16,9 @@ const OrdersMap = ({
 }) => {
   const STATUS_MARKERS = {
     "NOT ASSIGNED": "./pin-yellow.png",
-    "ASSIGNED": "./pin-red.png",
+    ASSIGNED: "./pin-red.png",
     "IN PROGRESS": "./pin-blue.png",
-    "COMPLETED": "./pin-green.png",
+    COMPLETED: "./pin-green.png",
   };
 
   const markerIcon = (status) =>
@@ -65,12 +65,12 @@ const OrdersMap = ({
         </Col>
       </Row>
 
-      <div style={{ height: "400px", width: "100%"}}>
+      <div style={{ height: "400px", width: "100%" }}>
         <MapContainer
           // Tuzla
           center={[44.538, 18.67]}
           zoom={13}
-          style={{ height: "100%", width: "100%", borderRadius: "1rem"}}
+          style={{ height: "100%", width: "100%", borderRadius: "1rem" }}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -23,7 +23,7 @@ function RestaurantCard({ restaurantId, handleRestaurantSelectParent }) {
           variant="top"
           src={`http://localhost:8000/assets/${restaurant.imageUrl}`}
           alt={restaurant.name}
-          style={{width: "100%", height: "150px", objectFit: "cover" }}
+          style={{ width: "100%", height: "150px", objectFit: "cover" }}
         />
         <Card.Body>
           <Card.Title>
@@ -49,7 +49,8 @@ function RestaurantCard({ restaurantId, handleRestaurantSelectParent }) {
                   restaurant.longitude,
                   user.latitude,
                   user.longitude
-                )}{" m from you"}
+                )}
+                {" m from you"}
               </ListGroup.Item>
             </ListGroup>
           </>

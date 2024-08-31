@@ -1,5 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Form, Container, Row, Col, Card, Alert, Button } from "react-bootstrap";
+import {
+  Form,
+  Container,
+  Row,
+  Col,
+  Card,
+  Alert,
+  Button,
+} from "react-bootstrap";
 import { UserContext } from "../../contexts/UserContext";
 import { handleFetchRestaurantTypes } from "../../handlers/RestaurantPageHandlers";
 import { handleUpdateRestaurant } from "../../handlers/RestaurantPageHandlers";
@@ -34,7 +42,7 @@ const UpdateRestaurantForm = ({ onUpdate }) => {
     type_name: type || undefined,
     radius_of_delivery_km: radiusOfDeliveryKm || undefined,
     is_archived: isArchived,
-    imageUrl: imageUrl ? "restaurant-images/" + imageUrl : undefined
+    imageUrl: imageUrl ? "restaurant-images/" + imageUrl : undefined,
   };
 
   const clear = () => {

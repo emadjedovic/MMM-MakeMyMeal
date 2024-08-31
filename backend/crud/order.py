@@ -1,10 +1,9 @@
-# crud/order.py
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from models.order import DBOrder, DBOrderItem, OrderStatus
 from models.restaurant import DBRestaurant
 from schemas.order import OrderCreate
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from fastapi import HTTPException, BackgroundTasks
 from helpers.sending_email import send_email
 from crud.user import crud_get_user_by_id, crud_get_customer_location
@@ -112,9 +111,9 @@ def crud_get_orders_by_customer(db: Session, customer_id: int):
 
 
 def crud_get_deliveries_today(db: Session, delivery_id: int):
-    current_time = datetime.now(timezone.utc)
+    current_time = datetime.now(local_tz)
     start_of_day = datetime(
-        current_time.year, current_time.month, current_time.day, tzinfo=timezone.utc
+        current_time.year, current_time.month, current_time.day, tzinfo=local_tz
     )
     end_of_day = start_of_day + timedelta(days=1)
 

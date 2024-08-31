@@ -1,14 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
-import {
-  Container,
-  Tab,
-  Nav,
-  Row,
-  Col,
-  Modal,
-  Button
-} from "react-bootstrap";
+import { Container, Tab, Nav, Row, Col, Modal, Button } from "react-bootstrap";
 import CreatePersonnelForm from "../components/forms/CreatePersonnelForm";
 import RARestaurantsTable from "../components/tables/RARestaurantsTable";
 import RestaurantPage from "../components/RestaurantPage";
@@ -21,7 +13,7 @@ import {
   handleSave,
   handleChange,
   handleFetchOrdersOwner,
-  handleFetchFeedbacksOwner
+  handleFetchFeedbacksOwner,
 } from "../handlers/RestaurantAdminPageHandlers";
 import { handleFetchMapOrders } from "../handlers/AdminPageHandlers";
 import OrdersMap from "../components/OrdersMap";
@@ -39,7 +31,7 @@ const RestaurantAdminPage = () => {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [ordersOwner, setOrdersOwner] = useState([]);
   const [showOrderModal, setShowOrderModal] = useState(false);
-  const [feedbacksOwner, setFeedbacksOwner] = useState([])
+  const [feedbacksOwner, setFeedbacksOwner] = useState([]);
 
   useEffect(() => {
     handleFetchOrdersOwner(token, userId, setOrdersOwner);
@@ -47,7 +39,7 @@ const RestaurantAdminPage = () => {
 
   useEffect(() => {
     handleFetchFeedbacksOwner(token, userId, setFeedbacksOwner);
-  }, [token, userId])
+  }, [token, userId]);
 
   const handleShowOrderModal = (orderId) => {
     setSelectedOrderId(orderId);
@@ -58,8 +50,6 @@ const RestaurantAdminPage = () => {
     setShowOrderModal(false);
     setSelectedOrderId(null);
   };
-
-
 
   useEffect(() => {
     handleFetchRestaurantsByOwner(userId, token, setRestaurants);
@@ -101,33 +91,40 @@ const RestaurantAdminPage = () => {
     };
   }, [selectedRestaurantId, selectedMap]);
 
-
   return (
     <Container>
       <Tab.Container defaultActiveKey="my-restaurants">
         <Nav variant="underline" className="mb-3">
-          <Nav.Item onClick={() => {
-                setSelectedRestaurantId(null);
-                setSelectedMap(false);
-              }}>
+          <Nav.Item
+            onClick={() => {
+              setSelectedRestaurantId(null);
+              setSelectedMap(false);
+            }}
+          >
             <Nav.Link eventKey="my-restaurants">My Restaurants</Nav.Link>
           </Nav.Item>
-          <Nav.Item onClick={() => {
-                setSelectedRestaurantId(null);
-                setSelectedMap(false);
-              }}>
+          <Nav.Item
+            onClick={() => {
+              setSelectedRestaurantId(null);
+              setSelectedMap(false);
+            }}
+          >
             <Nav.Link eventKey="personnel">Personnel</Nav.Link>
           </Nav.Item>
-          <Nav.Item onClick={() => {
-                setSelectedRestaurantId(null);
-                setSelectedMap(false);
-              }}>
+          <Nav.Item
+            onClick={() => {
+              setSelectedRestaurantId(null);
+              setSelectedMap(false);
+            }}
+          >
             <Nav.Link eventKey="orders-table">Orders</Nav.Link>
           </Nav.Item>
-          <Nav.Item onClick={() => {
-                setSelectedRestaurantId(null);
-                setSelectedMap(false);
-              }}>
+          <Nav.Item
+            onClick={() => {
+              setSelectedRestaurantId(null);
+              setSelectedMap(false);
+            }}
+          >
             <Nav.Link eventKey="customer-feedback">Customer Feedback</Nav.Link>
           </Nav.Item>
         </Nav>
@@ -228,7 +225,7 @@ const RestaurantAdminPage = () => {
           </Tab.Pane>
 
           <Tab.Pane eventKey="customer-feedback">
-            <Feedbacks feedbacks={feedbacksOwner}/>
+            <Feedbacks feedbacks={feedbacksOwner} />
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>

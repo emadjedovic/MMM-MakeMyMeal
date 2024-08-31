@@ -1,5 +1,3 @@
-
-
 from sqlalchemy import Column, Integer, Float, ForeignKey, Date
 from sqlalchemy.orm import relationship
 from database import Base

@@ -4,6 +4,7 @@ from schemas.customer_feedback import CustomerFeedbackCreate
 from models.order import DBOrder
 from models.restaurant import DBRestaurant
 
+
 def crud_create_customer_feedback(db: Session, feedback: CustomerFeedbackCreate):
     db_feedback = DBCustomerFeedback(
         order_id=feedback.order_id,
@@ -11,18 +12,30 @@ def crud_create_customer_feedback(db: Session, feedback: CustomerFeedbackCreate)
         delivery_rating=feedback.delivery_rating,
         feedback=feedback.feedback,
         timestamp=feedback.timestamp,
-        would_recommend=feedback.would_recommend
+        would_recommend=feedback.would_recommend,
     )
     db.add(db_feedback)
     db.commit()
     db.refresh(db_feedback)
     return db_feedback
 
-def crud_get_customer_feedback(db: Session, order_id: int):
-    return db.query(DBCustomerFeedback).filter(DBCustomerFeedback.order_id == order_id).first()
 
-def crud_update_customer_feedback(db: Session, order_id: int, feedback: CustomerFeedbackCreate):
-    db_feedback = db.query(DBCustomerFeedback).filter(DBCustomerFeedback.order_id == order_id).first()
+def crud_get_customer_feedback(db: Session, order_id: int):
+    return (
+        db.query(DBCustomerFeedback)
+        .filter(DBCustomerFeedback.order_id == order_id)
+        .first()
+    )
+
+
+def crud_update_customer_feedback(
+    db: Session, order_id: int, feedback: CustomerFeedbackCreate
+):
+    db_feedback = (
+        db.query(DBCustomerFeedback)
+        .filter(DBCustomerFeedback.order_id == order_id)
+        .first()
+    )
     if db_feedback:
         db_feedback.restaurant_rating = feedback.restaurant_rating
         db_feedback.delivery_rating = feedback.delivery_rating
@@ -32,6 +45,7 @@ def crud_update_customer_feedback(db: Session, order_id: int, feedback: Customer
         db.commit()
         db.refresh(db_feedback)
     return db_feedback
+
 
 def crud_get_customer_feedbacks_by_owner_id(db: Session, owner_id: int):
     return (

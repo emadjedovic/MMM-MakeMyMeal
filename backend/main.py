@@ -19,7 +19,7 @@ from routers import (
     promotions,
     orders,
     notifications,
-    customer_feedback
+    customer_feedback,
 )
 from database import engine, Base
 from chat import chat_router
@@ -50,7 +50,7 @@ app = create_application()
 
 def startup_event():
     Base.metadata.create_all(bind=engine)
-    #create_admin()
+    # create_admin()
 
 
 app.add_event_handler("startup", startup_event)

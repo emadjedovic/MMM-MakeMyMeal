@@ -40,8 +40,8 @@ const CreateRestaurantAdminForm = () => {
   return (
     <Row className="mx-4">
       <Col>
-      <h2>Create Restaurant Admin</h2>
-        <Card style={{maxWidth: "400px"}}>
+        <h2>Create Restaurant Admin</h2>
+        <Card style={{ maxWidth: "400px" }}>
           <Card.Body>
             <Form onSubmit={handleCreateAdmin}>
               <Form.Group controlId="adminEmail">
@@ -102,9 +102,13 @@ const CreateRestaurantAdminForm = () => {
             </Form>
           </Card.Body>
         </Card>
-        
+
         {message ? (
-          <Alert variant={message.includes("Error") ? "danger" : "success"} className="mt-3" style={{width: "fit-content"}}>
+          <Alert
+            variant={message.includes("Error") ? "danger" : "success"}
+            className="mt-3"
+            style={{ width: "fit-content" }}
+          >
             {message}
           </Alert>
         ) : (

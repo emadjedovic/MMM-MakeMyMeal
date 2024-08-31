@@ -1,5 +1,3 @@
-
-
 from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime
@@ -13,8 +11,10 @@ class OrderBase(BaseModel):
     preferred_arrival_time: Optional[datetime] = None
     total_price: float = 0.0
 
+
 class OrderCreate(OrderBase):
     items_ids: List[int] = []
+
 
 class Order(OrderBase):
     id: int

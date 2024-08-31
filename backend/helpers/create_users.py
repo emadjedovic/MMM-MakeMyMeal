@@ -35,9 +35,9 @@ def create_restaurant_admin():
     db = SessionLocal()
     try:
         restaurant_admin_user = UserCreate(
-            email="ema.djedovic1@gmail.com",
-            first_name="Ema",
-            last_name="Djedović",
+            email="restaurant_admin@gmail.com",
+            first_name="Jane",
+            last_name="Doe",
             role=UserRole.RESTAURANT_ADMIN,
             password="password",
         )
@@ -62,9 +62,9 @@ def create_customer():
     db = SessionLocal()
     try:
         customer_user = UserCreate(
-            email="toocoolstretch@gmail.com",
-            first_name="Dino",
-            last_name="Musić",
+            email="customer@gmail.com",
+            first_name="John",
+            last_name="Doe",
             role=UserRole.CUSTOMER,
             password="password",
             # Tuzla
@@ -94,9 +94,9 @@ def create_delivery_personnel():
     db = SessionLocal()
     try:
         delivery_personnel_user = UserCreate(
-            email="agnesounds@gmail.com",
-            first_name="Ema",
-            last_name="Djedović",
+            email="delivery_personnel@gmail.com",
+            first_name="Janet",
+            last_name="Lee",
             role=UserRole.DELIVERY_PERSONNEL,
             password="password",
         )
