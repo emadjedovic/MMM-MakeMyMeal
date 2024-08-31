@@ -1,5 +1,3 @@
-# models/order.py
-
 from sqlalchemy import (
     Column,
     Integer,

@@ -1,7 +1,6 @@
-// src/components/Feedbacks.js
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import FeedbackAccordion from "./FeedbackAccordion"; // Ensure the correct path
+import FeedbackAccordion from "./FeedbackAccordion";
 
 const Feedbacks = ({ feedbacks }) => {
   return (
@@ -9,9 +8,7 @@ const Feedbacks = ({ feedbacks }) => {
       {feedbacks.length > 0 ? (
         feedbacks.map((feedback) => (
           <Row>
-          <FeedbackAccordion
-            feedback={feedback}
-          />
+            <FeedbackAccordion feedback={feedback} />
           </Row>
         ))
       ) : (

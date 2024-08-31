@@ -15,7 +15,6 @@ def crud_get_all_promotions(db: Session):
 
 
 def crud_create_promotion(db: Session, promotion: PromotionCreate):
-    # Check if a promotion already exists for the given item_id
     existing_promotion = (
         db.query(DBPromotion).filter(DBPromotion.item_id == promotion.item_id).first()
     )
@@ -33,7 +32,7 @@ def crud_create_promotion(db: Session, promotion: PromotionCreate):
 
     db_promotion = DBPromotion(
         discount_fraction=promotion.discount_fraction,
-        start_date=date.today(),  # Automatically set to current time
+        start_date=date.today(),
         end_date=promotion.end_date,
         item_id=promotion.item_id,
     )
@@ -41,7 +40,6 @@ def crud_create_promotion(db: Session, promotion: PromotionCreate):
     db.commit()
     db.refresh(db_promotion)
 
-    # Toggle is_promoted and set new price
     crud_toggle_is_promoted(db, promotion.item_id)
     crud_change_price(
         db=db,
@@ -62,7 +60,6 @@ def crud_update_promotion(
     old_discount = db_promotion.discount_fraction
     old_end_date = db_promotion.end_date
 
-    # Get the associated item before updating the promotion
     db_item = crud_get_item_by_id(db, db_promotion.item_id)
     if not db_item:
         raise HTTPException(status_code=404, detail="Item not found")
@@ -70,10 +67,8 @@ def crud_update_promotion(
     new_discount = promotion_update.discount_fraction
     new_end_date = promotion_update.end_date
 
-    # Update the promotion details
     if new_discount is not None:
         if new_discount == 0:
-            # Call crud_delete_promotion to delete the promotion
             crud_delete_promotion(db, promotion_id)
             return db_promotion
 
@@ -97,10 +92,8 @@ def crud_delete_promotion(db: Session, promotion_id: int):
     if not db_promotion:
         raise HTTPException(status_code=404, detail="Promotion not found")
 
-    # Find the item to get its original price
     db_item = crud_get_item_by_id(db, db_promotion.item_id)
     if db_item:
-        # Toggle is_promoted and reset the price to the original if no other promotion exists
         crud_toggle_is_promoted(db, db_promotion.item_id)
         crud_change_price(
             db=db,

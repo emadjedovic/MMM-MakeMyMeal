@@ -1,5 +1,3 @@
-
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
@@ -28,7 +26,7 @@ def read_promotions(db: Session = Depends(get_db)):
 def create_promotion(
     promotion: PromotionCreate,
     db: Session = Depends(get_db),
-    #restaurant_admin: User = Depends(get_restaurant_admin_user),
+    # restaurant_admin: User = Depends(get_restaurant_admin_user),
 ):
     return crud_create_promotion(db, promotion)
 
@@ -39,7 +37,7 @@ def update_promotion(
     promotion_id: int,
     promotion_update: PromotionUpdate,
     db: Session = Depends(get_db),
-    #restaurant_admin: User = Depends(get_restaurant_admin_user),
+    # restaurant_admin: User = Depends(get_restaurant_admin_user),
 ):
     db_promotion = crud_get_promotion_by_id(db, promotion_id)
     if not db_promotion:
@@ -52,7 +50,7 @@ def update_promotion(
 def delete_promotion(
     promotion_id: int,
     db: Session = Depends(get_db),
-    #restaurant_admin: User = Depends(get_restaurant_admin_user),
+    # restaurant_admin: User = Depends(get_restaurant_admin_user),
 ):
     db_promotion = crud_get_promotion_by_id(db, promotion_id)
     if not db_promotion:

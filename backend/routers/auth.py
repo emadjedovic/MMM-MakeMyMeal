@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter, Depends, HTTPException
 from dependencies import get_db
 from datetime import timedelta
@@ -63,7 +62,6 @@ async def forgot_password(
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    # Generate a token and send email (for simplicity, assume token is generated and validated elsewhere)
     token = create_reset_token(user.email)
     reset_link = (
         f"http://localhost:3000/reset-password?token={token}&email={user.email}"

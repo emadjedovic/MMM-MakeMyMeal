@@ -1,7 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
-import { Alert, Card, Button, ListGroup, Container, Row, Col } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  ListGroup,
+  Container,
+  Row,
+  Col,
+} from "react-bootstrap";
 import axios from "axios";
 
 function ProfilePage() {
@@ -54,7 +61,10 @@ function ProfilePage() {
       <Row className="justify-content-center">
         <Col>
           <h1 className="text-center">PROFILE</h1>
-          <ListGroup style={{ width: '100%', maxWidth: '600px'}} className="shadow-md text-center mx-auto">
+          <ListGroup
+            style={{ width: "100%", maxWidth: "600px" }}
+            className="shadow-md text-center mx-auto"
+          >
             <ListGroup.Item>
               <h3 className="mb-2 p-2">
                 <strong>
@@ -66,7 +76,8 @@ function ProfilePage() {
             <ListGroup.Item className="p-3">{userData.email}</ListGroup.Item>
             {userData.latitude !== null && (
               <ListGroup.Item className="p-3">
-                <strong>Location:</strong> ({userData.latitude.toFixed(5)}, {userData.longitude.toFixed(5)})
+                <strong>Location:</strong> ({userData.latitude.toFixed(5)},{" "}
+                {userData.longitude.toFixed(5)})
               </ListGroup.Item>
             )}
           </ListGroup>
@@ -84,7 +95,6 @@ function ProfilePage() {
       </Row>
     </Container>
   );
-  
 }
 
 export default ProfilePage;

@@ -185,7 +185,7 @@ const DPOrdersTable = ({
                   <td>{order.payment_method}</td>
                   <td
                     onClick={() => handleLocationClick(order)}
-                    style={{ cursor: "pointer"}}
+                    style={{ cursor: "pointer" }}
                   >
                     <Row>
                       <Col>

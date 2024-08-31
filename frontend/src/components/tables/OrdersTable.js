@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Table, Container, Pagination, Row, Col, Button } from "react-bootstrap";
+import {
+  Table,
+  Container,
+  Pagination,
+  Row,
+  Col,
+  Button,
+} from "react-bootstrap";
 import { formatCreatedAt } from "../../calculations";
 import { handleFetchRestaurantNamesFromOrders } from "../../handlers/RestaurantPageHandlers";
 import { UserContext } from "../../contexts/UserContext";
@@ -8,9 +15,9 @@ import RateServiceModal from "../modals/RateServiceModal";
 const OrdersTable = ({
   orders,
   handleOrderSelectParent,
-  handleRestaurantSelectParent
+  handleRestaurantSelectParent,
 }) => {
-  const { user, token } = useContext(UserContext);
+  const { token } = useContext(UserContext);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [showRateServiceModal, setShowRateServiceModal] = useState(false);
 
@@ -47,7 +54,6 @@ const OrdersTable = ({
     );
   }, [orders]);
 
-
   const handleOpenRateServiceModal = (orderId) => {
     setSelectedOrderId(orderId);
     setShowRateServiceModal(true);
@@ -71,7 +77,6 @@ const OrdersTable = ({
             </thead>
             <tbody>
               {currentItems.map((order) => {
-
                 return (
                   <tr key={order.id}>
                     <td>
@@ -96,11 +101,15 @@ const OrdersTable = ({
                     <td>{order.payment_method}</td>
                     <td>€{order.total_price}</td>
                     <td>{formatCreatedAt(order.created_at)}</td>
-                    <td><Button variant="primary"
-                          onClick={() => handleOpenRateServiceModal(order.id)}
-                          disabled={
-                            order.status !== "COMPLETED"
-                          }>Rate Service</Button></td>
+                    <td>
+                      <Button
+                        variant="primary"
+                        onClick={() => handleOpenRateServiceModal(order.id)}
+                        disabled={order.status !== "COMPLETED"}
+                      >
+                        Rate Service
+                      </Button>
+                    </td>
                   </tr>
                 );
               })}

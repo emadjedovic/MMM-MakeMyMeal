@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Table, Pagination, Button } from "react-bootstrap";
 
 const RARestaurantsTable = ({
@@ -11,19 +11,13 @@ const RARestaurantsTable = ({
   restaurantTypes,
   handleRestaurantSelectParent,
 }) => {
-
-  
   const itemsPerPage = 8;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastRestaurant = currentPage * itemsPerPage;
   const indexOfFirstRestaurant = indexOfLastRestaurant - itemsPerPage;
 
-  
-
-  const sortedRestaurants = [...restaurants].sort(
-    (a, b) => a.id - b.id
-  );
+  const sortedRestaurants = [...restaurants].sort((a, b) => a.id - b.id);
 
   const currentRestaurants = sortedRestaurants.slice(
     indexOfFirstRestaurant,

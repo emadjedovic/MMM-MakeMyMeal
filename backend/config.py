@@ -8,6 +8,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = config("ACCESS_TOKEN_EXPIRE_MINUTES", cast=int)
 
 local_tz = timezone(timedelta(hours=2))
 
+
 class EmailSettings(BaseModel):
     MAIL_USERNAME: str
     MAIL_PASSWORD: str

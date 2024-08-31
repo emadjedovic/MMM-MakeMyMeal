@@ -27,7 +27,7 @@ const RestaurantPage = ({ restaurantId }) => {
   return (
     <Container>
       <Row>
-        <Col md={10} lg={9}  className="p-0">
+        <Col md={10} lg={9} className="p-0">
           <ItemsTable
             items={items}
             foodTypes={foodTypes}
@@ -43,7 +43,7 @@ const RestaurantPage = ({ restaurantId }) => {
             }
           />
         </Col>
-        <Col md={2} lg={3}  className="p-0">
+        <Col md={2} lg={3} className="p-0">
           <RestaurantCard
             restaurantId={restaurantId}
             handleRestaurantSelectParent={() => {}}

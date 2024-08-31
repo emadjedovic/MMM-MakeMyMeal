@@ -26,7 +26,6 @@ const ItemsTable = ({
 
   const { setNewNotification } = useContext(NotificationsContext);
 
-  
   const itemsPerPage = 4;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -181,7 +180,14 @@ const ItemsTable = ({
           </Row>
           <Row className="m-0 mt-3">
             {currentItems.map((item) => (
-              <Col md={12} lg={12} xxl={12} key={item.id} className="m-0 mb-3" style={{height: "100%"}}>
+              <Col
+                md={12}
+                lg={12}
+                xxl={12}
+                key={item.id}
+                className="m-0 mb-3"
+                style={{ height: "100%" }}
+              >
                 <ItemCard
                   item={item}
                   isInRestaurant={true}

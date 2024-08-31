@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Modal, Form, Alert, Button } from "react-bootstrap";
 import { assignOrder } from "../../api/ordersApi";
 
-// ADD HERE OPTION TO AUTOMATICALLY ASSIGN
-
 const AssignOrderModal = ({
   show,
   closeModal,

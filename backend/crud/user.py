@@ -1,4 +1,3 @@
-
 from sqlalchemy.orm import Session
 from models.user import DBUser, UserRole
 from schemas.user import UserCreate
@@ -80,8 +79,8 @@ def crud_create_delivery_personnel(db: Session, user: UserCreate) -> DBUser:
         first_name=user.first_name,
         last_name=user.last_name,
         hashed_password=hashed_password,
-        latitude = user.latitude,
-        longitude = user.longitude
+        latitude=user.latitude,
+        longitude=user.longitude,
     )
     db_user.role = UserRole.DELIVERY_PERSONNEL
     db.add(db_user)

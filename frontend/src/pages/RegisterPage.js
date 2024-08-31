@@ -161,14 +161,16 @@ const RegisterPage = () => {
                 Register
               </Button>
               {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
-              <p className="mb-0">Already have an account?
-              <Button
-                variant="link"
-                onClick={handleLoginRedirect}
-                className="text-white pt-0 pb-2"
-              >
-                Login
-              </Button></p>
+              <p className="mb-0">
+                Already have an account?
+                <Button
+                  variant="link"
+                  onClick={handleLoginRedirect}
+                  className="text-white pt-0 pb-2"
+                >
+                  Login
+                </Button>
+              </p>
             </Form>
           </Col>
         </Row>

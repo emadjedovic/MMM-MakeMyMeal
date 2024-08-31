@@ -46,7 +46,6 @@ const AdminRestaurantsTable = ({
   );
 
   const totalPages = Math.ceil(filteredRestaurants.length / itemsPerPage);
-  
 
   const paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {
@@ -106,7 +105,7 @@ const AdminRestaurantsTable = ({
                 checked={showArchived}
                 onChange={(e) => {
                   setShowArchived(e.target.checked);
-                  setCurrentPage(1); // Reset to first page on filter change
+                  setCurrentPage(1);
                 }}
               />
               <Form.Check
@@ -115,7 +114,7 @@ const AdminRestaurantsTable = ({
                 checked={showNotArchived}
                 onChange={(e) => {
                   setShowNotArchived(e.target.checked);
-                  setCurrentPage(1); // Reset to first page on filter change
+                  setCurrentPage(1);
                 }}
               />
             </Form.Group>

@@ -29,16 +29,26 @@ export const handleFetchOrdersAll = async (token, setOrdersAll) => {
   }
 };
 
-export const handleFetchMapOrders = async (token, restaurantName, date, deliveryId, setOrders) => {
+export const handleFetchMapOrders = async (
+  token,
+  restaurantName,
+  date,
+  deliveryId,
+  setOrders
+) => {
   try {
-    const orders = await fetchMapOrders(token, restaurantName, date, deliveryId);
+    const orders = await fetchMapOrders(
+      token,
+      restaurantName,
+      date,
+      deliveryId
+    );
     setOrders(orders);
-    console.log("orders from handler: ", orders)
+    console.log("orders from handler: ", orders);
   } catch (error) {
-    console.error('Error in handleFetchMapOrders: ', error);
+    console.error("Error in handleFetchMapOrders: ", error);
   }
 };
-
 
 export const handleFetchRestaurantsByType = async (
   token,

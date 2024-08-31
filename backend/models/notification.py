@@ -1,9 +1,9 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from database import Base
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
+from config import local_tz
 
-local_tz = timezone(timedelta(hours=2))
 
 class DBNotification(Base):
     __tablename__ = "notifications"
@@ -14,4 +14,6 @@ class DBNotification(Base):
     message = Column(String, nullable=False)
     timestamp = Column(DateTime, nullable=True, default=datetime.now(local_tz))
 
-    order = relationship("DBOrder", back_populates="notifications", foreign_keys=[order_id])
+    order = relationship(
+        "DBOrder", back_populates="notifications", foreign_keys=[order_id]
+    )

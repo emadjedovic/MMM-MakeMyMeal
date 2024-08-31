@@ -1,5 +1,3 @@
-
-
 from sqlalchemy import (
     Column,
     String,
@@ -42,8 +40,14 @@ class DBRestaurant(Base):
         "DBUser", back_populates="restaurants", foreign_keys=[owner_id]
     )
     items = relationship(
-        "DBItem", back_populates="restaurant", foreign_keys="DBItem.restaurant_id", cascade="all, delete-orphan"
+        "DBItem",
+        back_populates="restaurant",
+        foreign_keys="DBItem.restaurant_id",
+        cascade="all, delete-orphan",
     )
     orders = relationship(
-        "DBOrder", back_populates="restaurant", foreign_keys="DBOrder.restaurant_id", cascade="all, delete-orphan"
+        "DBOrder",
+        back_populates="restaurant",
+        foreign_keys="DBOrder.restaurant_id",
+        cascade="all, delete-orphan",
     )

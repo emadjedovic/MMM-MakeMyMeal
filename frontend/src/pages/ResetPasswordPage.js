@@ -1,5 +1,3 @@
-// ResetPasswordPage.js
-
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Row, Col, Form, Button, Container, Alert } from "react-bootstrap";

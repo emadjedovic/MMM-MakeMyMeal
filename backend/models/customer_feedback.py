@@ -3,16 +3,15 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from database import Base
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
+from config import local_tz
 
-
-local_tz = timezone(timedelta(hours=2))
 
 class DBCustomerFeedback(Base):
-    __tablename__ = 'customer_feedback'
+    __tablename__ = "customer_feedback"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    order_id = Column(Integer, ForeignKey('orders.id'), nullable=False)
+    order_id = Column(Integer, ForeignKey("orders.id"), nullable=False)
     restaurant_rating = Column(Integer, default=0, nullable=False)
     delivery_rating = Column(Integer, default=0, nullable=False)
     feedback = Column(Text, nullable=True)

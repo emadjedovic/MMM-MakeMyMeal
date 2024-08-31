@@ -1,10 +1,8 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from database import Base
-
-
-local_tz = timezone(timedelta(hours=2))
+from config import local_tz
 
 
 class DBChat(Base):

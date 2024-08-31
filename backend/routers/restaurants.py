@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
@@ -24,7 +23,7 @@ from crud.restaurant import (
     crud_get_recommended_restaurants,
     crud_toggle_recommend_restaurant,
     crud_get_recommended_restaurants_within_radius,
-    crud_get_owner_id_by_restaurant_id
+    crud_get_owner_id_by_restaurant_id,
 )
 from schemas.user import User
 
@@ -36,7 +35,7 @@ router = APIRouter(prefix="/restaurants")
 def create_restaurant(
     restaurant: RestaurantCreate,
     db: Session = Depends(get_db),
-    #admin: User = Depends(get_admin_user),
+    # admin: User = Depends(get_admin_user),
 ):
     return crud_create_restaurant(db=db, restaurant=restaurant)
 
@@ -47,7 +46,7 @@ def update_restaurant(
     id: int,
     restaurant: RestaurantUpdate,
     db: Session = Depends(get_db),
-    #admin_or_restaurant_admin: User = Depends(get_admin_or_restaurant_admin),
+    # admin_or_restaurant_admin: User = Depends(get_admin_or_restaurant_admin),
 ):
     return crud_update_restaurant(db=db, id=id, restaurant=restaurant)
 
@@ -57,7 +56,7 @@ def update_restaurant(
 def delete_restaurant(
     id: int,
     db: Session = Depends(get_db),
-    #admin: User = Depends(get_admin_user)
+    # admin: User = Depends(get_admin_user)
 ):
     try:
         return crud_delete_restaurant(db=db, id=id)
@@ -76,9 +75,10 @@ def get_restaurant_by_id(id: int, db: Session = Depends(get_db)):
 def toggle_archive_restaurant(
     id: int,
     db: Session = Depends(get_db),
-    #admin: User = Depends(get_admin_user)
+    # admin: User = Depends(get_admin_user)
 ):
     return crud_toggle_archive_restaurant(db=db, id=id)
+
 
 @router.get("/{restaurant_id}/owner_id")
 def read_owner_id(restaurant_id: int, db: Session = Depends(get_db)):
@@ -87,11 +87,12 @@ def read_owner_id(restaurant_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Restaurant not found")
     return {"owner_id": owner_id}
 
+
 # admin
 @router.get("/all", response_model=List[Restaurant])
 def list_all_restaurants(
     db: Session = Depends(get_db),
-    #admin: User = Depends(get_admin_user),
+    # admin: User = Depends(get_admin_user),
 ):
     return crud_get_all_restaurants(db=db)
 
@@ -101,7 +102,7 @@ def list_all_restaurants(
 def list_restaurants_by_type(
     type: str,
     db: Session = Depends(get_db),
-    #admin: User = Depends(get_admin_user),
+    # admin: User = Depends(get_admin_user),
 ):
     return crud_get_restaurants_by_type(db=db, type=type)
 
@@ -134,8 +135,7 @@ def get_recommended_restaurants(db: Session = Depends(get_db)):
 # customer
 @router.get("/recommended-nearby", response_model=List[Restaurant])
 def get_recommended_restaurants_nearby(
-    db: Session = Depends(get_db),
-    customer: User = Depends(get_customer_user)
+    db: Session = Depends(get_db), customer: User = Depends(get_customer_user)
 ):
     return crud_get_recommended_restaurants_within_radius(db=db, user=customer)
 
@@ -145,7 +145,7 @@ def get_recommended_restaurants_nearby(
 def list_restaurants_by_owner(
     owner_id: int,
     db: Session = Depends(get_db),
-    #admins: User = Depends(get_admin_or_restaurant_admin),
+    # admins: User = Depends(get_admin_or_restaurant_admin),
 ):
     return crud_get_restaurants_by_owner(db=db, owner_id=owner_id)
 
@@ -155,6 +155,6 @@ def list_restaurants_by_owner(
 def toggle_recommend_restaurant(
     id: int,
     db: Session = Depends(get_db),
-    #admin: User = Depends(get_admin_user)
+    # admin: User = Depends(get_admin_user)
 ):
     return crud_toggle_recommend_restaurant(db=db, id=id)

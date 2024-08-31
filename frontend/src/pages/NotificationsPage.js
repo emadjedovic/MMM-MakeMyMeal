@@ -12,7 +12,7 @@ import {
   Alert,
   Toast,
   CloseButton,
-  Button
+  Button,
 } from "react-bootstrap";
 import {
   FaInfoCircle,
@@ -65,7 +65,7 @@ const NotificationsPage = () => {
   const sortedNotifications = [...notifications].sort(
     (a, b) =>
       // sort by timestamp (earlier notifications should be on top)
-    new Date(b.timestamp) - new Date(a.timestamp)
+      new Date(b.timestamp) - new Date(a.timestamp)
   );
 
   return (

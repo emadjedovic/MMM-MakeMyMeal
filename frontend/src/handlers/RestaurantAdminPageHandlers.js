@@ -16,13 +16,16 @@ export const handleFetchOrdersOwner = async (token, userId, setOrdersOwner) => {
   }
 };
 
-export const handleFetchFeedbacksOwner = async (token, userId, setFeedbacksOwner) => {
+export const handleFetchFeedbacksOwner = async (
+  token,
+  userId,
+  setFeedbacksOwner
+) => {
   try {
-      const feedbacksOwner = await getCustomerFeedbacksByOwner(userId, token);
-      setFeedbacksOwner(feedbacksOwner);
+    const feedbacksOwner = await getCustomerFeedbacksByOwner(userId, token);
+    setFeedbacksOwner(feedbacksOwner);
   } catch (error) {
-      console.error("Error in handleFetchFeedbacksOwner: ", error);
-      // Optionally handle the error (e.g., show a message to the user)
+    console.error("Error in handleFetchFeedbacksOwner: ", error);
   }
 };
 
