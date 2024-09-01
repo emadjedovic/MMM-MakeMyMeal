@@ -28,7 +28,7 @@ function ProfilePage() {
         });
         setUserData(response.data);
       } catch (error) {
-        console.error("Failed to fetch user profile", error);
+        console.error("Failed to fetch user profile");
         handleLogout();
         navigate("/login");
       }
@@ -51,7 +51,7 @@ function ProfilePage() {
       handleLogout();
       navigate("/login");
     } catch (error) {
-      console.error("Failed to delete account", error);
+      console.error("Failed to delete account");
       setErrorMessage("Failed to delete account.");
     }
   };

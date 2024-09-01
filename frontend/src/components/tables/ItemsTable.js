@@ -104,7 +104,7 @@ const ItemsTable = ({
       setNewNotification(true);
       toast.success("Order placed successfully!");
     } catch (error) {
-      console.error("Error in handlePlaceOrder (ItemsTable.js).", error);
+      console.error("Error in handlePlaceOrder (ItemsTable.js).");
       toast.error("Failed to place order.");
     }
   };

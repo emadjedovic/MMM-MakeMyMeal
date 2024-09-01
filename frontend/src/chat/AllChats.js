@@ -36,7 +36,7 @@ const AllChats = () => {
 
         setChats(chatsWithInfo);
       } catch (error) {
-        console.error("Error fetching chats or user info:", error);
+        console.error("Error in handleFetchChats.");
       }
     };
 

@@ -25,7 +25,7 @@ const Chat = () => {
         const fetchedMessages = await fetchMessagesFromChat(token, chatId);
         setMessages(fetchedMessages || []);
       } catch (error) {
-        console.error("Error fetching messages:", error);
+        console.error("Error in fetchMessages.");
         setMessages([]);
       }
     };
@@ -91,7 +91,7 @@ const Chat = () => {
           setNewMessage("");
         })
         .catch((error) => {
-          console.error("Error sending message:", error);
+          console.error("Error in sendMessage.");
         });
     }
   };

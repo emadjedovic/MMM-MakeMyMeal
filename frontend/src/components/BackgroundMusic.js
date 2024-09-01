@@ -34,7 +34,7 @@ const BackgroundMusic = () => {
             setIsPlaying(true);
           })
           .catch((error) => {
-            console.log("Play attempt failed:", error);
+            console.log("Play attempt failed:");
           });
       }
     }

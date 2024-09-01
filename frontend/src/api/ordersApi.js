@@ -41,7 +41,7 @@ export const fetchMapOrders = async (
     console.log("response data: ", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error in fetchMapOrders (ordersApi axios)", error);
+    console.error("Error in fetchMapOrders (ordersApi axios)");
     throw error;
   }
 };
@@ -59,7 +59,7 @@ export const fetchOrdersOwner = async (token, owner_id) => {
     console.log("response.data: ", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error in fetchOrdersOwner.", error);
+    console.error("Error in fetchOrdersOwner.");
     throw error;
   }
 };
@@ -125,7 +125,7 @@ export const updateOrderStatus = async (token, order_id, newStatus) => {
       }
     );
   } catch (error) {
-    console.error("Error in updateOrderStatus.", error);
+    console.error("Error in updateOrderStatus.");
     throw error;
   }
 };
@@ -139,7 +139,7 @@ export const assignOrder = async (token, orderId, deliveryId) => {
       },
     });
   } catch (error) {
-    console.error("Error in assignOrder.", error);
+    console.error("Error in assignOrder.");
     throw error;
   }
 };

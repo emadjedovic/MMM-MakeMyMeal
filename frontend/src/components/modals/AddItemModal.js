@@ -35,7 +35,7 @@ const AddItemModal = ({
       handleClose();
       clearStates();
     } catch (error) {
-      console.error("Failed to create item from addItemModal:", error);
+      console.error("Failed to create item from addItemModal:");
     }
   };
 

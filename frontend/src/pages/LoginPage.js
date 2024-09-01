@@ -27,7 +27,7 @@ const LoginPage = () => {
       handleLogin(response.access_token);
       console.log("Successful login.");
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("Login error:");
       setErrorMessage("Incorrect email or password.");
     }
   };

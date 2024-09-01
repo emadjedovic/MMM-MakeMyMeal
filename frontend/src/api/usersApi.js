@@ -50,7 +50,7 @@ export const fetchUsersByRole = async (token, role) => {
 
     return response.data;
   } catch (error) {
-    console.error("Error fetching users by role:", error);
+    console.error("Error in fetchUsersByRole.");
     throw error;
   }
 };
@@ -66,7 +66,7 @@ export const fetchUsers = async (token) => {
 
     return response.data;
   } catch (error) {
-    console.error("Error fetching users by role:", error);
+    console.error("Error in fetchUsers.");
     throw error;
   }
 };

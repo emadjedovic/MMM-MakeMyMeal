@@ -43,7 +43,7 @@ const RegisterPage = () => {
       handleLogin(response.access_token);
       console.log("Successful registration.");
     } catch (error) {
-      console.error("Registration error:", error);
+      console.error("Registration error:");
       setErrorMessage("Registration failed. Please try again.");
       clear();
     }

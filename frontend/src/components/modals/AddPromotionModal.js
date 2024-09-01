@@ -33,7 +33,7 @@ const AddPromotionModal = ({ show, handleClose, itemId, refreshItems }) => {
       clearStates();
       setError("");
     } catch (error) {
-      console.error("There was an error creating the promotion!", error);
+      console.error("Error in createPromotion.");
       setError("Failed to create promotion. Please try again.");
     }
   };

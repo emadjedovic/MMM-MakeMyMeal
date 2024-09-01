@@ -14,7 +14,7 @@ const OrderModal = ({ orderId, showModal, handleClose }) => {
       const order = await fetchOrderById(orderId);
       setOrderDetails(order);
     } catch (error) {
-      console.error("Error in handleFetchOrderById.", error);
+      console.error("Error in handleFetchOrderById.");
     }
   };
 

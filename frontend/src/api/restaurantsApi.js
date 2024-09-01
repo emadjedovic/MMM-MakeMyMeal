@@ -26,7 +26,7 @@ export const fetchOwnerId = async (restaurantId) => {
     );
     return response.data.owner_id;
   } catch (error) {
-    console.error("Error fetching owner_id:", error);
+    console.error("Error in fetchOwnerId.");
     throw error;
   }
 };
@@ -83,7 +83,7 @@ export const createRestaurant = async (token, restaurantData) => {
     if (error.code === "ECONNABORTED") {
       console.error("Request timeout:", error.message);
     } else {
-      console.error("Error in createRestaurant: ", error);
+      console.error("Error in createRestaurant: ");
     }
     throw error;
   }

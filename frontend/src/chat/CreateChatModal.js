@@ -52,7 +52,7 @@ const CreateChatModal = ({
 
         setUsers(availableUsers);
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error in handleFetchUsers.");
       }
     };
 
@@ -75,7 +75,7 @@ const CreateChatModal = ({
       onHide();
       onChatCreated();
     } catch (error) {
-      console.error("Error in handleCreateChat:", error);
+      console.error("Error in handleCreateChat:");
     }
   };
 

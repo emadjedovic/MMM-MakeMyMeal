@@ -25,7 +25,7 @@ export const handleFetchFeedbacksOwner = async (
     const feedbacksOwner = await getCustomerFeedbacksByOwner(userId, token);
     setFeedbacksOwner(feedbacksOwner);
   } catch (error) {
-    console.error("Error in handleFetchFeedbacksOwner: ", error);
+    console.error("Error in handleFetchFeedbacksOwner: ");
   }
 };
 

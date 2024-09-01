@@ -24,7 +24,7 @@ const RateServiceModal = ({ show, closeModal, orderId, token }) => {
       console.log("Feedback submitted:", response);
       closeModal();
     } catch (error) {
-      console.error("Error in handleSubmit: ", error);
+      console.error("Error in handleSubmit: ");
     }
   };
 

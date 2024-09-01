@@ -15,7 +15,7 @@ export const createNotification = async (token, notificationData) => {
     );
     return response.data;
   } catch (error) {
-    console.error("error in createNotification: ", error);
+    console.error("error in createNotification: ");
   }
 };
 
@@ -42,7 +42,7 @@ export const fetchAllNotifications = async (token) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching notifications:", error);
+    console.error("Error in fetchAllNotifications.");
     throw error;
   }
 };
@@ -60,7 +60,7 @@ export const fetchNotificationsOwner = async (token, ownerId) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error in fetchNotificationsOwner:", error);
+    console.error("Error in fetchNotificationsOwner:");
     throw error;
   }
 };

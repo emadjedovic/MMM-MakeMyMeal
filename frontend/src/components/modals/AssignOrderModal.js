@@ -23,7 +23,7 @@ const AssignOrderModal = ({
       .catch((error) => {
         setMessageVariant("danger");
         setMessage("Failed to assign order. Please try again.");
-        console.error("Failed to assign order:", error);
+        console.error("Failed to assign order:");
       });
   };
 

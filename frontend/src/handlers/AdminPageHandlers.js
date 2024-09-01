@@ -46,7 +46,7 @@ export const handleFetchMapOrders = async (
     setOrders(orders);
     console.log("orders from handler: ", orders);
   } catch (error) {
-    console.error("Error in handleFetchMapOrders: ", error);
+    console.error("Error in handleFetchMapOrders: ");
   }
 };
 
@@ -62,7 +62,7 @@ export const handleFetchRestaurantsByType = async (
     );
     setRestaurants(fetchedRestaurants);
   } catch (error) {
-    console.error("Error in handleFetchRestaurantByType.", error);
+    console.error("Error in handleFetchRestaurantByType.");
   }
 };
 
@@ -115,7 +115,7 @@ export const handleToggleArchiveRestaurant = async (
       )
     );
   } catch (error) {
-    console.error("Error archiving restaurant:", error);
+    console.error("Error in handleToggleArchiveRestaurant.");
   }
 };
 

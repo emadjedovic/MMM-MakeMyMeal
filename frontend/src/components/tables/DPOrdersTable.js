@@ -57,7 +57,7 @@ const DPOrdersTable = ({
 
       toast.success("Status updated successfully!");
     } catch (error) {
-      console.error("Error updating order status:", error);
+      console.error("Error in handleSaveStatus.");
     }
   };
 

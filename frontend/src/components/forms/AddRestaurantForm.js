@@ -36,7 +36,7 @@ const AddRestaurantForm = ({ onAdd }) => {
           setType(data[0].name);
         }
       } catch (error) {
-        console.error("Error fetching restaurant types", error);
+        console.error("Error in fetchTypes.");
       }
     };
 
