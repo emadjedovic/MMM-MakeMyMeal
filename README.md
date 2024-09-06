@@ -78,10 +78,3 @@ The application caters to multiple user roles including Administrators, Restaura
     npm start
 
 This will start the React development server and open the application in your default web browser.
-
-## Credits and License
-
-**Author:** Ema Djedović 
-**University of Sarajevo:** Department of Mathematics and Computer Science, Faculty of Science
-
-This project is licensed under the MIT License - see the LICENSE file for details.
