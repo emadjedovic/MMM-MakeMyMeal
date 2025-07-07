@@ -8,9 +8,9 @@ def create_admin():
     db = SessionLocal()
     try:
         admin_user = UserCreate(
-            email="ema.djedovic27@gmail.com",
-            first_name="Ema",
-            last_name="Djedović",
+            email="yourvalidemail@gmail.com",
+            first_name="YourName",
+            last_name="YourSurname",
             role=UserRole.ADMIN,
             password="password",
         )
